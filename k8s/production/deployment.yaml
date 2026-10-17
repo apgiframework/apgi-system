@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: ghcr.io/apgi-simulation/apgi-api:latest
+        image: ghcr.io/apgi-system/apgi-api:latest
         imagePullPolicy: Always
         ports:
         - name: http
@@ -94,7 +94,7 @@ spec:
           failureThreshold: 30
       
       - name: celery-worker
-        image: ghcr.io/apgi-simulation/apgi-api:latest
+        image: ghcr.io/apgi-system/apgi-api:latest
         imagePullPolicy: Always
         command: ["celery", "-A", "api.celery_app", "worker", "--loglevel=info", "--concurrency=4"]
         env:

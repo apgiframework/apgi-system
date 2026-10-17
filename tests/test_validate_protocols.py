@@ -382,11 +382,7 @@ def test_manifest_errors_invalid_file_entry(tmp_path):
         "limitations": [],
     }
     (tmp_path / "VALIDATION.json").write_text(json.dumps(validation_json), encoding="utf-8")
-    manifest = {
-        "release": validator.RELEASE,
-        "prepared": "2026-10-16",
-        "files": ["not_a_dict"]
-    }
+    manifest = {"release": validator.RELEASE, "prepared": "2026-10-16", "files": ["not_a_dict"]}
     (tmp_path / "MANIFEST.json").write_text(json.dumps(manifest), encoding="utf-8")
     errors = validator.manifest_errors(tmp_path)
     assert any("invalid file entry" in str(e) for e in errors)
@@ -411,7 +407,7 @@ def test_manifest_errors_duplicate_entry(tmp_path):
         "files": [
             {"path": "file.json", "sha256": "abc123"},
             {"path": "file.json", "sha256": "abc123"},
-        ]
+        ],
     }
     (tmp_path / "MANIFEST.json").write_text(json.dumps(manifest), encoding="utf-8")
     errors = validator.manifest_errors(tmp_path)
@@ -420,11 +416,7 @@ def test_manifest_errors_duplicate_entry(tmp_path):
 
 def test_manifest_errors_missing_validation_json(tmp_path):
     """Test manifest_errors when VALIDATION.json is missing."""
-    manifest_data = {
-        "release": validator.RELEASE,
-        "prepared": "2026-10-16",
-        "files": []
-    }
+    manifest_data = {"release": validator.RELEASE, "prepared": "2026-10-16", "files": []}
     (tmp_path / "MANIFEST.json").write_text(json.dumps(manifest_data), encoding="utf-8")
     errors = validator.manifest_errors(tmp_path)
     assert any("VALIDATION.json" in str(e) for e in errors)
@@ -434,14 +426,10 @@ def test_source_errors_sha256_mismatch(tmp_path):
     """Test source_errors with SHA256 mismatch."""
     source_file = tmp_path / "source.txt"
     source_file.write_text("content", encoding="utf-8")
-    
+
     documents = {
         "protocol.json": {
-            "provenance": {
-                "source_files": [
-                    {"file": "source.txt", "sha256": "wronghash"}
-                ]
-            }
+            "provenance": {"source_files": [{"file": "source.txt", "sha256": "wronghash"}]}
         }
     }
     errors = validator.source_errors(documents, tmp_path)
@@ -452,11 +440,7 @@ def test_source_errors_missing_file(tmp_path):
     """Test source_errors with missing source file."""
     documents = {
         "protocol.json": {
-            "provenance": {
-                "source_files": [
-                    {"file": "missing.txt", "sha256": "abc123"}
-                ]
-            }
+            "provenance": {"source_files": [{"file": "missing.txt", "sha256": "abc123"}]}
         }
     }
     errors = validator.source_errors(documents, tmp_path)

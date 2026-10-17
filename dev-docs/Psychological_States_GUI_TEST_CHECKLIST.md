@@ -1,6 +1,6 @@
 # APGI Psychological States GUI - Comprehensive Test Checklist
 
-> **Note**: This checklist reflects the actual implementation in `@/Users/lesoto/Sites/PYTHON/apgi-system/Psychological_States_GUI.py`.
+> **Note**: This checklist reflects the actual implementation in `@/Users/apgiframework/Sites/PYTHON/apgi-system/Psychological_States_GUI.py`.
 > **Test Status**: ✅ VERIFIED (Based on static analysis and runtime testing)
 
 ## Overview

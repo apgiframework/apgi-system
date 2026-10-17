@@ -5350,7 +5350,7 @@ A computational model of consciousness based on:
 
 Developed using Python, NumPy, Matplotlib, and Tkinter
 
-For more information, visit: https://github.com/lesoto/apgi-simulation
+For more information, visit: https://github.com/apgiframework/apgi-system
 """
 
         messagebox.showinfo("About APGI System", about_text)

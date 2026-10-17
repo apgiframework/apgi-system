@@ -58,11 +58,11 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/lesoto/apgi-simulation"
-Documentation = "https://github.com/lesoto/apgi-simulation/blob/main/docs/README.md"
-Repository = "https://github.com/lesoto/apgi-simulation"
-"Bug Tracker" = "https://github.com/lesoto/apgi-simulation/issues"
-Changelog = "https://github.com/lesoto/apgi-simulation/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/apgiframework/apgi-system"
+Documentation = "https://github.com/apgiframework/apgi-system/blob/main/docs/README.md"
+Repository = "https://github.com/apgiframework/apgi-system"
+"Bug Tracker" = "https://github.com/apgiframework/apgi-system/issues"
+Changelog = "https://github.com/apgiframework/apgi-system/blob/main/CHANGELOG.md"
 
 [project.scripts]
 apgi-simulate = "apgi_framework.cli:main"

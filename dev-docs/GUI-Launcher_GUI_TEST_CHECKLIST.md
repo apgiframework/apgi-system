@@ -1,6 +1,6 @@
 # APGI GUI Launcher - Comprehensive Test Checklist
 
-> **Note**: This checklist reflects the actual implementation in `@/Users/lesoto/Sites/PYTHON/apgi-system/GUI-Launcher.py`.
+> **Note**: This checklist reflects the actual implementation in `@/Users/apgiframework/Sites/PYTHON/apgi-system/GUI-Launcher.py`.
 > **Test Status**: ✅ VERIFIED (Based on static analysis and runtime testing)
 
 ## Overview

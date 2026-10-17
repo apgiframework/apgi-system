@@ -125,7 +125,7 @@ def get_config_dir() -> Path:
     Platform-specific locations:
         - Windows: %APPDATA%/APGI System/
         - macOS: ~/Library/Application Support/APGI System/
-        - Linux: ~/.config/apgi-simulation/
+        - Linux: ~/.config/apgi-system/
 
     Raises:
         PermissionError: If directory cannot be created due to permissions
@@ -145,7 +145,7 @@ def get_config_dir() -> Path:
         else:
             # Use XDG config directory on Linux
             base = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
-            config_dir = base / "apgi-simulation"
+            config_dir = base / "apgi-system"
 
         # Create directory if it doesn't exist
         config_dir.mkdir(parents=True, exist_ok=True)
@@ -182,7 +182,7 @@ def get_data_dir() -> Path:
     Platform-specific locations:
         - Windows: %LOCALAPPDATA%/APGI System/
         - macOS: ~/Library/Application Support/APGI System/Data/
-        - Linux: ~/.local/share/apgi-simulation/
+        - Linux: ~/.local/share/apgi-system/
 
     Raises:
         PermissionError: If directory cannot be created due to permissions
@@ -202,7 +202,7 @@ def get_data_dir() -> Path:
         else:
             # Use XDG data directory on Linux
             base = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local" / "share"))
-            data_dir = base / "apgi-simulation"
+            data_dir = base / "apgi-system"
 
         # Create directory if it doesn't exist
         data_dir.mkdir(parents=True, exist_ok=True)

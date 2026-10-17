@@ -16,8 +16,8 @@ B_t: float                  # Ignition probability
 
 **Implementation Location:**
 
-- `@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:76-125` - FoundationalEquations class
-- `@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/engines/equation_engine.py:78-136` - calculate_surprise()
+- `@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:76-125` - FoundationalEquations class
+- `@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/engines/equation_engine.py:78-136` - calculate_surprise()
 
 ---
 
@@ -34,7 +34,7 @@ def prediction_error(observed: float, predicted: float) -> float:
 **Implementation:**
 
 ```text
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:76-89
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:76-89
 ```
 
 ### 1.2 Running Mean / Variance (Windowed)
@@ -64,7 +64,7 @@ class RunningStatistics:
 **Implementation:**
 
 ```text
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:530-587
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:530-587
 ```
 
 ### 1.3 Z-Score Standardization
@@ -81,8 +81,8 @@ def z_score(error: float, mean: float, std: float) -> float:
 **Implementation:**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:108-125
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:574-587
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:108-125
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:574-587
 ```
 
 ### 1.4 Separate Channels
@@ -95,7 +95,7 @@ z_i: float    # Interoceptive z-score
 **Implementation:**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/engines/equation_engine.py:309-383
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/engines/equation_engine.py:309-383
 ```
 
 ## 2. PRECISION SYSTEM
@@ -114,8 +114,8 @@ def precision(variance: float) -> float:
 **Implementation:**
 
 ```text
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:91-106
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/engines/precision_engine.py:192-208
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:91-106
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/engines/precision_engine.py:192-208
 ```
 
 ### 2.2 Effective Interoceptive Precision
@@ -141,7 +141,7 @@ def effective_interoceptive_precision(
 **Implementation:**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:161-186
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:161-186
 ```
 
 **Status:** ⚠️ PARTIAL MISMATCH  
@@ -150,7 +150,7 @@ def effective_interoceptive_precision(
 **Alternative implementation (exponential):**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:976-978
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:976-978
 # In PsychologicalState.__post_init__:
 self.Pi_i_eff_actual = self.Pi_i_baseline_actual * np.exp(self.beta * self.M_ca)
 ```
@@ -193,7 +193,7 @@ def precision_dynamics(
 **Implementation:**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:481-522
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:481-522
 ```
 
 **Status:** ⚠️ SIMPLIFIED  
@@ -239,9 +239,9 @@ def accumulated_signal(
 **Implementation:**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/engines/equation_engine.py:78-136
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:136-159
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:92-116
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/engines/equation_engine.py:78-136
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:136-159
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:92-116
 ```
 
 **Status:** ⚠️ INCONSISTENT IMPLEMENTATIONS
@@ -270,9 +270,9 @@ def ignition_probability(S: float, theta: float, alpha: float) -> float:
 **Implementation:**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:188-209
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/engines/equation_engine.py:138-203
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:126-127
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:188-209
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/engines/equation_engine.py:138-203
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:126-127
 ```
 
 **Parameters:**
@@ -300,8 +300,8 @@ def is_ignition_triggered(
 **Implementation:**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/engines/equation_engine.py:205-229
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:134-136
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/engines/equation_engine.py:205-229
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:134-136
 ```
 
 ### 4.3 Margin
@@ -315,7 +315,7 @@ delta = self.current_signal - self.current_threshold  # In threshold.py
 **Implementation:**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:126
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:126
 ```
 
 ## 5. CONTINUOUS-TIME DYNAMICS
@@ -364,8 +364,8 @@ def signal_dynamics(
 **Implementation:**
 
 ```text
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:220-269
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:98-116
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:220-269
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:98-116
 ```
 
 ### 5.2 Threshold Dynamics
@@ -419,8 +419,8 @@ def threshold_dynamics(
 **Implementation:**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:271-331
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:149-159
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:271-331
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:149-159
 ```
 
 **Extensions:**
@@ -452,7 +452,7 @@ def _update_threshold(self, current_time: float) -> None:
 **Implementation:**
 
 ```text
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:149-159
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:149-159
 ```
 
 **Status:** ⚠️ SIMPLIFIED  
@@ -483,7 +483,7 @@ def metabolic_cost(
 **Implementation:**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:633-658
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:633-658
 ```
 
 ### 7.2 Landauer Limit
@@ -523,10 +523,10 @@ def euler_maruyama_step(X: float, drift: float, diffusion: float, dt: float, rng
 **Implementation:**
 
 ```text
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:251-269 (signal)
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:308-331 (threshold)
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:368-389 (somatic)
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:418-433 (arousal)
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:251-269 (signal)
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:308-331 (threshold)
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:368-389 (somatic)
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:418-433 (arousal)
 ```
 
 ## 9. LIQUID NEURAL NETWORK (RESERVOIR)
@@ -605,7 +605,7 @@ def hierarchical_level_dynamics(
 **Implementation:**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:660-714
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:660-714
 ```
 
 **Status:** ⚠️ SIMPLIFIED  
@@ -661,8 +661,8 @@ if np.any(ignited):
 **Implementation:**
 
 ```python
-@/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:184-195
-@/Users/lesoto/Sites/PYTHON/apgi-system/APGI_Equations.py:743  # rho parameter defined
+@/Users/apgiframework/Sites/PYTHON/apgi-system/apgi_framework/ignition/threshold.py:184-195
+@/Users/apgiframework/Sites/PYTHON/apgi-system/APGI_Equations.py:743  # rho parameter defined
 ```
 
 **Status:** ⚠️ PARTIAL  

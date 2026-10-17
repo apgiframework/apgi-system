@@ -46,7 +46,7 @@ try:
     DATASET_CATALOG_AVAILABLE = True
 except ImportError:
     DATASET_CATALOG_AVAILABLE = False
-    logger.warning("Dataset catalog not available. Install with: pip install apgi-simulation")
+    logger.warning("Dataset catalog not available. Install with: pip install apgi-system")
 
 # Import specparam (formerly fooof) for aperiodic EEG parameterization
 try:

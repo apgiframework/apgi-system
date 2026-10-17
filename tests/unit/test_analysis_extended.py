@@ -6,6 +6,7 @@ results processing, and reporting functionality.
 """
 
 import importlib.util
+from pathlib import Path
 from typing import Any, Dict, List
 from unittest.mock import MagicMock
 
@@ -13,7 +14,7 @@ import numpy as np
 
 # Import from analysis.py file directly to avoid conflict with analysis/ package
 spec = importlib.util.spec_from_file_location(
-    "analysis_module", "/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/analysis.py"
+    "analysis_module", Path(__file__).resolve().parents[2] / "apgi_framework" / "analysis.py"
 )
 if spec is None or spec.loader is None:
     raise ImportError("Could not load analysis module")

@@ -392,7 +392,7 @@ If you use this framework in your research, please cite:
   year={2026},
   version={1.1.0},
   doi={10.5281/zenodo.21632264},
-  url={https://github.com/lesoto/apgi-system},
+  url={https://github.com/apgiframework/apgi-system},
   orcid={https://orcid.org/0009-0005-0328-2896}
 }
 ```

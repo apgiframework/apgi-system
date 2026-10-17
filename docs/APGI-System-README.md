@@ -311,7 +311,7 @@ python APGI_GUI.py
 
 ### **2. Psychological States GUI**
 
-**File**: [Psychological-States-GUI.py](cci:7://file:///Users/lesoto/Sites/PYTHON/apgi-simulation/Psychological-States-GUI.py:0:0-0:0) (3,137 bytes)
+**File**: [Psychological-States-GUI.py](cci:7://file:///Users/apgiframework/Sites/PYTHON/apgi-system/Psychological-States-GUI.py:0:0-0:0) (3,137 bytes)
 **Launch**:
 
 ```bash
@@ -327,7 +327,7 @@ python Psychological-States-GUI.py
 
 ### **3. Tests GUI**
 
-**File**: [Tests-GUI.py](cci:7://file:///Users/lesoto/Sites/PYTHON/apgi-simulation/Tests-GUI.py:0:0-0:0) (167 bytes)
+**File**: [Tests-GUI.py](cci:7://file:///Users/apgiframework/Sites/PYTHON/apgi-system/Tests-GUI.py:0:0-0:0) (167 bytes)
 **Launch**:
 
 ```bash
@@ -344,7 +344,7 @@ python Tests-GUI.py
 
 ### **4. Utils GUI**
 
-**File**: [Utils-GUI.py](cci:7://file:///Users/lesoto/Sites/PYTHON/apgi-simulation/Utils-GUI.py:0:0-0:0) (68 bytes)
+**File**: [Utils-GUI.py](cci:7://file:///Users/apgiframework/Sites/PYTHON/apgi-system/Utils-GUI.py:0:0-0:0) (68 bytes)
 **Launch**:
 
 ```bash
@@ -360,7 +360,7 @@ python Utils-GUI.py
 
 ### **5. Assistant GUI**
 
-**File**: [Assistant_GUI.py](cci:7://file:///Users/lesoto/Sites/PYTHON/apgi-simulation/Assistant_GUI.py:0:0-0:0) (8,647 bytes)
+**File**: [Assistant_GUI.py](cci:7://file:///Users/apgiframework/Sites/PYTHON/apgi-system/Assistant_GUI.py:0:0-0:0) (8,647 bytes)
 **Launch**:
 
 ```bash
@@ -377,7 +377,7 @@ python Assistant-GUI.py
 
 ### **6. REST API** (Web Interface)
 
-**File**: [api/main.py](cci:7://file:///Users/lesoto/Sites/PYTHON/apgi-simulation/api/main.py:0:0-0:0)
+**File**: [api/main.py](cci:7://file:///Users/apgiframework/Sites/PYTHON/apgi-system/api/main.py:0:0-0:0)
 **Framework**: FastAPI with comprehensive middleware
 **Features**:
 
@@ -390,7 +390,7 @@ python Assistant-GUI.py
 
 ### **7. Programmatic Interface**
 
-**File**: [apgi_simulation/system.py](cci:7://file:///Users/lesoto/Sites/PYTHON/apgi-simulation/apgi_simulation/system.py:0:0-0:0)
+**File**: [apgi_simulation/system.py](cci:7://file:///Users/apgiframework/Sites/PYTHON/apgi-system/apgi_simulation/system.py:0:0-0:0)
 **Usage**:
 
 ```python
@@ -523,7 +523,7 @@ python utils/take_screenshots.py
 
 ## Configuration
 
-**File**: [config/default.yaml](cci:7://file:///Users/lesoto/Sites/PYTHON/apgi-simulation/config/default.yaml:0:0-0:0)
+**File**: [config/default.yaml](cci:7://file:///Users/apgiframework/Sites/PYTHON/apgi-system/config/default.yaml:0:0-0:0)
 **Sections**:
 
 - System parameters (timestep, random seed)

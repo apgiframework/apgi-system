@@ -2,87 +2,6 @@
 
 This document provides comprehensive information about accessibility features, WCAG compliance, and inclusive design practices in the APGI System GUI applications.
 
-## WCAG 2.1 Compliance
-
-The APGI System aims to comply with [Web Content Accessibility Guidelines (WCAG) 2.1](https://www.w3.org/TR/WCAG21/) Level AA standards, adapted for desktop applications:
-
-### Success Criteria Implementation
-
-|Success Criterion|Level|Implementation Status|
-|------------------|-------|---------------------|
-|1.1.1 Non-text Content|A|✅ Labels and descriptions for all interactive elements|
-|1.3.1 Info and Relationships|A|✅ Logical heading structure and semantic groupings|
-|1.3.2 Meaningful Sequence|A|✅ Logical tab order and content flow|
-|1.4.1 Use of Color|A|✅ Color not used as the only way to convey information|
-|1.4.3 Contrast (Minimum)|AA|✅ 4.5:1 contrast ratio for normal text|
-|1.4.4 Resize Text|AA|✅ Supports 200% browser zoom equivalent|
-|1.4.10 Reflow|AA|✅ Content reflows at 320px width|
-|2.1.1 Keyboard|A|✅ All functionality available via keyboard|
-|2.1.2 No Keyboard Trap|A|✅ No keyboard traps in navigation|
-|2.4.1 Bypass Blocks|A|✅ Skip links for repeated content blocks|
-|2.4.2 Page Titled|A|✅ Descriptive window titles|
-|2.4.6 Headings and Labels|AA|✅ Descriptive headings and labels|
-|3.3.1 Error Identification|A|✅ Error messages clearly identified|
-|3.3.2 Labels or Instructions|A|✅ Labels provided for user input|
-|4.1.1 Parsing|A|✅ Well-formed markup and structure|
-|4.1.2 Name, Role, Value|A|✅ Accessible names and roles for components|
-
-## Screen Reader Support
-
-### NVDA (Windows)
-
-- **Compatibility**: Full support with Tkinter applications
-- **Activation**: Automatic detection when NVDA is running
-- **Navigation**: Use NVDA's browse mode (Insert+Space) for optimal experience
-
-### JAWS (Windows)
-
-- **Compatibility**: Supported via MSAA interface
-- **Activation**: Automatic when JAWS is active
-- **Tips**: Use JAWS cursor (NumPad 5) for detailed element inspection
-
-### VoiceOver (macOS)
-
-- **Compatibility**: Full support through macOS accessibility framework
-- **Activation**: Cmd+F5 to toggle VoiceOver
-- **Navigation**: VO+Arrow keys for navigation
-
-### Orca (Linux)
-
-- **Compatibility**: Supported via ATK/AT-SPI
-- **Activation**: Alt+Super+S or through universal access menu
-- **Navigation**: Standard Orca navigation commands
-
-### Screen Reader Announcements
-
-```python
-# Implementation example for dynamic content updates
-def announce_to_screen_reader(message: str, priority: str = "polite"):
-    """Announce message to screen readers.
-
-    Args:
-        message: Message to announce
-        priority: "polite" or "assertive"
-    """
-    if sys.platform == "win32":
-        # Windows accessibility announcements
-        import ctypes
-        ctypes.windll.user32.SystemParametersInfoW(0x0021, 0, message, 0)
-    elif sys.platform == "darwin":
-        # macOS VoiceOver announcements
-        import subprocess
-        subprocess.run(["osascript", "-e", f"display notification \"{message}\" with title \"APGI Update\""])
-    else:
-        # Linux accessibility announcements via AT-SPI
-        try:
-            import gi
-            gi.require_version('Atk', '1.0')
-            from gi.repository import Atk
-            # Implementation for AT-SPI announcements
-        except ImportError:
-            pass
-```
-
 ## Keyboard Navigation
 
 ### Enhanced Global Shortcuts
@@ -549,7 +468,7 @@ accessibility:
 
 - **Documentation**: This accessibility guide and inline help (F1)
 - **Community**: GitHub discussions for accessibility topics
-- **Professional Support**: Contact <accessibility@apgi-simulation.com>
+- **Professional Support**: Contact <accessibility@apgi-system.com>
 - **Standards References**:
   - [WCAG 2.1 Guidelines](https://www.w3.org/TR/WCAG21/)
   - [Section 508 Standards](https://www.section508.gov/)

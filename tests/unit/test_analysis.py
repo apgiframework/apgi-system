@@ -1,13 +1,14 @@
 """Unit tests for extended analysis capabilities."""
 
 import importlib.util
+from pathlib import Path
 
 import numpy as np
 import pytest
 
 # Import from analysis.py file directly to avoid conflict with analysis/ package
 spec = importlib.util.spec_from_file_location(
-    "analysis_module", "/Users/lesoto/Sites/PYTHON/apgi-system/apgi_framework/analysis.py"
+    "analysis_module", Path(__file__).resolve().parents[2] / "apgi_framework" / "analysis.py"
 )
 if spec is None or spec.loader is None:
     raise ImportError("Failed to load analysis module")

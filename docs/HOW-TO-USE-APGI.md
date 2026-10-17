@@ -51,7 +51,7 @@ The **APGI (Allostatic Precision-Gated Ignition) System** is a computational fra
 
 ```bash
 git clone <repository-url>
-cd apgi-simulation
+cd apgi-system
 ```
 
 ### Step 2: Install Dependencies

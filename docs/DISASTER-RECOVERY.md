@@ -402,7 +402,7 @@ gcloud compute backend-services add-backend apgi-backend \
 ### Internal Communication
 
 1. **Immediate Response Team**: Slack channel #incident-response
-2. **Engineering Team**: Email distribution list <engineering@apgi-simulation.com>
+2. **Engineering Team**: Email distribution list <engineering@apgi-system.com>
 3. **Management**: SMS and email alerts to on-call managers
 4. **Documentation**: Internal wiki updates with recovery progress
 
@@ -429,7 +429,7 @@ Estimated Resolution: [Time estimate or "Resolved"]
 Impact: [Description of impact]
 
 We apologize for any inconvenience this may cause. For real-time updates,
-please visit our status page at https://status.apgi-simulation.com.
+please visit our status page at https://status.apgi-system.com.
 
 Best regards,
 APGI Operations Team
