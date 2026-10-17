@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the comprehensive error recovery strategies implemented across the APGI (Active Predictive Generative Intelligence) system. The system employs multiple layers of error detection, recovery, and resilience mechanisms to ensure stable operation under various failure conditions.
+This document outlines the comprehensive error recovery strategies implemented across the APGI (Allostatic Precision-Gated Ignition) system. The system employs multiple layers of error detection, recovery, and resilience mechanisms to ensure stable operation under various failure conditions.
 
 ## Error Classification
 

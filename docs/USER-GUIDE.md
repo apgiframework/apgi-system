@@ -18,7 +18,7 @@
 
 ## Introduction
 
-The APGI Framework Test Enhancement system provides comprehensive testing capabilities for the Active Precision Gating and Interoception (APGI) framework. It offers:
+The APGI Framework Test Enhancement system provides comprehensive testing capabilities for the Allostatic Precision-Gated Ignition (APGI) framework. It offers:
 
 - **Comprehensive Test Analysis**: Identify failures, quality issues, and coverage gaps
 - **Advanced Coverage Measurement**: Line, branch, and function coverage with gap identification

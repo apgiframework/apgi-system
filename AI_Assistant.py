@@ -870,7 +870,7 @@ class BatteryMonitor:
 
 class APGI_LFM2(nn.Module):
     """
-    Active Predictive Global Ignition with Liquid Fractional Memory.
+    Allostatic Precision-Gated Ignition with Liquid Fractional Memory.
 
     Implements dual-pathway processing with surprise-driven gating.
     """

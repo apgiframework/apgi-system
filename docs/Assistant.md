@@ -2,7 +2,7 @@
 
 ## Overview
 
-The APGI Assistant GUI is a production-ready graphical interface for Active Predictive Global Ignition (APGI) Assistant system. This application provides a comprehensive cognitive AI interface that combines advanced neural network processing, physiological state monitoring, biofeedback integration, real-time visualization, and professional export capabilities.
+The APGI Assistant GUI is a production-ready graphical interface for Allostatic Precision-Gated Ignition (APGI) Assistant system. This application provides a comprehensive cognitive AI interface that combines advanced neural network processing, physiological state monitoring, biofeedback integration, real-time visualization, and professional export capabilities.
 
 ### Core Features
 
@@ -92,7 +92,7 @@ The primary application class that orchestrates all GUI components and manages t
 
 - **Liquid Time-Constant Networks**: Continuous-time neural dynamics with adaptive time constants
 - **Neural ODE Integration**: Proper differential equation solving with torchdiffeq (fallback to Euler)
-- **APGI-LFM2**: Active Predictive Global Ignition with Liquid Fractional Memory
+- **APGI-LFM2**: Allostatic Precision-Gated Ignition with Liquid Fractional Memory
 - **Multi-Level Entropy**: Thermodynamic, Shannon, and variational entropy calculations
 - **Surprise-Driven Gating**: Dynamic threshold control based on prediction error
 - **LinOSS Decomposition**: Linear Oscillator State-Space decomposition for frequency analysis

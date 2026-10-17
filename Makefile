@@ -1,10 +1,11 @@
-.PHONY: help install run test test-unit test-property test-integration test-coverage coverage-report coverage-gaps clean format lint
+.PHONY: help install run test protocols-check test-unit test-property test-integration test-coverage coverage-report coverage-gaps clean format lint
 
 help:
 	@echo "APGI REST API - Available commands:"
 	@echo "  make install           - Install dependencies"
 	@echo "  make run               - Run the API server"
 	@echo "  make test              - Run all tests"
+	@echo "  make protocols-check   - Validate the 1.1.0 protocol specification"
 	@echo "  make test-unit         - Run unit tests only"
 	@echo "  make test-property     - Run property-based tests only"
 	@echo "  make test-integration  - Run integration tests only"
@@ -20,6 +21,9 @@ install:
 
 run:
 	uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
+
+protocols-check:
+	python3 scripts/validate_protocols.py
 
 test:
 	pytest tests/ -v

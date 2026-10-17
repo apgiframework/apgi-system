@@ -39,6 +39,10 @@ jobs:
       run: |
         mypy apgi_framework api
 
+    - name: Validate protocol specification 1.1.0
+      run: |
+        python scripts/validate_protocols.py
+
     - name: Check for undocumented stubs (QG-01)
       run: |
         python scripts/check_stubs.py

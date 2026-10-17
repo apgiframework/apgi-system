@@ -3,8 +3,8 @@
 APGI System - Comprehensive GUI
 ===============================
 
-A modern, production-ready graphical interface for the Active Perception
-and Global Integration (APGI) cognitive system.
+A modern, production-ready graphical interface for the Allostatic Precision-Gated Ignition
+(APGI) cognitive system.
 
 Features:
 - Real-time cognitive state monitoring

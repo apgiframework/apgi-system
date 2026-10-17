@@ -13,7 +13,7 @@
 
 ## Introduction
 
-The APGI (Interoceptive Predictive Integration) Framework Testing System is a comprehensive platform for testing the predictions of the APGI Framework through systematic falsification testing. This guide will help you:
+The APGI (Allostatic Precision-Gated Ignition) Framework Testing System is a comprehensive platform for testing the predictions of the APGI Framework through systematic falsification testing. This guide will help you:
 
 - Run falsification tests using the GUI or CLI
 - Configure experimental parameters

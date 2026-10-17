@@ -232,7 +232,7 @@ def create_app(test_mode: bool = False) -> FastAPI:
     """
     app = FastAPI(
         title="APGI System API",
-        version="1.0.0",
+        version=settings.api_version,
         description="REST API for Allostatic Precision-Gated Ignition consciousness modeling",
         docs_url="/docs" if settings.environment.lower() != "production" else None,
         redoc_url="/redoc" if settings.environment.lower() != "production" else None,
@@ -373,7 +373,7 @@ def create_app(test_mode: bool = False) -> FastAPI:
         """API root endpoint with basic information."""
         return {
             "name": "APGI System API",
-            "version": "1.0.0",
+            "version": settings.api_version,
             "description": "REST API for consciousness modeling",
             "docs": "/docs",
             "health": "/v1/health",  # Updated to point to the comprehensive health endpoint
@@ -404,7 +404,7 @@ def create_app(test_mode: bool = False) -> FastAPI:
     except ImportError:
         logger.warning("opentelemetry API not installed, skipping instrumentation")
 
-    logger.info("APGI API application created successfully", version="1.0.0")
+    logger.info("APGI API application created successfully", version=settings.api_version)
     return app
 
 

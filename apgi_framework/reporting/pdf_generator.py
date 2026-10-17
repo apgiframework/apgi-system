@@ -179,7 +179,7 @@ class PDFReportGenerator:
         # Add APGI Framework info
         framework_info = """
         <b>APGI Framework</b><br/>
-        Active Predictive Global Ignition<br/>
+        Allostatic Precision-Gated Ignition<br/>
         Consciousness Research Platform
         """
         content.append(Paragraph(framework_info, self.styles["Normal"]))

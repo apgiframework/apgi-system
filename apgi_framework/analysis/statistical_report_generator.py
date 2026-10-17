@@ -440,9 +440,12 @@ class StatisticalReportGenerator:
                 return FalsificationConclusion.NOT_FALSIFIED
 
         elif criterion_type == "soma_bias_absence":
-            # Need evidence that β ≈ 1.0 (no interoceptive bias)
+            # Need evidence that β ≈ 1.0 (no interoceptive bias). Under protocol
+            # specification 1.1.0 nonsignificance alone does not establish
+            # equivalence or falsification: that needs a registered interval
+            # (ROPE/TOST) test, which this point estimate cannot provide.
             if abs(effect_size - 1.0) < 0.1 and p_value > 0.05:
-                return FalsificationConclusion.FALSIFIED
+                return FalsificationConclusion.INCONCLUSIVE
             elif evidence_strength > 0.6:
                 return FalsificationConclusion.INCONCLUSIVE
             else:
@@ -592,7 +595,7 @@ class StatisticalReportGenerator:
     def _generate_abstract(self, summary: StatisticalSummary) -> str:
         """Generate publication abstract."""
         return f"""
-        Background: This study tested the falsification criteria of the Interoceptive Predictive Integration (APGI) Framework.
+        Background: This study tested the falsification criteria of the Allostatic Precision-Gated Ignition (APGI) Framework.
         
         Methods: We conducted {len(summary.test_results)} statistical tests across {len(summary.falsification_assessments)} falsification criteria with a total sample of {summary.power_analysis.power_summary.get('total_tests', 'N')} participants.
         

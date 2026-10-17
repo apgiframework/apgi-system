@@ -2,7 +2,7 @@
 APGI Framework Testing Module
 
 This module implements the primary falsification testing framework for the APGI
-(Interoceptive Predictive Integration) Framework, including consciousness assessment,
+(Allostatic Precision-Gated Ignition) Framework, including consciousness assessment,
 neural signature validation, and experimental control mechanisms.
 """
 

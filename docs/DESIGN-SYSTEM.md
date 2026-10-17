@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document defines the unified design system for the APGI (Active Predictive Generative Intelligence) system. The design system ensures consistency, accessibility, and user experience quality across all GUI applications and interfaces.
+This document defines the unified design system for the APGI (Allostatic Precision-Gated Ignition) system. The design system ensures consistency, accessibility, and user experience quality across all GUI applications and interfaces.
 
 ## Design Principles
 

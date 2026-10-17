@@ -2,11 +2,21 @@
 Tests for version and main entry points.
 """
 
+import runpy
+from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 from unittest.mock import patch
 
-import apgi_framework.__version__ as version_module
 from apgi_framework import __version__
+
+# Importing the `apgi_framework.__version__` submodule would replace the package's
+# `__version__` string with the module, so read the file without importing it.
+version_module = SimpleNamespace(
+    **runpy.run_path(
+        str(Path(__file__).resolve().parent.parent / "apgi_framework" / "__version__.py")
+    )
+)
 
 
 def test_version_constants() -> None:

@@ -16,7 +16,7 @@ This guide explains how to interpret the results from APGI Framework falsificati
 
 ## Understanding Falsification
 
-Falsification in the APGI Framework tests whether the Active Predictive Generative Inference (APGI) model can be distinguished from alternative models or null hypotheses.
+Falsification in the APGI Framework tests whether the Allostatic Precision-Gated Ignition (APGI) model can be distinguished from alternative models or null hypotheses.
 
 ### Key Concepts
 

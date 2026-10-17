@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document defines the performance benchmarks, Service Level Agreements (SLAs), and monitoring thresholds for the APGI (Active Predictive Generative Intelligence) system. These benchmarks ensure consistent performance, reliability, and user experience across all system components.
+This document defines the performance benchmarks, Service Level Agreements (SLAs), and monitoring thresholds for the APGI (Allostatic Precision-Gated Ignition) system. These benchmarks ensure consistent performance, reliability, and user experience across all system components.
 
 ## Service Level Agreements (SLAs)
 

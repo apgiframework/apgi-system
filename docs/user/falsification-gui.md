@@ -2,7 +2,7 @@
 
 ## Overview
 
-The APGI Framework Testing System GUI provides a comprehensive graphical interface for conducting falsification tests on the Interoceptive Predictive Integration (APGI) Framework. The application features a tabbed interface for different test types, parameter configuration, real-time progress tracking, and results visualization.
+The APGI Framework Testing System GUI provides a comprehensive graphical interface for conducting falsification tests on the Allostatic Precision-Gated Ignition (APGI) Framework. The application features a tabbed interface for different test types, parameter configuration, real-time progress tracking, and results visualization.
 
 ## Features
 

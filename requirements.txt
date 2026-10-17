@@ -45,6 +45,7 @@ kombu==5.3.4
 pyjwt==2.8.0
 bcrypt==4.1.0
 python-jose[cryptography]==3.3.0
+jsonschema>=4.0
 pytest==8.0.0
 pytest-asyncio==0.23.0
 pytest-cov==4.1.0

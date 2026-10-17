@@ -386,10 +386,22 @@ MIT License - see [LICENSE](LICENSE) file for details.
 If you use this framework in your research, please cite:
 
 ```bibtex
-APGI Framework: Adaptive Precision and Generalized Intelligence for Consciousness Research
-APGI Research Team (2026)
-https://github.com/apgi-research/apgi-framework
+@software{pesochin_apgi_system_2026,
+  title={APGI System: Allostatic Precision-Gated Ignition — Testing and Simulation Platform},
+  author={Pesochin, Dimitry},
+  year={2026},
+  version={1.1.0},
+  doi={10.5281/zenodo.21632264},
+  url={https://github.com/lesoto/apgi-system},
+  orcid={https://orcid.org/0009-0005-0328-2896}
+}
 ```
+
+The experimental protocols in [`protocols/`](protocols/) follow APGI protocol specification
+1.1.0, byte-identical to [apgi-framework](https://github.com/apgiframework/apgi-framework)
+1.1.0. Validate them with `make protocols-check`; see [`protocols/CHANGELOG.md`](protocols/CHANGELOG.md)
+for what changed from 1.0. Under 1.1.0 a failure to confirm a prediction is not falsification
+(verdicts are CONFIRMED, FALSIFIED or INDETERMINATE), and κ (ATP/bit) is uncalibrated.
 
 ### 🖥️ GUI Applications
 

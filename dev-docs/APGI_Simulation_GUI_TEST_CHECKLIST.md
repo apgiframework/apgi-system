@@ -5,7 +5,7 @@
 
 ## Overview
 
-The `APGI_Simulation_GUI.py` is an **APGI System - Comprehensive GUI** - a modern, production-ready graphical interface for the Active Perception and Global Integration (APGI) cognitive system. Features real-time cognitive state monitoring, oscillatory spectrum analysis, biofeedback integration, energy management, and performance metrics.
+The `APGI_Simulation_GUI.py` is an **APGI System - Comprehensive GUI** - a modern, production-ready graphical interface for the Allostatic Precision-Gated Ignition (APGI) cognitive system. Features real-time cognitive state monitoring, oscillatory spectrum analysis, biofeedback integration, energy management, and performance metrics.
 
 ## Dependencies Check
 

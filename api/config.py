@@ -10,6 +10,8 @@ from typing import List, Optional
 
 from dotenv import load_dotenv
 
+from api import __version__
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -67,7 +69,7 @@ class Settings:
     def __init__(self) -> None:
         # API Settings
         self.api_title: str = "APGI System API"
-        self.api_version: str = "1.0.0"
+        self.api_version: str = __version__
         self.api_description: str = "REST API for consciousness modeling"
 
         # Server Settings

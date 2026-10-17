@@ -1,11 +1,12 @@
 """
 APGI Framework Testing System
 
-A comprehensive platform for implementing and validating the Interoceptive Predictive
-Integration (APGI) Framework through systematic testing.
+A comprehensive platform for implementing and validating the Allostatic Precision-Gated Ignition
+(APGI) Framework through systematic testing.
 """
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"  # keep in step with __version__.py
+
 __author__ = "APGI"
 
 # Import all submodules for testing

@@ -105,6 +105,7 @@ neural = [
 ]
 dev = [
     "black>=23.0.0",
+    "jsonschema>=4.0",
     "flake8>=6.0.0",
     "mypy>=1.4.0",
     "isort>=5.12.0",

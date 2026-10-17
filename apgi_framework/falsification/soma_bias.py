@@ -151,4 +151,5 @@ class SomaBiasTest:
                 f"Weak bias effects detected (r={correlation:.3f}) - framework partially supported"
             )
         else:
-            return "No significant bias effects detected - framework supported"
+            # Spec 1.1.0: nonsignificance alone establishes neither absence of bias nor support.
+            return "No significant bias effects detected - indeterminate (absence not established)"
