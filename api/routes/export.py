@@ -41,7 +41,6 @@ def get_data_export_service() -> DataExportService:
     Returns:
         DataExportService instance
     """
-    global _data_export_service
     if _data_export_service is None:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,

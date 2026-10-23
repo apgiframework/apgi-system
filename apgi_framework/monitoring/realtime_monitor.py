@@ -580,6 +580,5 @@ async def start_monitoring(enable_websocket: bool = True, websocket_port: int = 
 
 async def stop_monitoring() -> None:
     """Stop the global monitoring system."""
-    global _global_monitor
     if _global_monitor:
         await _global_monitor.stop()

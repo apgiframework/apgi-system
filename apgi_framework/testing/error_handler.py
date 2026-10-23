@@ -19,7 +19,7 @@ from typing import Any, Dict, List, Optional, Tuple, cast
 psutil: Optional[Any] = None
 
 try:
-    import psutil
+    import psutil  # type: ignore[no-redef]
 
     HAS_PSUTIL = True
 except ImportError:

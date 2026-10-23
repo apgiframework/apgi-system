@@ -296,9 +296,9 @@ main() {
     print_header "APGI Framework Automated Setup"
     
     # Check if we're in the right directory
-    if [[ ! -f "setup.py" ]] && [[ ! -f "requirements.txt" ]]; then
+    if [[ ! -f "apgi_setup.py" ]] && [[ ! -f "requirements.txt" ]]; then
         print_error "Please run this script from the APGI Framework root directory"
-        print_error "This directory should contain setup.py and requirements.txt files"
+        print_error "This directory should contain apgi_setup.py and requirements.txt files"
         exit 1
     fi
     

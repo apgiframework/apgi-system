@@ -446,7 +446,7 @@ for what changed from 1.0. Under 1.1.0 a failure to confirm a prediction is not 
 
 #### Setup & Deployment
 
-- setup.py - Installation and setup script
+- apgi_setup.py - Installation and setup script
 - setup.sh - Unix/Linux setup script
 - deploy.bat - Windows deployment script
 - deploy.sh - Unix/Linux deployment script

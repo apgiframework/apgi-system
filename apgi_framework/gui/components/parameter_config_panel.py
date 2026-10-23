@@ -539,7 +539,7 @@ class ParameterConfigPanel(ctk.CTkFrame):
     def _load_current_config(self) -> None:
         """Load current configuration from config manager."""
         try:
-            config = self.config_manager.load_config()  # type: ignore[call-arg, func-returns-value]
+            config: Any = self.config_manager.load_config()  # type: ignore[call-arg, func-returns-value]
 
             # Load APGI parameters
             apgi_config = config.get("apgi_parameters", {})

@@ -301,7 +301,7 @@ Thank you to all contributors who made this release possible!
             package_dir.mkdir(parents=True)
             essential_files = [
                 "apgi_framework",
-                "setup.py",
+                "apgi_setup.py",
                 "pyproject.toml",
                 "requirements.txt",
                 "README.md",

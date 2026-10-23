@@ -238,7 +238,6 @@ section("6 · Core Commands")
 
 
 def test_core_commands():
-    global gui
     with patch("builtins.open", mock_open(read_data='{"theme": "dark"}')):
         gui.save_config()
         gui.load_config()

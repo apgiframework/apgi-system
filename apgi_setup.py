@@ -7,7 +7,7 @@ A comprehensive script to set up the APGI framework environment, install
 dependencies (core, optional, or reproducible), and verify scientific integrity.
 
 Usage:
-    python setup.py [--venv] [--reproducible] [--optional] [--verify] [--system]
+    python apgi_setup.py [--venv] [--reproducible] [--optional] [--verify] [--system]
 """
 
 import argparse
