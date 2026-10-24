@@ -55,11 +55,13 @@ dependencies = [
     "jupyter>=1.0.0",
     "psutil>=5.9.0",
     "orjson>=3.9.0",
+    "statsmodels>=0.14.0",
+    "h5py>=3.8.0",
 ]
 
 [project.urls]
 Homepage = "https://github.com/apgiframework/apgi-system"
-Documentation = "https://github.com/apgiframework/apgi-system/blob/main/docs/README.md"
+Documentation = "https://github.com/apgiframework/apgi-system/blob/main/docs/APGI-System-README.md"
 Repository = "https://github.com/apgiframework/apgi-system"
 "Bug Tracker" = "https://github.com/apgiframework/apgi-system/issues"
 Changelog = "https://github.com/apgiframework/apgi-system/blob/main/CHANGELOG.md"
@@ -190,13 +192,17 @@ all = [
     "memory-profiler>=0.60",
     "line-profiler>=3.0",
     "statsmodels>=0.14.0",
+    "h5py>=3.8.0",
     "requests>=2.31.0",
 ]
 
 [tool.setuptools]
-packages = ["apgi_gui", "api", "apgi_framework", "tests"]
 zip-safe = false
 include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["apgi_gui*", "api*", "apgi_framework*"]
+exclude = ["tests*"]
 
 [tool.setuptools.package-data]
 apgi_gui = ["py.typed", "resources/**/*"]
@@ -208,6 +214,9 @@ apgi_framework = [
     "config/*.yaml",
     "data/*.json",
     "testing/templates/*",
+    "protocols/*.json",
+    "protocols/*.md",
+    "protocols/schemas/*.json",
 ]
 
 [tool.setuptools.dynamic]

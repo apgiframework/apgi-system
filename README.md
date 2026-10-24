@@ -397,11 +397,13 @@ If you use this framework in your research, please cite:
 }
 ```
 
-The experimental protocols in [`protocols/`](protocols/) follow APGI protocol specification
+The experimental protocols in [`apgi_framework/protocols/`](apgi_framework/protocols/) follow APGI protocol specification
 1.1.0, byte-identical to [apgi-framework](https://github.com/apgiframework/apgi-framework)
-1.1.0. Validate them with `make protocols-check`; see [`protocols/CHANGELOG.md`](protocols/CHANGELOG.md)
+1.1.0. Validate them with `make protocols-check`; see [`apgi_framework/protocols/CHANGELOG.md`](apgi_framework/protocols/CHANGELOG.md)
 for what changed from 1.0. Under 1.1.0 a failure to confirm a prediction is not falsification
-(verdicts are CONFIRMED, FALSIFIED or INDETERMINATE), and κ (ATP/bit) is uncalibrated.
+(verdicts are CONFIRMED, FALSIFIED or INDETERMINATE; conflicting evidence is INDETERMINATE), and κ (ATP/bit) is
+uncalibrated. Loading the specification does not by itself show that the existing simulation parameters implement
+the registered reduced model; that mapping is not yet established.
 
 ### 🖥️ GUI Applications
 

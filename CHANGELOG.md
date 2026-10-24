@@ -8,11 +8,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.1.0] - 2026-10-17
 
-Brings the system into compliance with APGI protocol specification 1.1.0, aligned with
+Adds the APGI protocol specification 1.1.0 bundle, validator, loader, and selected verdict
+corrections. This release does not establish conformance of the existing simulation engine
+(`APGIParameters` and related classes) to the registered reduced empirical model; that mapping
+needs defined equations, units and calibration and is tracked as separate work. Aligned with
 `apgi-framework` 1.1.0.
 
-- `protocols/` (new): all eight protocol JSONs (Protocol 0–7), the Draft 2020-12 schema,
-  `CHANGELOG.md`, `MANIFEST.json` and `VALIDATION.json`, byte-identical to apgi-framework 1.1.0.
+- `apgi_framework/protocols/` (new, packaged as data and loaded with `importlib.resources`): all eight protocol JSONs (Protocol 0–7), the Draft 2020-12 schema,
+  `CHANGELOG.md`, `MANIFEST.json` and `VALIDATION.json`, byte-identical to apgi-framework 1.1.0
+  (pinned by `tests/data/protocols_1_1_0_sha256.json`).
 - `scripts/validate_protocols.py` and `tests/test_validate_protocols.py`, taken unchanged from
   apgi-framework. Run with `make protocols-check`; CI runs it before the unit tests. `jsonschema`
   joins the `[dev]` extras and `requirements.txt`.
@@ -40,3 +44,20 @@ Brings the system into compliance with APGI protocol specification 1.1.0, aligne
 ## [1.0.0] - 2026-01-23
 
 Initial release.
+
+### Review fixes (PR 24)
+
+- `classify_prediction`: conflicting evidence (confirmed and falsified) is now INDETERMINATE.
+- `SubPrediction` keeps `evaluation_status` and `decision_rule`; new `designated_confirmatory`
+  and `currently_eligible` properties. Pred 5.C/5.D (prospective multiplicity lock) and Pred 6.C
+  (deferred estimator validation) are not eligible framework votes; `is_confirmatory` is a
+  deprecated alias of `currently_eligible`.
+- Packaging: subpackages are discovered (`tests` is no longer shipped), the protocol bundle moved
+  from top-level `protocols/` into `apgi_framework/protocols/`, and `statsmodels` and `h5py`,
+  imported unconditionally by the package, are declared dependencies.
+- CI: added `scripts/check_stubs.py` (QG-01, with a shrink-only baseline in
+  `scripts/stub_baseline.json`), a protocol and release test step, and restricted the
+  production rollback job to a failed production deployment outside pull requests.
+- `apgi_setup.py --verify` no longer writes placeholder scripts that print fixed passing results;
+  missing verification scripts now fail as NOT IMPLEMENTED.
+- `pyproject.toml` documentation URL points to an existing file.

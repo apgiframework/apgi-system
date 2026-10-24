@@ -1,7 +1,7 @@
 """
 APGI protocol specification 1.1.0.
 
-Reads the registered protocol files in ``protocols/`` (byte-identical to the
+Reads the registered protocol files in ``apgi_framework/protocols/`` (byte-identical to the
 apgi-framework 1.1.0 release) and exposes the parts this system consumes: the
 registered reduced model, cohort sizes, per-prediction decision fields and the
 v1.1 three-way verdict.
@@ -21,7 +21,9 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-PROTOCOLS_DIR = Path(__file__).resolve().parents[2] / "protocols"
+from importlib import resources
+
+PROTOCOLS_DIR = Path(str(resources.files("apgi_framework.protocols")))
 
 # Kept in step with apgi-framework (protocols/CHANGELOG.md, scripts/validate_protocols.py).
 SPECIFICATION_VERSION = "1.1.0"
@@ -38,10 +40,13 @@ class Verdict(str, Enum):
 def classify_prediction(confirmed: bool, falsified: bool = False) -> Verdict:
     """Apply the v1.1 rule that a failure to confirm is not falsification.
 
-    ``falsified`` must come from the prediction's own falsifying rule
+    Conflicting evidence (both true) is INDETERMINATE. ``falsified`` must come from the prediction's own falsifying rule
     (``falsifying_evidence`` / ``falsifying_thresholds``), never from the
     negation of ``confirmed``.
     """
+    if confirmed and falsified:
+        # Conflicting evidence is indeterminate (e.g. Pred 1.E decision_rule).
+        return Verdict.INDETERMINATE
     if confirmed:
         return Verdict.CONFIRMED
     if falsified:
@@ -59,6 +64,8 @@ class SubPrediction:
     confirming_evidence: str = ""
     falsifying_evidence: str = ""
     indeterminate_rule: str = ""
+    decision_rule: str = ""
+    evaluation_status: str = ""
     confirming_thresholds: Dict[str, Any] = field(default_factory=dict)
     falsifying_thresholds: Dict[str, Any] = field(default_factory=dict)
 
@@ -71,14 +78,30 @@ class SubPrediction:
             confirming_evidence=data.get("confirming_evidence", ""),
             falsifying_evidence=data.get("falsifying_evidence", ""),
             indeterminate_rule=data.get("indeterminate_rule", ""),
+            decision_rule=data.get("decision_rule", ""),
+            evaluation_status=data.get("evaluation_status", ""),
             confirming_thresholds=data.get("confirming_thresholds") or {},
             falsifying_thresholds=data.get("falsifying_thresholds") or {},
         )
 
     @property
-    def is_confirmatory(self) -> bool:
-        """True for predictions whose outcome carries a registered framework vote."""
+    def designated_confirmatory(self) -> bool:
+        """True when the protocol designates the prediction confirmatory."""
         return self.status.startswith("confirmatory")
+
+    @property
+    def currently_eligible(self) -> bool:
+        """True when a confirmatory prediction may count as a framework vote now.
+
+        Any ``evaluation_status`` (prospective multiplicity lock, deferred
+        estimator validation, ...) is a restriction that must be lifted first.
+        """
+        return self.designated_confirmatory and not self.evaluation_status
+
+    @property
+    def is_confirmatory(self) -> bool:
+        """Deprecated alias of :attr:`currently_eligible`; restrictions are respected."""
+        return self.currently_eligible
 
 
 @dataclass

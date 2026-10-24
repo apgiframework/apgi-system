@@ -300,7 +300,7 @@ def run_verification_command(
     print(f"\nVerification: {description}")
     script_path = PROJECT_ROOT / script_name
     if not script_path.exists():
-        print(f"⚠ Script '{script_name}' not found - skipping")
+        print(f"✗ NOT IMPLEMENTED: '{script_name}' not found; verification failed")
         return False
 
     cmd = [python_exe, str(script_path)] + args
@@ -369,22 +369,6 @@ def run_all_verifications(python_exe: str) -> None:
         print(f"  {name}: {'✓ PASS' if passed else '✗ FAIL/SKIPPED'}")
 
 
-def create_placeholders() -> None:
-    """Create placeholder scripts for verification if they don't exist."""
-    scripts = {
-        "apgi_simulate.py": '#!/usr/bin/env python3\nimport argparse\ndef main():\n    print("ignition latency: 430 ms (within 280-580 ms range) ✓")\nif __name__=="__main__": main()',
-        "apgi_parameter_recovery.py": '#!/usr/bin/env python3\nimport argparse\ndef main():\n    print("r_theta0 = 0.85 ✓\\nr_pi_i = 0.80 ✓\\nr_beta = 0.75 ✓")\nif __name__=="__main__": main()',
-        "validate_hep.py": '#!/usr/bin/env python3\nimport argparse\ndef main():\n    print("correlation = 0.97 (>= 0.95 threshold) ✓\\nHEP validation PASSED ✓")\nif __name__=="__main__": main()',
-    }
-    for name, content in scripts.items():
-        path = PROJECT_ROOT / name
-        if not path.exists():
-            with open(path, "w") as f:
-                f.write(content)
-            path.chmod(0o755)
-            print(f"✓ Created placeholder {name}")
-
-
 def main() -> None:
     parser = argparse.ArgumentParser(description="APGI Framework Setup")
     parser.add_argument(
@@ -435,7 +419,6 @@ def main() -> None:
         verify_pinned_versions(python_exe)
 
     if args.verify:
-        create_placeholders()
         run_all_verifications(python_exe)
 
     print("\n🎉 Setup process completed!")

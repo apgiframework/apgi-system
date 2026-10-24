@@ -15,7 +15,7 @@ SPEC = importlib.util.spec_from_file_location(
 )
 validator = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(validator)
-PROTOCOLS = ROOT / "protocols"
+PROTOCOLS = ROOT / "apgi_framework" / "protocols"
 
 
 def protocol(number):

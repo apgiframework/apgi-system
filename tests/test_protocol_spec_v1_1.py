@@ -20,7 +20,9 @@ from apgi_framework.config.protocol_spec import (
 )
 
 ROOT = Path(__file__).resolve().parent.parent
+PROTOCOLS = ROOT / "apgi_framework" / "protocols"
 FRAMEWORK_PROTOCOLS = ROOT.parent / "apgi-framework" / "protocols"
+PINNED_HASHES = ROOT / "tests" / "data" / "protocols_1_1_0_sha256.json"
 
 
 class TestSpecificationRelease:
@@ -70,17 +72,29 @@ class TestSpecificationRelease:
         with pytest.raises(FileNotFoundError):
             load_all_protocols(tmp_path / "absent")
 
+    def test_bundle_matches_pinned_hashes(self):
+        """Always-on guard: the bundle must equal the recorded 1.1.0 bytes."""
+        import hashlib
+        import json
+
+        pinned = json.loads(PINNED_HASHES.read_text(encoding="utf-8"))
+        actual = {
+            p.relative_to(PROTOCOLS).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in PROTOCOLS.rglob("*.json")
+        }
+        assert actual == pinned
+
     @pytest.mark.skipif(not FRAMEWORK_PROTOCOLS.is_dir(), reason="apgi-framework not checked out")
     def test_byte_identical_to_apgi_framework(self):
         ours = sorted(
-            p.relative_to(ROOT / "protocols") for p in (ROOT / "protocols").rglob("*.json")
+            p.relative_to(PROTOCOLS) for p in (PROTOCOLS).rglob("*.json")
         )
         theirs = sorted(
             p.relative_to(FRAMEWORK_PROTOCOLS) for p in FRAMEWORK_PROTOCOLS.rglob("*.json")
         )
         assert ours == theirs
         for rel in ours:
-            assert (ROOT / "protocols" / rel).read_bytes() == (
+            assert (PROTOCOLS / rel).read_bytes() == (
                 FRAMEWORK_PROTOCOLS / rel
             ).read_bytes()
 
@@ -90,7 +104,7 @@ class TestVerdicts:
         "confirmed, falsified, expected",
         [
             (True, False, Verdict.CONFIRMED),
-            (True, True, Verdict.CONFIRMED),
+            (True, True, Verdict.INDETERMINATE),
             (False, True, Verdict.FALSIFIED),
             (False, False, Verdict.INDETERMINATE),
         ],
@@ -126,3 +140,27 @@ class TestReleaseMetadata:
         assert re.search(r'^version: "(.+)"$', cff, re.M).group(1) == __version__
         assert f"## [{__version__}]" in (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         assert f"version={{{__version__}}}" in (ROOT / "README.md").read_text(encoding="utf-8")
+
+
+class TestEligibility:
+    def test_restricted_predictions_are_not_eligible(self):
+        for protocol, pred_id in [(5, "Pred 5.C"), (5, "Pred 5.D"), (6, "Pred 6.C")]:
+            pred = load_protocol(protocol).get_prediction(pred_id)
+            assert pred is not None
+            assert pred.designated_confirmatory
+            assert pred.evaluation_status
+            assert not pred.currently_eligible
+            assert not pred.is_confirmatory
+
+    def test_unrestricted_confirmatory_prediction_is_eligible(self):
+        pred = load_protocol(5).get_prediction("Pred 5.E")
+        assert pred is not None and pred.currently_eligible
+
+    def test_decision_rule_is_preserved(self):
+        pred = load_protocol(1).get_prediction("Pred 1.E")
+        assert pred is not None and "indeterminate" in pred.decision_rule
+
+    def test_loader_reads_packaged_resource(self):
+        from apgi_framework.config.protocol_spec import PROTOCOLS_DIR
+
+        assert (PROTOCOLS_DIR / "schemas" / "protocol.schema.json").is_file()

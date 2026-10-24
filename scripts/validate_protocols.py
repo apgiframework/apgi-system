@@ -10,7 +10,7 @@ import sys
 import jsonschema
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SCHEMA_PATH = ROOT / "protocols" / "schemas" / "protocol.schema.json"
+SCHEMA_PATH = ROOT / "apgi_framework" / "protocols" / "schemas" / "protocol.schema.json"
 RELEASE = "1.1.0"
 EXPECTED_IDS = {f"APGI-P0{n}" for n in range(8)}
 
@@ -199,7 +199,11 @@ def _payload_paths(folder):
         for p in folder.rglob("*")
         if p.is_file()
         and p.name != "MANIFEST.json"
-        and not any(part.startswith(".") for part in p.relative_to(folder).parts)
+        # Packaging artifacts of the apgi-system data package, not registered content.
+        and p.relative_to(folder).as_posix() != "__init__.py"
+        and not any(
+            part.startswith(".") or part == "__pycache__" for part in p.relative_to(folder).parts
+        )
     )
 
 
@@ -327,7 +331,7 @@ def validate_release(folder, *, source_dir=None, refresh_metadata=False):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("directory", nargs="?", type=pathlib.Path, default=ROOT / "protocols")
+    parser.add_argument("directory", nargs="?", type=pathlib.Path, default=ROOT / "apgi_framework" / "protocols")
     parser.add_argument(
         "--source-dir", type=pathlib.Path, help="Verify provenance against local source documents"
     )
