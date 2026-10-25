@@ -14,6 +14,836 @@ The APGI Framework provides tools for consciousness research, experimental parad
 - Cross-species validation paradigms
 - Comprehensive test suite with high coverage
 
+## How to Use APGI
+
+This section is the complete usage guide (also kept as [docs/HOW-TO-USE-APGI.md](docs/HOW-TO-USE-APGI.md)).
+
+1. [System Overview](#system-overview)
+2. [Installation & Setup](#installation--setup)
+3. [Getting Started](#getting-started)
+4. [GUI Application Usage](#gui-application-usage)
+5. [REST API Usage](#rest-api-usage)
+6. [Programmatic Usage](#programmatic-usage)
+7. [Experimental Tasks](#experimental-tasks)
+8. [Data Analysis & Export](#data-analysis--export)
+9. [Troubleshooting](#troubleshooting)
+10. [Advanced Features](#advanced-features)
+
+> **Status legend.** Entry points, modules, API routes and methods marked **✅ verified** were checked against
+> this repository. Items marked **🧭 planned** appear in the original how-to guide but have no implementation
+> in the current code; they describe intended behavior and will not run today. Where the original guide named
+> a path that does not exist, the working equivalent is given.
+
+### System Overview
+
+The **APGI (Allostatic Precision-Gated Ignition) System** is a computational framework for modeling consciousness based on:
+
+- **Active Inference**: Variational free energy minimization
+- **Predictive Processing**: Hierarchical prediction error minimization
+- **Allostatic Regulation**: Interoceptive predictive processing
+- **Ignition Dynamics**: Threshold-based global workspace broadcasting
+- **Self-Modeling**: Minimal and narrative self-representations
+
+#### Key Components
+
+- **Active Inference Engine**: Bayesian inference and learning
+- **Hierarchical Predictor**: 4-level predictive processing
+- **Precision Weighting**: Dynamic precision modulation
+- **Body Model**: Physiological state simulation
+- **Ignition Threshold**: Consciousness event gating
+- **Global Workspace**: Information sharing system
+- **Self-Model**: Coherence tracking
+- **Metabolic Budget**: Energy constraint management
+
+### Installation & Setup
+
+#### Prerequisites
+
+- Python 3.11 or higher
+- Git (for cloning the repository)
+- Tk (`tkinter`) for the desktop GUI. On Debian/Ubuntu install `python3-tk`; on headless Linux also install `xvfb` and `xauth`
+- Optional: PostgreSQL 14+ (for full API functionality)
+- Optional: Redis 7+ (for caching, token blacklist and login-attempt tracking)
+
+#### Step 1: Clone Repository
+
+```bash
+git clone https://github.com/apgiframework/apgi-system.git
+cd apgi-system
+```
+
+#### Step 2: Install Dependencies
+
+```bash
+# Install the package in development mode
+pip install -e .
+
+# Or install specific requirements
+pip install -r requirements.txt
+```
+
+#### Step 3: Verify Installation
+
+```bash
+# Test core system (✅ verified module path)
+python -c "from apgi_framework.system import APGISystem; print('✅ Core system OK')"
+
+# Test GUI
+python -c "import tkinter; print('✅ Tkinter available')"
+
+# Test API dependencies
+python -c "import fastapi; print('✅ FastAPI available')"
+
+# Validate all framework components
+python -m apgi_framework.cli validate-system
+```
+
+#### Step 4: Environment Configuration (Optional)
+
+```bash
+# Copy environment template
+cp .env.example .env
+
+# Edit .env file with your settings
+# DATABASE_URL=postgresql://user:password@localhost:5432/apgi_api
+# REDIS_URL=redis://localhost:6379/0
+# JWT_SECRET_KEY=your-secret-key-here
+```
+
+A bare `postgresql://` URL is run through the `psycopg2` driver; `asyncpg` is used for the async engine.
+Set a strong, random `JWT_SECRET_KEY` (64+ characters) before exposing the API.
+
+### Getting Started
+
+#### Quick Start Options
+
+##### Option 1: GUI Application (Recommended for Beginners)
+
+```bash
+python -m apgi_gui.main      # ✅ verified
+apgi-gui                     # console script, available after `pip install -e .`
+```
+
+The original guide used `python apgi_gui.py`, `python run_gui.py` and `python -m apgi_gui`; those files do not
+exist in this repository.
+
+##### Option 2: REST API (for Web Integration)
+
+```bash
+python -m api.main           # ✅ verified; defaults to port 8000 and picks another port if busy
+```
+
+##### Option 3: Programmatic Usage (for Developers)
+
+```python
+from apgi_framework.system import APGISystem   # ✅ verified (guide said apgi_simulation.system)
+
+system = APGISystem(config_path="config/default.yaml")
+results = system.run(duration_ms=10000.0)
+```
+
+#### First Run Checklist
+
+- [ ] System installed without errors
+- [ ] GUI launches successfully
+- [ ] All visualization tabs load
+- [ ] Simulation starts and runs smoothly
+- [ ] Data export functionality works
+
+### GUI Application Usage
+
+#### Launching the GUI
+
+```bash
+# Method 1: As module
+python -m apgi_gui.main
+
+# Method 2: Installed console script
+apgi-gui
+
+# Method 3: Legacy launcher (deprecated, see Entry Points)
+python GUI-Launcher.py
+```
+
+On a headless Linux machine run the GUI under a virtual display: `xvfb-run -a python -m apgi_gui.main`.
+
+#### Interface Overview
+
+The GUI consists of four main sections:
+
+1. **Control Panel** (Left): Simulation controls and parameters
+2. **Visualization Tabs** (Right): real-time monitoring tabs
+3. **Menu Bar** (Top): File operations and advanced features
+4. **Status Bar** (Bottom): System status and event log
+
+#### Basic Workflow
+
+##### 1. Start a Simulation
+
+```text
+Click "▶ Start" button OR press F5
+```
+
+The system will:
+
+- Initialize all subsystems
+- Begin real-time simulation at ~1000 Hz
+- Update GUI at 10 Hz (100 ms intervals)
+- Display live metrics in all tabs
+
+##### 2. Monitor System State
+
+Watch these key indicators:
+
+- **Simulation Time**: Elapsed simulation time
+- **Ignition Events**: Count of consciousness events
+- **Workspace State**: Idle/Broadcasting status
+- **Metabolic Reserves**: Energy level (0-100%)
+- **Allostatic Load**: Cumulative stress (0-100%)
+- **FPS**: GUI update rate
+
+##### 3. Adjust Parameters
+
+Use the Quick Parameters sliders:
+
+- **Ignition Threshold** (1.0-5.0): Consciousness gating
+- **Exteroceptive Precision** (0.1-10.0): Sensory confidence
+- **Interoceptive Precision** (0.1-10.0): Body confidence
+- **Arousal Level** (0.0-1.0): System activation
+- **Stress Level** (0.0-1.0): Allostatic stress
+- **Activity Level** (0.0-1.0): Behavioral activation
+- **Learning Rate** (0.001-0.1): Adaptation speed
+- **Attention Gain** (0.5-3.0): Attentional amplification
+
+##### 4. Navigate Visualization Tabs
+
+###### Tab 1: Neural Activity
+
+- Ignition events (red dots)
+- Global workspace activity (blue line)
+- Precision dynamics (green/red lines)
+- Free energy trajectory (purple line)
+
+###### Tab 2: Interoception
+
+- Heart rate monitoring
+- Cortisol levels
+- Allostatic load
+- Metabolic reserves
+
+###### Tab 3: System Metrics
+
+- Somatic marker count
+- Gamma band power (30-80 Hz)
+- Beta band power (12-30 Hz)
+- Performance metrics
+
+###### Tab 4: Self-Model
+
+- Minimal self coherence
+- Depersonalization thresholds
+- Narrative self integrity
+
+###### Tab 5: Oscillations
+
+- Real-time oscillation signals
+- Multi-band power spectrum
+- Delta, theta, alpha, beta, gamma bands
+
+###### Tab 6: 3D State Space
+
+- 3D trajectory visualization
+- Free Energy × Precision × Allostatic Load
+- Color-coded temporal evolution
+
+> Tabs 1-3 (Neural Activity, Interoception, System Metrics) are ✅ verified in `apgi_gui/components/visualization_panel.py`.
+> Tabs 4-6 are described by the original guide and have not been confirmed in the modular GUI.
+
+#### Advanced GUI Features
+
+##### Menu System
+
+###### File Menu (Ctrl+N/O/S/E/Q)
+
+- New Session: Start fresh simulation
+- Load/Save Configuration: YAML parameter files
+- Export Data: CSV/JSON formats
+- Export Plot: Save visualizations
+- Auto-save: Toggle periodic saving
+- Exit: Close application
+
+###### Simulation Menu (F5-F8)
+
+- Start/Pause/Stop/Reset controls
+- Run Preset Task: Experimental paradigms
+
+###### Tools Menu
+
+- Trigger Ignition Event: Force consciousness
+- Induce Stressor: Add allostatic load
+- Modulate Precision: Adjust precision weights
+- System Diagnostics: Health check
+
+###### Analysis Menu
+
+- Ignition Statistics: Detailed metrics
+- Energy Budget Report: Metabolic analysis
+- Generate Report: Comprehensive summary
+
+##### Keyboard Shortcuts
+
+| Shortcut | Action | Status |
+| ---------- | -------- | ------ |
+| **F5** | Start Simulation | ✅ verified |
+| **F6** | Pause/Resume | ✅ verified |
+| **F7** | Stop Simulation | ✅ verified |
+| **F8** | Reset System | ✅ verified |
+| **Ctrl+N** | New Session | ✅ verified |
+| **Ctrl+O** | Load Configuration | ✅ verified |
+| **Ctrl+S** | Save Configuration | ✅ verified |
+| **Ctrl+E** | Export Data | ✅ verified |
+| **Ctrl+Q** | Exit | ✅ verified |
+| **Ctrl++/-/0** | Zoom In/Out/Reset | ✅ verified (menu accelerators) |
+| **Ctrl+Tab** | Cycle Tabs | per original guide |
+| **F1** | Show Help | per original guide |
+
+##### Running Experimental Tasks
+
+1. **Simulation → Run Preset Task**
+2. Select from:
+   - Attentional Blink Task
+   - Change Blindness Task
+   - Binocular Rivalry Task
+   - Masking Paradigm Task
+   - Iowa Gambling Task
+3. Click "Run Task"
+4. Monitor progress and results
+
+> The Iowa Gambling Task implementation is currently a stub (see [Experimental Tasks](#experimental-tasks)).
+
+##### Manual Interventions
+
+- **Trigger Ignition**: Tools → Trigger Ignition Event forces high arousal/stress for ignition
+- **Induce Stressor**: Tools → Induce Stressor adds an allostatic load spike
+- **Modulate Precision**: Tools → Modulate Precision applies a multiplicative factor to precision weights
+
+#### Data Export
+
+##### CSV Format
+
+```csv
+time,ignition,free_energy,extero_precision,intero_precision,...
+0.00,0,1.234,1.0,0.8,...
+0.01,0,1.245,1.0,0.8,...
+0.02,1,2.456,1.5,0.9,...
+```
+
+##### JSON Format
+
+```json
+[
+  {
+    "time": 0.00,
+    "ignition": 0,
+    "free_energy": 1.234,
+    "extero_precision": 1.0
+  }
+]
+```
+
+### REST API Usage
+
+#### Starting the API Server
+
+```bash
+# Method 1: Direct launch
+python -m api.main
+
+# Method 2: Uvicorn
+uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
+
+# Method 3: Docker Compose
+docker-compose up -d
+```
+
+#### API Documentation
+
+Once running (any non-production `ENVIRONMENT`), access:
+
+- **Swagger UI**: <http://localhost:8000/docs>
+- **ReDoc**: <http://localhost:8000/redoc>
+- **OpenAPI schema**: <http://localhost:8000/openapi.json>
+- **Health Check**: <http://localhost:8000/v1/health>
+
+The interactive docs, ReDoc and OpenAPI schema are disabled when `ENVIRONMENT=production`.
+
+#### Endpoint Map (✅ verified against `api/routes/`)
+
+The API is versioned under `/v1` and organised around **sessions**. The original guide's `/simulation/start`,
+`/system/status`, `/parameters`, `/export/csv`, `/analysis/ignition-stats` and `/auth/token` routes do not exist.
+
+| Area | Method and path |
+| ---- | --------------- |
+| Auth | `POST /v1/auth/login`, `POST /v1/auth/refresh`, `POST /v1/auth/logout` |
+| Sessions | `POST /v1/sessions` (create), `POST /v1/sessions/{id}/start`, `/pause`, `/stop`, `/reset`, `DELETE /v1/sessions/{id}` |
+| State | `GET /v1/sessions/{id}/state`, `/ignition-history`, `/interoception`, `/prediction-errors`, `/somatic-markers`, `/summary-statistics` |
+| Export | `GET /v1/sessions/{id}/export?format=json\|csv`, `/summary`, `/timeseries`, `/events` |
+| Tasks | `GET/POST /v1/tasks`, `/v1/sessions/{id}/tasks`, `/v1/tasks/{task_id}` |
+| Health | `GET /v1/health`, `/v1/health/live`, `/v1/health/ready`, `GET /v1/version` |
+| Admin and compliance | `/v1/admin/...`, `/v1/compliance/export`, `/v1/metrics` (system-admin permission), `/v1/webhooks/...`, `/v1/users/...` |
+
+#### Typical Workflow
+
+```bash
+# 1. Authenticate (production deployments)
+curl -X POST "http://localhost:8000/v1/auth/login" \
+     -H "Content-Type: application/json" \
+     -d '{"username": "user", "password": "pass"}'
+
+# 2. Create a session (config_path, custom_config and description are optional)
+curl -X POST "http://localhost:8000/v1/sessions" \
+     -H "Authorization: Bearer <token>" \
+     -H "Content-Type: application/json" \
+     -d '{"description": "demo run"}'
+
+# 3. Start it and read its state
+curl -X POST "http://localhost:8000/v1/sessions/<session_id>/start" -H "Authorization: Bearer <token>"
+curl "http://localhost:8000/v1/sessions/<session_id>/state" -H "Authorization: Bearer <token>"
+curl "http://localhost:8000/v1/sessions/<session_id>/summary-statistics" -H "Authorization: Bearer <token>"
+
+# 4. Export the results
+curl "http://localhost:8000/v1/sessions/<session_id>/export?format=csv" \
+     -H "Authorization: Bearer <token>" -o simulation_data.csv
+
+# 5. Stop the session
+curl -X POST "http://localhost:8000/v1/sessions/<session_id>/stop" -H "Authorization: Bearer <token>"
+```
+
+Exact request and response schemas are in Swagger UI. Repeated failed logins lock the account after five attempts
+(tracked in Redis when available, otherwise in memory).
+
+### Programmatic Usage
+
+#### Basic System Initialization
+
+```python
+from apgi_framework.system import APGISystem
+
+# Initialize with default configuration (config/default.yaml)
+system = APGISystem()
+
+# Initialize with custom configuration
+system = APGISystem(config_path="config/default.yaml")
+```
+
+#### Running Simulations
+
+```python
+import numpy as np
+
+# Run for a specific duration (✅ verified signature: run(duration_ms, extero_input_fn=None))
+results = system.run(duration_ms=10000.0)
+
+# Run with a custom sensory input generator: a function of time returning a vector
+results = system.run(duration_ms=5000.0, extero_input_fn=lambda t: np.random.randn(256))
+
+# Run step by step (✅ verified signature: step(extero_input, context=None))
+for step in range(1000):
+    state = system.step(np.random.randn(256))
+    print(f"Step {step}: Ignition={state['ignition']}")
+
+# Reset the system
+system.reset()
+```
+
+> The exact keys returned by `step()` depend on the configuration; inspect the returned dictionary.
+> The original guide's `run(..., input_data=...)` argument does not exist; use `extero_input_fn`.
+
+#### Accessing System State
+
+```python
+# Get current state (✅ verified)
+state = system.get_state()
+summary = system.get_state_summary()
+overview = system.get_system_summary()
+performance = system.get_performance_statistics()
+```
+
+🧭 **Planned (not implemented):** `system.neural_system.get_state()`, `system.interoception.get_state()`,
+`system.ignition_system.get_state()` and `system.get_metrics()` with `ignition_count` / `avg_free_energy`.
+
+#### Parameter Modification
+
+Edit parameters in a YAML configuration file and pass it via `config_path`, or use the GUI sliders or
+`python -m apgi_framework.cli set-params`.
+
+🧭 **Planned (not implemented):**
+
+```python
+system.set_parameter("ignition_threshold", 2.5)
+system.set_parameters({"ignition_threshold": 2.0, "arousal_level": 0.7, "stress_level": 0.3})
+```
+
+#### Data Collection
+
+```python
+import numpy as np
+import pandas as pd
+
+data = []
+for step in range(1000):
+    state = system.step(np.random.randn(256))
+    data.append({
+        "time": step,
+        "ignition": state["ignition"],
+        "free_energy": state["free_energy"],
+        "workspace": state["workspace_activity"],
+    })
+
+df = pd.DataFrame(data)
+df.to_csv("simulation_results.csv", index=False)
+```
+
+The key names above (`ignition`, `free_energy`, `workspace_activity`) follow the original guide; confirm them against
+`system.get_state()` for your configuration.
+
+### Experimental Tasks
+
+#### Available Tasks
+
+1. **Attentional Blink Task**: temporal attention limitations; target detection under rapid presentation
+2. **Change Blindness Task**: visual perception failures; scene change detection
+3. **Binocular Rivalry Task**: competitive perception; alternating dominance
+4. **Masking Paradigm Task**: subliminal processing; conscious/unconscious perception
+5. **Iowa Gambling Task**: decision-making under uncertainty; risk/reward learning
+
+Implementations live under `apgi_framework` (see [docs/Experimental-Tasks.md](docs/Experimental-Tasks.md)).
+The Iowa Gambling implementation is currently a stub that lacks the balance, schedule, stimulus and trial APIs its
+tests expect, so treat its results as non-scientific until completed.
+
+#### Running Tasks via GUI
+
+1. **Simulation → Run Preset Task**
+2. Select desired task
+3. Configure task parameters
+4. Click "Run Task"
+5. Monitor progress in real-time
+
+#### Running Tasks Programmatically
+
+🧭 **Planned (not implemented):** the `apgi_simulation.experiments` package shown in the original guide does not exist.
+The intended interface was:
+
+```python
+from apgi_simulation.experiments.tasks import AttentionalBlinkTask   # not available
+
+task = AttentionalBlinkTask(system=system)
+results = task.run()
+performance = results["performance"]
+metrics = results["metrics"]
+```
+
+For falsification tests and batch experiments use the CLI (`python -m apgi_framework.cli run-test primary --trials 1000`).
+
+#### Custom Task Creation
+
+🧭 **Planned (not implemented)** pattern from the original guide:
+
+```python
+class CustomTask(BaseTask):                  # BaseTask: not available
+    def __init__(self, system, **kwargs):
+        super().__init__(system, **kwargs)
+
+    def run(self):
+        ...
+
+    def analyze_results(self, results):
+        ...
+```
+
+For custom experiments today, subclass the base class in `core/experiment.py` (see "Currently Implemented" below).
+
+### Data Analysis & Export
+
+#### Export Formats
+
+Session data can be exported through the REST API (`GET /v1/sessions/{id}/export?format=json|csv`) and the GUI
+(**File → Export Data**, Ctrl+E). Library-level helpers are in `apgi_framework/data_export.py`.
+
+🧭 **Planned (not implemented):** `system.export_csv(...)`, `system.export_json(...)` and `system.export_config(...)`.
+
+#### Analysis Tools
+
+Use the GUI **Analysis** menu (Ignition Statistics, Energy Budget Report, Generate Report), the
+`/v1/sessions/{id}/summary-statistics` API route, or the analysis package (`apgi-analysis`, `apgi_framework.analysis`).
+
+🧭 **Planned (not implemented):** `system.analyze_ignitions()`, `system.analyze_energy()` and
+`system.analyze_oscillations()`, which were described as returning ignition count, mean interval and rate; total
+consumed energy, peak usage and efficiency; and dominant frequency and band powers.
+
+#### Visualization
+
+##### Plotting Results
+
+```python
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(12, 6))
+plt.plot(df["time"], df["ignition"], "r.", label="Ignitions")
+plt.xlabel("Time (ms)")
+plt.ylabel("Ignition Events")
+plt.title("Ignition Timeline")
+plt.legend()
+plt.show()
+```
+
+##### 3D State Space
+
+```python
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection="3d")
+ax.scatter(df["free_energy"], df["precision"], df["allostatic_load"], c=df["time"], cmap="viridis")
+ax.set_xlabel("Free Energy")
+ax.set_ylabel("Precision")
+ax.set_zlabel("Allostatic Load")
+plt.title("3D State Space Trajectory")
+plt.show()
+```
+
+### Troubleshooting
+
+See also [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
+
+#### GUI Won't Start
+
+**Symptoms:** error messages about missing modules; the window does not appear.
+
+```bash
+# Install missing dependencies (tkinter ships with Python or the OS package python3-tk, not pip)
+pip install -r requirements.txt
+
+# Verify installation
+python -c "import tkinter; print('Tkinter OK')"
+python -c "import matplotlib; print('Matplotlib OK')"
+```
+
+On a headless server run under Xvfb: `xvfb-run -a python -m apgi_gui.main`.
+
+#### Slow Performance
+
+**Symptoms:** low FPS counter, laggy interface, high memory usage.
+
+- Reduce the simulation speed slider
+- Close other applications
+- Decrease the buffer size in code
+- Use Ctrl+P to hide the parameter panel and Ctrl+L to hide the log panel (per original guide)
+
+#### Plots Not Updating
+
+**Symptoms:** static plots, no real-time updates, frozen interface.
+
+- Verify the simulation is running (not paused)
+- Check that the FPS counter shows activity
+- Try Reset (F8)
+- Restart the application
+
+#### Memory Issues
+
+**Symptoms:** system slows over time, memory use climbs, application crashes.
+
+- Export data periodically
+- Reset the simulation to clear buffers
+- Reduce the buffer size in the GUI code
+- Monitor memory usage in the System Metrics tab
+
+#### API Connection Issues
+
+**Symptoms:** connection refused, 404 errors, authentication failures.
+
+```bash
+# Check if server is running
+curl http://localhost:8000/v1/health
+
+# Verify port availability
+netstat -an | grep 8000
+```
+
+A 404 on `/health`, `/simulation/start` or similar means the path is not under `/v1/` (see the endpoint map above).
+`api.main` falls back to another port when 8000 is taken, so read the startup log for the port actually used.
+
+#### Debug Mode
+
+```bash
+# API with debug logging and auto-reload
+uvicorn api.main:app --reload --log-level debug
+
+# CLI with debug logging
+python -m apgi_framework.cli --log-level DEBUG status
+```
+
+The original guide's `--debug` / `--verbose` GUI flags and `python -m api.main --log-level` option are not implemented.
+
+#### Getting Help
+
+1. **Check Event Log**: Monitor the GUI event log for error messages
+2. **Export Diagnostics**: Tools → System Diagnostics, or `python -m apgi_framework.cli validate-system`
+3. **Review Configuration**: Verify parameter values are reasonable
+4. **Test Components**: Run individual component tests with `pytest tests/unit/`
+5. **Check Documentation**: Review the files in `docs/`
+
+### Advanced Features
+
+#### Custom Configuration
+
+##### Creating Custom Configs
+
+```yaml
+# custom_config.yaml
+system:
+  timestep_ms: 1.0
+  random_seed: 42
+
+hierarchy:
+  levels: 4
+  nodes_per_level: [256, 128, 64, 32]
+  timescales_ms: [10, 50, 200, 500]
+
+active_inference:
+  learning_rate: 0.01
+  prediction_threshold: 0.1
+
+ignition:
+  threshold_baseline: 2.0
+  refractory_period_ms: 300
+
+interoception:
+  allostatic_ranges:
+    heart_rate: [60, 100]  # bpm
+    cortisol: [5, 25]      # μg/dL
+```
+
+Start from `config/default.yaml` (✅ verified) and validate with `python -m apgi_framework.cli generate-config` /
+`validate-system`; key names in your file must match those in the default file.
+
+##### Loading Custom Configs
+
+```python
+system = APGISystem(config_path="custom_config.yaml")
+# Or via the GUI: File → Load Configuration
+```
+
+#### Extension Development
+
+##### Adding Custom Metrics
+
+🧭 **Planned (not implemented):** `system.register_metric(...)`. Until it exists, compute custom metrics from the
+state dictionaries returned by `system.step()`:
+
+```python
+class CustomMetric:
+    def __init__(self):
+        self.history = []
+
+    def calculate(self, state):
+        value = self.compute_custom_value(state)
+        self.history.append(value)
+        return value
+
+    def compute_custom_value(self, state):
+        ...  # your metric logic
+```
+
+##### Custom Visualization
+
+```python
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+class CustomPlot:
+    def __init__(self, parent, history_fn):
+        self.history_fn = history_fn
+        self.fig, self.ax = plt.subplots(figsize=(8, 6))
+        self.canvas = FigureCanvasTkAgg(self.fig, parent)
+        self.canvas.get_tk_widget().pack()
+
+    def update(self):
+        self.ax.clear()
+        self.ax.plot(self.history_fn())
+        self.canvas.draw()
+```
+
+#### Performance Optimization
+
+🧭 **Planned (not implemented):** `set_max_history`, `enable_auto_cleanup`, `set_precision("single")` and
+`disable_feature(...)`. Available today: run `system.get_performance_statistics()` / `system.log_performance()`,
+use `utils/performance_profiler.py`, and see [docs/Benchmarks.md](docs/Benchmarks.md).
+
+#### Integration Examples
+
+##### Jupyter Notebook Integration
+
+```python
+%matplotlib inline
+import numpy as np
+import matplotlib.pyplot as plt
+from apgi_framework.system import APGISystem
+
+system = APGISystem()
+history = [system.step(np.random.randn(256)) for _ in range(2000)]
+
+plt.figure(figsize=(12, 8))
+plt.subplot(2, 2, 1)
+plt.plot([s["free_energy"] for s in history])
+plt.title("Free Energy")
+plt.tight_layout()
+plt.show()
+```
+
+##### Web Integration
+
+Prefer the bundled REST API. A minimal custom Flask wrapper looks like this:
+
+```python
+import threading
+from flask import Flask, jsonify
+from apgi_framework.system import APGISystem
+
+app = Flask(__name__)
+system = APGISystem()
+
+@app.route("/api/status")
+def get_status():
+    return jsonify(system.get_state_summary())
+
+@app.route("/api/start")
+def start_simulation():
+    threading.Thread(target=lambda: system.run(duration_ms=10000.0)).start()
+    return jsonify({"status": "started"})
+
+if __name__ == "__main__":
+    app.run()          # do not use debug=True on an exposed host
+```
+
+`get_state_summary()` must return JSON-serializable values for `jsonify`; convert NumPy arrays with `.tolist()` if needed.
+
+### Conclusion
+
+This guide covers installation through advanced customization. The system provides three interfaces:
+
+- **GUI Application**: best for interactive exploration and demonstrations
+- **REST API**: ideal for web integration and remote access
+- **Programmatic Interface**: perfect for research and custom applications
+
+For additional support:
+
+- Review the documentation in the [`docs/`](docs/) folder
+- Check the [`examples/`](examples/) directory for code samples
+- Run tests with `pytest tests/`
+- Report issues on the [project repository](https://github.com/apgiframework/apgi-system/issues)
+
+Happy modeling with APGI! 🧠✨
+
+
 ## Installation
 
 ### Basic Installation
@@ -339,7 +1169,7 @@ apgi-experiments/
 
 ## Documentation
 
-- [API Documentation](docs/api/)
+- [API Documentation](docs/REST-API.md)
 - [Examples](docs/examples/)
 - [Developer Guide](docs/developer/)
 - [Research Applications](docs/research/)
@@ -502,13 +1332,13 @@ the registered reduced model; that mapping is not yet established.
 
 ## Quick Start (5 minutes)
 
-**New to the system?** See the [Quick Start Guide](docs/QUICK_START_GUIDE.md) for a 5-minute introduction.
+**New to the system?** See the [Quick Start Guide](docs/QUICK-START-GUIDE.md) for a 5-minute introduction.
 
-**Using GUI?** Check out the [GUI Visual Guide](docs/GUI_VISUAL_GUIDE.md) for a visual walkthrough.
+**Using GUI?** Check out the [GUI Visual Guide](docs/GUI-VISUAL-GUIDE.md) for a visual walkthrough.
 
 **Using Web Interface?** Visit [APGI-Experiments.html](../../apgi-web/APGI-Experiments.html) for interactive web-based experiments and visualizations.
 
-**Need help?** See the [Documentation Index](docs/DOCUMENTATION_INDEX.md) for complete documentation.
+**Need help?** See the [How to Use APGI](#how-to-use-apgi) section and [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
 
 ### Installation Guide
 
@@ -675,12 +1505,12 @@ experiment = run_interoceptive_gating_experiment(
 Complete documentation is available in the `docs/` directory and web interface:
 
 - **[APGI-Experiments.html](../../apgi-web/APGI-Experiments.html)** - Interactive web-based experiments and visualizations
-- **[Quick Start Guide](docs/QUICK_START_GUIDE.md)** - Get started in 5 minutes
-- **[GUI Visual Guide](docs/GUI_VISUAL_GUIDE.md)** - Visual walkthrough of GUI
-- **[User Guide](docs/USER_GUIDE.md)** - Complete user manual
-- **[CLI Reference](docs/CLI_REFERENCE.md)** - Command-line interface documentation
-- **[Results Interpretation Guide](docs/RESULTS_INTERPRETATION_GUIDE.md)** - Understanding test results
+- **[Quick Start Guide](docs/QUICK-START-GUIDE.md)** - Get started in 5 minutes
+- **[GUI Visual Guide](docs/GUI-VISUAL-GUIDE.md)** - Visual walkthrough of GUI
+- **[User Guide](docs/USER-GUIDE.md)** - Complete user manual
+- **[CLI Reference](docs/CLI-REFERENCE.md)** - Command-line interface documentation
+- **[Results Interpretation Guide](docs/RESULTS-INTERPRETATION_GUIDE.md)** - Understanding test results
 - **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
-- **[Documentation Index](docs/DOCUMENTATION_INDEX.md)** - Complete documentation index
+- **[How-To Guide](docs/HOW-TO-USE-APGI.md)** - Complete usage guide (also included above)
 
-See [docs/README.md](docs/README.md) for a complete documentation overview.
+Browse the [`docs/`](docs/) directory for the full set of guides.
