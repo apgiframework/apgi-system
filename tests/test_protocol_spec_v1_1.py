@@ -86,17 +86,13 @@ class TestSpecificationRelease:
 
     @pytest.mark.skipif(not FRAMEWORK_PROTOCOLS.is_dir(), reason="apgi-framework not checked out")
     def test_byte_identical_to_apgi_framework(self):
-        ours = sorted(
-            p.relative_to(PROTOCOLS) for p in (PROTOCOLS).rglob("*.json")
-        )
+        ours = sorted(p.relative_to(PROTOCOLS) for p in (PROTOCOLS).rglob("*.json"))
         theirs = sorted(
             p.relative_to(FRAMEWORK_PROTOCOLS) for p in FRAMEWORK_PROTOCOLS.rglob("*.json")
         )
         assert ours == theirs
         for rel in ours:
-            assert (PROTOCOLS / rel).read_bytes() == (
-                FRAMEWORK_PROTOCOLS / rel
-            ).read_bytes()
+            assert (PROTOCOLS / rel).read_bytes() == (FRAMEWORK_PROTOCOLS / rel).read_bytes()
 
 
 class TestVerdicts:

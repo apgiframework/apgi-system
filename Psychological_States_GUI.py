@@ -8226,7 +8226,7 @@ class APGIVisualizerGUI:
 
         self.status_var.set(f"✓ Found {len(models)} model recommendations for state")
 
-    def _on_model_select(self, event: tk.Event[Any]) -> None:
+    def _on_model_select(self, event: "tk.Event[Any]") -> None:
         """Show details for the selected model"""
         selected = self.model_tree.selection()
         if not selected:

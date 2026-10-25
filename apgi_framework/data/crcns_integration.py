@@ -24,6 +24,7 @@ from typing import Any, Dict, List, Literal, Optional, Union
 
 import numpy as np
 import numpy.typing as npt
+from scipy.integrate import trapezoid
 
 from .unified_data_loader import UnifiedDataLoader, load_crcns_dataset
 
@@ -237,7 +238,7 @@ class CRCNSAC1Dataset:
                         "duration_ms": duration_ms,
                         "peak_proxy": float(np.max(metabolic_proxy[start:end])),
                         "integrated_proxy": float(
-                            np.trapz(metabolic_proxy[start:end], self.time[start:end])
+                            trapezoid(metabolic_proxy[start:end], self.time[start:end])
                         ),
                     }
                 )

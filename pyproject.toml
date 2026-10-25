@@ -132,7 +132,7 @@ testing = [
     "hypothesis>=6.82.0",
     "pytest>=7.4.0",
     "pytest-asyncio>=0.23.0",
-    "sqlalchemy>=2.0.0",
+    "sqlalchemy[asyncio]>=2.0.0",
     "redis>=4.0.0",
 ]
 visualization = [

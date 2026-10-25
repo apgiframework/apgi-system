@@ -334,7 +334,7 @@ print(json.dumps(result))
             compiled_code = compile_restricted(code, "<string>", "exec")
 
             # Prepare restricted globals
-            restricted_globals = safe_globals.copy()
+            restricted_globals: Dict[str, Any] = dict(safe_globals)
             restricted_globals["_getattr_"] = getattr
             restricted_globals["_write_"] = lambda x: x  # Allow writing
 
@@ -363,7 +363,7 @@ print(json.dumps(result))
                     contextlib.redirect_stdout(stdout_capture),
                     contextlib.redirect_stderr(stderr_capture),
                 ):
-                    exec(compiled_code.code, restricted_globals)
+                    exec(compiled_code, restricted_globals)
 
                 return {
                     "success": True,
@@ -372,7 +372,7 @@ print(json.dumps(result))
                     "context": restricted_globals,
                 }
             else:
-                exec(compiled_code.code, restricted_globals)
+                exec(compiled_code, restricted_globals)
                 return {"success": True, "context": restricted_globals}
 
         except Exception as e:
