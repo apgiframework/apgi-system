@@ -161,10 +161,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - api.apgi.example.com
+    - api.apgiframework.com
     secretName: apgi-api-tls-prod
   rules:
-  - host: api.apgi.example.com
+  - host: api.apgiframework.com
     http:
       paths:
       - path: /
