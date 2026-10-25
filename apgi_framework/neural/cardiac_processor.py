@@ -12,6 +12,7 @@ from typing import Any, Dict, Optional, Tuple
 
 import numpy as np
 from scipy import signal
+from scipy.integrate import trapezoid
 from scipy.stats import zscore
 
 # Try to import numba for optimization
@@ -458,9 +459,9 @@ class HRVAnalyzer:
         lf_indices = np.where((freqs >= lf_band[0]) & (freqs < lf_band[1]))[0]
         hf_indices = np.where((freqs >= hf_band[0]) & (freqs < hf_band[1]))[0]
 
-        lf_power = np.trapz(psd[lf_indices], freqs[lf_indices]) if len(lf_indices) > 0 else 0.0
-        hf_power = np.trapz(psd[hf_indices], freqs[hf_indices]) if len(hf_indices) > 0 else 0.0
-        total_power = np.trapz(psd, freqs)
+        lf_power = trapezoid(psd[lf_indices], freqs[lf_indices]) if len(lf_indices) > 0 else 0.0
+        hf_power = trapezoid(psd[hf_indices], freqs[hf_indices]) if len(hf_indices) > 0 else 0.0
+        total_power = trapezoid(psd, freqs)
 
         # LF/HF ratio
         lf_hf_ratio = float(lf_power) / float(hf_power) if float(hf_power) > 0 else 0.0

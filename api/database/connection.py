@@ -24,9 +24,14 @@ from utils.circuit_breaker_utils import CircuitBreakerException, circuit_breaker
 logger = logging.getLogger(__name__)
 
 
+# Bare postgresql:// URLs resolve to whichever default driver the installed
+# SQLAlchemy picks (psycopg2 in 2.0, psycopg 3 in newer releases). Pin the
+# driver listed in requirements.txt so engine creation is version-independent.
+sync_db_url = settings.database_url.replace("postgresql://", "postgresql+psycopg2://", 1)
+
 # Create synchronous SQLAlchemy engine
 engine = create_engine(
-    settings.database_url,
+    sync_db_url,
     echo=settings.db_echo_sql,
     pool_pre_ping=True,  # Verify connections before using
     pool_size=settings.db_pool_size,

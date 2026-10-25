@@ -18,10 +18,9 @@ Two v1.1 rules matter for code that reports outcomes:
 import json
 from dataclasses import dataclass, field
 from enum import Enum
+from importlib import resources
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
-
-from importlib import resources
 
 PROTOCOLS_DIR = Path(str(resources.files("apgi_framework.protocols")))
 

@@ -10,6 +10,7 @@ from typing import Dict, List, Optional, Tuple, cast
 
 import numpy as np
 from scipy import signal
+from scipy.integrate import trapezoid
 
 
 @dataclass
@@ -214,7 +215,7 @@ class ERPAnalysis:
         # Compute area under curve
         start_idx = int(search_window[0] / self.dt)
         end_idx = int(search_window[1] / self.dt)
-        area = float(np.trapz(data[start_idx:end_idx], dx=self.dt))
+        area = float(trapezoid(data[start_idx:end_idx], dx=self.dt))
 
         # Estimate peak width at half maximum
         half_max = amplitude / 2.0

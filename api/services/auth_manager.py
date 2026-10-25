@@ -14,6 +14,7 @@ from typing import Any, Dict, List, Optional, Tuple, cast
 
 import bcrypt
 import jwt
+import redis as redis_sync
 import redis.asyncio as redis
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
@@ -94,12 +95,22 @@ class AuthManager:
         self.access_token_expire_minutes = settings.jwt_access_token_expire_minutes
         self.refresh_token_expire_days = settings.jwt_refresh_token_expire_days
 
-        # Initialize Redis client for token blacklisting
+        # Async Redis client for token blacklisting (awaited call sites)
         try:
             self.redis_client = redis.Redis.from_url(settings.redis_url)
         except Exception as e:
             logger.warning(f"Failed to connect to Redis for token blacklisting: {e}")
             self.redis_client = None
+
+        # Synchronous Redis client for failed-login tracking, which runs in the
+        # synchronous authenticate_user path and cannot await the async client
+        try:
+            self.sync_redis_client: Optional[redis_sync.Redis] = redis_sync.Redis.from_url(
+                settings.redis_url
+            )
+        except Exception as e:
+            logger.warning(f"Failed to create Redis client for login tracking: {e}")
+            self.sync_redis_client = None
 
         # In-memory fallback for failed login tracking when Redis unavailable
         self.failed_login_attempts: Dict[str, Tuple[int, float]] = (
@@ -119,47 +130,50 @@ class AuthManager:
         """
         current_time = time.time()
 
-        if self.redis_client:
-            # Redis tracking
-            failed_key = f"failed_login:{user_id}"
-            failed_count = self.redis_client.incr(failed_key)
-            self.redis_client.expire(failed_key, 3600)  # Expire in 1 hour
-            if failed_count >= 5:
-                # Lock the account - need to get user and update
-                user = self.db.query(User).filter(User.user_id == user_id).first()
-                if user:
-                    user.is_active = False  # type: ignore[assignment]
-                    self.db.commit()
-                    logger.warning(
-                        f"Account locked for user {user_id} due to too many failed login attempts"
-                    )
-        else:
-            # In-memory fallback
-            if user_id not in self.failed_login_attempts:
-                self.failed_login_attempts[user_id] = (0, current_time)
+        if self.sync_redis_client:
+            # Redis tracking; fall back to memory when Redis is unreachable
+            try:
+                failed_key = f"failed_login:{user_id}"
+                failed_count = int(self.sync_redis_client.incr(failed_key))  # type: ignore[arg-type]
+                self.sync_redis_client.expire(failed_key, 3600)  # Expire in 1 hour
+            except redis_sync.RedisError as e:
+                logger.warning(f"Redis unavailable for login tracking, using memory: {e}")
+            else:
+                if failed_count >= 5:
+                    # Lock the account - need to get user and update
+                    user = self.db.query(User).filter(User.user_id == user_id).first()
+                    if user:
+                        user.is_active = False  # type: ignore[assignment]
+                        self.db.commit()
+                        logger.warning(
+                            f"Account locked for user {user_id} due to too many failed login attempts"
+                        )
+                return
 
-            count, _ = self.failed_login_attempts[user_id]
-            count += 1
-            self.failed_login_attempts[user_id] = (count, current_time)
+        # In-memory fallback
+        if user_id not in self.failed_login_attempts:
+            self.failed_login_attempts[user_id] = (0, current_time)
 
-            # Clean up old entries (older than 1 hour)
-            expired = [
-                uid
-                for uid, (_, ts) in self.failed_login_attempts.items()
-                if current_time - ts > 3600
-            ]
-            for uid in expired:
-                del self.failed_login_attempts[uid]
+        count, _ = self.failed_login_attempts[user_id]
+        count += 1
+        self.failed_login_attempts[user_id] = (count, current_time)
 
-            if count >= 5:
-                # Lock the account
-                user = self.db.query(User).filter(User.user_id == user_id).first()
-                if user:
-                    user.is_active = False  # type: ignore[assignment]
-                    self.db.commit()
-                    logger.warning(
-                        f"Account locked for user {user_id} due to too many failed login attempts (in-memory fallback)"
-                    )
+        # Clean up old entries (older than 1 hour)
+        expired = [
+            uid for uid, (_, ts) in self.failed_login_attempts.items() if current_time - ts > 3600
+        ]
+        for uid in expired:
+            del self.failed_login_attempts[uid]
+
+        if count >= 5:
+            # Lock the account
+            user = self.db.query(User).filter(User.user_id == user_id).first()
+            if user:
+                user.is_active = False  # type: ignore[assignment]
+                self.db.commit()
+                logger.warning(
+                    f"Account locked for user {user_id} due to too many failed login attempts (in-memory fallback)"
+                )
 
     @staticmethod
     def hash_password(password: str) -> str:
@@ -341,12 +355,12 @@ class AuthManager:
             return None
 
         # Successful login - reset failed attempts
-        if self.redis_client:
-            failed_key = f"failed_login:{user.user_id}"
-            self.redis_client.delete(failed_key)
-        else:
-            # Clear in-memory tracking
-            self.failed_login_attempts.pop(str(user.user_id), None)
+        if self.sync_redis_client:
+            try:
+                self.sync_redis_client.delete(f"failed_login:{user.user_id}")
+            except redis_sync.RedisError as e:
+                logger.warning(f"Redis unavailable while clearing login attempts: {e}")
+        self.failed_login_attempts.pop(str(user.user_id), None)
 
         # Update last login
         try:

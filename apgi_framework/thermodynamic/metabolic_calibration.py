@@ -45,6 +45,7 @@ from typing import Any, Dict, List, Literal, Optional, Protocol, Tuple, Union
 
 import numpy as np
 import numpy.typing as npt
+from scipy.integrate import trapezoid
 
 # =============================================================================
 # Data Structures
@@ -220,7 +221,7 @@ class TwoPhotonTrace:
                     "peak_f": float(np.max(burst_slice)),
                     "mean_f": float(np.mean(burst_slice)),
                     "integrated_signal": float(
-                        np.trapz(burst_slice - baseline, self.time_ms[start_idx:end_idx])
+                        trapezoid(burst_slice - baseline, self.time_ms[start_idx:end_idx])
                     ),
                     "start_idx": int(start_idx),
                     "end_idx": int(end_idx),
