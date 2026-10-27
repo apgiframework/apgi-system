@@ -399,13 +399,14 @@ class TestPlatformBuilding:
     def test_build_platform_windows(self, mock_run: Mock, temp_project: Path) -> None:
         """Test building for Windows platform."""
         manager = ReleaseManager(str(temp_project))
+        manager.dry_run = False  # dry runs never build
 
         # Create build script
         build_script = temp_project / "build" / "build_windows.py"
         build_script.write_text("# Build script")
 
         # Mock successful build
-        mock_run.return_value = Mock(returncode=0, stdout="", stderr="")
+        mock_run.return_value = Mock(returncode=0, stdout="dist/app.exe\n", stderr="")
 
         # Only test on Windows
         if sys.platform == "win32":

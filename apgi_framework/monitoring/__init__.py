@@ -359,6 +359,7 @@ class SystemProfiler:
         self.is_profiling: bool = False
         self.start_time: Optional[float] = None
         self._created_at = time.time()
+        self._started_perf: Optional[float] = None
         # Named profile records (record_profile / get_profiles)
         self.profiles: Dict[str, List[Dict[str, Any]]] = {}
 
@@ -371,12 +372,15 @@ class SystemProfiler:
         """Start a profiling window."""
         self.is_profiling = True
         self.start_time = time.time()
+        self._started_perf = time.perf_counter()
         return {"status": "started", "timestamp": _now_iso()}
 
     def stop_profiling(self) -> Dict[str, Any]:
         """End the profiling window; includes ``total_time_ms`` since :meth:`start_profiling`."""
-        started = self.start_time if self.start_time is not None else time.time()
-        total_ms = (time.time() - started) * 1000.0
+        # perf_counter has sub-microsecond resolution; time.time() ticks at ~15 ms on Windows
+        started = getattr(self, "_started_perf", None)
+        total_ms = (time.perf_counter() - started) * 1000.0 if started is not None else 0.0
+        self._started_perf = None
         self.is_profiling = False
         self.start_time = None
         return {"status": "stopped", "timestamp": _now_iso(), "total_time_ms": total_ms}

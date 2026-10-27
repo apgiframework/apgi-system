@@ -190,7 +190,12 @@ class TestCrashRecovery:
         assert LocalRecorder.read(session).n_samples == 50
 
     def test_empty_segment_is_discarded(self, tmp_path: Path) -> None:
-        session, _ = record(tmp_path, [])
+        session, rec = record(tmp_path, [])
+        # A crashed process holds no handles; Windows cannot delete files that are still open
+        for handle in ("_data_fh", "_index_fh", "_markers_fh", "_sync_fh"):
+            fh = getattr(rec, handle, None)
+            if fh is not None:
+                fh.close()
         summary = LocalRecorder.recover(session)
         assert summary.n_samples == 0 and summary.segments == ()
         assert not list((session / "data").glob("segment-*"))
