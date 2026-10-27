@@ -563,8 +563,9 @@ pytest-cov==7.1.0
     # via -r requirements.txt
 pytest-timeout==2.4.0
     # via -r requirements.txt
-python-dateutil==3.0.0
+python-dateutil==2.9.0.post0
     # via
+    #   -r requirements.txt
     #   celery
     #   ghp-import
     #   matplotlib
@@ -767,7 +768,6 @@ tzdata==2026.5
     # via
     #   kombu
     #   pandas
-    #   python-dateutil
     #   tzlocal
 tzlocal==5.4.5
     # via celery
