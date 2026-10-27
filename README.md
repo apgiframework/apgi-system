@@ -844,6 +844,12 @@ For additional support:
 Happy modeling with APGI! 🧠✨
 
 
+## Device acquisition
+
+Record from an amplifier (simulated driver included) with clock-synchronised event markers, a crash-safe local
+recorder, an offline-first session state machine backed by a SQLCipher-encrypted store, resumable uploads and BIDS-EEG
+export. See [docs/ACQUISITION.md](docs/ACQUISITION.md) and `examples/acquisition_quickstart.py`.
+
 ## Installation
 
 ### Basic Installation
