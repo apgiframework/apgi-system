@@ -26,7 +26,7 @@ from .device import SyncProbe
 from .errors import StoreError, StoreKeyError, StoreUnavailableError
 from .markers import EventMarker
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 KEY_ENV_VAR = "APGI_STORE_KEY"
 SQLITE_MAGIC = b"SQLite format 3\x00"
 
@@ -84,11 +84,49 @@ CREATE TABLE upload_items (
     PRIMARY KEY (session_id, rel_path)
 );
 CREATE INDEX idx_upload_due ON upload_items(status, next_attempt_ns);
+CREATE TABLE chunk_journal (
+    session_id  TEXT NOT NULL REFERENCES sessions(session_id) ON DELETE CASCADE,
+    device_id   TEXT NOT NULL,
+    sequence    INTEGER NOT NULL,
+    first_sample_index INTEGER NOT NULL,
+    n_samples   INTEGER NOT NULL,
+    host_receive_ns INTEGER NOT NULL,
+    crc32c      INTEGER NOT NULL,
+    sha256      TEXT NOT NULL,
+    PRIMARY KEY (session_id, device_id, sequence)
+);
+CREATE TABLE milestones (
+    session_id TEXT NOT NULL REFERENCES sessions(session_id) ON DELETE CASCADE,
+    milestone  TEXT NOT NULL,
+    at_ns      INTEGER NOT NULL,
+    detail     TEXT NOT NULL DEFAULT '',
+    PRIMARY KEY (session_id, milestone)
+);
 CREATE INDEX idx_state_log_session ON state_log(session_id, id);
 CREATE UNIQUE INDEX idx_markers_seq ON markers(session_id, seq_no) WHERE seq_no > 0;
 """
 
 _MIGRATIONS = {
+    3: (
+        """CREATE TABLE IF NOT EXISTS chunk_journal (
+    session_id  TEXT NOT NULL REFERENCES sessions(session_id) ON DELETE CASCADE,
+    device_id   TEXT NOT NULL,
+    sequence    INTEGER NOT NULL,
+    first_sample_index INTEGER NOT NULL,
+    n_samples   INTEGER NOT NULL,
+    host_receive_ns INTEGER NOT NULL,
+    crc32c      INTEGER NOT NULL,
+    sha256      TEXT NOT NULL,
+    PRIMARY KEY (session_id, device_id, sequence)
+)""",
+        """CREATE TABLE IF NOT EXISTS milestones (
+    session_id TEXT NOT NULL REFERENCES sessions(session_id) ON DELETE CASCADE,
+    milestone  TEXT NOT NULL,
+    at_ns      INTEGER NOT NULL,
+    detail     TEXT NOT NULL DEFAULT '',
+    PRIMARY KEY (session_id, milestone)
+)""",
+    ),
     2: (
         "ALTER TABLE markers ADD COLUMN seq_no INTEGER NOT NULL DEFAULT 0",
         "ALTER TABLE markers ADD COLUMN onset_utc_ns INTEGER",
@@ -355,6 +393,67 @@ class SessionStore:
                 "SELECT json FROM markers WHERE session_id=? ORDER BY onset_host_ns", (session_id,)
             )
             return [EventMarker.from_dict(json.loads(r[0])) for r in cur.fetchall()]
+
+    # -- chunk journal and milestones --------------------------------------
+    def journal_chunk(
+        self,
+        session_id: str,
+        device_id: str,
+        sequence: int,
+        first_sample_index: int,
+        n_samples: int,
+        host_receive_ns: int,
+        crc32c: int,
+        sha256: str,
+    ) -> None:
+        """Record a chunk's index entry and digests in the encrypted journal (idempotent)."""
+        with self._tx() as cur:
+            cur.execute(
+                "INSERT OR REPLACE INTO chunk_journal VALUES (?,?,?,?,?,?,?,?)",
+                (
+                    session_id,
+                    device_id,
+                    sequence,
+                    first_sample_index,
+                    n_samples,
+                    host_receive_ns,
+                    crc32c,
+                    sha256,
+                ),
+            )
+
+    def list_chunk_journal(self, session_id: str) -> List[Dict[str, Any]]:
+        with self._tx() as cur:
+            cur.execute(
+                "SELECT device_id,sequence,first_sample_index,n_samples,host_receive_ns,crc32c,"
+                "sha256 FROM chunk_journal WHERE session_id=? ORDER BY device_id, sequence",
+                (session_id,),
+            )
+            keys = (
+                "device_id",
+                "sequence",
+                "first_sample_index",
+                "n_samples",
+                "host_receive_ns",
+                "crc32c",
+                "sha256",
+            )
+            return [dict(zip(keys, r)) for r in cur.fetchall()]
+
+    def record_milestone(self, session_id: str, milestone: str, detail: str = "") -> bool:
+        """Record a milestone once; returns False if it was already recorded."""
+        with self._tx() as cur:
+            cur.execute(
+                "INSERT OR IGNORE INTO milestones VALUES (?,?,?,?)",
+                (session_id, milestone, self._clock_ns(), detail),
+            )
+            return bool(cur.rowcount)
+
+    def milestones(self, session_id: str) -> Dict[str, int]:
+        """Milestone name -> time (store clock, ns) for one session."""
+        with self._tx() as cur:
+            cur.execute("SELECT milestone, at_ns FROM milestones WHERE session_id=?", (session_id,))
+            return {str(m): int(t) for m, t in cur.fetchall()}
 
     # -- upload queue -----------------------------------------------------
     def enqueue_file(self, session_id: str, rel_path: str, sha256: str, size_bytes: int) -> None:

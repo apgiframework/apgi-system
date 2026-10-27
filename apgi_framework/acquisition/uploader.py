@@ -23,6 +23,7 @@ if TYPE_CHECKING:
     import httpx
 
 from .errors import NetworkUnavailable, PermanentTransportError, TransportError
+from .milestones import SessionMilestone
 from .state_machine import SessionEvent, SessionMachine, SessionState
 from .store import SessionStore, UploadItem, _sha256_hex_of_file
 
@@ -322,8 +323,50 @@ class UploadAgent:
             )
             report.blocked_sessions.append(session_id)
         else:
+            if self._store.all_server_verified(session_id):
+                self._store.record_milestone(session_id, SessionMilestone.SERVER_VERIFIED.value)
             machine.fire(SessionEvent.UPLOAD_COMPLETE)
             report.synced_sessions.append(session_id)
+
+
+@dataclass(frozen=True)
+class RetentionPolicy:
+    """What to do with local data once the server has verified it.
+
+    ``purge_after_verified=False`` keeps everything locally (the default: nothing is
+    deleted unless a policy says so). ``keep_days`` delays purging after verification.
+    """
+
+    purge_after_verified: bool = False
+    keep_days: float = 0.0
+
+
+def apply_retention_policy(
+    store: SessionStore,
+    session_id: str,
+    policy: RetentionPolicy,
+    *,
+    now_ns: Optional[int] = None,
+) -> List[str]:
+    """Apply ``policy``; records ``local_retention_policy_applied`` and returns removed paths.
+
+    Data is removed only if the policy asks for it, every file is server-verified and
+    ``keep_days`` have passed since verification. An interrupted or unfinished upload
+    therefore never erases local data.
+    """
+    verified_at = store.milestones(session_id).get(SessionMilestone.SERVER_VERIFIED.value)
+    removed: List[str] = []
+    if policy.purge_after_verified and verified_at is not None:
+        now = time.time_ns() if now_ns is None else now_ns
+        if now - verified_at >= int(policy.keep_days * 86_400 * 1e9):
+            removed = purge_verified_local_data(store, session_id)
+    if verified_at is not None:
+        store.record_milestone(
+            session_id,
+            SessionMilestone.LOCAL_RETENTION_POLICY_APPLIED.value,
+            f"purge={policy.purge_after_verified} keep_days={policy.keep_days} removed={len(removed)}",
+        )
+    return removed
 
 
 def purge_verified_local_data(store: SessionStore, session_id: str) -> List[str]:

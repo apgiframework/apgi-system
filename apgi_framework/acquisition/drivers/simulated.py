@@ -61,18 +61,24 @@ class SimulatedDevice(Device):
         fail_after_samples: Optional[int] = None,
         fail_on_connect: bool = False,
         trigger_channel: bool = True,
+        channel_kind: str = "EEG",
+        channel_unit: str = "uV",
+        model: str = "APGI-SIM",
+        driver_name: str = "simulated",
     ) -> None:
         super().__init__()
         if max_chunk_samples <= 0:
             raise ValueError("max_chunk_samples must be positive")
         names = list(channel_names) if channel_names is not None else list(_DEFAULT_NAMES)
-        channels: List[ChannelSpec] = [ChannelSpec(n) for n in names]
+        channels: List[ChannelSpec] = [
+            ChannelSpec(n, kind=channel_kind, unit=channel_unit) for n in names
+        ]
         if trigger_channel:
             channels.append(ChannelSpec("TRIG", kind="TRIG", unit="n/a"))
         self._info = DeviceInfo(
             device_id=device_id,
-            driver="simulated",
-            model="APGI-SIM",
+            driver=driver_name,
+            model=model,
             sampling_rate_hz=sampling_rate_hz,
             channels=tuple(channels),
             firmware="sim-1.0",
@@ -186,18 +192,25 @@ class SimulatedDevice(Device):
         elapsed_dev_s = (self._clock_ns() - self._stream_start_ns) * 1e-9 * (1.0 + self._drift)
         return max(0, int(elapsed_dev_s * self._info.sampling_rate_hz))
 
+    def _waveform(self, t: NDArray[np.float64], ch: int) -> NDArray[np.float64]:
+        """Noise-free signal of analogue channel ``ch`` at times ``t`` (subclasses override)."""
+        return 20.0 * np.sin(2 * np.pi * 10.0 * t + 0.3 * ch)
+
+    def _noise_sd(self) -> float:
+        return 5.0
+
     def _generate(self, first: int, n: int) -> NDArray[np.float64]:
         fs = self._info.sampling_rate_hz
         idx = np.arange(first, first + n)
         t = idx / fs
         out = np.zeros((n, self._info.n_channels), dtype=np.float64)
         for ch in range(self._n_eeg):
-            out[:, ch] = 20.0 * np.sin(2 * np.pi * 10.0 * t + 0.3 * ch)
+            out[:, ch] = self._waveform(t, ch)
         # noise is drawn per fixed block so values do not depend on read sizes
         noise = np.empty((n, self._n_eeg), dtype=np.float64)
         for block in range(first // _BLOCK, (first + n - 1) // _BLOCK + 1):
             rng = np.random.default_rng([self._seed, 2, block])
-            block_noise = rng.normal(0.0, 5.0, size=(_BLOCK, self._n_eeg))
+            block_noise = rng.normal(0.0, self._noise_sd(), size=(_BLOCK, self._n_eeg))
             lo = max(first, block * _BLOCK)
             hi = min(first + n, (block + 1) * _BLOCK)
             noise[lo - first : hi - first] = block_noise[lo - block * _BLOCK : hi - block * _BLOCK]

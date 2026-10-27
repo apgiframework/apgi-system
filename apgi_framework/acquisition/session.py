@@ -14,13 +14,17 @@ import uuid
 from pathlib import Path
 from typing import Any, Callable, Optional
 
+import numpy as np
+
 from .bids import BidsExportResult, export_recording_to_bids
 from .device import SampleChunk
 from .errors import DeviceError, InvalidTransition
+from .integrity import chunk_digests
 from .manager import DeviceManager
 from .markers import EventMarker, MarkerLog
+from .milestones import SessionMilestone as M
 from .pin import PinError, TaskPin
-from .recorder import LocalRecorder, RecordingSummary
+from .recorder import DTYPE, LocalRecorder, RecordingSummary
 from .state_machine import SessionEvent, SessionMachine, SessionState
 from .store import SessionStore
 
@@ -93,6 +97,7 @@ class AcquisitionSession:
             meta={"task_pin": task_pin.to_dict()} if task_pin is not None else None,
         )
         self._recorder: Optional[LocalRecorder] = None
+        self._store.record_milestone(self.session_id, M.SESSION_CREATED.value)
         self._lock = threading.RLock()
         self._summary: Optional[RecordingSummary] = None
 
@@ -132,6 +137,7 @@ class AcquisitionSession:
             except Exception as exc:
                 self._fail(f"prepare failed: {exc}")
                 raise
+            self._store.record_milestone(self.session_id, M.CONFIGURATION_VERIFIED.value)
             self.machine.fire(SessionEvent.PREPARE)
 
     def start(self, *, background: bool = False, poll_interval_s: float = 0.005) -> None:
@@ -147,6 +153,7 @@ class AcquisitionSession:
                 self._fail(f"could not start streaming: {failed}")
                 raise DeviceError(f"could not start streaming: {failed}")
             self.machine.fire(SessionEvent.START)
+            self._store.record_milestone(self.session_id, M.RECORDING_STARTED.value)
             if background:
                 self._manager.start_polling(poll_interval_s)
 
@@ -186,6 +193,7 @@ class AcquisitionSession:
             assert self._recorder is not None
             self._recorder.write_marker(marker)
         self._store.add_marker(self.session_id, marker)
+        self._store.record_milestone(self.session_id, M.EVENTS_AND_CHUNKS_JOURNALED.value)
         return marker
 
     def stop(self) -> RecordingSummary:
@@ -199,6 +207,8 @@ class AcquisitionSession:
         with self._lock:
             assert self._recorder is not None
             self._summary = self._recorder.close()
+            self._store.record_milestone(self.session_id, M.RECORDING_COMPLETED.value)
+            self._store.record_milestone(self.session_id, M.LOCAL_MANIFEST_FINALIZED.value)
             self.machine.fire(SessionEvent.FINALIZE)
             return self._summary
 
@@ -233,6 +243,19 @@ class AcquisitionSession:
             if not recording or self._recorder is None:
                 return  # paused or not started: the index gap documents the loss
             self._recorder.write_chunk(chunk)
+            raw = np.ascontiguousarray(chunk.samples, dtype=DTYPE).tobytes()
+            digests = chunk_digests(raw)
+            self._store.journal_chunk(
+                self.session_id,
+                chunk.device_id,
+                chunk.sequence,
+                chunk.first_sample_index,
+                chunk.n_samples,
+                chunk.host_receive_ns,
+                digests["crc32c"],
+                digests["sha256"],
+            )
+            self._store.record_milestone(self.session_id, M.EVENTS_AND_CHUNKS_JOURNALED.value)
 
     def _on_device_error(self, device_id: str, exc: Exception) -> None:
         if device_id == self._device_id and self.machine.can(SessionEvent.FAIL):
@@ -240,6 +263,7 @@ class AcquisitionSession:
 
     def _enqueue(self, rel_path: str, sha256: str, size: int) -> None:
         self._store.enqueue_file(self.session_id, rel_path, sha256, size)
+        self._store.record_milestone(self.session_id, M.UPLOAD_PENDING.value)
 
     def _fail(self, detail: str) -> None:
         if self.machine.can(SessionEvent.FAIL):

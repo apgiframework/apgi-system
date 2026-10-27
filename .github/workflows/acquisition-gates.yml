@@ -1,9 +1,14 @@
 name: Acquisition gates
 
-# Two required gates for the acquisition subsystem. They run against the simulated
-# device only, so no hardware is needed.
-#   device-mock    every driver/device contract check, marked @device_mock
-#   offline-upload the network is cut mid-upload and the session must resume, marked @offline_upload
+# Required gates for the acquisition subsystem (register XC-CI-03). They run against the
+# simulated device only, so no hardware is needed.
+#   device-mock          XC-CI-03.1  every driver/device contract check, marked @device_mock
+#   acquisition-checks   XC-CI-03.2  formatting, types and the whole acquisition suite
+#   desktop-build        XC-CI-03.3  a PyInstaller bundle must build and pass the headless smoke run
+#   offline-upload       XC-CI-03.4  the network is cut mid-upload and the session must resume, marked @offline_upload
+#
+# Make the four jobs required status checks on protected branches (repository settings, branch
+# protection); see docs/CI-GATES.md. Workflow files cannot enforce that themselves.
 
 on:
   push:
@@ -54,6 +59,56 @@ jobs:
           pip install -e ".[dev,testing,gui,api,acquisition]"
       - name: Run offline-upload tests
         run: xvfb-run -a python -m pytest -m offline_upload tests/integration/test_acquisition_offline.py tests/unit/acquisition/test_uploader.py -q --no-cov -o addopts="" --strict-markers
+
+  acquisition-checks:
+    name: Acquisition checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3-tk xvfb
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,testing,gui,api,acquisition]" -c requirements.lock
+      - name: Formatting
+        run: black --check apgi_framework/acquisition apgi_framework/synchronization apgi_framework/interoperability tests/acquisition
+      - name: Types
+        run: mypy apgi_framework/acquisition apgi_framework/synchronization apgi_framework/interoperability
+      - name: Acquisition test suite
+        run: xvfb-run -a python -m pytest tests/acquisition tests/unit/acquisition tests/integration/test_acquisition_offline.py -q --no-cov -o addopts="" --strict-markers
+
+  desktop-build:
+    name: Desktop build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3-tk xvfb
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,testing,gui,api,acquisition]" -c requirements.lock
+          pip install pyinstaller
+      # SQLCipher wheels exist only for Linux x86-64, so the bundle is built and run there.
+      - name: Build bundle
+        run: |
+          pyinstaller --noconfirm --clean --onedir --name apgi-acquisition-smoke \
+            --collect-submodules apgi_framework.acquisition --collect-all sqlcipher3 \
+            --hidden-import sqlcipher3.dbapi2 scripts/desktop_smoke.py
+      - name: Run the bundle (frozen build must record, journal, upload and verify)
+        run: xvfb-run -a ./dist/apgi-acquisition-smoke/apgi-acquisition-smoke
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apgi-acquisition-smoke-linux
+          path: dist/apgi-acquisition-smoke
+          retention-days: 7
 
   full-acquisition-suite:
     name: All acquisition tests

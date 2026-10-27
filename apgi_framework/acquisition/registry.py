@@ -91,10 +91,24 @@ class DeviceRegistry:
 
 
 def _build_default_registry() -> DeviceRegistry:
-    from .drivers.simulated import SimulatedDevice
+    from .drivers import (
+        ECGDevice,
+        EEGDevice,
+        PPGDevice,
+        SimulatedDevice,
+        SimulatedECGDevice,
+        SimulatedEEGDevice,
+        SimulatedPPGDevice,
+    )
 
     registry = DeviceRegistry(load_entry_points=True)
     registry.register("simulated", SimulatedDevice)
+    registry.register("simulated-eeg", SimulatedEEGDevice)
+    registry.register("simulated-ecg", SimulatedECGDevice)
+    registry.register("simulated-ppg", SimulatedPPGDevice)
+    registry.register("lsl-eeg", EEGDevice)
+    registry.register("lsl-ecg", ECGDevice)
+    registry.register("lsl-ppg", PPGDevice)
     return registry
 
 

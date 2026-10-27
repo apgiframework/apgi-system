@@ -160,7 +160,64 @@ and `pip install sqlcipher3`. Without it the store tests are skipped and the sto
   counted (`agent.loop_errors`, `agent.last_loop_error`); per-file failures keep their
   message in the queue (`UploadItem.last_error`).
 
+## Hardware classes, drivers and stimulation safety
+
+`default_hardware_registry` holds eleven hardware classes with Track B priorities: EEG, ECG and
+behavioural devices (1), eye tracking/pupillometry (2, the real-time surrogate), PPG,
+respiration, EDA (offline covariate) and actigraphy (3, context), and fMRI (P03), TMS/tFUS (P05)
+and iEEG (P06) as **import workflows** for data produced elsewhere. `SURROGATE_RANKING` puts
+pupillometry first and EDA last: skin-conductance responses lag by seconds, far beyond the 100 ms
+inference cadence, so `surrogate_usable_in_realtime("eda")` is false.
+
+This software never drives or bypasses stimulation equipment. `require_controllable()` raises
+`StimulationControlError` for every class, no live driver can be bound to an import workflow, and
+`bind_driver` refuses any driver exposing methods such as `fire`, `set_intensity` or
+`bypass_interlock`.
+
+Drivers (`drivers/`): `SimulatedEEGDevice`, `SimulatedECGDevice`, `SimulatedPPGDevice` (synthetic,
+registered as `simulated-eeg|ecg|ppg`) and `EEGDevice`, `ECGDevice`, `PPGDevice` (registered as
+`lsl-eeg|ecg|ppg`) which read Lab Streaming Layer streams through the optional `pylsl` package.
+LSL timestamps are used as delivered; a timestamp gap becomes an index gap that QC reports as
+dropped samples. Vendor-SDK drivers are not included (decision D10 is open).
+
+## Live stream and process split
+
+`LiveStream` is a bounded drop-oldest buffer that never blocks the acquisition path;
+`ProcessLiveConsumer` feeds a function in another process through a bounded queue with the same
+rule. The recorder stays the lossless path, so a stalled display costs only live frames.
+
+## Session milestones, journal and retention
+
+Besides the state machine, nine milestones are recorded once each in the encrypted store:
+`session_created`, `configuration_verified`, `recording_started`, `events_and_chunks_journaled`,
+`recording_completed`, `local_manifest_finalized`, `upload_pending`, `server_verified` and
+`local_retention_policy_applied`. Every chunk's index entry and digests are journaled in the
+SQLCipher store (`chunk_journal`). `RetentionPolicy` / `apply_retention_policy` delete local data
+only when asked to, only after every file is server-verified, and after `keep_days`.
+Raw data is immutable; corrections are written with `derive()` / `write_derived()` under
+`derived/<name>/` with provenance naming the raw manifest hash.
+
+`open_store_with_keychain()` keeps the SQLCipher key wrapped (AES-256-GCM) by a master key held
+in the OS keychain (`keyring`, optional) so a copy of the data folder alone cannot be opened.
+
+## Chunk upload to apgi-api
+
+`ChunkIngestService` implements the server side of the three-stage upload (signed URL, direct
+bucket `PUT`, commit with existence, size, authorisation, sequence and CRC32C checks, then a job
+that recomputes SHA-256) and sets each chunk `accepted`, `quarantined` or `rejected`.
+`interoperability.ApiClient` and `SignedUrlTransport` are the client; `UploadAgent` uses the
+transport unchanged. The HTTP routes and V4 signing for the real bucket belong to the apgi-api
+service; `LocalObjectStore` is the in-repo reference implementation.
+
 ## Quality control and task pin
+
+`compute_session_qc()` computes all twelve per-session metrics (the four below plus clock-offset
+uncertainty, electrode impedance, signal saturation, motion artifacts, cardiac peak-detection
+quality, marker-to-signal latency, upload completeness and firmware/calibration). Each is
+`pass`, `warn`, `fail` or `n/a` (never `pass` when its input is missing), against `QCThresholds`
+that a protocol may override through `synchronization.TimingTolerance`; a tolerance is registered
+once per preregistered protocol and has no default. `ThreeDomainClock` maps device, monotonic and
+UTC time using UTC anchors.
 
 `compute_qc(recording)` returns a `QCReport` with four metrics: effective sampling rate (and
 its error in ppm against nominal, from device timestamps), dropped samples (gaps), duplicate
