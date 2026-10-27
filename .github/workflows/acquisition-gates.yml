@@ -99,7 +99,7 @@ jobs:
       # SQLCipher wheels exist only for Linux x86-64, so the bundle is built and run there.
       - name: Build bundle
         run: |
-          pyinstaller --noconfirm --clean --onedir --name apgi-acquisition-smoke \
+          pyinstaller --noconfirm --clean --onedir --name apgi-acquisition-smoke --paths . \
             --collect-submodules apgi_framework.acquisition --collect-all sqlcipher3 \
             --hidden-import sqlcipher3.dbapi2 scripts/desktop_smoke.py
       - name: Run the bundle (frozen build must record, journal, upload and verify)
