@@ -191,16 +191,14 @@ def cleanup_session_gui():
 @pytest.fixture
 def config() -> Dict[str, Any]:
     """
-    Load default configuration from apgi_framework/resources/config/default.yaml.
+    Load the default configuration that APGISystem itself uses (config/default.yaml).
 
     Returns
     -------
     dict
         Configuration dictionary with all system parameters.
     """
-    config_path = (
-        Path(__file__).parent.parent / "apgi_framework" / "resources" / "config" / "default.yaml"
-    )
+    config_path = Path(__file__).parent.parent / "config" / "default.yaml"
     with open(config_path, "r") as f:
         config = yaml.safe_load(f)
         return config if isinstance(config, dict) else {}
