@@ -228,3 +228,21 @@ parameter_validator = APGIParameterValidator()
 def validate_parameters(parameters: Dict[str, Any]) -> Dict[str, Any]:
     """Convenience function to validate parameters"""
     return parameter_validator.validate(parameters)
+
+
+def require_valid_parameters(
+    parameters: Dict[str, Any], model_id: str = "M-APGI-FORMAL"
+) -> Dict[str, Any]:
+    """Validate parameters, raising instead of returning an error report.
+
+    A name the model registry does not map for ``model_id`` raises
+    ``UnmappedParameterError``; a mapped name with a bad type or out-of-range value
+    raises ``ValueError``. Returns the validation report when everything is acceptable.
+    """
+    from apgi_framework.model_registry import require_mapped_parameters
+
+    require_mapped_parameters(model_id, parameters)
+    report = parameter_validator.validate(parameters)
+    if not report["valid"]:
+        raise ValueError("; ".join(report["errors"]))
+    return report

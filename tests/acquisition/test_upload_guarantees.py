@@ -14,9 +14,9 @@ from apgi_framework.acquisition import (
     purge_verified_local_data,
 )
 from apgi_framework.acquisition.uploader import Transport
-from tests.unit.acquisition.test_uploader import Env, ScriptedTransport, sha  # noqa: F401
-from tests.unit.acquisition.test_uploader import env  # noqa: F401  (fixture)
 from tests.unit.acquisition.helpers import requires_sqlcipher
+from tests.unit.acquisition.test_uploader import env  # noqa: F401  (fixture)
+from tests.unit.acquisition.test_uploader import Env, ScriptedTransport, sha  # noqa: F401
 
 pytestmark = requires_sqlcipher
 

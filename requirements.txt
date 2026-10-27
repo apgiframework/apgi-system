@@ -1,4 +1,5 @@
-# Core dependencies - pinned versions for reproducibility
+# Core dependencies: minimum versions. Exact, reproducible versions are pinned in
+# requirements.lock (regenerate with `make lock`; CI installs with `-c requirements.lock`).
 numpy>=2.2.5
 scipy>=1.15.0
 pandas>=2.2.2

@@ -11,7 +11,18 @@
   "related_repositories": [
     "https://github.com/apgiframework/apgi-framework"
   ],
-  "placeholder_orgs": ["your-org"],
-  "example_dois": ["10.5281/zenodo.12345"],
-  "scan_exclude": ["htmlcov/", "data/", ".git/", "identifiers.json"]
+  "placeholder_orgs": [
+    "your-org"
+  ],
+  "example_dois": [
+    "10.5281/zenodo.12345"
+  ],
+  "scan_exclude": [
+    "htmlcov/",
+    "data/",
+    ".git/",
+    "identifiers.json",
+    "tests/unit/scripts/test_repo_policy_scripts.py"
+  ],
+  "_scan_exclude_note": "the policy-script tests deliberately contain wrong identifiers as fixtures"
 }

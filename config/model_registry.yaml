@@ -1,0 +1,130 @@
+# Model registry (R-001). Every model class in apgi_framework must map to a registered model
+# below, or be listed under non_models with a reason. Enforced by scripts/check_model_registry.py
+# (CI: repo-policy.yml) and used at run time by apgi_framework/model_registry.py.
+#
+# parameters: the names a model accepts. Anything else passed to the model is an
+# UnmappedParameterError (see require_mapped_parameters). The M-APGI-FORMAL list must equal the
+# properties of utils/parameter_validator.py (tests/unit/test_model_registry.py checks this).
+
+version: 1
+
+discovery:
+  # A public top-level class whose name matches is a candidate model class.
+  name_pattern: '(Model|Network|Agent|Engine|Simulator|Dynamics|Calculator)$'
+  # Base classes that make a class something else (enum, error, schema, ...).
+  skip_bases: [Enum, IntEnum, Exception, BaseModel, Protocol, ABC, TypedDict, NamedTuple]
+  roots: [apgi_framework]
+  skip_dirs: [tests, __pycache__, commands, deployment, monitoring, security, plugins, reporting, export, logging]
+  skip_files: [apgi_framework/model_registry.py]
+
+models:
+  - id: M-APGI-FORMAL
+    name: APGI formal ignition model
+    description: Precision-weighted surprise accumulation against a dynamic ignition threshold, with somatic modulation of interoceptive precision.
+    equations: [APGI_Equations.py]
+    parameters: [tau_S, tau_theta, theta_0, alpha, beta, Pi_e, Pi_i, sigma_S, sigma_theta, gamma_M, gamma_A, rho]
+    classes:
+      - apgi_framework.engines.equation_engine.APGIEquation
+      - apgi_framework.engines.threshold_engine.ThresholdManager
+      - apgi_framework.engines.precision_engine.PrecisionCalculator
+      - apgi_framework.engines.prediction_error_engine.PredictionErrorProcessor
+      - apgi_framework.engines.somatic_marker_engine.SomaticMarkerEngine
+      - apgi_framework.engines.models_engine.PredictiveIgnitionNetwork
+      - apgi_framework.core.temporal_dynamics.TemporalDynamics
+
+  - id: M-ACTIVE-INFERENCE
+    name: Active-inference and free-energy model
+    description: Hierarchical predictive processing with free-energy minimisation and policy selection.
+    equations: [apgi_framework/core/free_energy.py]
+    parameters: [learning_rate, projection_learning_rate, precision_init, precision_range, free_energy_threshold, horizon, num_policies, precision]
+    classes:
+      - apgi_framework.core.active_inference.ActiveInferenceEngine
+      - apgi_framework.core.active_inference.ActiveInferenceAgent
+      - apgi_framework.core.free_energy.FreeEnergyCalculator
+
+  - id: M-SOMATIC-AGENT
+    name: Somatic-marker decision agent
+    description: Active-inference agent whose decisions are biased by somatic markers.
+    equations: [apgi_framework/engines/models_engine.py]
+    parameters: [beta, Pi_e, Pi_i, theta_0]
+    classes:
+      - apgi_framework.engines.models_engine.SomaticAgent
+      - apgi_framework.research.core_mechanisms.phase_transition.SomaticAgent
+
+  - id: M-BODY
+    name: Interoceptive body model
+    description: Visceral state generation feeding interoceptive prediction errors.
+    equations: [apgi_framework/interoception/body_model.py]
+    parameters: []
+    classes:
+      - apgi_framework.interoception.body_model.BodyModel
+
+  - id: M-NEURAL-MASS-METABOLISM
+    name: Neural-mass and ATP-flux model
+    description: Neural-mass activity with the metabolic (ATP) cost of ignition.
+    equations: [apgi_framework/thermodynamic/neural_mass_metabolism.py]
+    parameters: [gamma_M]
+    classes:
+      - apgi_framework.thermodynamic.neural_mass_metabolism.NeuralMassModel
+      - apgi_framework.thermodynamic.neural_mass_metabolism.ATPFluxCalculator
+
+  - id: M-HIERARCHICAL-BAYES
+    name: Hierarchical Bayesian estimation model
+    description: Hierarchical estimation of APGI parameters and ignition probability from data.
+    equations: [apgi_framework/analysis/bayesian_models.py]
+    parameters: [theta_0, alpha, tau_S, tau_theta]
+    classes:
+      - apgi_framework.analysis.bayesian_models.HierarchicalBayesianModel
+      - apgi_framework.analysis.bayesian_models.IgnitionProbabilityCalculator
+
+  - id: M-OSCILLATIONS
+    name: Neural oscillation model
+    description: Multi-band oscillation generator used to modulate precision and error terms.
+    equations: [apgi_framework/neural/oscillations.py]
+    parameters: []
+    classes:
+      - apgi_framework.neural.oscillations.OscillationEngine
+
+  - id: M-SIGNATURE-FORWARD
+    name: Signature forward models
+    description: Forward models producing predicted observables (P3b, gamma, BOLD, PCI, pharmacology).
+    equations: [apgi_framework/simulators/]
+    parameters: []
+    classes:
+      - apgi_framework.simulators.p3b_simulator.P3bSimulator
+      - apgi_framework.simulators.gamma_simulator.GammaSimulator
+      - apgi_framework.simulators.bold_simulator.BOLDSimulator
+      - apgi_framework.simulators.pci_calculator.PCICalculator
+      - apgi_framework.simulators.pharmacological_simulator.PharmacologicalSimulator
+
+  - id: M-FALSIFICATION-MEASURES
+    name: Falsification measure simulators
+    description: Simulated measures used to exercise the pre-registered falsification criteria.
+    equations: [apgi_framework/falsification/]
+    parameters: []
+    classes:
+      - apgi_framework.falsification.consciousness_assessment.ConsciousnessAssessmentSimulator
+      - apgi_framework.falsification.ai_acc_validation.AIACCSimulator
+      - apgi_framework.falsification.experimental_control.ExperimentalControlSimulator
+
+non_models:
+  - class: apgi_framework.falsification.mock_engine.FalsificationEngine
+    reason: test double ("Mock falsification engine for testing purposes"); produces no model output
+  - class: apgi_framework.experimental_control.ParticipantSimulator
+    reason: synthetic participant behaviour for experiment-control tests; not an APGI model
+  - class: apgi_framework.analysis.analysis_engine.AnalysisEngine
+    reason: statistical analysis pipeline over data; fits no model of its own
+  - class: apgi_framework.analysis.effect_size_calculator.EffectSizeCalculator
+    reason: statistics utility
+  - class: apgi_framework.analysis.parameter_estimation.ConvergenceDiagnosticsCalculator
+    reason: MCMC diagnostics utility
+  - class: apgi_framework.neural.pupillometry_processor.PupilMetricsCalculator
+    reason: signal-processing utility
+  - class: apgi_framework.gui.reporting_visualization.ParameterVisualizationEngine
+    reason: plotting
+  - class: apgi_framework.parallel.process_pool.SimulationTask
+    reason: job container for parallel execution
+  - class: apgi_framework.acquisition.uploader.UploadAgent
+    reason: file-upload worker, unrelated to the APGI model
+  - class: apgi_framework.acquisition.drivers.simulated.SimulatedDevice
+    reason: simulated amplifier; its output is labelled data_origin=synthetic and it implements no APGI model

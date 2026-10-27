@@ -64,7 +64,9 @@ def check_lines(lines: List[str], root: Path) -> List[str]:
             elif exists and PLANNED in line:
                 problems.append(f"README.md:{i}: {m.group(1)} exists but is marked planned")
             elif not exists and VERIFIED in line:
-                problems.append(f"README.md:{i}: {m.group(1)} is marked verified but does not exist")
+                problems.append(
+                    f"README.md:{i}: {m.group(1)} is marked verified but does not exist"
+                )
             continue
         if section in FEATURE_SECTIONS and line.startswith("- ") and not marked:
             problems.append(f"README.md:{i}: feature bullet has no ✅ verified / 🧭 planned marker")

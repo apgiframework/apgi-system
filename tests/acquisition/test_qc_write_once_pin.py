@@ -76,7 +76,9 @@ class TestQC:
         assert qc.timestamp_discontinuities == 1
         assert qc.max_timestamp_jump_s == pytest.approx(0.25)
 
-    def test_untimed_recording_has_no_rate_and_no_false_discontinuities(self, tmp_path: Path) -> None:
+    def test_untimed_recording_has_no_rate_and_no_false_discontinuities(
+        self, tmp_path: Path
+    ) -> None:
         chunks = [
             SampleChunk("dev", i, i * 50, None, np.zeros((50, 1)), host_receive_ns=i)
             for i in range(3)
@@ -176,7 +178,9 @@ class TestSessionPin:
         record_session(clock, session)
         meta = json.loads((session.directory / "recording.json").read_text())
         assert meta["meta"]["task_pin"] == pin.to_dict()
-        sidecar = json.loads(session.export_bids(tmp_path / "bids", task="rest").sidecar.read_text())
+        sidecar = json.loads(
+            session.export_bids(tmp_path / "bids", task="rest").sidecar.read_text()
+        )
         assert sidecar["TaskManifestVersion"] == "2.1" and sidecar["BatteryVersion"] == "B7"
         store.close()
 

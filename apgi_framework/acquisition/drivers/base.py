@@ -9,6 +9,8 @@ Drivers subclass :class:`BaseDriver` (the abstract ``Device``), emit
 from __future__ import annotations
 
 from ..device import Device as BaseDriver
-from ..device import DeviceCapabilities, DeviceInfo, SampleChunk as SignalChunk, SyncProbe
+from ..device import DeviceCapabilities, DeviceInfo
+from ..device import SampleChunk as SignalChunk
+from ..device import SyncProbe
 
 __all__ = ["BaseDriver", "DeviceCapabilities", "DeviceInfo", "SignalChunk", "SyncProbe"]

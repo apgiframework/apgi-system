@@ -389,7 +389,20 @@ class SessionStore:
                 " ORDER BY updated_ns, rel_path LIMIT ?",
                 (STATUS_PENDING, now, limit),
             )
-            return [UploadItem(*r[:-1], server_verified=bool(r[-1])) for r in cur.fetchall()]
+            return [
+                UploadItem(
+                    session_id=r[0],
+                    rel_path=r[1],
+                    sha256=r[2],
+                    size_bytes=r[3],
+                    status=r[4],
+                    attempts=r[5],
+                    next_attempt_ns=r[6],
+                    last_error=r[7],
+                    server_verified=bool(r[8]),
+                )
+                for r in cur.fetchall()
+            ]
 
     def mark_upload_done(self, session_id: str, rel_path: str, *, server_verified: bool) -> None:
         """Mark an item uploaded. ``server_verified`` is True only after the server's own

@@ -69,7 +69,9 @@ class TestIdentifiers:
         assert "zenodo.99999" in found[0].message
         assert "someone/apgi-system" in found[2].message
 
-    def test_check_detects_stale_readme_block_and_cff(self, tmp_path: Path, ids: Dict[str, Any]) -> None:
+    def test_check_detects_stale_readme_block_and_cff(
+        self, tmp_path: Path, ids: Dict[str, Any]
+    ) -> None:
         (tmp_path / "apgi_framework").mkdir()
         (tmp_path / "apgi_framework" / "__version__.py").write_text(
             '__version__ = "1.1.0"\n__release_date__ = "2026-10-17"\n'

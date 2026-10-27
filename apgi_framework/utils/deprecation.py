@@ -199,6 +199,48 @@ def emit_deprecation_warning(
     )
 
 
+_warned_modules: set = set()
+
+
+def warn_deprecated_module(
+    module_name: str,
+    replacement: str,
+    *,
+    since: str,
+    removal: Optional[str] = None,
+    stacklevel: int = 3,
+) -> bool:
+    """Warn that a whole module is deprecated; once per module per process.
+
+    Meant to be called at import time of a legacy or duplicate module. The use is recorded
+    in the global :class:`DeprecatedFeatureManager` so :func:`get_deprecation_manager`
+    reports which deprecated modules are still being imported.
+
+    Args:
+        module_name: Name of the deprecated module (usually ``__name__``).
+        replacement: Module or entry point to use instead.
+        since: Version in which the module was deprecated.
+        removal: Version in which it will be removed, if known.
+        stacklevel: Passed to :func:`warnings.warn`; 3 points at the importer.
+
+    Returns:
+        True if a warning was emitted, False if this module already warned or its
+        warnings are suppressed in the manager.
+    """
+    manager = get_deprecation_manager()
+    if module_name in _warned_modules or manager.is_suppressed(module_name):
+        return False
+    _warned_modules.add(module_name)
+    message = (
+        f"Module {module_name} is deprecated since version {since}. Use {replacement} instead."
+    )
+    if removal:
+        message += f" It will be removed in version {removal}."
+    manager.record_warning(module_name)
+    warnings.warn(message, APGIDeprecationWarning, stacklevel=stacklevel)
+    return True
+
+
 def is_deprecated(obj: Any) -> bool:
     """
     Check if a function or class is marked as deprecated.

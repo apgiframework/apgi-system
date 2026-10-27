@@ -7,6 +7,14 @@ A tkinter-based GUI that allows running all scripts in the utils folder
 with output display and error handling.
 """
 
+# Deprecated legacy entry point (README: "Legacy Entry Points (Deprecated)").
+try:
+    from apgi_framework.utils.deprecation import warn_deprecated_module
+
+    warn_deprecated_module("Utils_GUI", "apgi_gui.main", since="1.1.0", removal="2.0.0")
+except ImportError:  # framework not importable: the README and docstring still state the deprecation
+    pass
+
 import logging
 import platform
 import queue

@@ -73,7 +73,9 @@ def scan_text(rel: str, text: str, config: Dict[str, Any]) -> List[Hit]:
                     continue
                 if _allowed(lines, i, rule["id"]):
                     continue
-                hits.append(Hit(rel, i + 1, rule["id"], m.group(0), " ".join(rule["message"].split())))
+                hits.append(
+                    Hit(rel, i + 1, rule["id"], m.group(0), " ".join(rule["message"].split()))
+                )
     return hits
 
 
@@ -93,7 +95,9 @@ def scan_repo(root: Path = ROOT, config_path: Path = DEFAULT_CONFIG) -> List[Hit
     config = load_config(config_path)
     hits: List[Hit] = []
     for path in targets(root, config):
-        hits.extend(scan_text(path.relative_to(root).as_posix(), path.read_text(encoding="utf-8"), config))
+        hits.extend(
+            scan_text(path.relative_to(root).as_posix(), path.read_text(encoding="utf-8"), config)
+        )
     return hits
 
 

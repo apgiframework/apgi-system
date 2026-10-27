@@ -36,10 +36,13 @@ def _crc32c_py(data: bytes, value: int = 0) -> int:
 def _select() -> Callable[[bytes, int], int]:
     try:
         import crc32c as _native  # type: ignore[import-not-found]
-
-        return lambda data, value=0: int(_native.crc32c(data, value))
     except ImportError:
         return _crc32c_py
+
+    def native(data: bytes, value: int = 0) -> int:
+        return int(_native.crc32c(data, value))
+
+    return native
 
 
 _crc32c_impl = _select()

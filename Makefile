@@ -1,8 +1,10 @@
-.PHONY: help install run test protocols-check test-unit test-property test-integration test-coverage coverage-report coverage-gaps clean format lint
+.PHONY: help install lock policy run test protocols-check test-unit test-property test-integration test-coverage coverage-report coverage-gaps clean format lint
 
 help:
 	@echo "APGI REST API - Available commands:"
-	@echo "  make install           - Install dependencies"
+	@echo "  make install           - Install dependencies (pinned by requirements.lock)"
+	@echo "  make lock              - Regenerate requirements.lock after editing requirements.txt"
+	@echo "  make policy            - Run the repo-policy checks (identifiers, README status, language, models, cycles)"
 	@echo "  make run               - Run the API server"
 	@echo "  make test              - Run all tests"
 	@echo "  make protocols-check   - Validate the 1.1.0 protocol specification"
@@ -17,7 +19,17 @@ help:
 	@echo "  make lint              - Run linting checks"
 
 install:
-	pip install -r requirements.txt
+	pip install -r requirements.txt -c requirements.lock
+
+lock:
+	uv pip compile requirements.txt --universal --python-version 3.11 -o requirements.lock
+
+policy:
+	python scripts/sync_identifiers.py --check
+	python scripts/check_readme_status.py
+	python scripts/check_forbidden_language.py
+	python scripts/check_model_registry.py
+	python scripts/check_import_cycles.py
 
 run:
 	uvicorn api.main:app --reload --host 0.0.0.0 --port 8000

@@ -28,7 +28,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements-build.txt
-        pip install -e ".[dev,testing,gui,api,acquisition]"
+        pip install -e ".[dev,testing,gui,api,acquisition]" -c requirements.lock
         
     - name: Lint with flake8
       run: |

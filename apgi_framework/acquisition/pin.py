@@ -57,7 +57,11 @@ class TaskPin:
             return cls(
                 str(data["task_manifest_version"]),
                 str(data["battery_version"]),
-                None if data.get("task_manifest_sha256") is None else str(data["task_manifest_sha256"]),
+                (
+                    None
+                    if data.get("task_manifest_sha256") is None
+                    else str(data["task_manifest_sha256"])
+                ),
             )
         except KeyError as exc:
             raise PinError(f"pin is missing {exc.args[0]!r}") from exc

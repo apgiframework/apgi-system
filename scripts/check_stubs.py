@@ -11,9 +11,9 @@ the baseline and on baseline entries that no longer exist (so the baseline can
 only shrink). Regenerate it with ``--update-baseline`` after fixing stubs.
 """
 
-import json
 import ast
 import collections
+import json
 import pathlib
 import sys
 

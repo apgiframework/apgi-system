@@ -18,7 +18,6 @@ from numpy.typing import NDArray
 
 from .errors import DeviceError
 
-
 DATA_ORIGINS = ("real", "synthetic")
 
 

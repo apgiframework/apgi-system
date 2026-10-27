@@ -48,6 +48,44 @@ jobs:
       - run: pip install pyyaml
       - run: python scripts/check_forbidden_language.py
 
+  model-registry:
+    name: Every model class maps to a registered model (R-001)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - run: python scripts/check_model_registry.py
+
+  import-cycles:
+    name: No new import cycles
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/check_import_cycles.py
+
+  lockfile:
+    name: requirements.lock matches requirements.txt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install uv
+      # Re-resolving keeps existing pins, so this fails only when requirements.txt changed
+      # without `make lock` (or the lock was edited by hand).
+      - name: Re-compile and compare
+        run: |
+          cp requirements.lock /tmp/requirements.lock.orig
+          uv pip compile requirements.txt --universal --python-version 3.11 -o requirements.lock -q
+          diff -u /tmp/requirements.lock.orig requirements.lock
+
   policy-script-tests:
     name: Tests for the policy scripts
     runs-on: ubuntu-latest

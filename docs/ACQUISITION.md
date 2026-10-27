@@ -44,8 +44,17 @@ with SessionStore(path, key=key) as store:                 # encrypted at rest
   `_do_disconnect`, `_do_start_stream`, `_do_stop_stream`, `_do_read` and
   `_do_sync_probe`; the base class enforces `DISCONNECTED -> CONNECTED -> STREAMING`
   and turns any unexpected driver exception into a `DeviceError` and state `ERROR`.
-* A read returns a `SampleChunk`: `(n_samples, n_channels)` data, the device-clock time
-  of the first sample, and `first_sample_index`, so a lost chunk shows up as an index gap.
+* A read returns a `SampleChunk` (also exported as `SignalChunk` from `drivers/base.py`):
+  `(n_samples, n_channels)` data, the device-clock time of the first sample, and
+  `first_sample_index`, so a lost chunk shows up as an index gap.
+* `DeviceCapabilities` (`Device.capabilities`) states what a driver provides: device
+  timestamps, hardware markers, clock sync and `data_origin`. Device time is reported by the
+  device or absent, never invented: a driver with `device_timestamps=False` must leave
+  `first_device_time_s` as `None`, and the base class raises `DeviceError` if a chunk
+  disagrees with the declared capability. `drivers/base.py` re-exports the driver names
+  (`BaseDriver`, `SignalChunk`, `DeviceCapabilities`).
+* `DeviceInfo.data_origin` is `"real"` or `"synthetic"`. `SimulatedDevice` is `"synthetic"`;
+  the label is written to `recording.json` and to the BIDS `_eeg.json` (`DataOrigin`).
 * `DeviceRegistry` maps names to factories. `default_registry` contains `simulated`;
   third-party drivers can register through the `apgi.acquisition.drivers` entry-point
   group or `@registry.driver("name")`.
@@ -67,17 +76,29 @@ assumption unreliable, as in NTP's clock filter) and fits `host = a + b * device
 least squares. With fewer than four probes only an offset is estimated.
 
 Markers (`EventMarker`, `MarkerLog`) are stamped on the **host** clock by stimulus code,
-then mapped to device time and sample index on demand. Hardware markers additionally write
+then mapped to device time and sample index on demand. Every marker also carries a stable
+`event_id` (UUID4 hex), a per-session `seq_no` (1, 2, 3, ... without gaps, assigned under the
+log's lock) and `onset_utc_ns` (wall clock, taken at the same moment as the monotonic
+`onset_host_ns`). The monotonic stamp orders events within a run; the UTC stamp relates them
+to other systems. Markers are appended to `markers.jsonl` and the encrypted store before
+anything is uploaded; the store holds a unique `(session_id, seq_no)` index. The framework
+`EventBus` stamps its events the same way (`event_id`, `seq_no`, `monotonic_ns`, `utc_ns`). Hardware markers additionally write
 their code into the device's own stream, so the two stamps can be cross-checked.
 
 ## Recording
 
 `LocalRecorder` writes a session folder: `recording.json`, `markers.jsonl`, `sync.jsonl`,
 `data/segment-N.f32` (little-endian float32, interleaved) with `data/chunks-N.jsonl`
-(index with CRC32), and `manifest.json` (SHA-256 per sealed segment) plus a `COMPLETE`
-file after a clean close. Data is flushed before its index line, segments rotate and seal
+(index with, per chunk, SHA-256, CRC32C and the legacy CRC32), and `manifest.json` (SHA-256 per
+sealed segment) plus a `COMPLETE` file after a clean close. CRC32C is the Castagnoli
+polynomial (`zlib.crc32` is a different one); it uses the optional `crc32c` package and a
+pure-Python fallback with identical results. Data is flushed before its index line, segments rotate and seal
 at a configurable size, and `LocalRecorder.recover()` repairs a crash by dropping a torn or
-corrupt trailing chunk. Sealed files are reported through `on_file_ready`, which is how
+corrupt trailing chunk (any of the three checks failing marks a chunk corrupt). Sealed
+segments, their index files, `markers.jsonl` and `sync.jsonl` are made read-only when sealed;
+`verify_write_once(session_dir)` lists any file that is missing, has changed since sealing
+or is writable again, and a recorder refuses to start in a folder that already holds a
+recording. Sealed files are reported through `on_file_ready`, which is how
 they reach the upload queue while recording continues.
 
 ## Offline-first state machine
@@ -130,6 +151,28 @@ and `pip install sqlcipher3`. Without it the store tests are skipped and the sto
   (`store.requeue_failed(session_id)` retries it). A session reaches `SYNCED` only when every
   file is confirmed; permanent failures return it to `FINALIZED`.
 * Files are re-hashed before sending; a file changed since sealing is rejected.
+* After each upload the agent reads the file back (`Transport.exists` compares the server's
+  SHA-256). Only that answer sets `server_verified` on the queue item; an upload the server
+  does not confirm is retried. The agent never deletes local data;
+  `purge_verified_local_data(store, session_id)` removes a session's queued files, and only
+  when every one is `server_verified`.
+* Unexpected errors in the agent's background loop are logged with their traceback and
+  counted (`agent.loop_errors`, `agent.last_loop_error`); per-file failures keep their
+  message in the queue (`UploadItem.last_error`).
+
+## Quality control and task pin
+
+`compute_qc(recording)` returns a `QCReport` with four metrics: effective sampling rate (and
+its error in ppm against nominal, from device timestamps), dropped samples (gaps), duplicate
+samples/chunks, and timestamp discontinuities (a chunk whose device time disagrees with its
+sample index by more than 0.5 ms). Nothing is corrected. Recordings without device timestamps
+report no rate and no discontinuities.
+
+`TaskPin(task_manifest_version, battery_version, task_manifest_sha256)` fixes the protocol a
+session ran. Pass it as `AcquisitionSession(task_pin=...)`; it is stored with the session when
+it is created, written to `recording.json` and to the BIDS sidecar, and `require_pin=True`
+refuses to create a session without one. `TaskPin.from_manifest()` hashes the canonical JSON
+of a manifest mapping.
 
 ## BIDS export
 

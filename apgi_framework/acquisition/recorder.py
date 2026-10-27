@@ -20,8 +20,8 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-import threading
 import stat
+import threading
 import zlib
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -369,9 +369,7 @@ class LocalRecorder:
                         sequence=int(entry["seq"]),
                         first_sample_index=int(entry["first"]),
                         n_samples=int(entry["n"]),
-                        first_device_time_s=(
-                            None if entry["t0"] is None else float(entry["t0"])
-                        ),
+                        first_device_time_s=(None if entry["t0"] is None else float(entry["t0"])),
                         host_receive_ns=int(entry["host_ns"]),
                     )
                 )
