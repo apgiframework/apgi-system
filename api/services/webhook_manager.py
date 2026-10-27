@@ -16,6 +16,7 @@ from typing import Any, Dict, Optional
 from urllib.parse import urlparse
 
 import httpx
+from sqlalchemy import or_
 from sqlalchemy.orm import Session as DBSession
 
 from api.database.models import WebhookDelivery
@@ -413,7 +414,10 @@ class WebhookManager:
                 WebhookDelivery.status.in_(
                     [WebhookStatus.PENDING.value, WebhookStatus.RETRYING.value]
                 ),
-                (WebhookDelivery.next_retry_at.is_(None)) | (WebhookDelivery.next_retry_at <= now),
+                or_(
+                    WebhookDelivery.next_retry_at.is_(None),
+                    WebhookDelivery.next_retry_at <= now,  # type: ignore[arg-type]
+                ),
             )
             .all()
         )

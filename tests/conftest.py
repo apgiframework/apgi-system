@@ -102,6 +102,29 @@ def setup_test_environment():
 
 
 @pytest.fixture(autouse=True)
+def no_blocking_dialogs(monkeypatch):
+    """Replace tkinter message boxes with non-blocking stubs.
+
+    A real modal dialog never returns on a headless CI runner, so a test that
+    reaches ``messagebox.showwarning`` would hang until the job is cancelled.
+    Tests that assert on a dialog patch it themselves, which overrides this.
+    """
+    try:
+        from tkinter import messagebox
+    except ImportError:
+        yield
+        return
+
+    for name in ("showinfo", "showwarning", "showerror"):
+        monkeypatch.setattr(messagebox, name, lambda *a, **k: "ok")
+    for name in ("askyesno", "askokcancel", "askretrycancel"):
+        monkeypatch.setattr(messagebox, name, lambda *a, **k: True)
+    monkeypatch.setattr(messagebox, "askquestion", lambda *a, **k: "yes")
+    monkeypatch.setattr(messagebox, "askyesnocancel", lambda *a, **k: True)
+    yield
+
+
+@pytest.fixture(autouse=True)
 def cleanup_gui_state():
     """Clean up GUI state after each test to prevent segfaults."""
     yield
@@ -168,16 +191,14 @@ def cleanup_session_gui():
 @pytest.fixture
 def config() -> Dict[str, Any]:
     """
-    Load default configuration from apgi_framework/resources/config/default.yaml.
+    Load the default configuration that APGISystem itself uses (config/default.yaml).
 
     Returns
     -------
     dict
         Configuration dictionary with all system parameters.
     """
-    config_path = (
-        Path(__file__).parent.parent / "apgi_framework" / "resources" / "config" / "default.yaml"
-    )
+    config_path = Path(__file__).parent.parent / "config" / "default.yaml"
     with open(config_path, "r") as f:
         config = yaml.safe_load(f)
         return config if isinstance(config, dict) else {}

@@ -326,7 +326,7 @@ class RequestDeduplicationMiddleware(BaseHTTPMiddleware):
                             body_bytes += chunk
                     else:
                         # Fallback for Response without body_iterator
-                        body_bytes = response.body
+                        body_bytes = bytes(response.body)
 
                     # Parse as JSON
                     body_content = json.loads(body_bytes) if body_bytes else {}
