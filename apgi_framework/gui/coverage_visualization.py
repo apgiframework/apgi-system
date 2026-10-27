@@ -1,5 +1,4 @@
-"""
-Coverage Visualization
+"""Coverage Visualization.
 
 This module implements GUI coverage display with visual indicators,
 drill-down capabilities for line-by-line coverage, and coverage trend

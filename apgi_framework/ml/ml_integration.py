@@ -1,5 +1,4 @@
-"""
-ML Integration Module for APGI Framework
+"""ML Integration Module for APGI Framework
 ===========================================
 
 This module provides a unified interface for accessing machine learning classification
@@ -52,16 +51,14 @@ class MLIntegrationError(APGIFrameworkError):
 
 
 class UnifiedMLClassifier:
-    """
-    Unified interface for all ML classification capabilities in APGI Framework.
+    """Unified interface for all ML classification capabilities in APGI Framework.
 
     Provides access to consciousness state classification, disorder classification,
     and biomarker analysis through a single API.
     """
 
     def __init__(self, enable_advanced: bool = False):
-        """
-        Initialize unified ML classifier.
+        """Initialize unified ML classifier.
 
         Args:
             enable_advanced: Whether to enable advanced features (deep learning, etc.)
@@ -93,8 +90,7 @@ class UnifiedMLClassifier:
         test_size: float = 0.2,
         cv_folds: int = 5,
     ) -> Dict[str, Any]:
-        """
-        Train consciousness state classifier.
+        """Train consciousness state classifier.
 
         Args:
             data: Feature matrix
@@ -164,8 +160,7 @@ class UnifiedMLClassifier:
         test_size: float = 0.2,
         cv_folds: int = 5,
     ) -> Dict[str, Any]:
-        """
-        Train clinical disorder classifier.
+        """Train clinical disorder classifier.
 
         Args:
             profiles: List of neural signature profiles
@@ -199,8 +194,7 @@ class UnifiedMLClassifier:
         feature_names: Optional[List[str]] = None,
         test_size: float = 0.2,
     ) -> Dict[str, Any]:
-        """
-        Train ensemble classifier combining multiple algorithms.
+        """Train ensemble classifier combining multiple algorithms.
 
         Args:
             data: Feature matrix
@@ -258,8 +252,7 @@ class UnifiedMLClassifier:
     def predict_consciousness(
         self, data: Union[np.ndarray, pd.DataFrame], return_probabilities: bool = True
     ) -> Union[np.ndarray, Dict[str, np.ndarray]]:
-        """
-        Predict consciousness states.
+        """Predict consciousness states.
 
         Args:
             data: Feature matrix
@@ -282,8 +275,7 @@ class UnifiedMLClassifier:
             return predictions
 
     def predict_disorder(self, profile: NeuralSignatureProfile) -> Dict[str, Any]:
-        """
-        Predict disorder from neural signature profile.
+        """Predict disorder from neural signature profile.
 
         Args:
             profile: Neural signature profile
@@ -314,8 +306,7 @@ class UnifiedMLClassifier:
         sfreq: float,
         channel_names: Optional[List[str]] = None,
     ) -> pd.DataFrame:
-        """
-        Extract biomarker features from EEG data.
+        """Extract biomarker features from EEG data.
 
         Args:
             eeg_data: EEG data
@@ -335,8 +326,7 @@ class UnifiedMLClassifier:
         param_grid: Optional[Dict[str, List[Any]]] = None,
         cv_folds: int = 5,
     ) -> Dict[str, Any]:
-        """
-        Optimize hyperparameters for a classifier.
+        """Optimize hyperparameters for a classifier.
 
         Args:
             data: Feature matrix
@@ -395,8 +385,7 @@ class UnifiedMLClassifier:
         k: int = 10,
         method: str = "f_classif",
     ) -> Dict[str, Any]:
-        """
-        Select most important features.
+        """Select most important features.
 
         Args:
             data: Feature matrix
@@ -427,8 +416,7 @@ class UnifiedMLClassifier:
         }
 
     def save_model(self, model_type: str, filepath: Optional[Union[str, Path]] = None) -> Path:
-        """
-        Save trained model to file.
+        """Save trained model to file.
 
         Args:
             model_type: Type of model to save
@@ -463,8 +451,7 @@ class UnifiedMLClassifier:
         return filepath
 
     def load_model(self, model_type: str, filepath: Union[str, Path]) -> None:
-        """
-        Load trained model from file.
+        """Load trained model from file.
 
         Args:
             model_type: Type of model to load
@@ -498,8 +485,7 @@ class UnifiedMLClassifier:
         self.logger.info(f"Loaded {model_type} model from {filepath}")
 
     def get_available_algorithms(self) -> List[str]:
-        """
-        Get list of available classification algorithms.
+        """Get list of available classification algorithms.
 
         Returns:
             List of algorithm names
@@ -513,8 +499,7 @@ class UnifiedMLClassifier:
         ]
 
     def get_model_info(self) -> Dict[str, Any]:
-        """
-        Get information about trained models.
+        """Get information about trained models.
 
         Returns:
             Dictionary with model information

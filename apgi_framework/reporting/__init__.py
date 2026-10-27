@@ -1,5 +1,4 @@
-"""
-APGI Framework Reporting Module
+"""APGI Framework Reporting Module.
 
 This module provides comprehensive reporting capabilities including:
 - PDF report generation with ReportLab
@@ -8,6 +7,8 @@ This module provides comprehensive reporting capabilities including:
 - Statistical report formatting
 """
 
+import tempfile
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 # Import components with graceful fallback for missing dependencies
@@ -127,7 +128,7 @@ class ReportGenerator:
 
         # Set output path
         if output_path is None:
-            output_path = f"/tmp/{report_id}.pdf"
+            output_path = str(Path(tempfile.gettempdir()) / f"{report_id}.pdf")
 
         report = {
             "report_id": report_id,
@@ -161,7 +162,7 @@ class ReportGenerator:
         }
 
         if output_path is None:
-            output_path = f"/tmp/{report_id}.pdf"
+            output_path = str(Path(tempfile.gettempdir()) / f"{report_id}.pdf")
 
         report = {
             "report_id": report_id,
@@ -198,7 +199,7 @@ class ReportGenerator:
         }
 
         if output_path is None:
-            output_path = f"/tmp/{report_id}.html"
+            output_path = str(Path(tempfile.gettempdir()) / f"{report_id}.html")
 
         report = {
             "report_id": report_id,

@@ -1,5 +1,4 @@
-"""
-Joint parameter estimation pipeline for APGI framework.
+"""Joint parameter estimation pipeline for APGI framework.
 
 This module implements the complete pipeline for simultaneous estimation of
 θ₀, Πᵢ, and β from behavioral and neural data with convergence diagnostics
@@ -72,16 +71,13 @@ class FitResults:
 
 
 class ParameterExtractor:
-    """
-    Extracts θ₀, Πᵢ, and β from fitted Bayesian model with 95% credible intervals.
-    """
+    """Extracts θ₀, Πᵢ, and β from fitted Bayesian model with 95% credible intervals."""
 
     @staticmethod
     def extract_parameter_distribution(
         samples: np.ndarray, parameter_name: str
     ) -> ParameterDistribution:
-        """
-        Extract parameter distribution from posterior samples.
+        """Extract parameter distribution from posterior samples.
 
         Args:
             samples: Posterior samples for parameter
@@ -107,8 +103,7 @@ class ParameterExtractor:
         participant_ids: List[str],
         session_ids: List[str],
     ) -> List[ParameterEstimates]:
-        """
-        Extract parameters for all subjects.
+        """Extract parameters for all subjects.
 
         Args:
             fit_result: Stan fit object
@@ -152,8 +147,7 @@ class ParameterExtractor:
     def extract_population_parameters(
         fit_result: Any,
     ) -> Dict[str, ParameterDistribution]:
-        """
-        Extract population-level (hyperparameter) distributions.
+        """Extract population-level (hyperparameter) distributions.
 
         Args:
             fit_result: Stan fit object
@@ -181,14 +175,11 @@ class ParameterExtractor:
 
 
 class ConvergenceDiagnosticsCalculator:
-    """
-    Calculates convergence diagnostics including R-hat, ESS, and chain mixing.
-    """
+    """Calculates convergence diagnostics including R-hat, ESS, and chain mixing."""
 
     @staticmethod
     def compute_r_hat(chains: np.ndarray) -> float:
-        """
-        Compute Gelman-Rubin R-hat statistic.
+        """Compute Gelman-Rubin R-hat statistic.
 
         Args:
             chains: Array of shape (n_chains, n_samples)
@@ -216,8 +207,7 @@ class ConvergenceDiagnosticsCalculator:
 
     @staticmethod
     def compute_effective_sample_size(chains: np.ndarray) -> float:
-        """
-        Compute effective sample size accounting for autocorrelation.
+        """Compute effective sample size accounting for autocorrelation.
 
         Args:
             chains: Array of shape (n_chains, n_samples)
@@ -258,8 +248,7 @@ class ConvergenceDiagnosticsCalculator:
     def assess_convergence(
         fit_result: Any, r_hat_threshold: float = 1.01, ess_threshold: float = 400
     ) -> ConvergenceDiagnostics:
-        """
-        Assess convergence of MCMC chains.
+        """Assess convergence of MCMC chains.
 
         Args:
             fit_result: Stan fit object
@@ -341,13 +330,10 @@ class ConvergenceDiagnosticsCalculator:
 
 
 class IndividualParameterEstimator:
-    """
-    Estimates personalized parameters with uncertainty quantification.
-    """
+    """Estimates personalized parameters with uncertainty quantification."""
 
     def __init__(self, model: Optional[HierarchicalBayesianModel] = None):
-        """
-        Initialize individual parameter estimator.
+        """Initialize individual parameter estimator.
 
         Args:
             model: Pre-initialized hierarchical Bayesian model
@@ -363,8 +349,7 @@ class IndividualParameterEstimator:
         oddball_data: Dict[str, np.ndarray],
         subject_index: int = 0,
     ) -> ParameterEstimates:
-        """
-        Estimate parameters for a single participant.
+        """Estimate parameters for a single participant.
 
         Args:
             participant_id: Participant identifier
@@ -397,8 +382,7 @@ class IndividualParameterEstimator:
         posterior_samples: np.ndarray,
         credibility_levels: List[float] = [0.50, 0.95, 0.99],
     ) -> Dict[float, Tuple[float, float]]:
-        """
-        Compute credible intervals at multiple levels.
+        """Compute credible intervals at multiple levels.
 
         Args:
             posterior_samples: Posterior samples for parameter
@@ -419,8 +403,7 @@ class IndividualParameterEstimator:
     def compute_highest_density_interval(
         self, posterior_samples: np.ndarray, credibility: float = 0.95
     ) -> Tuple[float, float]:
-        """
-        Compute highest density interval (HDI).
+        """Compute highest density interval (HDI).
 
         The HDI is the shortest interval containing the specified probability mass.
 
@@ -446,13 +429,10 @@ class IndividualParameterEstimator:
 
 
 class JointParameterFitter:
-    """
-    Fits all parameters simultaneously from behavioral and neural data.
-    """
+    """Fits all parameters simultaneously from behavioral and neural data."""
 
     def __init__(self, cache_dir: Optional[str] = None):
-        """
-        Initialize joint parameter fitter.
+        """Initialize joint parameter fitter.
 
         Args:
             cache_dir: Directory for caching compiled models
@@ -473,8 +453,7 @@ class JointParameterFitter:
         warmup: Optional[int] = None,
         **kwargs: Any,
     ) -> FitResults:
-        """
-        Fit parameters for all subjects simultaneously.
+        """Fit parameters for all subjects simultaneously.
 
         Args:
             detection_data: Detection task data for all subjects
@@ -532,8 +511,7 @@ class JointParameterFitter:
     def refit_with_more_iterations(
         self, previous_fit: FitResults, additional_iter: int = 2000
     ) -> FitResults:
-        """
-        Refit model with more iterations if convergence failed.
+        """Refit model with more iterations if convergence failed.
 
         Uses the parameter estimates from previous fit as starting points
         and continues optimization with additional iterations.

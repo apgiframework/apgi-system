@@ -1,6 +1,4 @@
-"""
-Command-line interface for deployment automation.
-"""
+"""Command-line interface for deployment automation."""
 
 import sys
 from pathlib import Path
@@ -25,7 +23,7 @@ logger = get_logger(__name__)
 @click.option("--config", "-c", type=click.Path(exists=True), help="Deployment configuration file")
 @click.pass_context
 def cli(ctx: Any, config: Any) -> None:
-    """APGI Framework Deployment Automation CLI"""
+    """APGI Framework Deployment Automation CLI."""
     ctx.ensure_object(dict)
     ctx.obj["config_path"] = Path(config) if config else None
     ctx.obj["manager"] = DeploymentAutomationManager(ctx.obj["config_path"])
@@ -35,7 +33,7 @@ def cli(ctx: Any, config: Any) -> None:
 @click.option("--force", "-f", is_flag=True, help="Force redeployment")
 @click.pass_context
 def deploy(ctx: Any, force: bool) -> None:
-    """Deploy the application"""
+    """Deploy the application."""
     manager = ctx.obj["manager"]
 
     click.echo("🚀 Starting APGI Framework Deployment...")
@@ -58,7 +56,7 @@ def deploy(ctx: Any, force: bool) -> None:
 @cli.command()
 @click.pass_context
 def status(ctx: Any) -> None:
-    """Show deployment status"""
+    """Show deployment status."""
     manager = ctx.obj["manager"]
     status = manager.get_status()
 
@@ -86,7 +84,7 @@ def status(ctx: Any) -> None:
 @cli.command()
 @click.pass_context
 def stop(ctx: Any) -> None:
-    """Stop the deployment"""
+    """Stop the deployment."""
     manager = ctx.obj["manager"]
 
     click.echo("🛑 Stopping deployment...")
@@ -107,7 +105,7 @@ def stop(ctx: Any) -> None:
 @click.option("--env", multiple=True, help="Environment variables (KEY=VALUE)")
 @click.pass_context
 def configure(ctx: Any, environment: str, tag: Any, port: Tuple, env: Tuple) -> None:
-    """Configure deployment settings"""
+    """Configure deployment settings."""
     manager = ctx.obj["manager"]
 
     # Update configuration
@@ -146,7 +144,7 @@ def configure(ctx: Any, environment: str, tag: Any, port: Tuple, env: Tuple) -> 
 @cli.command()
 @click.pass_context
 def validate(ctx: Any) -> None:
-    """Validate deployment prerequisites"""
+    """Validate deployment prerequisites."""
     manager = ctx.obj["manager"]
 
     click.echo("🔍 Validating deployment prerequisites...")
@@ -167,7 +165,7 @@ def validate(ctx: Any) -> None:
 @click.option("--output", "-o", type=click.Path(), help="Output file for report")
 @click.pass_context
 def health(ctx: Any, output: Any) -> None:
-    """Perform detailed health check"""
+    """Perform detailed health check."""
     manager = ctx.obj["manager"]
 
     click.echo("🏥 Performing health check...")
@@ -188,7 +186,7 @@ def health(ctx: Any, output: Any) -> None:
 @cli.command()
 @click.pass_context
 def logs(ctx: Any) -> None:
-    """Show deployment logs"""
+    """Show deployment logs."""
     manager = ctx.obj["manager"]
 
     if not manager._is_container_running():
@@ -206,7 +204,7 @@ def logs(ctx: Any) -> None:
 @cli.command()
 @click.pass_context
 def history(ctx: Any) -> None:
-    """Show deployment history"""
+    """Show deployment history."""
     manager = ctx.obj["manager"]
 
     if not manager.deployment_history:

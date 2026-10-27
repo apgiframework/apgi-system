@@ -1,5 +1,4 @@
-"""
-Hierarchical Bayesian modeling framework for APGI parameter estimation.
+"""Hierarchical Bayesian modeling framework for APGI parameter estimation.
 
 This module implements the core Bayesian modeling infrastructure for joint
 parameter estimation of θ₀ (baseline ignition threshold), Πᵢ (interoceptive precision),
@@ -74,8 +73,7 @@ class ParameterEstimates:
 
 
 class SurpriseAccumulator:
-    """
-    Implements surprise accumulation dynamics.
+    """Implements surprise accumulation dynamics.
 
     Equation: dSₜ/dt = –Sₜ/τ + f(Πₑ·|εₑ|, β·Πᵢ·|εᵢ|)
 
@@ -90,8 +88,7 @@ class SurpriseAccumulator:
     """
 
     def __init__(self, tau: float = 1.0, dt: float = 0.001):
-        """
-        Initialize surprise accumulator.
+        """Initialize surprise accumulator.
 
         Args:
             tau: Time constant for surprise decay (seconds)
@@ -110,8 +107,7 @@ class SurpriseAccumulator:
     def compute_weighted_prediction_error(
         self, pi_e: float, epsilon_e: float, pi_i: float, epsilon_i: float, beta: float
     ) -> float:
-        """
-        Compute weighted prediction error: f(Πₑ·|εₑ|, β·Πᵢ·|εᵢ|).
+        """Compute weighted prediction error: f(Πₑ·|εₑ|, β·Πᵢ·|εᵢ|).
 
         Args:
             pi_e: Exteroceptive precision
@@ -130,8 +126,7 @@ class SurpriseAccumulator:
     def step(
         self, pi_e: float, epsilon_e: float, pi_i: float, epsilon_i: float, beta: float
     ) -> float:
-        """
-        Perform one integration step of surprise accumulation.
+        """Perform one integration step of surprise accumulation.
 
         Args:
             pi_e: Exteroceptive precision
@@ -164,8 +159,7 @@ class SurpriseAccumulator:
         beta: float,
         duration: float,
     ) -> np.ndarray:
-        """
-        Integrate surprise over a time period.
+        """Integrate surprise over a time period.
 
         Args:
             pi_e: Exteroceptive precision time series
@@ -192,8 +186,7 @@ class SurpriseAccumulator:
 
 
 class IgnitionProbabilityCalculator:
-    """
-    Calculates ignition probability from surprise and threshold.
+    """Calculates ignition probability from surprise and threshold.
 
     Equation: Bₜ = σ(α(Sₜ – θₜ))
 
@@ -206,8 +199,7 @@ class IgnitionProbabilityCalculator:
     """
 
     def __init__(self, alpha: float = 10.0):
-        """
-        Initialize ignition probability calculator.
+        """Initialize ignition probability calculator.
 
         Args:
             alpha: Gain parameter controlling sigmoid steepness
@@ -220,8 +212,7 @@ class IgnitionProbabilityCalculator:
         return np.where(x >= 0, 1 / (1 + np.exp(-x)), np.exp(x) / (1 + np.exp(x)))
 
     def compute_probability(self, surprise: float, threshold: float) -> float:
-        """
-        Compute ignition probability for a single time point.
+        """Compute ignition probability for a single time point.
 
         Args:
             surprise: Current surprise level
@@ -235,8 +226,7 @@ class IgnitionProbabilityCalculator:
     def compute_probability_trace(
         self, surprise_trace: np.ndarray, threshold: Union[float, np.ndarray]
     ) -> np.ndarray:
-        """
-        Compute ignition probability over time.
+        """Compute ignition probability over time.
 
         Args:
             surprise_trace: Time series of surprise values
@@ -257,8 +247,7 @@ class IgnitionProbabilityCalculator:
         probability_threshold: float = 0.5,
         dt: float = 0.001,
     ) -> Optional[float]:
-        """
-        Find the time when ignition probability exceeds threshold.
+        """Find the time when ignition probability exceeds threshold.
 
         Args:
             surprise_trace: Time series of surprise values
@@ -278,13 +267,10 @@ class IgnitionProbabilityCalculator:
 
 
 class StanModelCompiler:
-    """
-    Manages Stan model compilation and caching for efficient reuse.
-    """
+    """Manages Stan model compilation and caching for efficient reuse."""
 
     def __init__(self, cache_dir: Optional[str] = None):
-        """
-        Initialize Stan model compiler.
+        """Initialize Stan model compiler.
 
         Args:
             cache_dir: Directory for caching compiled models
@@ -304,8 +290,7 @@ class StanModelCompiler:
         return self.cache_dir / f"model_{model_hash}.pkl"
 
     def compile_stan_model(self, model_code: str, force_recompile: bool = False) -> Any:
-        """
-        Compile Stan model with caching.
+        """Compile Stan model with caching.
 
         Args:
             model_code: Stan model code
@@ -358,16 +343,14 @@ class StanModelCompiler:
 
 
 class HierarchicalBayesianModel:
-    """
-    Hierarchical Bayesian model for joint parameter estimation.
+    """Hierarchical Bayesian model for joint parameter estimation.
 
     Estimates θ₀ (baseline ignition threshold), Πᵢ (interoceptive precision),
     and β (somatic bias) from behavioral and neural data.
     """
 
     def __init__(self, cache_dir: Optional[str] = None):
-        """
-        Initialize hierarchical Bayesian model.
+        """Initialize hierarchical Bayesian model.
 
         Args:
             cache_dir: Directory for caching compiled models
@@ -377,8 +360,7 @@ class HierarchicalBayesianModel:
         self.fit_result = None
 
     def get_stan_model_code(self) -> str:
-        """
-        Get Stan model code for hierarchical parameter estimation.
+        """Get Stan model code for hierarchical parameter estimation.
 
         Returns:
             Stan model code as string
@@ -522,8 +504,7 @@ class HierarchicalBayesianModel:
         """
 
     def compile_model(self, force_recompile: bool = False) -> None:
-        """
-        Compile the Stan model.
+        """Compile the Stan model.
 
         Args:
             force_recompile: Force recompilation even if cached
@@ -538,8 +519,7 @@ class HierarchicalBayesianModel:
         oddball_data: Dict[str, np.ndarray],
         n_subjects: int,
     ) -> Dict[str, Any]:
-        """
-        Prepare data for Stan model.
+        """Prepare data for Stan model.
 
         Args:
             detection_data: Detection task data
@@ -582,8 +562,7 @@ class HierarchicalBayesianModel:
         warmup: Optional[int] = None,
         **kwargs: Any,
     ) -> Any:
-        """
-        Fit the hierarchical Bayesian model.
+        """Fit the hierarchical Bayesian model.
 
         Args:
             data: Prepared data dictionary
@@ -613,8 +592,7 @@ class HierarchicalBayesianModel:
     def extract_parameters(
         self, subject_id: int, participant_id: str, session_id: str
     ) -> ParameterEstimates:
-        """
-        Extract parameter estimates for a specific subject.
+        """Extract parameter estimates for a specific subject.
 
         Args:
             subject_id: Subject index (0-based)

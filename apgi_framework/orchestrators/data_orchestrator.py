@@ -1,5 +1,4 @@
-"""
-Data Orchestrator for data management and persistence.
+"""Data Orchestrator for data management and persistence.
 
 Handles data initialization, validation, storage, and retrieval operations.
 """
@@ -24,8 +23,7 @@ class DataConfig:
 
 
 class DataOrchestrator:
-    """
-    Orchestrates data management operations.
+    """Orchestrates data management operations.
 
     Responsibilities:
     - Initialize data storage systems
@@ -35,8 +33,7 @@ class DataOrchestrator:
     """
 
     def __init__(self, config: Optional[DataConfig] = None):
-        """
-        Initialize the data orchestrator.
+        """Initialize the data orchestrator.
 
         Args:
             config: Configuration for data orchestrator
@@ -75,8 +72,7 @@ class DataOrchestrator:
         logger.debug("Data systems initialized")
 
     def validate_data(self, data: Dict[str, Any]) -> bool:
-        """
-        Validate data structure and content.
+        """Validate data structure and content.
 
         Args:
             data: Data to validate
@@ -90,8 +86,7 @@ class DataOrchestrator:
         return self._data_manager.validate(data)
 
     def store_data(self, data_id: str, data: Dict[str, Any]) -> None:
-        """
-        Store data persistently.
+        """Store data persistently.
 
         Args:
             data_id: Identifier for the data
@@ -107,8 +102,7 @@ class DataOrchestrator:
         logger.debug("Data stored: %s", data_id)
 
     def retrieve_data(self, data_id: str) -> Dict[str, Any]:
-        """
-        Retrieve stored data.
+        """Retrieve stored data.
 
         Args:
             data_id: Identifier for the data
@@ -124,8 +118,7 @@ class DataOrchestrator:
         return data
 
     def export_data(self, data_id: str, format: str) -> str:
-        """
-        Export data in specified format.
+        """Export data in specified format.
 
         Args:
             data_id: Identifier for the data

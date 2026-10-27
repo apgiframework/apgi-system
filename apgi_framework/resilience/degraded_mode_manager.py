@@ -1,5 +1,4 @@
-"""
-Degraded Mode Operation Manager
+"""Degraded Mode Operation Manager.
 
 Enables graceful degradation when Redis or other critical services are unavailable.
 Provides explicit feature downgrades and alerts.
@@ -80,8 +79,7 @@ class DegradedModeManager:
     """Manages degraded mode operation."""
 
     def __init__(self, config: Optional[DegradedModeConfig] = None):
-        """
-        Initialize degraded mode manager.
+        """Initialize degraded mode manager.
 
         Args:
             config: Degraded mode configuration
@@ -95,8 +93,7 @@ class DegradedModeManager:
         self._monitoring = False
 
     def register_service(self, service_name: str) -> None:
-        """
-        Register a service for health monitoring.
+        """Register a service for health monitoring.
 
         Args:
             service_name: Name of service
@@ -114,8 +111,7 @@ class DegradedModeManager:
         is_healthy: bool,
         error_message: Optional[str] = None,
     ) -> None:
-        """
-        Report service health status.
+        """Report service health status.
 
         Args:
             service_name: Name of service
@@ -185,8 +181,7 @@ class DegradedModeManager:
             logger.info(f"Feature restored: {feature}")
 
     def is_feature_available(self, feature_name: str) -> bool:
-        """
-        Check if feature is available.
+        """Check if feature is available.
 
         Args:
             feature_name: Name of feature
@@ -204,8 +199,7 @@ class DegradedModeManager:
             return self.mode
 
     def get_health_report(self) -> Dict[str, Any]:
-        """
-        Get system health report.
+        """Get system health report.
 
         Returns:
             Health status of all services
@@ -229,8 +223,7 @@ class DegradedModeManager:
             }
 
     def store_fallback_data(self, key: str, value: Any, ttl_seconds: Optional[int] = None) -> None:
-        """
-        Store data for fallback use.
+        """Store data for fallback use.
 
         Args:
             key: Data key
@@ -245,8 +238,7 @@ class DegradedModeManager:
             }
 
     def get_fallback_data(self, key: str) -> Optional[Any]:
-        """
-        Get fallback data.
+        """Get fallback data.
 
         Args:
             key: Data key

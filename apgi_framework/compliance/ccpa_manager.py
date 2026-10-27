@@ -1,5 +1,4 @@
-"""
-CCPA (California Consumer Privacy Act) Compliance Framework for APGI.
+"""CCPA (California Consumer Privacy Act) Compliance Framework for APGI.
 
 Handles California consumer rights including:
 - Right to Know (what personal information is collected)
@@ -33,8 +32,7 @@ class CCPARights:
 
 
 class CCPAManager:
-    """
-    Manages CCPA compliance workflows for California consumers.
+    """Manages CCPA compliance workflows for California consumers.
 
     Implements:
     - Consumer request handling (know, delete, access)
@@ -50,8 +48,7 @@ class CCPAManager:
         consent_dir: str = "data/ccpa_consent",
         requests_dir: str = "data/ccpa_requests",
     ):
-        """
-        Initialize CCPA manager.
+        """Initialize CCPA manager.
 
         Args:
             data_dir: Directory containing consumer data
@@ -92,8 +89,7 @@ class CCPAManager:
         categories_collected: List[str],
         collection_purposes: List[str],
     ) -> Path:
-        """
-        Record Notice at Collection for a consumer.
+        """Record Notice at Collection for a consumer.
 
         Required at or before point of collection under CCPA § 999.305.
 
@@ -135,8 +131,7 @@ class CCPAManager:
         return notice_file
 
     def record_opt_out(self, consumer_id: str, opt_out_type: str) -> Path:
-        """
-        Record consumer opt-out preference.
+        """Record consumer opt-out preference.
 
         Args:
             consumer_id: Consumer identifier
@@ -170,8 +165,7 @@ class CCPAManager:
         return opt_out_file
 
     def check_opt_out(self, consumer_id: str, data_sale_type: str) -> bool:
-        """
-        Check if consumer has opted out of data sale/sharing.
+        """Check if consumer has opted out of data sale/sharing.
 
         Args:
             consumer_id: Consumer identifier
@@ -201,8 +195,7 @@ class CCPAManager:
             return False
 
     def get_consumer_data_categories(self, consumer_id: str) -> Dict[str, List[str]]:
-        """
-        Get all categories of personal information for a consumer.
+        """Get all categories of personal information for a consumer.
 
         Implements Right to Know - categories of information collected.
 
@@ -237,8 +230,7 @@ class CCPAManager:
         return {cat: sorted(list(fields)) for cat, fields in found_categories.items() if fields}
 
     def export_consumer_data(self, consumer_id: str) -> Optional[Path]:
-        """
-        Export all consumer data in portable format.
+        """Export all consumer data in portable format.
 
         Implements Right to Access (portable copy).
 
@@ -290,8 +282,7 @@ class CCPAManager:
         return export_file
 
     def delete_consumer_data(self, consumer_id: str) -> Dict[str, Any]:
-        """
-        Delete all personal information for a consumer.
+        """Delete all personal information for a consumer.
 
         Implements Right to Delete with verification tracking.
 
@@ -353,8 +344,7 @@ class CCPAManager:
         request_type: str,
         request_details: Optional[Dict] = None,
     ) -> str:
-        """
-        Record a consumer rights request.
+        """Record a consumer rights request.
 
         Args:
             consumer_id: Consumer identifier
@@ -398,8 +388,7 @@ class CCPAManager:
     def update_request_status(
         self, request_id: str, status: str, notes: Optional[str] = None
     ) -> bool:
-        """
-        Update the status of a consumer request.
+        """Update the status of a consumer request.
 
         Args:
             request_id: The request ID
@@ -451,8 +440,7 @@ class CCPAManager:
         return pending
 
     def generate_privacy_report(self, consumer_id: str) -> Dict[str, Any]:
-        """
-        Generate comprehensive privacy report for a consumer.
+        """Generate comprehensive privacy report for a consumer.
 
         Combines all CCPA-related information for the consumer.
         """

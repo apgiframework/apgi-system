@@ -1,5 +1,4 @@
-"""
-Progress monitoring utilities for long-running operations in APGI Framework.
+"""Progress monitoring utilities for long-running operations in APGI Framework.
 
 This module provides progress bars and status updates for operations
 that may take more than 2 seconds to complete.
@@ -177,8 +176,7 @@ def with_progress(
     show_time_remaining: bool = True,
     callback: Optional[ProgressCallback] = None,
 ) -> ProgressMonitor:
-    """
-    Context manager for progress monitoring.
+    """Context manager for progress monitoring.
 
     Usage:
         with with_progress(100, "Processing data") as progress:

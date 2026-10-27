@@ -1,5 +1,4 @@
-"""
-Performance Optimizer for Test Execution
+"""Performance Optimizer for Test Execution.
 
 Provides intelligent test result caching, parallel execution tuning,
 performance benchmarking, and execution optimization for the APGI framework.
@@ -650,7 +649,6 @@ class PerformanceOptimizedTestRunner(BatchTestRunner):
         **kwargs: Any,
     ) -> BatchExecutionSummary:
         """Run batch tests with performance optimizations."""
-
         start_time = datetime.now()
 
         # Discover tests
@@ -842,7 +840,6 @@ def run_performance_optimized_tests(
     **kwargs: Any,
 ) -> BatchExecutionSummary:
     """Run tests with performance optimizations."""
-
     runner = PerformanceOptimizedTestRunner(
         enable_caching=enable_caching, enable_optimization=enable_optimization
     )
@@ -852,7 +849,6 @@ def run_performance_optimized_tests(
 
 def benchmark_test_performance(test_files: List[str], iterations: int = 3) -> Dict[str, Any]:
     """Benchmark test performance across multiple runs."""
-
     runner = PerformanceOptimizedTestRunner(enable_caching=False)  # Disable cache for benchmarking
     benchmarks = []
 

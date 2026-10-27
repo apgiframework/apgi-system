@@ -1,6 +1,4 @@
-"""
-Vectorized Global Workspace Implementation
-"""
+"""Vectorized Global Workspace Implementation."""
 
 from enum import Enum
 from typing import Dict, Optional
@@ -19,9 +17,7 @@ class WorkspaceState(Enum):
 
 
 class GlobalWorkspace:
-    """
-    Vectorized Global Workspace for multi-agent conscious broadcasting.
-    """
+    """Vectorized Global Workspace for multi-agent conscious broadcasting."""
 
     def __init__(self, config: ConfigDict, rng: Optional[np.random.Generator] = None) -> None:
         """Initialize vectorized global workspace."""
@@ -63,7 +59,6 @@ class GlobalWorkspace:
         dt: float = 1.0,
     ) -> Dict[str, np.ndarray]:
         """Update workspace for batch (B,)."""
-
         # 1. Update candidates for agents
         if candidates is not None:
             # Mask where we have valid candidates

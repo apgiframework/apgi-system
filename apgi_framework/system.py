@@ -1,5 +1,4 @@
-"""
-Main APGI System Integrator
+"""Main APGI System Integrator.
 
 Integrates all subsystems into a cohesive consciousness model.
 """
@@ -26,8 +25,7 @@ from apgi_framework.thermodynamic import EntropyTracker, MetabolicBudget
 
 
 class APGISystem:
-    """
-    Complete Allostatic Precision-Gated Ignition System.
+    """Complete Allostatic Precision-Gated Ignition System.
 
     Integrates:
     - Active inference engine
@@ -43,8 +41,7 @@ class APGISystem:
     """
 
     def __init__(self, config_path: Optional[str] = None):
-        """
-        Initialize APGI system.
+        """Initialize APGI system.
 
         Args:
             config_path: Path to YAML configuration file (relative to project root or absolute)
@@ -195,8 +192,7 @@ class APGISystem:
         extero_input: Union[NDArray[np.float64], Dict[str, NDArray[np.float64]]],
         context: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
-        """
-        Single timestep of the integrated system.
+        """Single timestep of the integrated system.
 
         Args:
             extero_input: Exteroceptive (sensory) input - can be a vector or a multi-modal dict
@@ -494,9 +490,7 @@ class APGISystem:
         extero_input: Union[NDArray[np.float64], Dict[str, NDArray[np.float64]]],
         context: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
-        """
-        Asynchronous version of system step utilizing concurrent subsystem updates.
-        """
+        """Asynchronous version of system step utilizing concurrent subsystem updates."""
         import asyncio
 
         # Start performance monitoring
@@ -726,8 +720,7 @@ class APGISystem:
         duration_ms: float = 1000.0,
         extero_input_fn: Optional[Callable[[float], NDArray[np.float64]]] = None,
     ) -> Dict[str, Any]:
-        """
-        Run simulation for specified duration.
+        """Run simulation for specified duration.
 
         Args:
             duration_ms: Duration in milliseconds (must be positive)
@@ -857,8 +850,7 @@ class APGISystem:
         }
 
     def get_state(self) -> Dict[str, Any]:
-        """
-        Get complete system state.
+        """Get complete system state.
 
         Returns the full state of all subsystems, providing comprehensive
         information about the current system configuration and dynamics.

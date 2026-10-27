@@ -1,5 +1,4 @@
-"""
-Plugin architecture for APGI Framework.
+"""Plugin architecture for APGI Framework.
 
 Provides extensible plugin system for third-party engine registration.
 """

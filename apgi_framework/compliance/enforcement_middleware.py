@@ -1,5 +1,4 @@
-"""
-Compliance Enforcement Middleware
+"""Compliance Enforcement Middleware.
 
 Wires PII detection/masking and residency checks into request/response lifecycle
 with mandatory audit logging for regulated flows.
@@ -64,8 +63,7 @@ class PIIDetector:
         }
 
     def detect_pii(self, data: Any, field_name: str = "data") -> List[Dict[str, Any]]:
-        """
-        Detect PII in data.
+        """Detect PII in data.
 
         Args:
             data: Data to scan
@@ -100,8 +98,7 @@ class PIIDetector:
         return detections
 
     def mask_pii(self, data: Any, mask_char: str = "*") -> Any:
-        """
-        Mask PII in data.
+        """Mask PII in data.
 
         Args:
             data: Data to mask
@@ -129,8 +126,7 @@ class DataResidencyValidator:
     """Validates data residency compliance."""
 
     def __init__(self, allowed_regions: Optional[Set[str]] = None):
-        """
-        Initialize residency validator.
+        """Initialize residency validator.
 
         Args:
             allowed_regions: Set of allowed data regions (e.g., {'US', 'EU'})
@@ -138,8 +134,7 @@ class DataResidencyValidator:
         self.allowed_regions = allowed_regions or {"US", "EU"}
 
     def validate_residency(self, data_region: str) -> bool:
-        """
-        Validate data is in allowed region.
+        """Validate data is in allowed region.
 
         Args:
             data_region: Region where data is stored
@@ -150,8 +145,7 @@ class DataResidencyValidator:
         return data_region.upper() in {r.upper() for r in self.allowed_regions}
 
     def get_residency_from_request(self, request_headers: Dict[str, str]) -> Optional[str]:
-        """
-        Extract data residency from request headers.
+        """Extract data residency from request headers.
 
         Args:
             request_headers: HTTP request headers
@@ -170,8 +164,7 @@ class ComplianceEnforcer:
         pii_detector: Optional[PIIDetector] = None,
         residency_validator: Optional[DataResidencyValidator] = None,
     ):
-        """
-        Initialize compliance enforcer.
+        """Initialize compliance enforcer.
 
         Args:
             pii_detector: PII detector instance
@@ -188,8 +181,7 @@ class ComplianceEnforcer:
         request_id: str,
         user_id: Optional[str] = None,
     ) -> tuple[bool, List[ComplianceViolation]]:
-        """
-        Check request for compliance violations.
+        """Check request for compliance violations.
 
         Args:
             request_body: Request body data
@@ -250,8 +242,7 @@ class ComplianceEnforcer:
         return len(violations) == 0, violations
 
     def mask_response_pii(self, response_body: Any) -> Any:
-        """
-        Mask PII in response body.
+        """Mask PII in response body.
 
         Args:
             response_body: Response data
@@ -262,8 +253,7 @@ class ComplianceEnforcer:
         return self.pii_detector.mask_pii(response_body)
 
     def get_audit_log(self) -> List[Dict[str, Any]]:
-        """
-        Get compliance audit log.
+        """Get compliance audit log.
 
         Returns:
             List of compliance violations
@@ -305,8 +295,7 @@ def compliance_middleware(
     request_id: str,
     user_id: Optional[str] = None,
 ) -> tuple[bool, List[ComplianceViolation]]:
-    """
-    Middleware function for compliance checking.
+    """Middleware function for compliance checking.
 
     Args:
         request_body: Request body

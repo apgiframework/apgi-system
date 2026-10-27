@@ -1,5 +1,4 @@
-"""
-AI/ACC Engagement Validation System
+"""AI/ACC Engagement Validation System.
 
 This module implements validation for Anterior Insula (AI) and Anterior Cingulate Cortex (ACC)
 engagement in falsification testing scenarios. According to the APGI Framework, consciousness
@@ -24,7 +23,7 @@ from ..exceptions import ValidationError
 
 
 class AIACCRegion(Enum):
-    """AI/ACC brain regions for validation"""
+    """AI/ACC brain regions for validation."""
 
     ANTERIOR_INSULA_LEFT = "anterior_insula_left"
     ANTERIOR_INSULA_RIGHT = "anterior_insula_right"
@@ -34,7 +33,7 @@ class AIACCRegion(Enum):
 
 
 class ConnectivityType(Enum):
-    """Types of connectivity analysis"""
+    """Types of connectivity analysis."""
 
     EFFECTIVE_CONNECTIVITY = "effective"
     FUNCTIONAL_CONNECTIVITY = "functional"
@@ -43,8 +42,7 @@ class ConnectivityType(Enum):
 
 @dataclass
 class AIACCActivation:
-    """
-    Data model for AI/ACC activation measurements.
+    """Data model for AI/ACC activation measurements.
 
     Represents BOLD activation levels in AI/ACC regions for falsification testing.
     """
@@ -57,13 +55,12 @@ class AIACCActivation:
     timestamp: datetime = field(default_factory=datetime.now)
 
     def __post_init__(self) -> None:
-        """Validate activation parameters"""
+        """Validate activation parameters."""
         if not isinstance(self.region, AIACCRegion):
             raise ValidationError(f"Invalid AI/ACC region: {self.region}")
 
     def is_significant_activation(self, threshold: float = 3.1) -> bool:
-        """
-        Check if activation is statistically significant.
+        """Check if activation is statistically significant.
 
         Args:
             threshold: Z-score threshold for significance (default 3.1, p < 0.001)
@@ -74,8 +71,7 @@ class AIACCActivation:
         return self.bold_z_score > threshold
 
     def is_absent_activation(self, threshold: float = 3.1) -> bool:
-        """
-        Check if activation is absent (below significance threshold).
+        """Check if activation is absent (below significance threshold).
 
         Args:
             threshold: Z-score threshold for significance
@@ -88,8 +84,7 @@ class AIACCActivation:
 
 @dataclass
 class GammaCoherence:
-    """
-    Data model for gamma-band coherence in AI/ACC regions.
+    """Data model for gamma-band coherence in AI/ACC regions.
 
     Represents phase-locking values and coherence measures for AI/ACC regions.
     """
@@ -103,7 +98,7 @@ class GammaCoherence:
     timestamp: datetime = field(default_factory=datetime.now)
 
     def __post_init__(self) -> None:
-        """Validate coherence parameters"""
+        """Validate coherence parameters."""
         if not 0.0 <= self.plv <= 1.0:
             raise ValidationError(f"PLV must be between 0.0 and 1.0, got {self.plv}")
 
@@ -111,8 +106,7 @@ class GammaCoherence:
             raise ValidationError(f"Coherence must be between 0.0 and 1.0, got {self.coherence}")
 
     def is_low_coherence(self, threshold: float = 0.25) -> bool:
-        """
-        Check if gamma coherence is low (indicating absent AI/ACC engagement).
+        """Check if gamma coherence is low (indicating absent AI/ACC engagement).
 
         Args:
             threshold: PLV threshold for low coherence
@@ -123,8 +117,7 @@ class GammaCoherence:
         return self.plv <= threshold
 
     def is_high_coherence(self, threshold: float = 0.3) -> bool:
-        """
-        Check if gamma coherence is high (indicating AI/ACC engagement).
+        """Check if gamma coherence is high (indicating AI/ACC engagement).
 
         Args:
             threshold: PLV threshold for high coherence
@@ -137,8 +130,7 @@ class GammaCoherence:
 
 @dataclass
 class EffectiveConnectivity:
-    """
-    Data model for effective connectivity between AI/ACC and other regions.
+    """Data model for effective connectivity between AI/ACC and other regions.
 
     Represents directed connectivity measures for AI/ACC-frontoparietal pathways.
     """
@@ -153,15 +145,14 @@ class EffectiveConnectivity:
     timestamp: datetime = field(default_factory=datetime.now)
 
     def __post_init__(self) -> None:
-        """Validate connectivity parameters"""
+        """Validate connectivity parameters."""
         if not -1.0 <= self.directionality <= 1.0:
             raise ValidationError(
                 f"Directionality must be between -1.0 and 1.0, got {self.directionality}"
             )
 
     def is_strong_connectivity(self, threshold: float = 0.3) -> bool:
-        """
-        Check if connectivity is strong.
+        """Check if connectivity is strong.
 
         Args:
             threshold: Connectivity strength threshold
@@ -172,8 +163,7 @@ class EffectiveConnectivity:
         return abs(self.connectivity_strength) > threshold
 
     def is_ai_acc_to_frontoparietal(self) -> bool:
-        """
-        Check if this represents AI/ACC to frontoparietal connectivity.
+        """Check if this represents AI/ACC to frontoparietal connectivity.
 
         Returns:
             True if source is AI/ACC and target is frontoparietal
@@ -191,8 +181,7 @@ class EffectiveConnectivity:
 
 @dataclass
 class AIACCValidationResult:
-    """
-    Complete result of AI/ACC engagement validation.
+    """Complete result of AI/ACC engagement validation.
 
     Contains all validation measures for AI/ACC engagement in falsification testing.
     """
@@ -228,15 +217,14 @@ class AIACCValidationResult:
 
 
 class AIACCValidator:
-    """
-    Validator for AI/ACC engagement in falsification testing.
+    """Validator for AI/ACC engagement in falsification testing.
 
     Implements validation logic for AI/ACC BOLD responses, gamma coherence,
     and effective connectivity according to falsification criteria.
     """
 
     def __init__(self) -> None:
-        """Initialize the AI/ACC validator with default thresholds"""
+        """Initialize the AI/ACC validator with default thresholds."""
         self.validation_thresholds = {
             "bold_significance": 3.1,  # Z-score threshold for significant BOLD activation
             "gamma_plv_low": 0.25,  # PLV threshold for low gamma coherence
@@ -255,8 +243,7 @@ class AIACCValidator:
     def validate_ai_acc_activation_absence(
         self, activations: List[AIACCActivation]
     ) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Validate that AI/ACC BOLD activation is absent.
+        """Validate that AI/ACC BOLD activation is absent.
 
         For falsification, AI/ACC regions should not show significant BOLD activation
         despite the presence of full ignition signatures.
@@ -310,8 +297,7 @@ class AIACCValidator:
     def validate_gamma_coherence_low(
         self, coherences: List[GammaCoherence]
     ) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Validate that gamma coherence in AI/ACC regions is low.
+        """Validate that gamma coherence in AI/ACC regions is low.
 
         For falsification, AI/ACC gamma coherence should be ≤ 0.25 PLV.
 
@@ -363,8 +349,7 @@ class AIACCValidator:
     def validate_effective_connectivity_disruption(
         self, connectivities: List[EffectiveConnectivity]
     ) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Validate that effective connectivity from AI/ACC to frontoparietal regions is disrupted.
+        """Validate that effective connectivity from AI/ACC to frontoparietal regions is disrupted.
 
         For falsification, AI/ACC-frontoparietal connectivity should be weak or absent.
 
@@ -428,8 +413,7 @@ class AIACCValidator:
         trial_id: str,
         participant_id: str,
     ) -> AIACCValidationResult:
-        """
-        Perform complete AI/ACC engagement validation.
+        """Perform complete AI/ACC engagement validation.
 
         Args:
             activations: AI/ACC BOLD activations
@@ -492,8 +476,7 @@ class AIACCValidator:
         coherence_details: Dict,
         connectivity_details: Dict,
     ) -> float:
-        """
-        Calculate confidence level for AI/ACC validation.
+        """Calculate confidence level for AI/ACC validation.
 
         Higher confidence when measurements are clearly below thresholds.
 
@@ -532,16 +515,14 @@ class AIACCValidator:
 
 
 class AIACCSimulator:
-    """
-    Simulator for AI/ACC engagement measures.
+    """Simulator for AI/ACC engagement measures.
 
     Generates realistic AI/ACC activation, coherence, and connectivity data
     for falsification testing scenarios.
     """
 
     def __init__(self, random_seed: Optional[int] = None):
-        """
-        Initialize the AI/ACC simulator.
+        """Initialize the AI/ACC simulator.
 
         Args:
             random_seed: Random seed for reproducible simulations
@@ -567,8 +548,7 @@ class AIACCSimulator:
     def simulate_ai_acc_activations(
         self, engagement_level: str = "absent", n_regions: Optional[int] = None
     ) -> List[AIACCActivation]:
-        """
-        Simulate AI/ACC BOLD activations.
+        """Simulate AI/ACC BOLD activations.
 
         Args:
             engagement_level: 'absent', 'present', or 'threshold'
@@ -609,8 +589,7 @@ class AIACCSimulator:
     def simulate_gamma_coherences(
         self, engagement_level: str = "absent", n_connections: int = 6
     ) -> List[GammaCoherence]:
-        """
-        Simulate gamma coherence measures for AI/ACC regions.
+        """Simulate gamma coherence measures for AI/ACC regions.
 
         Args:
             engagement_level: 'absent', 'present', or 'threshold'
@@ -653,8 +632,7 @@ class AIACCSimulator:
     def simulate_effective_connectivities(
         self, engagement_level: str = "absent", n_connections: int = 8
     ) -> List[EffectiveConnectivity]:
-        """
-        Simulate effective connectivity measures.
+        """Simulate effective connectivity measures.
 
         Args:
             engagement_level: 'absent', 'present', or 'threshold'
@@ -709,8 +687,7 @@ class AIACCSimulator:
         trial_id: str = "sim_trial",
         participant_id: str = "sim_participant",
     ) -> AIACCValidationResult:
-        """
-        Simulate complete AI/ACC engagement measures.
+        """Simulate complete AI/ACC engagement measures.
 
         Args:
             engagement_level: 'absent', 'present', or 'threshold'

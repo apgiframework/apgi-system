@@ -1,5 +1,4 @@
-"""
-Data validation and integrity checking for the APGI Framework.
+"""Data validation and integrity checking for the APGI Framework.
 
 Provides comprehensive validation of experimental data, metadata,
 and storage integrity with automated quality assessment.
@@ -23,16 +22,14 @@ class ValidationError(APGIFrameworkError):
 
 
 class DataValidator:
-    """
-    Comprehensive data validation and integrity checking system.
+    """Comprehensive data validation and integrity checking system.
 
     Validates experimental data structure, content, metadata consistency,
     and storage integrity with detailed quality assessment.
     """
 
     def __init__(self, strict_mode: bool = True):
-        """
-        Initialize data validator.
+        """Initialize data validator.
 
         Args:
             strict_mode: Whether to enforce strict validation rules
@@ -99,8 +96,7 @@ class DataValidator:
         }
 
     def validate_dataset(self, dataset: ExperimentalDataset) -> Dict[str, Any]:
-        """
-        Comprehensive dataset validation.
+        """Comprehensive dataset validation.
 
         Args:
             dataset: ExperimentalDataset to validate
@@ -265,8 +261,7 @@ class DataValidator:
         return result
 
     def validate_numeric_array(self, data: Any) -> tuple[bool, list[str]]:
-        """
-        Validate that data is a numeric array without NaN or Inf.
+        """Validate that data is a numeric array without NaN or Inf.
 
         Args:
             data: Data to validate
@@ -299,8 +294,7 @@ class DataValidator:
     def validate_required_fields(
         self, data: dict[str, Any], required_fields: list[str]
     ) -> tuple[bool, list[str]]:
-        """
-        Validate that all required fields are present in data.
+        """Validate that all required fields are present in data.
 
         Args:
             data: Data dictionary
@@ -319,8 +313,7 @@ class DataValidator:
     def validate_types(
         self, data: dict[str, Any], type_schema: dict[str, type]
     ) -> tuple[bool, list[str]]:
-        """
-        Validate data types based on a schema.
+        """Validate data types based on a schema.
 
         Args:
             data: Data dictionary
@@ -343,8 +336,7 @@ class DataValidator:
     def validate_ranges(
         self, data: dict[str, Any], ranges: dict[str, tuple[float, float]]
     ) -> tuple[bool, list[str]]:
-        """
-        Validate that values are within specified ranges.
+        """Validate that values are within specified ranges.
 
         Args:
             data: Data dictionary

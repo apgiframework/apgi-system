@@ -1,5 +1,4 @@
-"""
-PDF Report Generator for APGI Framework
+"""PDF Report Generator for APGI Framework.
 
 Provides comprehensive PDF report generation capabilities using ReportLab
 for experimental results, statistical analyses, and visualizations.

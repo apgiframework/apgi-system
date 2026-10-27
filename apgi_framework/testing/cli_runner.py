@@ -1,5 +1,4 @@
-"""
-CLI Test Runner for APGI Framework Test Enhancement
+"""CLI Test Runner for APGI Framework Test Enhancement.
 
 This module provides command-line interface for test execution, coverage analysis,
 and reporting with full feature parity to the GUI interface.

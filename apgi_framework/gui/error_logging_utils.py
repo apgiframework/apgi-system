@@ -1,5 +1,4 @@
-"""
-Error logging utilities for APGI Framework.
+"""Error logging utilities for APGI Framework.
 
 Provides integration between error handling and configuration system.
 """
@@ -12,8 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_error_log_dir(gui_config_path: Optional[Path] = None) -> Path:
-    """
-    Get the configured error log directory.
+    """Get the configured error log directory.
 
     Args:
         gui_config_path: Optional path to GUI config file (unused)

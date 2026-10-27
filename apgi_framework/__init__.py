@@ -1,5 +1,4 @@
-"""
-APGI Framework Testing System
+"""APGI Framework Testing System.
 
 A comprehensive platform for implementing and validating the Allostatic Precision-Gated Ignition
 (APGI) Framework through systematic testing.

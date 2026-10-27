@@ -1,5 +1,4 @@
-"""
-Path handling utilities for APGI Framework
+"""Path handling utilities for APGI Framework
 Standardizes path operations using pathlib for cross-platform compatibility.
 """
 
@@ -19,16 +18,14 @@ logger = get_logger(__name__)
 
 
 class PathManager:
-    """
-    Centralized path management using pathlib for cross-platform compatibility.
+    """Centralized path management using pathlib for cross-platform compatibility.
 
     This class provides a unified interface for all path operations in the APGI Framework,
     ensuring consistent behavior across Windows, macOS, and Linux.
     """
 
     def __init__(self, base_path: Optional[Union[str, Path]] = None):
-        """
-        Initialize path manager.
+        """Initialize path manager.
 
         Args:
             base_path: Base path for relative operations. Defaults to current working directory.
@@ -63,8 +60,7 @@ class PathManager:
         }
 
     def resolve_path(self, path: Union[str, Path], relative_to: Optional[str] = None) -> Path:
-        """
-        Resolve path to absolute Path object.
+        """Resolve path to absolute Path object.
 
         Args:
             path: Input path (string or Path)
@@ -98,8 +94,7 @@ class PathManager:
         return resolved
 
     def ensure_dir(self, path: Union[str, Path], relative_to: Optional[str] = None) -> Path:
-        """
-        Ensure directory exists, create if necessary.
+        """Ensure directory exists, create if necessary.
 
         Args:
             path: Directory path
@@ -113,8 +108,7 @@ class PathManager:
         return resolved_path
 
     def get_dir(self, dir_name: str) -> Path:
-        """
-        Get predefined directory path.
+        """Get predefined directory path.
 
         Args:
             dir_name: Name of predefined directory
@@ -131,8 +125,7 @@ class PathManager:
         return self.dirs[dir_name]
 
     def ensure_common_dirs(self) -> Dict[str, Path]:
-        """
-        Ensure all common directories exist.
+        """Ensure all common directories exist.
 
         Returns:
             Dictionary of directory paths
@@ -147,8 +140,7 @@ class PathManager:
         return created_dirs
 
     def join_paths(self, *paths: Union[str, Path]) -> Path:
-        """
-        Join multiple path components.
+        """Join multiple path components.
 
         Args:
             *paths: Path components to join
@@ -164,8 +156,7 @@ class PathManager:
     def get_relative_path(
         self, path: Union[str, Path], base: Optional[Union[str, Path]] = None
     ) -> Path:
-        """
-        Get relative path from base.
+        """Get relative path from base.
 
         Args:
             path: Target path
@@ -185,8 +176,7 @@ class PathManager:
             return target_path
 
     def normalize_path(self, path: Union[str, Path]) -> Path:
-        """
-        Normalize path for cross-platform compatibility.
+        """Normalize path for cross-platform compatibility.
 
         Args:
             path: Input path
@@ -202,8 +192,7 @@ class PathManager:
         return path_obj.resolve()
 
     def is_subdirectory(self, child: Union[str, Path], parent: Union[str, Path]) -> bool:
-        """
-        Check if child path is within parent directory.
+        """Check if child path is within parent directory.
 
         Args:
             child: Child path
@@ -226,8 +215,7 @@ class PathManager:
         root_dir: Optional[Union[str, Path]] = None,
         recursive: bool = True,
     ) -> List[Path]:
-        """
-        Find files matching pattern.
+        """Find files matching pattern.
 
         Args:
             pattern: Glob pattern to match
@@ -247,8 +235,7 @@ class PathManager:
         return sorted(matches)
 
     def get_file_info(self, path: Union[str, Path]) -> Dict[str, Any]:
-        """
-        Get comprehensive file information.
+        """Get comprehensive file information.
 
         Args:
             path: File path
@@ -283,8 +270,7 @@ class PathManager:
         return info
 
     def safe_filename(self, filename: str, max_length: int = 255) -> str:
-        """
-        Create safe filename for current platform.
+        """Create safe filename for current platform.
 
         Args:
             filename: Original filename
@@ -349,8 +335,7 @@ class PathManager:
         return safe_name
 
     def get_temp_dir(self) -> Path:
-        """
-        Get framework-specific temporary directory.
+        """Get framework-specific temporary directory.
 
         Returns:
             Path to temporary directory
@@ -360,8 +345,7 @@ class PathManager:
 
     @contextmanager
     def temp_file(self, suffix: str = "", prefix: str = "apgi_") -> Any:
-        """
-        Context manager for temporary file.
+        """Context manager for temporary file.
 
         Args:
             suffix: File suffix
@@ -387,8 +371,7 @@ class PathManager:
 
     @contextmanager
     def temp_dir_context(self, prefix: str = "apgi_temp_") -> Any:
-        """
-        Context manager for temporary directory.
+        """Context manager for temporary directory.
 
         Args:
             prefix: Directory prefix
@@ -409,8 +392,7 @@ class PathManager:
     def backup_file(
         self, file_path: Union[str, Path], backup_dir: Optional[Union[str, Path]] = None
     ) -> Path:
-        """
-        Create backup of file.
+        """Create backup of file.
 
         Args:
             file_path: File to backup
@@ -444,8 +426,7 @@ class PathManager:
     def copy_file(
         self, src: Union[str, Path], dst: Union[str, Path], create_dirs: bool = True
     ) -> Path:
-        """
-        Copy file with proper path handling.
+        """Copy file with proper path handling.
 
         Args:
             src: Source file
@@ -469,8 +450,7 @@ class PathManager:
     def move_file(
         self, src: Union[str, Path], dst: Union[str, Path], create_dirs: bool = True
     ) -> Path:
-        """
-        Move file with proper path handling.
+        """Move file with proper path handling.
 
         Args:
             src: Source file
@@ -492,8 +472,7 @@ class PathManager:
         return Path(shutil.move(str(source_path), str(dest_path)))
 
     def get_platform_info(self) -> Dict[str, Any]:
-        """
-        Get platform-specific path information.
+        """Get platform-specific path information.
 
         Returns:
             Dictionary with platform information
@@ -515,8 +494,7 @@ _path_lock = threading.Lock()
 
 
 def get_path_manager(base_path: Optional[Union[str, Path]] = None) -> PathManager:
-    """
-    Get global path manager instance.
+    """Get global path manager instance.
 
     Args:
         base_path: Base path for path manager
@@ -553,8 +531,7 @@ def safe_filename(filename: str, max_length: int = 255) -> str:
 
 # Migration utilities for existing code
 def migrate_from_os_path() -> Dict[str, str]:
-    """
-    Provide guidance for migrating from os.path to pathlib.
+    """Provide guidance for migrating from os.path to pathlib.
 
     Returns:
         Dictionary with migration examples

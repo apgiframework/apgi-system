@@ -1,5 +1,4 @@
-"""
-Real-time data streaming infrastructure for APGI Framework monitoring.
+"""Real-time data streaming infrastructure for APGI Framework monitoring.
 
 Provides WebSocket-based streaming for EEG, pupillometry, cardiac, and parameter data.
 """
@@ -94,15 +93,13 @@ class ParameterStreamData:
 
 
 class RealTimeDataStreamer:
-    """
-    Real-time data streaming server and manager.
+    """Real-time data streaming server and manager.
 
     Provides WebSocket streaming for real-time monitoring dashboard.
     """
 
     def __init__(self, host: str = "localhost", port: int = 8765):
-        """
-        Initialize real-time data streamer.
+        """Initialize real-time data streamer.
 
         Args:
             host: WebSocket server host

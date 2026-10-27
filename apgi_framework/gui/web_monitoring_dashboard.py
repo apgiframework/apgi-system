@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Web-based Real-time Monitoring Dashboard for APGI Framework
+"""Web-based Real-time Monitoring Dashboard for APGI Framework
 ===========================================================
 
 This module provides a web interface for real-time monitoring of APGI experiments,
@@ -38,13 +37,10 @@ logger = get_logger(__name__)
 
 
 class WebMonitoringDashboard:
-    """
-    Web-based real-time monitoring dashboard using Flask and SocketIO.
-    """
+    """Web-based real-time monitoring dashboard using Flask and SocketIO."""
 
     def __init__(self, host: str = "localhost", port: int = 5000):
-        """
-        Initialize the web dashboard.
+        """Initialize the web dashboard.
 
         Parameters
         ----------
@@ -345,8 +341,7 @@ class WebMonitoringDashboard:
         """
 
     def update_eeg_data(self, data: Dict[str, Any]) -> None:
-        """
-        Update EEG data and broadcast to web clients.
+        """Update EEG data and broadcast to web clients.
 
         Parameters
         ----------
@@ -361,8 +356,7 @@ class WebMonitoringDashboard:
             self.alert_system.check_eeg_quality(data["quality_score"], data["artifact_rate"])
 
     def update_pupil_data(self, data: Dict[str, Any]) -> None:
-        """
-        Update pupillometry data and broadcast to web clients.
+        """Update pupillometry data and broadcast to web clients.
 
         Parameters
         ----------
@@ -377,8 +371,7 @@ class WebMonitoringDashboard:
             self.alert_system.check_pupil_quality(data["data_loss"], data["tracking_loss"])
 
     def update_cardiac_data(self, data: Dict[str, Any]) -> None:
-        """
-        Update cardiac data and broadcast to web clients.
+        """Update cardiac data and broadcast to web clients.
 
         Parameters
         ----------
@@ -395,8 +388,7 @@ class WebMonitoringDashboard:
             )
 
     def update_parameter_data(self, data: Dict[str, Any]) -> None:
-        """
-        Update parameter estimate data and broadcast to web clients.
+        """Update parameter estimate data and broadcast to web clients.
 
         Parameters
         ----------
@@ -409,8 +401,7 @@ class WebMonitoringDashboard:
             self.socketio.emit("data_update", {"parameters": {param_name: data}})
 
     def start_server(self) -> bool:
-        """
-        Start the web server.
+        """Start the web server.
 
         Returns
         -------
@@ -443,13 +434,10 @@ class WebMonitoringDashboard:
 
 
 class WebQualityAlertSystem(QualityAlertSystem):
-    """
-    Web-compatible quality alert system that broadcasts alerts via WebSocket.
-    """
+    """Web-compatible quality alert system that broadcasts alerts via WebSocket."""
 
     def __init__(self, dashboard: Optional[WebMonitoringDashboard] = None):
-        """
-        Initialize web alert system.
+        """Initialize web alert system.
 
         Parameters
         ----------
@@ -461,8 +449,7 @@ class WebQualityAlertSystem(QualityAlertSystem):
         self.dashboard = dashboard
 
     def add_alert(self, level: str, message: str, source: str = "") -> None:
-        """
-        Add a quality alert and broadcast to web clients.
+        """Add a quality alert and broadcast to web clients.
 
         Parameters
         ----------
@@ -503,8 +490,7 @@ class WebQualityAlertSystem(QualityAlertSystem):
 
 
 def launch_web_dashboard(host: str = "localhost", port: int = 5000) -> WebMonitoringDashboard:
-    """
-    Launch the web-based monitoring dashboard.
+    """Launch the web-based monitoring dashboard.
 
     Parameters
     ----------

@@ -1,5 +1,4 @@
-"""
-BOLD activation simulator for APGI Framework falsification testing.
+"""BOLD activation simulator for APGI Framework falsification testing.
 
 This module implements the BOLDSimulator class that generates realistic BOLD fMRI
 activation patterns with Z-scores for testing consciousness-related brain activation
@@ -42,8 +41,7 @@ class BOLDSignature:
 
 
 class BOLDSimulator:
-    """
-    Simulator for BOLD activation patterns with realistic Z-score characteristics.
+    """Simulator for BOLD activation patterns with realistic Z-score characteristics.
 
     BOLD activation with Z > 3.1 in bilateral dorsolateral prefrontal cortex,
     intraparietal sulcus, and anterior insula/ACC indicates conscious processing
@@ -51,8 +49,7 @@ class BOLDSimulator:
     """
 
     def __init__(self, random_seed: Optional[int] = None):
-        """
-        Initialize BOLD activation simulator.
+        """Initialize BOLD activation simulator.
 
         Args:
             random_seed: Optional seed for reproducible random number generation
@@ -102,8 +99,7 @@ class BOLDSimulator:
         noise_level: float = 0.3,
         bilateral_coherence: float = 0.8,
     ) -> BOLDSignature:
-        """
-        Generate BOLD activation signature indicating conscious processing.
+        """Generate BOLD activation signature indicating conscious processing.
 
         Args:
             z_range: Range for Z-score generation, default ensures >3.1
@@ -152,8 +148,7 @@ class BOLDSimulator:
     def generate_unconscious_signature(
         self, z_range: Tuple[float, float] = (0.5, 1.8), noise_level: float = 0.2
     ) -> BOLDSignature:
-        """
-        Generate BOLD activation signature indicating unconscious/subthreshold processing.
+        """Generate BOLD activation signature indicating unconscious/subthreshold processing.
 
         Args:
             z_range: Range for Z-score generation, default ensures <3.1
@@ -183,8 +178,7 @@ class BOLDSimulator:
     def generate_signature(
         self, target_regions: List[str], target_z: float, noise_level: float = 0.25
     ) -> BOLDSignature:
-        """
-        Generate BOLD activation signature with specific target parameters.
+        """Generate BOLD activation signature with specific target parameters.
 
         Args:
             target_regions: List of regions to activate
@@ -221,8 +215,7 @@ class BOLDSimulator:
         ai_acc_z_range: Tuple[float, float] = (0.2, 1.5),
         noise_level: float = 0.3,
     ) -> BOLDSignature:
-        """
-        Generate signature with high DLPFC/IPS but suppressed AI/ACC activation.
+        """Generate signature with high DLPFC/IPS but suppressed AI/ACC activation.
         This pattern is critical for primary falsification testing.
 
         Args:
@@ -318,8 +311,7 @@ class BOLDSimulator:
         return float(coherence)
 
     def validate_signature(self, signature: BOLDSignature) -> bool:
-        """
-        Validate that BOLD signature meets basic physiological constraints.
+        """Validate that BOLD signature meets basic physiological constraints.
 
         Args:
             signature: BOLDSignature to validate
@@ -351,8 +343,7 @@ class BOLDSimulator:
         return True
 
     def is_conscious_level(self, signature: BOLDSignature) -> bool:
-        """
-        Determine if BOLD signature indicates conscious-level processing.
+        """Determine if BOLD signature indicates conscious-level processing.
 
         Args:
             signature: BOLDSignature to evaluate
@@ -383,8 +374,7 @@ class BOLDSimulator:
     def simulate_bold_activation(
         self, regions: List[str], z_range: Tuple[float, float]
     ) -> "BOLDResult":
-        """
-        Legacy method for backward compatibility with falsification tests.
+        """Legacy method for backward compatibility with falsification tests.
 
         Args:
             regions: List of brain regions to simulate

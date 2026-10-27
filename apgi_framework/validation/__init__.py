@@ -1,5 +1,4 @@
-"""
-Validation module for APGI Framework.
+"""Validation module for APGI Framework.
 
 Provides parameter validation, system health checks, and diagnostic utilities.
 """

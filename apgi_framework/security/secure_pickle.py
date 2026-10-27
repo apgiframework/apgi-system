@@ -1,5 +1,4 @@
-"""
-Secure pickle utilities for APGI Framework.
+"""Secure pickle utilities for APGI Framework.
 
 Provides safe alternatives to direct pickle usage with input validation,
 type checking, and sandboxing to prevent code execution vulnerabilities.
@@ -34,8 +33,7 @@ class ValidationResult(TypedDict, total=False):
 
 
 class SecurePickleValidator:
-    """
-    Validates and secures pickle operations to prevent code execution attacks.
+    """Validates and secures pickle operations to prevent code execution attacks.
 
     Only allows specific whitelisted types and validates data integrity.
     """
@@ -102,8 +100,7 @@ class SecurePickleValidator:
     }
 
     def __init__(self, strict_mode: bool = True):
-        """
-        Initialize validator.
+        """Initialize validator.
 
         Args:
             strict_mode: If True, rejects any unknown types. If False, logs warnings.
@@ -112,8 +109,7 @@ class SecurePickleValidator:
         self.validation_cache: Dict[str, Any] = {}
 
     def validate_pickle_data(self, data: bytes, expected_types: Optional[Set[type]] = None) -> bool:
-        """
-        Validate pickle data before unpickling.
+        """Validate pickle data before unpickling.
 
         Args:
             data: Raw pickle bytes to validate
@@ -155,8 +151,7 @@ class SecurePickleValidator:
             return False
 
     def _contains_dangerous_opcodes(self, data: bytes) -> bool:
-        """
-        Scan pickle data for dangerous opcodes that could execute code.
+        """Scan pickle data for dangerous opcodes that could execute code.
 
         Enhanced with comprehensive opcode analysis using pickletools.
         """
@@ -241,8 +236,7 @@ class SecurePickleValidator:
         expected_types: Optional[Set[type]] = None,
         verify_checksum: bool = True,
     ) -> Any:
-        """
-        Safely load pickled data with validation.
+        """Safely load pickled data with validation.
 
         Args:
             file_path: Path to pickle file
@@ -311,8 +305,7 @@ class SecurePickleValidator:
         create_checksum: bool = True,
         protocol: int = pickle.HIGHEST_PROTOCOL,
     ) -> None:
-        """
-        Safely dump object to pickle file.
+        """Safely dump object to pickle file.
 
         Args:
             obj: Object to pickle
@@ -357,18 +350,14 @@ class SecurePickleValidator:
 
 
 class RestrictedUnpickler(pickle.Unpickler):
-    """
-    Restricted unpickler that only allows safe types.
-    """
+    """Restricted unpickler that only allows safe types."""
 
     def __init__(self, file: Any, allowed_types: Set[Union[type, str]]) -> None:
         super().__init__(file)
         self.allowed_types = allowed_types
 
     def find_class(self, module: str, name: str) -> Any:
-        """
-        Override find_class to only allow whitelisted types.
-        """
+        """Override find_class to only allow whitelisted types."""
         # Check for forbidden modules
         if any(forbidden in module for forbidden in SecurePickleValidator.FORBIDDEN_MODULES):
             raise SecurePickleError(f"Forbidden module in pickle: {module}")
@@ -390,8 +379,7 @@ def safe_pickle_load(
     expected_types: Optional[Set[type]] = None,
     verify_checksum: bool = True,
 ) -> Any:
-    """
-    Convenience function for safe pickle loading.
+    """Convenience function for safe pickle loading.
 
     Args:
         file_path: Path to pickle file
@@ -410,8 +398,7 @@ def safe_pickle_dump(
     create_checksum: bool = True,
     protocol: int = pickle.HIGHEST_PROTOCOL,
 ) -> None:
-    """
-    Convenience function for safe pickle dumping.
+    """Convenience function for safe pickle dumping.
 
     Args:
         obj: Object to pickle
@@ -423,8 +410,7 @@ def safe_pickle_dump(
 
 
 def validate_pickle_security(file_path: Union[str, Path]) -> ValidationResult:
-    """
-    Validate a pickle file for security issues.
+    """Validate a pickle file for security issues.
 
     Args:
         file_path: Path to pickle file

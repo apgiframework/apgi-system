@@ -1,14 +1,11 @@
-"""
-Consciousness without ignition falsification test.
-"""
+"""Consciousness without ignition falsification test."""
 
 import logging
 from datetime import datetime
 
 
 class ConsciousnessWithoutIgnitionTest:
-    """
-    Tests whether consciousness can occur without full neural ignition signatures.
+    """Tests whether consciousness can occur without full neural ignition signatures.
 
     This falsification test examines the converse of the primary test: whether
     subjective reports of consciousness can occur in the absence of the complete
@@ -31,8 +28,7 @@ class ConsciousnessWithoutIgnitionTest:
         }
 
     def run_test(self, n_trials: int = 100, noise_level: float = 0.1) -> dict:
-        """
-        Run the consciousness without ignition test.
+        """Run the consciousness without ignition test.
 
         Args:
             n_trials: Number of experimental trials to simulate

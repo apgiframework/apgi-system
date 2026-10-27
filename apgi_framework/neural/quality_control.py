@@ -1,5 +1,4 @@
-"""
-Real-time quality control system for multi-modal data acquisition.
+"""Real-time quality control system for multi-modal data acquisition.
 
 Integrates EEG, pupillometry, and cardiac quality monitoring with adaptive
 protocol management and operator notifications for APGI experiments.
@@ -81,16 +80,14 @@ class MultiModalQualityMetrics:
 
 
 class SignalQualityMonitor:
-    """
-    Real-time signal quality monitor integrating all modalities.
+    """Real-time signal quality monitor integrating all modalities.
 
     Continuously assesses EEG, pupillometry, and cardiac signal quality
     with unified quality scoring and alerting.
     """
 
     def __init__(self, update_interval: float = 1.0):
-        """
-        Initialize signal quality monitor.
+        """Initialize signal quality monitor.
 
         Args:
             update_interval: Quality update interval in seconds
@@ -127,8 +124,7 @@ class SignalQualityMonitor:
         pupil_metrics: Dict[str, Any],
         cardiac_metrics: Dict[str, Any],
     ) -> MultiModalQualityMetrics:
-        """
-        Update and integrate quality metrics from all modalities.
+        """Update and integrate quality metrics from all modalities.
 
         Args:
             eeg_metrics: EEG quality metrics dictionary
@@ -402,8 +398,7 @@ class SignalQualityMonitor:
         return suggestions
 
     def get_quality_summary(self, window_seconds: float = 60.0) -> Dict[str, Any]:
-        """
-        Get quality summary over recent time window.
+        """Get quality summary over recent time window.
 
         Args:
             window_seconds: Time window for summary (seconds)
@@ -445,8 +440,7 @@ class SignalQualityMonitor:
 
 
 class ArtifactDetector:
-    """
-    Unified artifact detector coordinating across all modalities.
+    """Unified artifact detector coordinating across all modalities.
 
     Detects artifacts in EEG, pupillometry, and cardiac signals
     with cross-modal validation.
@@ -463,8 +457,7 @@ class ArtifactDetector:
         cardiac_artifacts: Optional[np.ndarray],
         timestamps: np.ndarray,
     ) -> Dict[str, np.ndarray]:
-        """
-        Detect artifacts across all modalities with cross-validation.
+        """Detect artifacts across all modalities with cross-validation.
 
         Args:
             eeg_artifacts: EEG artifact mask (samples)
@@ -532,8 +525,7 @@ class ArtifactDetector:
 
 
 class AdaptiveProtocolManager:
-    """
-    Adaptive protocol manager for quality-based adjustments.
+    """Adaptive protocol manager for quality-based adjustments.
 
     Automatically adjusts experimental protocols based on real-time
     quality metrics to maintain data integrity.
@@ -550,8 +542,7 @@ class AdaptiveProtocolManager:
     def evaluate_protocol_adjustments(
         self, quality_metrics: MultiModalQualityMetrics
     ) -> Dict[str, Any]:
-        """
-        Evaluate if protocol adjustments are needed based on quality.
+        """Evaluate if protocol adjustments are needed based on quality.
 
         Args:
             quality_metrics: Current quality metrics
@@ -625,8 +616,7 @@ class AdaptiveProtocolManager:
         return adjustments
 
     def apply_adjustment(self, adjustment: Dict[str, Any]) -> bool:
-        """
-        Apply a protocol adjustment.
+        """Apply a protocol adjustment.
 
         Args:
             adjustment: Adjustment dictionary
@@ -643,8 +633,7 @@ class AdaptiveProtocolManager:
 
 
 class OperatorNotificationSystem:
-    """
-    Real-time operator notification system.
+    """Real-time operator notification system.
 
     Provides alerts, recovery suggestions, and status updates
     to the experiment operator.
@@ -659,8 +648,7 @@ class OperatorNotificationSystem:
         self.logger = get_logger(__name__)
 
     def register_callback(self, callback: Callable) -> None:
-        """
-        Register callback for notifications.
+        """Register callback for notifications.
 
         Args:
             callback: Function to call with notification data
@@ -668,8 +656,7 @@ class OperatorNotificationSystem:
         self.notification_callbacks.append(callback)
 
     def send_alert(self, alert: QualityAlert) -> None:
-        """
-        Send quality alert to operator.
+        """Send quality alert to operator.
 
         Args:
             alert: QualityAlert object
@@ -694,8 +681,7 @@ class OperatorNotificationSystem:
                 self.logger.error(f"Notification callback error: {e}")
 
     def send_quality_update(self, quality_metrics: MultiModalQualityMetrics) -> None:
-        """
-        Send quality update to operator.
+        """Send quality update to operator.
 
         Args:
             quality_metrics: Current quality metrics
@@ -723,8 +709,7 @@ class OperatorNotificationSystem:
                 self.logger.error(f"Notification callback error: {e}")
 
     def send_status_message(self, message: str, severity: str = "info") -> None:
-        """
-        Send general status message to operator.
+        """Send general status message to operator.
 
         Args:
             message: Status message
@@ -748,8 +733,7 @@ class OperatorNotificationSystem:
                 self.logger.error(f"Notification callback error: {e}")
 
     def get_recent_notifications(self, n: int = 10) -> List[Dict[str, Any]]:
-        """
-        Get recent notifications.
+        """Get recent notifications.
 
         Args:
             n: Number of recent notifications to retrieve

@@ -1,5 +1,4 @@
-"""
-Replication tracking and power analysis for APGI falsification testing.
+"""Replication tracking and power analysis for APGI falsification testing.
 
 This module provides comprehensive replication tracking across multiple
 simulated labs and power analysis capabilities for determining appropriate
@@ -80,8 +79,7 @@ class PowerAnalysisResult:
 
 
 class ReplicationTracker:
-    """
-    Tracks replication attempts across multiple simulated laboratories.
+    """Tracks replication attempts across multiple simulated laboratories.
 
     Provides comprehensive analysis of replication success rates,
     effect size consistency, and meta-analytic combination of results
@@ -94,8 +92,7 @@ class ReplicationTracker:
         effect_size_threshold: float = 0.1,
         min_replications: int = 3,
     ):
-        """
-        Initialize the replication tracker.
+        """Initialize the replication tracker.
 
         Args:
             success_threshold: P-value threshold for successful replication
@@ -108,8 +105,7 @@ class ReplicationTracker:
         self.experiments: List[ExperimentResult] = []
 
     def add_experiment_result(self, result: ExperimentResult) -> None:
-        """
-        Add an experiment result to the tracking system.
+        """Add an experiment result to the tracking system.
 
         Args:
             result: ExperimentResult to add
@@ -117,8 +113,7 @@ class ReplicationTracker:
         self.experiments.append(result)
 
     def add_multiple_results(self, results: List[ExperimentResult]) -> None:
-        """
-        Add multiple experiment results.
+        """Add multiple experiment results.
 
         Args:
             results: List of ExperimentResult objects
@@ -128,8 +123,7 @@ class ReplicationTracker:
     def evaluate_replication_success(
         self, original_effect_size: float, replication_tolerance: float = 0.5
     ) -> ReplicationSummary:
-        """
-        Evaluate overall replication success across all experiments.
+        """Evaluate overall replication success across all experiments.
 
         Args:
             original_effect_size: Effect size from original study
@@ -197,8 +191,7 @@ class ReplicationTracker:
         )
 
     def meta_analysis(self, weights: Optional[np.ndarray] = None) -> Dict[str, Any]:
-        """
-        Perform meta-analysis of effect sizes across replications.
+        """Perform meta-analysis of effect sizes across replications.
 
         Args:
             weights: Optional weights for each study (default: sample size)
@@ -251,8 +244,7 @@ class ReplicationTracker:
         }
 
     def get_lab_performance(self) -> Dict[str, Dict[str, Any]]:
-        """
-        Analyze performance by laboratory.
+        """Analyze performance by laboratory.
 
         Returns:
             Dictionary with lab-specific performance metrics
@@ -364,16 +356,14 @@ class ReplicationTracker:
 
 
 class PowerAnalyzer:
-    """
-    Comprehensive power analysis for experimental design.
+    """Comprehensive power analysis for experimental design.
 
     Provides sample size calculations and power analysis for various
     statistical tests used in APGI framework validation studies.
     """
 
     def __init__(self, alpha: float = 0.05):
-        """
-        Initialize the power analyzer.
+        """Initialize the power analyzer.
 
         Args:
             alpha: Type I error rate (significance level)
@@ -387,8 +377,7 @@ class PowerAnalyzer:
         power: Optional[float] = None,
         test_type: str = "two_sample",
     ) -> PowerAnalysisResult:
-        """
-        Calculate power analysis for t-tests.
+        """Calculate power analysis for t-tests.
 
         Args:
             effect_size: Cohen's d effect size
@@ -458,8 +447,7 @@ class PowerAnalyzer:
         sample_size_per_group: Optional[int] = None,
         power: Optional[float] = None,
     ) -> PowerAnalysisResult:
-        """
-        Calculate power analysis for one-way ANOVA.
+        """Calculate power analysis for one-way ANOVA.
 
         Args:
             effect_size: Cohen's f effect size
@@ -525,8 +513,7 @@ class PowerAnalyzer:
         sample_size: Optional[int] = None,
         power: Optional[float] = None,
     ) -> PowerAnalysisResult:
-        """
-        Calculate power analysis for correlation tests.
+        """Calculate power analysis for correlation tests.
 
         Args:
             effect_size: Pearson correlation coefficient

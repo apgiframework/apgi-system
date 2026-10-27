@@ -1,5 +1,4 @@
-"""
-Notification Manager for CI/CD Test Failure Reporting
+"""Notification Manager for CI/CD Test Failure Reporting.
 
 This module provides comprehensive notification and reporting capabilities for CI/CD
 test failures, including actionable debugging information, test result history

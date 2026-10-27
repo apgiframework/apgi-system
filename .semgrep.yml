@@ -4,15 +4,19 @@
 rules:
   # Security Rules
   - id: insecure-password-hashing
-    pattern-either:
-      - pattern: hashlib.md5(...)
-      - pattern: hashlib.sha1(...)
-    message: "Insecure hashing algorithm detected. Use bcrypt, argon2, or PBKDF2 for password hashing."
+    patterns:
+      - pattern-either:
+          - pattern: hashlib.md5(...)
+          - pattern: hashlib.sha1(...)
+      # non-security uses (cache keys, ids) opt out explicitly
+      - pattern-not: hashlib.md5(..., usedforsecurity=False)
+      - pattern-not: hashlib.sha1(..., usedforsecurity=False)
+    message: "Insecure hashing algorithm detected. Use bcrypt, argon2, or PBKDF2 for password hashing, or pass usedforsecurity=False for non-security uses."
     severity: ERROR
     languages: [python]
 
   - id: hardcoded-secret
-    pattern-regex: (?i)(password|secret|key|token)\s*=\s*["'][^"']+["']
+    pattern-regex: '(?i)\b(password|passwd|secret|secret_key|api_key|apikey|token|access_token)\s*=\s*["''][^"'']{8,}["'']'
     message: "Potential hardcoded secret detected. Use environment variables or a secrets manager."
     severity: WARNING
     languages: [python]
@@ -105,7 +109,7 @@ rules:
     languages: [python]
 
   - id: todo-fixme-comment
-    pattern-regex: (?i)(#.*todo|#.*fixme)
+    pattern-regex: '(?i)(#.*todo|#.*fixme)'
     message: "TODO or FIXME comment found. Consider creating an issue or addressing it."
     severity: INFO
     languages: [python]
@@ -119,21 +123,22 @@ rules:
     languages: [python]
 
   - id: complex-function
-    pattern-regex: def\s+\w+\([^)]*\):\s*(?:->\s*\w+\s*)?:\s*\n(?:\s+[^\n]*\n){50,}
+    pattern-regex: 'def\s+\w+\([^)]*\):\s*(?:->\s*\w+\s*)?:\s*\n(?:\s+[^\n]*\n){50,}'
     message: "Function may be too complex. Consider refactoring."
     severity: INFO
     languages: [python]
 
   # API Security Rules
   - id: missing-authentication
-    pattern-regex: @(app\.|router\.)?(get|post|put|delete|patch)\s*\([^)]*\)\s*\n\s*async\s+def\s+\w+
+    pattern-regex: '@(app\.|router\.)?(get|post|put|delete|patch)\s*\([^)]*\)\s*\n\s*async\s+def\s+\w+'
     message: "API endpoint may be missing authentication. Verify auth requirements."
     severity: INFO
     languages: [python]
 
   - id: sensitive-data-in-logs
-    pattern-regex: (logger\.(info|debug|warning|error)\s*\([^)]*(password|secret|token|key|credential)
-    message: "Sensitive data may be logged. Verify no secrets are logged."
+    # a variable whose name suggests a secret is interpolated into a log message
+    pattern-regex: 'logger\.(info|debug|warning|error|exception)\s*\(\s*f["''][^"'']*\{[^}]*(password|passwd|secret|token|credential)[^}]*\}'
+    message: "A secret-named variable is interpolated into a log message. Log an identifier or a redacted value instead."
     severity: ERROR
     languages: [python]
 

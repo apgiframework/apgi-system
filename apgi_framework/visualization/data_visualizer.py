@@ -1,5 +1,4 @@
-"""
-APGI Data Visualizer
+"""APGI Data Visualizer.
 
 Provides comprehensive visualization capabilities for experimental data including:
 - Interactive dashboards
@@ -29,8 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 class DataVisualizer:
-    """
-    Comprehensive data visualization system for APGI experiments.
+    """Comprehensive data visualization system for APGI experiments.
 
     Features:
     - Interactive Plotly visualizations
@@ -65,8 +63,7 @@ class DataVisualizer:
         title: str = "APGI Analysis Dashboard",
         save_html: bool = True,
     ) -> go.Figure:
-        """
-        Create an interactive dashboard with multiple visualizations.
+        """Create an interactive dashboard with multiple visualizations.
 
         Args:
             data: Experimental data
@@ -201,8 +198,7 @@ class DataVisualizer:
     def plot_neural_signatures(
         self, signatures: Dict[str, Any], save_path: Optional[str] = None
     ) -> go.Figure:
-        """
-        Create specialized plots for neural signature data.
+        """Create specialized plots for neural signature data.
 
         Args:
             signatures: Dictionary containing neural signature data
@@ -304,8 +300,7 @@ class DataVisualizer:
     def plot_falsification_results(
         self, results: Dict[str, Any], save_path: Optional[str] = None
     ) -> go.Figure:
-        """
-        Visualize falsification test results.
+        """Visualize falsification test results.
 
         Args:
             results: Falsification test results
@@ -428,8 +423,7 @@ class DataVisualizer:
     def create_statistical_summary_plot(
         self, stats_data: Dict[str, Any], save_path: Optional[str] = None
     ) -> go.Figure:
-        """
-        Create comprehensive statistical summary visualization.
+        """Create comprehensive statistical summary visualization.
 
         Args:
             stats_data: Statistical analysis results
@@ -549,8 +543,7 @@ class DataVisualizer:
     def plot_time_series_analysis(
         self, time_series_data: Dict[str, Any], save_path: Optional[str] = None
     ) -> go.Figure:
-        """
-        Create time series analysis visualizations.
+        """Create time series analysis visualizations.
 
         Args:
             time_series_data: Time series data and analysis results
@@ -671,8 +664,7 @@ class DataVisualizer:
         format: str = "html",
         filename_prefix: str = "apgi_plot",
     ) -> List[str]:
-        """
-        Export multiple plots to specified format.
+        """Export multiple plots to specified format.
 
         Args:
             figures: List of Plotly figures
@@ -723,8 +715,7 @@ class DataVisualizer:
         labels: Tuple[str, str] = ("Group 1", "Group 2"),
         save_path: Optional[str] = None,
     ) -> go.Figure:
-        """
-        Create comparison plots between two datasets.
+        """Create comparison plots between two datasets.
 
         Args:
             data1: First dataset

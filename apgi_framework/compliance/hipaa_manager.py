@@ -1,5 +1,4 @@
-"""
-HIPAA Compliance Framework for APGI.
+"""HIPAA Compliance Framework for APGI.
 
 Handles Protected Health Information (PHI) identification,
 access controls, and audit trails for healthcare data.
@@ -17,18 +16,14 @@ logger = logging.getLogger("hipaa")
 
 
 class HIPAAManager:
-    """
-    Manages HIPAA compliance workflows.
-    """
+    """Manages HIPAA compliance workflows."""
 
     def __init__(self, phi_log_dir: str = "logs/hipaa"):
         self.phi_log_dir = Path(phi_log_dir)
         self.phi_log_dir.mkdir(parents=True, exist_ok=True)
 
     def identify_phi(self, data: Dict[str, Any]) -> List[str]:
-        """
-        Identify PHI fields in a data dictionary.
-        """
+        """Identify PHI fields in a data dictionary."""
         phi_indicators = {
             "name",
             "address",
@@ -57,9 +52,7 @@ class HIPAAManager:
     def log_phi_access(
         self, user_id: str, participant_id: str, fields_accessed: List[str], reason: str
     ) -> None:
-        """
-        Log access to PHI (Required by HIPAA).
-        """
+        """Log access to PHI (Required by HIPAA)."""
         get_audit_logger().log_event(
             user_id=user_id,
             event_type="PHI_ACCESS",
@@ -70,9 +63,7 @@ class HIPAAManager:
         )
 
     def manage_baa(self, associate_name: str, status: str = "signed") -> None:
-        """
-        Manage Business Associate Agreements (BAA).
-        """
+        """Manage Business Associate Agreements (BAA)."""
         baa_dir = Path("docs/compliance/baa")
         baa_dir.mkdir(parents=True, exist_ok=True)
         baa_file = baa_dir / f"baa_{associate_name}_{datetime.now().strftime('%Y%m%d')}.json"

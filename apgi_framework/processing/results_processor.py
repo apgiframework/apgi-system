@@ -1,5 +1,4 @@
-"""
-APGI Results Processor
+"""APGI Results Processor.
 
 Provides comprehensive results processing capabilities including:
 - Data aggregation and summarization
@@ -29,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class ProcessedResult:
-    """Container for processed experimental results"""
+    """Container for processed experimental results."""
 
     result_id: str
     timestamp: datetime
@@ -56,8 +55,7 @@ class ProcessedResult:
 
 
 class ResultsProcessor:
-    """
-    Comprehensive results processing system for APGI experiments.
+    """Comprehensive results processing system for APGI experiments.
 
     Features:
     - Data aggregation and summarization
@@ -93,8 +91,7 @@ class ResultsProcessor:
         experiment_type: str,
         parameters: Optional[Dict[str, Any]] = None,
     ) -> ProcessedResult:
-        """
-        Process raw experimental results into structured format.
+        """Process raw experimental results into structured format.
 
         Args:
             raw_results: Raw experimental data and results
@@ -145,8 +142,7 @@ class ResultsProcessor:
         experiment_type: str,
         parameters: Optional[Dict[str, Any]] = None,
     ) -> List[ProcessedResult]:
-        """
-        Process multiple experimental results in batch.
+        """Process multiple experimental results in batch.
 
         Args:
             results_list: List of raw experimental results
@@ -195,8 +191,7 @@ class ResultsProcessor:
         processed_results: List[ProcessedResult],
         consolidation_method: str = "aggregate",
     ) -> ProcessedResult:
-        """
-        Consolidate multiple processed results into a single summary.
+        """Consolidate multiple processed results into a single summary.
 
         Args:
             processed_results: List of processed results to consolidate
@@ -256,8 +251,7 @@ class ResultsProcessor:
         report_format: str = "html",
         include_visualizations: bool = True,
     ) -> str:
-        """
-        Generate comprehensive report from processed results.
+        """Generate comprehensive report from processed results.
 
         Args:
             processed_result: Processed result to report on
@@ -306,8 +300,7 @@ class ResultsProcessor:
         export_format: str = "csv",
         include_metadata: bool = True,
     ) -> List[str]:
-        """
-        Export processed results to various formats.
+        """Export processed results to various formats.
 
         Args:
             processed_results: Single result or list of results to export

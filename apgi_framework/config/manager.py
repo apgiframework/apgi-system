@@ -1,5 +1,4 @@
-"""
-Advanced Configuration Management System for APGI Framework
+"""Advanced Configuration Management System for APGI Framework.
 
 Provides centralized configuration management with validation,
 environment-specific settings, and dynamic updates.
@@ -148,16 +147,14 @@ class APGIConfig:
 
 
 class ConfigurationManager:
-    """
-    Advanced configuration management system.
+    """Advanced configuration management system.
 
     Handles loading, validation, and management of configuration
     from multiple sources with environment-specific overrides.
     """
 
     def __init__(self, config_file: Optional[Union[str, Path]] = None):
-        """
-        Initialize configuration manager.
+        """Initialize configuration manager.
 
         Args:
             config_file: Path to configuration file (JSON or YAML)
@@ -387,8 +384,7 @@ class ConfigurationManager:
             raise
 
     def validate_config(self) -> List[str]:
-        """
-        Validate current configuration.
+        """Validate current configuration.
 
         Returns:
             List of validation error messages

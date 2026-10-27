@@ -1,5 +1,4 @@
-"""
-Stub module for active inference.
+"""Stub module for active inference.
 
 This module provides type stubs for active inference functionality
 that is being migrated from the old apgi_simulation structure.

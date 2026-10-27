@@ -1,5 +1,4 @@
-"""
-Database Integration for Large Dataset Management
+"""Database Integration for Large Dataset Management
 ===============================================
 
 This module provides enhanced database integration for handling large datasets
@@ -41,16 +40,14 @@ class DatabaseIntegrationError(APGIFrameworkError):
 
 
 class LargeDatasetHandler:
-    """
-    Handles large datasets with chunking and streaming capabilities.
+    """Handles large datasets with chunking and streaming capabilities.
 
     Provides methods for processing datasets that are too large to fit in memory
     by using database operations and streaming.
     """
 
     def __init__(self, storage_manager: StorageManager):
-        """
-        Initialize large dataset handler.
+        """Initialize large dataset handler.
 
         Args:
             storage_manager: Existing storage manager instance
@@ -189,8 +186,7 @@ class LargeDatasetHandler:
         data_type: str = "raw_data",
         compress: bool = True,
     ) -> bool:
-        """
-        Store large dataset in chunks using database.
+        """Store large dataset in chunks using database.
 
         Args:
             experiment_id: Experiment identifier
@@ -371,8 +367,7 @@ class LargeDatasetHandler:
         data_type: str = "raw_data",
         chunk_size: Optional[int] = None,
     ) -> Generator[Any, None, None]:
-        """
-        Load large dataset in chunks to avoid memory issues.
+        """Load large dataset in chunks to avoid memory issues.
 
         Args:
             experiment_id: Experiment identifier
@@ -447,8 +442,7 @@ class LargeDatasetHandler:
         filter_criteria: Optional[Dict[str, Any]] = None,
         limit: Optional[int] = None,
     ) -> List[Dict[str, Any]]:
-        """
-        Query large datasets with filtering.
+        """Query large datasets with filtering.
 
         Args:
             filter_criteria: Dictionary of filter conditions
@@ -537,8 +531,7 @@ class LargeDatasetHandler:
             return []
 
     def cleanup_old_data(self, retention_days: int = 30) -> int:
-        """
-        Clean up old data from database.
+        """Clean up old data from database.
 
         Args:
             retention_days: Number of days to retain data
@@ -592,8 +585,7 @@ class LargeDatasetHandler:
             return 0
 
     def get_database_stats(self) -> Dict[str, Any]:
-        """
-        Get database statistics and performance metrics.
+        """Get database statistics and performance metrics.
 
         Returns:
             Dictionary with database statistics
@@ -651,8 +643,7 @@ class LargeDatasetHandler:
 
 # Utility function to enable database integration
 def enable_database_integration(storage_manager: StorageManager) -> LargeDatasetHandler:
-    """
-    Enable database integration for large dataset handling.
+    """Enable database integration for large dataset handling.
 
     Args:
         storage_manager: Existing storage manager

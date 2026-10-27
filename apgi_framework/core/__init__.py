@@ -1,5 +1,4 @@
-"""
-Core mathematical framework for the APGI Framework.
+"""Core mathematical framework for the APGI Framework.
 
 This module contains the fundamental mathematical implementations including
 the APGI ignition threshold equation, precision calculations, and prediction

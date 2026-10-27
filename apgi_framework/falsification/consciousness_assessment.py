@@ -1,6 +1,4 @@
-"""
-Consciousness assessment module for the APGI Framework.
-"""
+"""Consciousness assessment module for the APGI Framework."""
 
 from datetime import datetime
 

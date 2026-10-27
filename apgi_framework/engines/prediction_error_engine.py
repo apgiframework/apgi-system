@@ -1,5 +1,4 @@
-"""
-Prediction error processing module for the APGI Framework.
+"""Prediction error processing module for the APGI Framework.
 
 This module implements prediction error processing and z-score standardization
 for both exteroceptive and interoceptive prediction errors used in the APGI equation.
@@ -14,16 +13,14 @@ from ..exceptions import MathematicalError
 
 
 class PredictionErrorProcessor:
-    """
-    Processor for exteroceptive and interoceptive prediction errors.
+    """Processor for exteroceptive and interoceptive prediction errors.
 
     Handles z-score standardization, validation, and preprocessing of
     prediction errors before they are used in the APGI equation.
     """
 
     def __init__(self, standardize: bool = True, outlier_threshold: float = 3.0):
-        """
-        Initialize prediction error processor.
+        """Initialize prediction error processor.
 
         Args:
             standardize: Whether to apply z-score standardization
@@ -38,8 +35,7 @@ class PredictionErrorProcessor:
         reference_mean: Optional[float] = None,
         reference_std: Optional[float] = None,
     ) -> Union[float, np.ndarray]:
-        """
-        Process exteroceptive prediction error with standardization.
+        """Process exteroceptive prediction error with standardization.
 
         Args:
             error: Raw exteroceptive prediction error(s)
@@ -94,8 +90,7 @@ class PredictionErrorProcessor:
         reference_mean: Optional[float] = None,
         reference_std: Optional[float] = None,
     ) -> Union[float, np.ndarray]:
-        """
-        Process interoceptive prediction error with standardization.
+        """Process interoceptive prediction error with standardization.
 
         Args:
             error: Raw interoceptive prediction error(s)
@@ -145,8 +140,7 @@ class PredictionErrorProcessor:
             return error
 
     def validate_error_pair(self, extero_error: float, intero_error: float) -> Tuple[bool, str]:
-        """
-        Validate a pair of exteroceptive and interoceptive prediction errors.
+        """Validate a pair of exteroceptive and interoceptive prediction errors.
 
         Args:
             extero_error: Exteroceptive prediction error
@@ -183,8 +177,7 @@ class PredictionErrorProcessor:
             return False, f"Invalid error values: {e}"
 
     def calculate_error_statistics(self, errors: np.ndarray) -> dict:
-        """
-        Calculate descriptive statistics for prediction errors.
+        """Calculate descriptive statistics for prediction errors.
 
         Args:
             errors: Array of prediction errors
@@ -215,8 +208,7 @@ class PredictionErrorProcessor:
         return stats
 
     def get_processor_info(self) -> dict:
-        """
-        Get information about the prediction error processor configuration.
+        """Get information about the prediction error processor configuration.
 
         Returns:
             Dictionary with processor settings

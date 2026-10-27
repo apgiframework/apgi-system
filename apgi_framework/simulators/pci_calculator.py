@@ -1,5 +1,4 @@
-"""
-Perturbational Complexity Index (PCI) calculator for APGI Framework falsification testing.
+"""Perturbational Complexity Index (PCI) calculator for APGI Framework falsification testing.
 
 This module implements the PCICalculator class that computes PCI values for testing
 consciousness-related complexity measures. PCI > 0.4 indicates conscious states,
@@ -29,8 +28,7 @@ class PCISignature:
 
 
 class PCICalculator:
-    """
-    Calculator for Perturbational Complexity Index with realistic complexity characteristics.
+    """Calculator for Perturbational Complexity Index with realistic complexity characteristics.
 
     PCI measures the complexity of brain responses to perturbations. PCI > 0.4 indicates
     conscious states with rich, differentiated responses, while PCI < 0.3 indicates
@@ -38,8 +36,7 @@ class PCICalculator:
     """
 
     def __init__(self, random_seed: Optional[int] = None):
-        """
-        Initialize PCI calculator.
+        """Initialize PCI calculator.
 
         Args:
             random_seed: Optional seed for reproducible random number generation
@@ -61,8 +58,7 @@ class PCICalculator:
     def generate_conscious_signature(
         self, pci_range: Tuple[float, float] = (0.45, 0.8), noise_level: float = 0.02
     ) -> PCISignature:
-        """
-        Generate PCI signature indicating conscious processing.
+        """Generate PCI signature indicating conscious processing.
 
         Args:
             pci_range: Range for PCI generation, default ensures >0.4
@@ -104,8 +100,7 @@ class PCICalculator:
     def generate_unconscious_signature(
         self, pci_range: Tuple[float, float] = (0.05, 0.25), noise_level: float = 0.015
     ) -> PCISignature:
-        """
-        Generate PCI signature indicating unconscious/subthreshold processing.
+        """Generate PCI signature indicating unconscious/subthreshold processing.
 
         Args:
             pci_range: Range for PCI generation, default ensures <0.3
@@ -151,8 +146,7 @@ class PCICalculator:
         perturbation_sites: Optional[List[int]] = None,
         noise_level: float = 0.1,
     ) -> PCISignature:
-        """
-        Calculate PCI from a connectivity matrix and perturbation response.
+        """Calculate PCI from a connectivity matrix and perturbation response.
 
         Args:
             connectivity_matrix: NxN connectivity matrix between brain regions
@@ -213,8 +207,7 @@ class PCICalculator:
         )
 
     def generate_signature(self, target_pci: float, noise_level: float = 0.02) -> PCISignature:
-        """
-        Generate PCI signature with specific target PCI value.
+        """Generate PCI signature with specific target PCI value.
 
         Args:
             target_pci: Target PCI value (0-1)
@@ -545,8 +538,7 @@ class PCICalculator:
         return float(np.mean(np.abs(connectivity_matrix)))
 
     def validate_signature(self, signature: PCISignature) -> bool:
-        """
-        Validate that PCI signature meets basic constraints.
+        """Validate that PCI signature meets basic constraints.
 
         Args:
             signature: PCISignature to validate
@@ -578,8 +570,7 @@ class PCICalculator:
         return True
 
     def is_conscious_level(self, signature: PCISignature) -> bool:
-        """
-        Determine if PCI signature indicates conscious-level processing.
+        """Determine if PCI signature indicates conscious-level processing.
 
         Args:
             signature: PCISignature to evaluate
@@ -590,8 +581,7 @@ class PCICalculator:
         return signature.pci_value > self.conscious_pci_threshold
 
     def calculate_pci(self, connectivity_matrix: np.ndarray) -> float:
-        """
-        Legacy method for backward compatibility with falsification tests.
+        """Legacy method for backward compatibility with falsification tests.
 
         Args:
             connectivity_matrix: NxN connectivity matrix between brain regions

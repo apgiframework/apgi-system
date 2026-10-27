@@ -7,8 +7,7 @@ import numpy as np
 
 
 class NarrativeSelf:
-    """
-    Narrative self-model with episodic memory and long-term identity.
+    """Narrative self-model with episodic memory and long-term identity.
 
     Implements the narrative self - the extended, autobiographical sense
     of identity that emerges from episodic memory and self-reflection.
@@ -76,8 +75,7 @@ class NarrativeSelf:
         self.goal_hierarchy: list[Any] = []
 
     def update(self, experience: Dict[str, Any], dt: float = 1.0) -> Dict[str, Any]:
-        """
-        Update narrative self with new experience.
+        """Update narrative self with new experience.
         Processes new experiences for potential storage using importance-weighting
         based on surprise magnitude (Free Energy).
         """

@@ -1,6 +1,4 @@
-"""
-Plugin manager for lifecycle and configuration management.
-"""
+"""Plugin manager for lifecycle and configuration management."""
 
 import logging
 from typing import Any, Dict, List, Optional, Set
@@ -11,8 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 class PluginManager:
-    """
-    High-level plugin management interface.
+    """High-level plugin management interface.
 
     Handles:
     - Plugin lifecycle (load, enable, disable)

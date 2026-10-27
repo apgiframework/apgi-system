@@ -1,5 +1,4 @@
-"""
-Unified Data Loader for HDF5-based Formats (.h5, .mat, .nwb)
+"""Unified Data Loader for HDF5-based Formats (.h5, .mat, .nwb).
 
 This module provides a unified interface for loading neuroscience datasets in
 HDF5-based formats, specifically for validating the Landauer Bridge (E_min ≥ kTln2).
@@ -36,8 +35,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class LoadedDataset:
-    """
-    Unified container for loaded neuroscience data.
+    """Unified container for loaded neuroscience data.
 
     Attributes:
         data: Main data array (e.g., fluorescence traces, spike times, LFP)
@@ -92,8 +90,7 @@ class LoadedDataset:
 
 
 class UnifiedDataLoader:
-    """
-    Unified loader for HDF5-based neuroscience data formats.
+    """Unified loader for HDF5-based neuroscience data formats.
 
     Provides a consistent interface for loading .h5, .mat, and .nwb files,
     with automatic format detection and standardized output.
@@ -105,8 +102,7 @@ class UnifiedDataLoader:
     """
 
     def __init__(self, cache_dir: Optional[Path] = None):
-        """
-        Initialize the unified data loader.
+        """Initialize the unified data loader.
 
         Args:
             cache_dir: Directory for caching downloaded datasets
@@ -135,8 +131,7 @@ class UnifiedDataLoader:
         format: Optional[Literal["h5", "mat", "nwb", "auto"]] = "auto",
         **kwargs: Any,
     ) -> LoadedDataset:
-        """
-        Load a dataset from file with automatic format detection.
+        """Load a dataset from file with automatic format detection.
 
         Args:
             file_path: Path to the data file
@@ -196,8 +191,7 @@ class UnifiedDataLoader:
                 raise ValueError(f"Cannot detect format for {file_path}")
 
     def _load_h5(self, file_path: Path, **kwargs: Any) -> LoadedDataset:
-        """
-        Load HDF5 file.
+        """Load HDF5 file.
 
         Args:
             file_path: Path to .h5 file
@@ -249,8 +243,7 @@ class UnifiedDataLoader:
         )
 
     def _load_mat(self, file_path: Path, **kwargs: Any) -> LoadedDataset:
-        """
-        Load MATLAB file (v7.3 HDF5-based format).
+        """Load MATLAB file (v7.3 HDF5-based format).
 
         Args:
             file_path: Path to .mat file
@@ -306,8 +299,7 @@ class UnifiedDataLoader:
         )
 
     def _load_nwb(self, file_path: Path, **kwargs: Any) -> LoadedDataset:
-        """
-        Load Neurodata Without Borders file.
+        """Load Neurodata Without Borders file.
 
         Args:
             file_path: Path to .nwb file
@@ -535,8 +527,7 @@ class UnifiedDataLoader:
 
 
 def load_crcns_dataset(file_path: Union[str, Path], **kwargs: Any) -> LoadedDataset:
-    """
-    Load CRCNS dataset (typically .mat format).
+    """Load CRCNS dataset (typically .mat format).
 
     CRCNS datasets include:
     - V1-1: Visual Cortex Spiking and LFP
@@ -556,8 +547,7 @@ def load_crcns_dataset(file_path: Union[str, Path], **kwargs: Any) -> LoadedData
 
 
 def load_allen_dataset(file_path: Union[str, Path], **kwargs: Any) -> LoadedDataset:
-    """
-    Load Allen Brain Map dataset (typically .nwb format).
+    """Load Allen Brain Map dataset (typically .nwb format).
 
     Allen datasets include:
     - Visual Coding: Two-Photon Calcium Imaging
@@ -577,8 +567,7 @@ def load_allen_dataset(file_path: Union[str, Path], **kwargs: Any) -> LoadedData
 
 
 def load_huggingface_dataset(file_path: Union[str, Path], **kwargs: Any) -> LoadedDataset:
-    """
-    Load Hugging Face neuromorphic dataset (typically .h5 format).
+    """Load Hugging Face neuromorphic dataset (typically .h5 format).
 
     Hugging Face datasets include:
     - Tonic: Spiking-Dataset-Collection

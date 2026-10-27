@@ -1,5 +1,4 @@
-"""
-Optimization module for APGI Framework.
+"""Optimization module for APGI Framework.
 
 This module provides resource optimization capabilities.
 """

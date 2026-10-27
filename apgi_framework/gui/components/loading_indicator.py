@@ -1,5 +1,4 @@
-"""
-Loading indicator component for APGI Framework GUI.
+"""Loading indicator component for APGI Framework GUI.
 
 Provides visual feedback for long-running operations with progress bars,
 spinners, and status messages.
@@ -15,8 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class LoadingIndicator:
-    """
-    A reusable loading indicator component for GUI applications.
+    """A reusable loading indicator component for GUI applications.
 
     Features:
     - Progress bar with percentage
@@ -35,8 +33,7 @@ class LoadingIndicator:
         width: int = 400,
         height: int = 150,
     ):
-        """
-        Initialize loading indicator.
+        """Initialize loading indicator.
 
         Args:
             parent: Parent widget
@@ -142,8 +139,7 @@ class LoadingIndicator:
         progress: float = 0.0,
         cancel_callback: Optional[Callable] = None,
     ) -> None:
-        """
-        Start the loading indicator.
+        """Start the loading indicator.
 
         Args:
             status_message: Initial status message
@@ -167,8 +163,7 @@ class LoadingIndicator:
         logger.debug(f"Loading indicator started: {status_message}")
 
     def update_progress(self, progress: float, status_message: Optional[str] = None) -> None:
-        """
-        Update progress and optionally status message.
+        """Update progress and optionally status message.
 
         Args:
             progress: Progress value (0.0 to 1.0)
@@ -308,8 +303,7 @@ class LoadingIndicator:
 
 
 class ProgressDialog:
-    """
-    A context manager for progress dialogs.
+    """A context manager for progress dialogs.
 
     Usage:
         with ProgressDialog(parent, "Processing data...") as progress:
@@ -327,8 +321,7 @@ class ProgressDialog:
         show_cancel: bool = True,
         show_time: bool = True,
     ):
-        """
-        Initialize progress dialog context manager.
+        """Initialize progress dialog context manager.
 
         Args:
             parent: Parent widget

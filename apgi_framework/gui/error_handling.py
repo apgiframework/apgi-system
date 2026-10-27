@@ -1,5 +1,4 @@
-"""
-Robust error handling and recovery system.
+"""Robust error handling and recovery system.
 
 Provides hardware failure handling, session state management, backup systems,
 and user guidance for error recovery.
@@ -85,8 +84,7 @@ except ImportError:
 
 
 class HardwareFailureHandler:
-    """
-    Handles graceful degradation when hardware fails.
+    """Handles graceful degradation when hardware fails.
 
     Manages EEG, eye tracker, and cardiac sensor failures with fallback strategies.
     """
@@ -108,8 +106,7 @@ class HardwareFailureHandler:
         logger.info("HardwareFailureHandler initialized")
 
     def register_failure_callback(self, hardware_type: str, callback: Callable[..., Any]) -> None:
-        """
-        Register callback for hardware failure.
+        """Register callback for hardware failure.
 
         Args:
             hardware_type: Type of hardware ('eeg', 'eye_tracker', 'cardiac')
@@ -119,8 +116,7 @@ class HardwareFailureHandler:
             self.failure_callbacks[hardware_type].append(callback)
 
     def report_hardware_failure(self, hardware_type: str, error: Exception) -> None:
-        """
-        Report hardware failure and trigger callbacks.
+        """Report hardware failure and trigger callbacks.
 
         Args:
             hardware_type: Type of hardware that failed
@@ -144,8 +140,7 @@ class HardwareFailureHandler:
                 logger.error(f"Error in failure callback: {e}")
 
     def check_hardware_status(self, hardware_type: str) -> bool:
-        """
-        Check if hardware is available.
+        """Check if hardware is available.
 
         Args:
             hardware_type: Type of hardware to check
@@ -162,8 +157,7 @@ class HardwareFailureHandler:
         return status["available"]
 
     def get_degraded_mode_config(self) -> Dict[str, bool]:
-        """
-        Get configuration for degraded mode operation.
+        """Get configuration for degraded mode operation.
 
         Returns:
             Dictionary indicating which systems are available
@@ -178,8 +172,7 @@ class HardwareFailureHandler:
         }
 
     def attempt_hardware_recovery(self, hardware_type: str) -> bool:
-        """
-        Attempt to recover failed hardware.
+        """Attempt to recover failed hardware.
 
         Args:
             hardware_type: Type of hardware to recover
@@ -341,8 +334,7 @@ class HardwareFailureHandler:
             return False
 
     def get_failure_summary(self) -> Dict[str, Any]:
-        """
-        Get summary of hardware failures.
+        """Get summary of hardware failures.
 
         Returns:
             Dictionary with failure information
@@ -371,15 +363,13 @@ class HardwareFailureHandler:
 
 
 class SessionStateManager:
-    """
-    Manages session state for pause/resume functionality.
+    """Manages session state for pause/resume functionality.
 
     Preserves complete session state for interruption recovery.
     """
 
     def __init__(self, state_dir: Path):
-        """
-        Initialize session state manager.
+        """Initialize session state manager.
 
         Args:
             state_dir: Directory for storing state files
@@ -392,8 +382,7 @@ class SessionStateManager:
         logger.info(f"SessionStateManager initialized with state dir: {state_dir}")
 
     def save_state(self, session_id: str, state_data: Dict[str, Any]) -> Path:
-        """
-        Save session state to disk.
+        """Save session state to disk.
 
         Args:
             session_id: Session identifier
@@ -417,8 +406,7 @@ class SessionStateManager:
         return state_file
 
     def load_state(self, session_id: str) -> Optional[Dict[str, Any]]:
-        """
-        Load session state from disk.
+        """Load session state from disk.
 
         Args:
             session_id: Session identifier
@@ -449,8 +437,7 @@ class SessionStateManager:
             return None
 
     def delete_state(self, session_id: str) -> None:
-        """
-        Delete saved session state.
+        """Delete saved session state.
 
         Args:
             session_id: Session identifier
@@ -462,8 +449,7 @@ class SessionStateManager:
             logger.info(f"Deleted session state: {state_file}")
 
     def list_saved_states(self) -> List[Dict[str, Any]]:
-        """
-        List all saved session states.
+        """List all saved session states.
 
         Returns:
             List of state information dictionaries
@@ -487,8 +473,7 @@ class SessionStateManager:
         return states
 
     def create_session(self, session_id: str) -> None:
-        """
-        Create a new session.
+        """Create a new session.
 
         Args:
             session_id: Session identifier
@@ -497,8 +482,7 @@ class SessionStateManager:
         self.save_state(session_id, {"status": "created", "created_at": datetime.now().isoformat()})
 
     def handle_session_crash(self, exception: Exception) -> None:
-        """
-        Handle session crash.
+        """Handle session crash.
 
         Args:
             exception: Exception that caused the crash
@@ -511,8 +495,7 @@ class SessionStateManager:
             self.current_state["crash_error"] = str(exception)
 
     def attempt_session_recovery(self) -> bool:
-        """
-        Attempt to recover from session crash.
+        """Attempt to recover from session crash.
 
         Returns:
             True if recovery successful
@@ -527,8 +510,7 @@ class SessionStateManager:
         return False
 
     def get_session_status(self) -> str:
-        """
-        Get current session status.
+        """Get current session status.
 
         Returns:
             Status string
@@ -541,15 +523,13 @@ class SessionStateManager:
 
 
 class AutomaticBackupSystem:
-    """
-    Real-time data backup and recovery.
+    """Real-time data backup and recovery.
 
     Automatically backs up session data at regular intervals.
     """
 
     def __init__(self, backup_dir: Path, dao: ParameterEstimationDAO):
-        """
-        Initialize automatic backup system.
+        """Initialize automatic backup system.
 
         Args:
             backup_dir: Directory for storing backups
@@ -565,8 +545,7 @@ class AutomaticBackupSystem:
         logger.info(f"AutomaticBackupSystem initialized with backup dir: {backup_dir}")
 
     def create_backup(self, session_id: str) -> Optional[Path]:
-        """
-        Create backup of session data.
+        """Create backup of session data.
 
         Args:
             session_id: Session identifier
@@ -608,8 +587,7 @@ class AutomaticBackupSystem:
             return None
 
     def restore_from_backup(self, backup_file: Path) -> Optional[SessionData]:
-        """
-        Restore session from backup file.
+        """Restore session from backup file.
 
         Args:
             backup_file: Path to backup file
@@ -690,8 +668,7 @@ class AutomaticBackupSystem:
             raise
 
     def list_backups(self, session_id: Optional[str] = None) -> List[Dict[str, Any]]:
-        """
-        List available backups.
+        """List available backups.
 
         Args:
             session_id: Optional session ID to filter by
@@ -722,8 +699,7 @@ class AutomaticBackupSystem:
         return backups
 
     def cleanup_old_backups(self, max_age_days: int = 30, max_backups_per_session: int = 10) -> int:
-        """
-        Clean up old backup files.
+        """Clean up old backup files.
 
         Args:
             max_age_days: Maximum age of backups to keep
@@ -781,15 +757,13 @@ class AutomaticBackupSystem:
 
 
 class UserGuidanceSystem:
-    """
-    Provides clear error messages and recovery instructions.
+    """Provides clear error messages and recovery instructions.
 
     Displays user-friendly error messages with step-by-step recovery guidance.
     """
 
     def __init__(self, parent_window: Optional[tk.Tk] = None):
-        """
-        Initialize user guidance system.
+        """Initialize user guidance system.
 
         Args:
             parent_window: Parent tkinter window for dialogs
@@ -836,8 +810,7 @@ class UserGuidanceSystem:
         logger.info("UserGuidanceSystem initialized")
 
     def show_error_guidance(self, error_type: str, additional_info: str = "") -> None:
-        """
-        Show error guidance dialog.
+        """Show error guidance dialog.
 
         Args:
             error_type: Type of error (key in error_templates)
@@ -878,8 +851,7 @@ class UserGuidanceSystem:
             logger.error(message)
 
     def show_recovery_success(self, component: str) -> None:
-        """
-        Show recovery success message.
+        """Show recovery success message.
 
         Args:
             component: Component that was recovered
@@ -892,8 +864,7 @@ class UserGuidanceSystem:
             logger.info(message)
 
     def show_degraded_mode_warning(self, unavailable_systems: List[str]) -> bool:
-        """
-        Show warning about degraded mode operation.
+        """Show warning about degraded mode operation.
 
         Args:
             unavailable_systems: List of unavailable systems
@@ -917,8 +888,7 @@ class UserGuidanceSystem:
     def log_error_with_context(
         self, error: Exception, context: Dict[str, Any], log_dir: Optional[Path] = None
     ) -> None:
-        """
-        Log error with full context information.
+        """Log error with full context information.
 
         Args:
             error: Exception that occurred

@@ -1,5 +1,4 @@
-"""
-Edge Case Interpreter
+"""Edge Case Interpreter.
 
 Implements edge case classification and interpretation for APGI Framework boundaries.
 Handles special cases like anesthesia awareness, blindsight, dreams, and locked-in syndrome
@@ -20,7 +19,7 @@ if TYPE_CHECKING:
 
 
 class EdgeCaseType(Enum):
-    """Types of edge cases for framework boundary testing"""
+    """Types of edge cases for framework boundary testing."""
 
     ANESTHESIA_AWARENESS = "anesthesia_awareness"
     BLINDSIGHT = "blindsight"
@@ -34,7 +33,7 @@ class EdgeCaseType(Enum):
 
 
 class FrameworkBoundary(Enum):
-    """Framework boundary classifications"""
+    """Framework boundary classifications."""
 
     WITHIN_FRAMEWORK = "within_framework"
     BOUNDARY_CASE = "boundary_case"
@@ -44,7 +43,7 @@ class FrameworkBoundary(Enum):
 
 @dataclass
 class EdgeCaseProfile:
-    """Profile defining characteristics of an edge case"""
+    """Profile defining characteristics of an edge case."""
 
     case_type: EdgeCaseType
     description: str
@@ -67,7 +66,7 @@ class EdgeCaseProfile:
 
 @dataclass
 class EdgeCaseClassification:
-    """Result of edge case classification"""
+    """Result of edge case classification."""
 
     case_type: EdgeCaseType
     confidence: float
@@ -89,7 +88,7 @@ class EdgeCaseClassification:
 
 @dataclass
 class EdgeCaseAnalysisResult:
-    """Complete edge case analysis result"""
+    """Complete edge case analysis result."""
 
     analysis_id: str
     timestamp: datetime
@@ -112,15 +111,14 @@ class EdgeCaseAnalysisResult:
 
 
 class EdgeCaseInterpreter:
-    """
-    Classifier and interpreter for edge cases in APGI Framework testing.
+    """Classifier and interpreter for edge cases in APGI Framework testing.
 
     Handles special neurological and clinical conditions that may not fit
     standard falsification criteria and provides framework boundary validation.
     """
 
     def __init__(self) -> None:
-        """Initialize edge case interpreter with predefined profiles"""
+        """Initialize edge case interpreter with predefined profiles."""
         self.edge_case_profiles = self._initialize_edge_case_profiles()
 
         # Classification thresholds
@@ -128,7 +126,7 @@ class EdgeCaseInterpreter:
         self.boundary_confidence_threshold = 0.6
 
     def _initialize_edge_case_profiles(self) -> Dict[EdgeCaseType, EdgeCaseProfile]:
-        """Initialize profiles for different edge case types"""
+        """Initialize profiles for different edge case types."""
         profiles = {}
 
         # Anesthesia Awareness
@@ -283,8 +281,7 @@ class EdgeCaseInterpreter:
         consciousness_assessment: "ConsciousnessAssessment",
         analysis_id: Optional[str] = None,
     ) -> EdgeCaseAnalysisResult:
-        """
-        Classify and interpret an edge case based on neural signatures and consciousness assessment.
+        """Classify and interpret an edge case based on neural signatures and consciousness assessment.
 
         Args:
             neural_signatures: Combined neural signature data
@@ -370,7 +367,7 @@ class EdgeCaseInterpreter:
         consciousness_assessment: "ConsciousnessAssessment",
         profile: EdgeCaseProfile,
     ) -> float:
-        """Calculate how well the data matches an edge case profile"""
+        """Calculate how well the data matches an edge case profile."""
         scores = []
 
         # P3b amplitude score
@@ -428,7 +425,7 @@ class EdgeCaseInterpreter:
         return float(np.mean(scores))
 
     def _calculate_range_score(self, value: float, expected_range: Tuple[float, float]) -> float:
-        """Calculate how well a value fits within an expected range"""
+        """Calculate how well a value fits within an expected range."""
         min_val, max_val = expected_range
 
         if min_val <= value <= max_val:
@@ -462,7 +459,7 @@ class EdgeCaseInterpreter:
         neural_signatures: CombinedSignature,
         consciousness_assessment: "ConsciousnessAssessment",
     ) -> EdgeCaseClassification:
-        """Create a classification result for a specific edge case type"""
+        """Create a classification result for a specific edge case type."""
         profile = self.edge_case_profiles[case_type]
 
         # Analyze supporting and contradicting evidence
@@ -555,7 +552,7 @@ class EdgeCaseInterpreter:
     def _calculate_signature_consistency(
         self, neural_signatures: CombinedSignature, profile: EdgeCaseProfile
     ) -> float:
-        """Calculate consistency of neural signatures with profile expectations"""
+        """Calculate consistency of neural signatures with profile expectations."""
         scores = []
 
         # P3b consistency
@@ -595,7 +592,7 @@ class EdgeCaseInterpreter:
         consciousness_assessment: "ConsciousnessAssessment",
         profile: EdgeCaseProfile,
     ) -> float:
-        """Calculate consistency of consciousness measures with profile expectations"""
+        """Calculate consistency of consciousness measures with profile expectations."""
         scores = []
 
         # Subjective report consistency
@@ -628,7 +625,7 @@ class EdgeCaseInterpreter:
         supporting_evidence: List[str],
         contradicting_evidence: List[str],
     ) -> str:
-        """Generate interpretation text for the classification"""
+        """Generate interpretation text for the classification."""
         interpretation_parts = [f"Classification: {case_type.value.replace('_', ' ').title()}"]
         interpretation_parts.append(f"Description: {profile.description}")
         interpretation_parts.append(
@@ -653,7 +650,7 @@ class EdgeCaseInterpreter:
         profile: EdgeCaseProfile,
         contradicting_evidence: List[str],
     ) -> List[str]:
-        """Generate recommendations based on classification"""
+        """Generate recommendations based on classification."""
         recommendations = []
 
         if contradicting_evidence:
@@ -714,7 +711,7 @@ class EdgeCaseInterpreter:
         neural_signatures: CombinedSignature,
         consciousness_assessment: "ConsciousnessAssessment",
     ) -> str:
-        """Generate framework implications based on classification"""
+        """Generate framework implications based on classification."""
         implications = []
 
         if classification.framework_boundary == FrameworkBoundary.WITHIN_FRAMEWORK:
@@ -763,7 +760,7 @@ class EdgeCaseInterpreter:
         neural_signatures: CombinedSignature,
         consciousness_assessment: "ConsciousnessAssessment",
     ) -> str:
-        """Assess relevance to falsification testing"""
+        """Assess relevance to falsification testing."""
         relevance_parts = []
 
         # Check for primary falsification relevance
@@ -812,7 +809,7 @@ class EdgeCaseInterpreter:
         primary_classification: EdgeCaseClassification,
         alternative_classifications: List[EdgeCaseClassification],
     ) -> List[str]:
-        """Generate recommendations for further testing"""
+        """Generate recommendations for further testing."""
         recommendations = []
 
         # General recommendations based on confidence
@@ -855,8 +852,7 @@ class EdgeCaseInterpreter:
     def validate_framework_boundaries(
         self, analysis_results: List[EdgeCaseAnalysisResult]
     ) -> Dict[str, Any]:
-        """
-        Validate framework boundaries across multiple edge case analyses.
+        """Validate framework boundaries across multiple edge case analyses.
 
         Args:
             analysis_results: List of edge case analysis results
@@ -911,7 +907,7 @@ class EdgeCaseInterpreter:
     def _generate_boundary_validation_recommendations(
         self, violation_rate: float, boundary_rate: float, robustness_score: float
     ) -> List[str]:
-        """Generate recommendations based on boundary validation results"""
+        """Generate recommendations based on boundary validation results."""
         recommendations = []
 
         if violation_rate > 0.1:  # More than 10% violations

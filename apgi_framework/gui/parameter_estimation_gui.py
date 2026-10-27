@@ -1,5 +1,4 @@
-"""
-Main parameter estimation experiment control interface.
+"""Main parameter estimation experiment control interface.
 
 Provides unified GUI for all three parameter estimation tasks (detection,
 heartbeat detection, and dual-modality oddball).
@@ -104,18 +103,18 @@ except ImportError:
                 self.db_path = db_path
 
             def list_sessions(self, limit: Optional[int] = None) -> List[Any]:
-                """Return empty list for fallback implementation"""
+                """Return empty list for fallback implementation."""
                 return []
 
             def get_session(self, session_id: str) -> Optional[Any]:
-                """Return None for fallback implementation"""
+                """Return None for fallback implementation."""
                 return None
 
             def update_session(self, session_data: Any) -> None:
-                """No-op for fallback implementation"""
+                """No-op for fallback implementation."""
 
             def save_session(self, session_data: Any) -> None:
-                """No-op for fallback implementation"""
+                """No-op for fallback implementation."""
 
 else:
     # Import successful, don't define fallback classes
@@ -185,16 +184,14 @@ else:
 
 
 class ParameterEstimationGUI:
-    """
-    Main GUI for parameter estimation experiments.
+    """Main GUI for parameter estimation experiments.
 
     Provides unified interface for running all three tasks with real-time
     monitoring, session management, and task configuration.
     """
 
     def __init__(self, db_path: Path, title: str = "APGI Parameter Estimation System"):
-        """
-        Initialize parameter estimation GUI.
+        """Initialize parameter estimation GUI.
 
         Args:
             db_path: Path to database for data storage
@@ -1046,8 +1043,7 @@ through behavioral tasks and neural measurements.
 
 
 def launch_gui(db_path: Path) -> None:
-    """
-    Launch the parameter estimation GUI.
+    """Launch the parameter estimation GUI.
 
     Args:
         db_path: Path to database file

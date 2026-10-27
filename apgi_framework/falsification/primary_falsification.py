@@ -1,5 +1,4 @@
-"""
-Primary Falsification Test implementation for APGI Framework.
+"""Primary Falsification Test implementation for APGI Framework.
 
 This module provides the main PrimaryFalsificationTest class that
 implements the core falsification testing logic with proper result objects.
@@ -14,8 +13,7 @@ from scipy import stats
 
 
 class FalsificationResult:
-    """
-    Result object for falsification tests with proper attributes.
+    """Result object for falsification tests with proper attributes.
 
     This class provides a consistent interface for test results that includes
     the is_falsified attribute expected by the GUI and other code.
@@ -32,8 +30,7 @@ class FalsificationResult:
         confidence: Optional[float] = None,
         **kwargs: Any,
     ) -> None:
-        """
-        Initialize falsification result.
+        """Initialize falsification result.
 
         Args:
             falsified: Whether the framework was falsified
@@ -68,8 +65,7 @@ class FalsificationResult:
 
 
 class PrimaryFalsificationTest:
-    """
-    Primary falsification test implementation for APGI Framework.
+    """Primary falsification test implementation for APGI Framework.
 
     This test examines whether full neural ignition signatures can occur
     without any evidence of consciousness, which would falsify the framework.
@@ -93,8 +89,7 @@ class PrimaryFalsificationTest:
     def run_falsification_test(
         self, n_trials: int = 1000, n_participants: int = 20
     ) -> FalsificationResult:
-        """
-        Run the primary falsification test.
+        """Run the primary falsification test.
 
         Args:
             n_trials: Number of experimental trials to simulate

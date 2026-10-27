@@ -1,5 +1,4 @@
-"""
-Diagnostics CLI Tool
+"""Diagnostics CLI Tool.
 
 Command-line interface for running system health checks and diagnostics.
 """
@@ -26,7 +25,7 @@ logger = get_logger(__name__)
 
 
 def run_health_check(args: argparse.Namespace) -> None:
-    """Run system health check"""
+    """Run system health check."""
     logger.info("\n" + "=" * 60)
     logger.info("APGI FRAMEWORK SYSTEM HEALTH CHECK")
     logger.info("=" * 60 + "\n")
@@ -52,7 +51,7 @@ def run_health_check(args: argparse.Namespace) -> None:
 
 
 def run_diagnostics(args: argparse.Namespace) -> None:
-    """Run diagnostic information gathering"""
+    """Run diagnostic information gathering."""
     logger.info("\n" + "=" * 60)
     logger.info("APGI FRAMEWORK DIAGNOSTIC INFORMATION")
     logger.info("=" * 60 + "\n")
@@ -84,7 +83,7 @@ def run_diagnostics(args: argparse.Namespace) -> None:
 
 
 def validate_parameters(args: argparse.Namespace) -> None:
-    """Validate parameters from command line"""
+    """Validate parameters from command line."""
     logger.info("\n" + "=" * 60)
     logger.info("PARAMETER VALIDATION")
     logger.info("=" * 60 + "\n")
@@ -117,7 +116,7 @@ def validate_parameters(args: argparse.Namespace) -> None:
 
 
 def get_parameter_info(args: argparse.Namespace) -> None:
-    """Get information about a parameter"""
+    """Get information about a parameter."""
     validator = get_validator()
 
     if not args.parameter:
@@ -129,7 +128,7 @@ def get_parameter_info(args: argparse.Namespace) -> None:
 
 
 def main() -> None:
-    """Main CLI entry point"""
+    """Main CLI entry point."""
     parser = argparse.ArgumentParser(
         description="APGI Framework Diagnostics and Validation Tool",
         formatter_class=argparse.RawDescriptionHelpFormatter,

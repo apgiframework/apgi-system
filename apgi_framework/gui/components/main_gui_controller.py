@@ -1,5 +1,4 @@
-"""
-Main GUI Controller for APGI Framework.
+"""Main GUI Controller for APGI Framework.
 
 Orchestrates all GUI components and provides centralized management
 for the modular GUI architecture.
@@ -65,16 +64,14 @@ if "logger" not in globals():
 
 
 class MainGUIController:
-    """
-    Main controller for the APGI Framework GUI.
+    """Main controller for the APGI Framework GUI.
 
     Orchestrates all GUI components, manages state, and provides
     centralized communication between components.
     """
 
     def __init__(self, parent_widget: Any) -> None:
-        """
-        Initialize the main GUI controller.
+        """Initialize the main GUI controller.
 
         Args:
             parent_widget: Parent widget (usually the main window)
@@ -678,8 +675,7 @@ class MainGUIController:
 
 # Factory function for easy instantiation
 def create_main_gui_controller(parent_widget: Any) -> MainGUIController:
-    """
-    Create a main GUI controller with default settings.
+    """Create a main GUI controller with default settings.
 
     Args:
         parent_widget: Parent widget (usually the main window)

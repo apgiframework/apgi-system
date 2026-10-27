@@ -1,5 +1,4 @@
-"""
-Neural signature validation and combination system for APGI Framework falsification testing.
+"""Neural signature validation and combination system for APGI Framework falsification testing.
 
 This module implements the SignatureValidator class that validates individual neural
 signatures and combines them into complete patterns for consciousness detection and
@@ -65,12 +64,12 @@ class CombinedSignature:
 
     @property
     def p3b_amplitude(self) -> float:
-        """Get P3b amplitude value"""
+        """Get P3b amplitude value."""
         return self.p3b_signature.amplitude if self.p3b_signature else 0.0
 
     @property
     def gamma_plv(self) -> float:
-        """Get gamma phase-locking value"""
+        """Get gamma phase-locking value."""
         if self.gamma_signature and self.gamma_signature.plv_values:
             # Return the maximum PLV value across all region pairs
             return max(self.gamma_signature.plv_values.values())
@@ -78,20 +77,19 @@ class CombinedSignature:
 
     @property
     def pci_value(self) -> float:
-        """Get PCI value"""
+        """Get PCI value."""
         return self.pci_signature.pci_value if self.pci_signature else 0.0
 
     @property
     def bold_activations(self) -> Dict[str, float]:
-        """Get BOLD activation values by region"""
+        """Get BOLD activation values by region."""
         if self.bold_signature:
             return self.bold_signature.activations
         return {}
 
 
 class SignatureValidator:
-    """
-    Validator for neural signatures with threshold checking and pattern combination.
+    """Validator for neural signatures with threshold checking and pattern combination.
 
     This class validates individual neural signatures against physiological constraints
     and consciousness thresholds, then combines them into complete patterns for
@@ -123,8 +121,7 @@ class SignatureValidator:
         }
 
     def validate_p3b_signature(self, signature: P3bSignature) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Validate P3b ERP signature against physiological constraints.
+        """Validate P3b ERP signature against physiological constraints.
 
         Args:
             signature: P3bSignature to validate
@@ -166,8 +163,7 @@ class SignatureValidator:
         return is_valid, validation_details
 
     def validate_gamma_signature(self, signature: GammaSignature) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Validate gamma-band synchrony signature against physiological constraints.
+        """Validate gamma-band synchrony signature against physiological constraints.
 
         Args:
             signature: GammaSignature to validate
@@ -225,8 +221,7 @@ class SignatureValidator:
         return is_valid, validation_details
 
     def validate_bold_signature(self, signature: BOLDSignature) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Validate BOLD activation signature against physiological constraints.
+        """Validate BOLD activation signature against physiological constraints.
 
         Args:
             signature: BOLDSignature to validate
@@ -285,8 +280,7 @@ class SignatureValidator:
         return is_valid, validation_details
 
     def validate_pci_signature(self, signature: PCISignature) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Validate PCI signature against physiological constraints.
+        """Validate PCI signature against physiological constraints.
 
         Args:
             signature: PCISignature to validate
@@ -335,8 +329,7 @@ class SignatureValidator:
         bold_signature: Optional[BOLDSignature] = None,
         pci_signature: Optional[PCISignature] = None,
     ) -> CombinedSignature:
-        """
-        Combine individual neural signatures into a complete pattern.
+        """Combine individual neural signatures into a complete pattern.
 
         Args:
             p3b_signature: Optional P3b ERP signature
@@ -597,8 +590,7 @@ class SignatureValidator:
         return is_falsification, confidence
 
     def validate_combined_signature(self, combined_signature: CombinedSignature) -> bool:
-        """
-        Validate a combined signature for consistency and completeness.
+        """Validate a combined signature for consistency and completeness.
 
         Args:
             combined_signature: CombinedSignature to validate
@@ -637,8 +629,7 @@ class SignatureValidator:
         return True
 
     def get_signature_summary(self, combined_signature: CombinedSignature) -> Dict[str, Any]:
-        """
-        Get a summary of the combined signature for reporting.
+        """Get a summary of the combined signature for reporting.
 
         Args:
             combined_signature: CombinedSignature to summarize

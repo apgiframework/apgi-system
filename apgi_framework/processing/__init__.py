@@ -1,5 +1,4 @@
-"""
-Processing module for APGI Framework.
+"""Processing module for APGI Framework.
 
 This module provides high-volume data processing capabilities.
 """

@@ -1,5 +1,4 @@
-"""
-Comprehensive parameter estimation validation pipeline.
+"""Comprehensive parameter estimation validation pipeline.
 
 Integrates parameter recovery validation, reliability testing, predictive validity,
 and performance benchmarking into a unified validation workflow.
@@ -91,16 +90,14 @@ class ValidationPipelineReport:
 
 
 class ParameterRecoveryValidator:
-    """
-    Validates parameter recovery with automated pass/fail criteria.
+    """Validates parameter recovery with automated pass/fail criteria.
 
     Integrates into deployment workflow to ensure Bayesian modeling
     pipeline can accurately recover known parameters.
     """
 
     def __init__(self, random_seed: Optional[int] = None):
-        """
-        Initialize parameter recovery validator.
+        """Initialize parameter recovery validator.
 
         Args:
             random_seed: Random seed for reproducibility.
@@ -124,8 +121,7 @@ class ParameterRecoveryValidator:
         }
 
     def run_recovery_study(self, n_datasets: int = 100) -> RecoveryResults:
-        """
-        Run parameter recovery study with synthetic datasets.
+        """Run parameter recovery study with synthetic datasets.
 
         Args:
             n_datasets: Number of synthetic datasets to generate.
@@ -292,8 +288,7 @@ class ParameterRecoveryValidator:
 
 
 class ReliabilityTester:
-    """
-    Automated test-retest reliability assessment.
+    """Automated test-retest reliability assessment.
 
     Tests reliability of parameter estimates with ICC > 0.75 target.
     """
@@ -309,8 +304,7 @@ class ReliabilityTester:
         retest_estimates: List[ParameterEstimates],
         interval_days: int = 7,
     ) -> Dict[str, ReliabilityMetrics]:
-        """
-        Assess test-retest reliability.
+        """Assess test-retest reliability.
 
         Args:
             test_estimates: Parameter estimates from first session.
@@ -381,8 +375,7 @@ class ReliabilityTester:
 
 
 class PredictiveValidityPipeline:
-    """
-    Systematic validation against independent measures.
+    """Systematic validation against independent measures.
 
     Tests whether APGI parameters predict performance on independent tasks.
     """
@@ -392,8 +385,7 @@ class PredictiveValidityPipeline:
         self.logger = logging.getLogger(__name__)
 
     def run_validation(self, parameter_estimates: List[ParameterEstimates]) -> List[ValidityResult]:
-        """
-        Run predictive validity testing.
+        """Run predictive validity testing.
 
         Args:
             parameter_estimates: Parameter estimates to validate.
@@ -458,8 +450,7 @@ class PredictiveValidityPipeline:
 
 
 class PerformanceBenchmarker:
-    """
-    Real-time processing optimization and bottleneck identification.
+    """Real-time processing optimization and bottleneck identification.
 
     Benchmarks critical operations to ensure real-time performance.
     """
@@ -478,8 +469,7 @@ class PerformanceBenchmarker:
         }
 
     def run_benchmarks(self) -> List[PerformanceBenchmark]:
-        """
-        Run performance benchmarks.
+        """Run performance benchmarks.
 
         Returns:
             List of performance benchmarks.
@@ -581,13 +571,10 @@ class PerformanceBenchmarker:
 
 
 class ComprehensiveValidationPipeline:
-    """
-    Comprehensive validation pipeline integrating all validation components.
-    """
+    """Comprehensive validation pipeline integrating all validation components."""
 
     def __init__(self, random_seed: Optional[int] = None):
-        """
-        Initialize comprehensive validation pipeline.
+        """Initialize comprehensive validation pipeline.
 
         Args:
             random_seed: Random seed for reproducibility.
@@ -604,8 +591,7 @@ class ComprehensiveValidationPipeline:
         n_recovery_datasets: int = 100,
         test_retest_data: Optional[Tuple[List, List]] = None,
     ) -> ValidationPipelineReport:
-        """
-        Run complete validation pipeline.
+        """Run complete validation pipeline.
 
         Args:
             n_recovery_datasets: Number of datasets for recovery study.

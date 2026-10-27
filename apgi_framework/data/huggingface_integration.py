@@ -1,5 +1,4 @@
-"""
-Hugging Face Neuromorphic Dataset Integration for APGI Framework
+"""Hugging Face Neuromorphic Dataset Integration for APGI Framework.
 
 This module provides specialized loaders for Hugging Face neuromorphic datasets,
 which are critical for validating the Landauer Bridge (E_min ≥ kTln2) through
@@ -32,8 +31,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class NeuromorphicDataset:
-    """
-    Hugging Face neuromorphic dataset (event-based spiking data).
+    """Hugging Face neuromorphic dataset (event-based spiking data).
 
     Event-based systems only consume power when pixels change, providing an
     ideal substrate for testing the Allostatic Threshold θ(t)'s ability to
@@ -78,8 +76,7 @@ class NeuromorphicDataset:
         return float(self.time[-1] - self.time[0])
 
     def compute_event_rate(self, window_ms: float = 100.0) -> npt.NDArray[np.float64]:
-        """
-        Compute event rate over time windows.
+        """Compute event rate over time windows.
 
         Args:
             window_ms: Window size in milliseconds
@@ -102,8 +99,7 @@ class NeuromorphicDataset:
     def convert_to_spike_train(
         self, spatial_bins: tuple[int, int] = (32, 32), temporal_bins: int = 100
     ) -> npt.NDArray[np.float64]:
-        """
-        Convert event data to spike train raster.
+        """Convert event data to spike train raster.
 
         Args:
             spatial_bins: Number of spatial bins (height, width)
@@ -136,8 +132,7 @@ class NeuromorphicDataset:
     def compute_information_value(
         self, spike_raster: Optional[npt.NDArray[np.float64]] = None
     ) -> Dict[str, float]:
-        """
-        Compute information value V(t) from spike train.
+        """Compute information value V(t) from spike train.
 
         Information value quantifies the information content of neural activity,
         which should be maximized while minimizing metabolic cost.
@@ -178,8 +173,7 @@ class NeuromorphicDataset:
         spike_raster: Optional[npt.NDArray[np.float64]] = None,
         target_information: float = 0.5,
     ) -> Dict[str, float]:
-        """
-        Compute Allostatic Threshold θ(t) for metabolic cost minimization.
+        """Compute Allostatic Threshold θ(t) for metabolic cost minimization.
 
         The Allostatic Threshold represents the optimal balance between
         metabolic cost and information value, minimizing cost while
@@ -224,16 +218,14 @@ class NeuromorphicDataset:
 
 
 class HuggingFaceLoader:
-    """
-    Specialized loader for Hugging Face neuromorphic datasets.
+    """Specialized loader for Hugging Face neuromorphic datasets.
 
     Provides convenience methods for loading specific Hugging Face datasets
     with appropriate preprocessing for APGI validation protocols.
     """
 
     def __init__(self, cache_dir: Optional[Path] = None):
-        """
-        Initialize Hugging Face loader.
+        """Initialize Hugging Face loader.
 
         Args:
             cache_dir: Directory for caching downloaded datasets
@@ -243,8 +235,7 @@ class HuggingFaceLoader:
         self.unified_loader = UnifiedDataLoader(cache_dir=cache_dir)
 
     def load_neuromorphic(self, file_path: Union[str, Path], **kwargs: Any) -> NeuromorphicDataset:
-        """
-        Load Hugging Face neuromorphic dataset.
+        """Load Hugging Face neuromorphic dataset.
 
         Args:
             file_path: Path to dataset file (.h5 format)
@@ -278,9 +269,10 @@ class HuggingFaceLoader:
             temporal_resolution_us=float(temporal_res),
         )
 
-    def download_tonic_dataset(self, dataset_name: str, output_dir: Optional[Path] = None) -> Path:
-        """
-        Download Tonic neuromorphic dataset from Hugging Face.
+    def download_tonic_dataset(
+        self, dataset_name: str, output_dir: Optional[Path] = None, revision: Optional[str] = None
+    ) -> Path:
+        """Download Tonic neuromorphic dataset from Hugging Face.
 
         Args:
             dataset_name: Name of the Tonic dataset (e.g., "tonic/nmnist")
@@ -296,7 +288,7 @@ class HuggingFaceLoader:
             from datasets import load_dataset
 
             logger.info(f"Downloading Tonic dataset {dataset_name}...")
-            dataset = load_dataset(dataset_name)
+            dataset = load_dataset(dataset_name, revision=revision)  # pass a commit hash to pin
 
             # Save to local cache
             dataset.save_to_disk(str(output_dir))
@@ -312,8 +304,7 @@ class HuggingFaceLoader:
         return output_dir
 
     def list_available_datasets(self) -> List[str]:
-        """
-        List available Hugging Face neuromorphic datasets.
+        """List available Hugging Face neuromorphic datasets.
 
         Returns:
             List of dataset names

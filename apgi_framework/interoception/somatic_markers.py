@@ -1,5 +1,4 @@
-"""
-Somatic Marker System
+"""Somatic Marker System.
 
 Implements Damasio's somatic marker hypothesis:
 Learns associations between contexts/actions and body states,
@@ -14,8 +13,7 @@ import numpy as np
 
 @dataclass
 class SomaticMarker:
-    """
-    A somatic marker: association between situation and body response.
+    """A somatic marker: association between situation and body response.
 
     Stores: (context_pattern, action_pattern) -> body_outcome
     """
@@ -29,8 +27,7 @@ class SomaticMarker:
 
 
 class SomaticMarkerSystem:
-    """
-    Stores and retrieves somatic markers for decision guidance.
+    """Stores and retrieves somatic markers for decision guidance.
 
     Implements Damasio's somatic marker hypothesis: the brain learns
     associations between situations/actions and their bodily outcomes

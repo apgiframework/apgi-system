@@ -1,5 +1,4 @@
-"""
-Test Generator Module
+"""Test Generator Module.
 
 Provides functionality for generating test coverage reports and missing tests.
 """

@@ -1,5 +1,4 @@
-"""
-Simple web monitoring module for APGI Framework.
+"""Simple web monitoring module for APGI Framework.
 
 This module provides basic web-based monitoring capabilities.
 """

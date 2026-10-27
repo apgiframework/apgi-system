@@ -1,5 +1,4 @@
-"""
-Logging Panel for APGI Framework GUI.
+"""Logging Panel for APGI Framework GUI.
 
 Extracted from the monolithic GUI to provide a focused component
 for system logging and message display.
@@ -49,16 +48,14 @@ class LogHandler(logging.Handler):
 
 
 class LoggingPanel(ctk.CTkFrame):
-    """
-    Panel for displaying system logs and messages.
+    """Panel for displaying system logs and messages.
 
     Provides comprehensive logging capabilities including real-time display,
     log level filtering, search functionality, and export options.
     """
 
     def __init__(self, parent: Any, max_log_lines: int = 1000) -> None:
-        """
-        Initialize the logging panel.
+        """Initialize the logging panel.
 
         Args:
             parent: Parent widget
@@ -686,8 +683,7 @@ class LoggingPanel(ctk.CTkFrame):
 
 # Factory function for easy instantiation
 def create_logging_panel(parent: Any, max_log_lines: int = 1000) -> LoggingPanel:
-    """
-    Create a logging panel with default settings.
+    """Create a logging panel with default settings.
 
     Args:
         parent: Parent widget

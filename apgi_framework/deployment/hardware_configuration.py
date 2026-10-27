@@ -1,5 +1,4 @@
-"""
-Hardware Configuration Manager for different EEG systems, eye trackers, and cardiac sensors.
+"""Hardware Configuration Manager for different EEG systems, eye trackers, and cardiac sensors.
 
 Provides unified interface for configuring and managing various hardware devices
 used in the APGI Framework parameter estimation system.
@@ -120,16 +119,14 @@ class CardiacSensorConfig:
 
 
 class HardwareConfigurationManager:
-    """
-    Manages hardware configuration for the APGI Framework.
+    """Manages hardware configuration for the APGI Framework.
 
     Provides unified interface for configuring EEG systems, eye trackers,
     cardiac sensors, and other hardware devices.
     """
 
     def __init__(self, config_dir: Optional[Path] = None):
-        """
-        Initialize hardware configuration manager.
+        """Initialize hardware configuration manager.
 
         Args:
             config_dir: Directory for storing hardware configurations.
@@ -331,8 +328,7 @@ class HardwareConfigurationManager:
     def configure_eeg_system(
         self, config_name: str, custom_params: Optional[Dict] = None
     ) -> HardwareDevice:
-        """
-        Configure EEG system.
+        """Configure EEG system.
 
         Args:
             config_name: Name of predefined configuration or 'custom'.
@@ -377,8 +373,7 @@ class HardwareConfigurationManager:
     def configure_eye_tracker(
         self, config_name: str, custom_params: Optional[Dict] = None
     ) -> HardwareDevice:
-        """
-        Configure eye tracker.
+        """Configure eye tracker.
 
         Args:
             config_name: Name of predefined configuration or 'custom'.
@@ -423,8 +418,7 @@ class HardwareConfigurationManager:
     def configure_cardiac_sensor(
         self, config_name: str, custom_params: Optional[Dict] = None
     ) -> HardwareDevice:
-        """
-        Configure cardiac sensor.
+        """Configure cardiac sensor.
 
         Args:
             config_name: Name of predefined configuration or 'custom'.
@@ -464,8 +458,7 @@ class HardwareConfigurationManager:
         return device
 
     def save_configuration(self, filename: str) -> None:
-        """
-        Save current hardware configuration to file.
+        """Save current hardware configuration to file.
 
         Args:
             filename: Name of configuration file.
@@ -496,8 +489,7 @@ class HardwareConfigurationManager:
         self.logger.info(f"Configuration saved to {config_path}")
 
     def load_configuration(self, filename: str) -> None:
-        """
-        Load hardware configuration from file.
+        """Load hardware configuration from file.
 
         Args:
             filename: Name of configuration file.

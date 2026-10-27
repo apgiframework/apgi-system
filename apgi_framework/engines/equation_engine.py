@@ -1,5 +1,4 @@
-"""
-Core APGI ignition threshold equation implementation.
+"""Core APGI ignition threshold equation implementation.
 
 This module implements the fundamental APGI equation for calculating surprise
 and ignition probability based on precision-weighted prediction errors.
@@ -30,8 +29,7 @@ else:
 
 
 class APGIEquation:
-    """
-    Core implementation of the APGI ignition threshold equation.
+    """Core implementation of the APGI ignition threshold equation.
 
     This class provides methods for calculating precision-weighted surprise
     and ignition probability based on the APGI Framework mathematical model.
@@ -48,8 +46,7 @@ class APGIEquation:
         numerical_stability: bool = True,
         max_sigmoid_input: Optional[float] = None,
     ):
-        """
-        Initialize the APGI equation calculator with integrated components.
+        """Initialize the APGI equation calculator with integrated components.
 
         Args:
             precision_calculator: Calculator for precision values (Πₑ, Πᵢ)
@@ -83,8 +80,7 @@ class APGIEquation:
         intero_precision: float,
         somatic_gain: float = 1.0,
     ) -> float:
-        """
-        Calculate total precision-weighted surprise.
+        """Calculate total precision-weighted surprise.
 
         Implements: Sₜ = ½Πₑ·(εₑ)² + ½Πᵢ(M_{c,a})·(εᵢ)²
 
@@ -144,8 +140,7 @@ class APGIEquation:
         threshold: float,
         steepness: float = 2.0,
     ) -> Union[float, np.ndarray]:
-        """
-        Calculate ignition probability using logistic sigmoid function.
+        """Calculate ignition probability using logistic sigmoid function.
 
         Implements: Bₜ = σ(α(Sₜ - θₜ))
 
@@ -212,8 +207,7 @@ class APGIEquation:
         steepness: float = 2.0,
         probability_threshold: float = 0.5,
     ) -> bool:
-        """
-        Determine if ignition is triggered based on probability threshold.
+        """Determine if ignition is triggered based on probability threshold.
 
         Args:
             surprise: Total precision-weighted surprise
@@ -232,8 +226,7 @@ class APGIEquation:
             return bool(probability >= probability_threshold)
 
     def _logistic_sigmoid(self, x: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
-        """
-        Compute logistic sigmoid function with numerical stability.
+        """Compute logistic sigmoid function with numerical stability.
 
         σ(x) = 1 / (1 + exp(-x))
 
@@ -276,8 +269,7 @@ class APGIEquation:
         steepness: float = 2.0,
         somatic_gain: float = 1.0,
     ) -> tuple[float, float]:
-        """
-        Calculate both surprise and ignition probability in one call.
+        """Calculate both surprise and ignition probability in one call.
 
         Args:
             extero_error: Exteroceptive prediction error
@@ -320,8 +312,7 @@ class APGIEquation:
         valence: float = 0.0,
         stakes: float = 1.0,
     ) -> float:
-        """
-        Calculate surprise using integrated components for full processing pipeline.
+        """Calculate surprise using integrated components for full processing pipeline.
 
         Args:
             raw_extero_error: Raw exteroceptive prediction error
@@ -397,8 +388,7 @@ class APGIEquation:
         stakes: float = 1.0,
         steepness: float = 2.0,
     ) -> tuple[float, float]:
-        """
-        Calculate both surprise and ignition probability using integrated components.
+        """Calculate both surprise and ignition probability using integrated components.
 
         Args:
             raw_extero_error: Raw exteroceptive prediction error
@@ -460,8 +450,7 @@ class APGIEquation:
     def update_threshold_from_ignition(
         self, ignition_occurred: bool, context: Optional["ContextType"] = None
     ) -> float:
-        """
-        Update threshold based on ignition outcome using integrated ThresholdManager.
+        """Update threshold based on ignition outcome using integrated ThresholdManager.
 
         Args:
             ignition_occurred: Whether ignition occurred in the last trial
@@ -485,8 +474,7 @@ class APGIEquation:
         )
 
     def validate_integrated_components(self) -> Dict[str, Any]:
-        """
-        Validate that all integrated components are properly configured and compatible.
+        """Validate that all integrated components are properly configured and compatible.
 
         Returns:
             Dictionary with detailed validation results for each component
@@ -700,8 +688,7 @@ class APGIEquation:
         return validation_results
 
     def get_equation_info(self) -> dict:
-        """
-        Get information about the equation implementation.
+        """Get information about the equation implementation.
 
         Returns:
             Dictionary with equation details and parameters.

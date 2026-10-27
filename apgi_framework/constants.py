@@ -1,5 +1,4 @@
-"""
-Constants for APGI System
+"""Constants for APGI System.
 
 Contains named constants for magic numbers used throughout the codebase
 to improve maintainability and readability.

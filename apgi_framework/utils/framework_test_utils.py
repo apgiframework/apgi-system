@@ -1,5 +1,4 @@
-"""
-Test-specific utilities for the APGI Framework test enhancement system.
+"""Test-specific utilities for the APGI Framework test enhancement system.
 
 This module provides test discovery, metadata extraction, test execution utilities,
 and test result processing functions for comprehensive test management.
@@ -160,16 +159,14 @@ class FrameworkExecution:
 
 
 class FrameworkTestUtils:
-    """
-    Comprehensive test utilities for discovery, execution, and result processing.
+    """Comprehensive test utilities for discovery, execution, and result processing.
 
     Provides functionality for test discovery, metadata extraction, test execution
     coordination, and result analysis for the test enhancement system.
     """
 
     def __init__(self, base_path: Optional[Union[str, Path]] = None) -> None:
-        """
-        Initialize TestUtilities.
+        """Initialize TestUtilities.
 
         Args:
             base_path: Base directory for test operations
@@ -195,8 +192,7 @@ class FrameworkTestUtils:
         patterns: Optional[List[str]] = None,
         exclude_patterns: Optional[List[str]] = None,
     ) -> List[FrameworkTestSuite]:
-        """
-        Discover all test files and extract test cases.
+        """Discover all test files and extract test cases.
 
         Args:
             root_dir: Root directory to search for tests
@@ -250,8 +246,7 @@ class FrameworkTestUtils:
         return test_suites
 
     def discover_all_tests(self) -> List[FrameworkTestSuite]:
-        """
-        Discover all test suites in the project.
+        """Discover all test suites in the project.
 
         Returns:
             List of all test suites found in the project
@@ -429,8 +424,7 @@ class FrameworkTestUtils:
         name_pattern: Optional[str] = None,
         max_duration: Optional[float] = None,
     ) -> List[FrameworkTestSuite]:
-        """
-        Filter test suites based on criteria.
+        """Filter test suites based on criteria.
 
         Args:
             test_suites: List of test suites to filter
@@ -485,8 +479,7 @@ class FrameworkTestUtils:
         test_suites: List[FrameworkTestSuite],
         config: Optional[Dict[str, Any]] = None,
     ) -> FrameworkExecution:
-        """
-        Execute test suites using pytest.
+        """Execute test suites using pytest.
 
         Args:
             test_suites: Test suites to execute

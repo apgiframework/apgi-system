@@ -1,5 +1,4 @@
-"""
-Optimization Utilities for APGI Framework
+"""Optimization Utilities for APGI Framework.
 
 Provides various optimization techniques including caching, vectorization,
 parallel processing, and memory management to improve performance.
@@ -154,8 +153,7 @@ class MemoryEfficientCache:
 
 
 def memoize(maxsize: int = 128, typed: bool = False, use_weak_refs: bool = False) -> Callable:
-    """
-    Memoization decorator with configurable cache.
+    """Memoization decorator with configurable cache.
 
     Args:
         maxsize: Maximum cache size
@@ -224,7 +222,9 @@ def _make_cache_key(args: tuple, kwargs: dict, typed: bool) -> str:
 
     # Create hash of combined key
     key_str = "|".join(key_parts)
-    return hashlib.md5(key_str.encode()).hexdigest()
+    return hashlib.md5(
+        key_str.encode(), usedforsecurity=False
+    ).hexdigest()  # cache key, not security
 
 
 class VectorizedOperations:

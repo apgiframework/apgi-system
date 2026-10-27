@@ -1,5 +1,4 @@
-"""
-Task control and timing infrastructure for parameter estimation tasks.
+"""Task control and timing infrastructure for parameter estimation tasks.
 
 Implements precision timing, task state management, response collection,
 and session management for the three core parameter estimation tasks.
@@ -87,16 +86,14 @@ class ResponseData:
 
 
 class PrecisionTimer:
-    """
-    High-precision timer for microsecond-accurate stimulus timing.
+    """High-precision timer for microsecond-accurate stimulus timing.
 
     Provides precise timing control for stimulus presentation and
     response collection with sub-millisecond accuracy.
     """
 
     def __init__(self, timer_id: str = "precision_timer"):
-        """
-        Initialize precision timer.
+        """Initialize precision timer.
 
         Args:
             timer_id: Unique identifier for this timer
@@ -119,8 +116,7 @@ class PrecisionTimer:
         logger.info("Precision timing session started")
 
     def get_current_time_ms(self) -> float:
-        """
-        Get current time in milliseconds since session start.
+        """Get current time in milliseconds since session start.
 
         Returns:
             Time in milliseconds since session start
@@ -137,8 +133,7 @@ class PrecisionTimer:
         delay_ms: float,
         metadata: Optional[Dict[str, Any]] = None,
     ) -> TimingEvent:
-        """
-        Schedule a timed event.
+        """Schedule a timed event.
 
         Args:
             event_id: Unique event identifier
@@ -167,8 +162,7 @@ class PrecisionTimer:
         return event
 
     def wait_until(self, target_time_ms: float) -> float:
-        """
-        Wait until specified time with high precision.
+        """Wait until specified time with high precision.
 
         Args:
             target_time_ms: Target time in milliseconds since session start
@@ -204,8 +198,7 @@ class PrecisionTimer:
         return error_ms
 
     def sleep_precise(self, duration_ms: float) -> float:
-        """
-        Sleep for precise duration.
+        """Sleep for precise duration.
 
         Args:
             duration_ms: Sleep duration in milliseconds
@@ -269,15 +262,13 @@ class PrecisionTimer:
 
 
 class ResponseCollector:
-    """
-    Collects participant responses with confidence ratings and reaction times.
+    """Collects participant responses with confidence ratings and reaction times.
 
     Handles multiple response types and provides precise reaction time measurement.
     """
 
     def __init__(self, collector_id: str = "response_collector"):
-        """
-        Initialize response collector.
+        """Initialize response collector.
 
         Args:
             collector_id: Unique identifier for this collector
@@ -300,8 +291,7 @@ class ResponseCollector:
     def start_collection(
         self, stimulus_onset_time: datetime, response_window_ms: float = 5000.0
     ) -> None:
-        """
-        Start collecting responses.
+        """Start collecting responses.
 
         Args:
             stimulus_onset_time: Time when stimulus was presented
@@ -369,8 +359,7 @@ class ResponseCollector:
                     logger.debug(f"Simulated response: RT={reaction_time:.1f}ms")
 
     def wait_for_response(self, timeout_ms: Optional[float] = None) -> Optional[ResponseData]:
-        """
-        Wait for participant response.
+        """Wait for participant response.
 
         Args:
             timeout_ms: Timeout in milliseconds (uses response window if None)
@@ -398,8 +387,7 @@ class ResponseCollector:
         scale_min: float = 0.0,
         scale_max: float = 1.0,
     ) -> Optional[float]:
-        """
-        Collect confidence rating from participant.
+        """Collect confidence rating from participant.
 
         Args:
             prompt: Confidence rating prompt
@@ -433,15 +421,13 @@ class ResponseCollector:
 
 
 class TaskStateMachine:
-    """
-    State machine for session flow control across parameter estimation tasks.
+    """State machine for session flow control across parameter estimation tasks.
 
     Manages task transitions, error handling, and session coordination.
     """
 
     def __init__(self, machine_id: str = "task_state_machine"):
-        """
-        Initialize task state machine.
+        """Initialize task state machine.
 
         Args:
             machine_id: Unique identifier for this state machine
@@ -463,8 +449,7 @@ class TaskStateMachine:
         logger.info(f"Initialized TaskStateMachine {machine_id}")
 
     def transition_to(self, new_state: TaskState, message: str = "") -> bool:
-        """
-        Transition to new state.
+        """Transition to new state.
 
         Args:
             new_state: Target state
@@ -601,15 +586,13 @@ class SessionConfiguration:
 
 
 class SessionManager:
-    """
-    Manages experimental sessions with participant tracking and task sequencing.
+    """Manages experimental sessions with participant tracking and task sequencing.
 
     Coordinates multiple tasks, handles session state, and manages data collection.
     """
 
     def __init__(self, manager_id: str = "session_manager"):
-        """
-        Initialize session manager.
+        """Initialize session manager.
 
         Args:
             manager_id: Unique identifier for this manager
@@ -636,8 +619,7 @@ class SessionManager:
         logger.info(f"Initialized SessionManager {manager_id}")
 
     def configure_session(self, config: SessionConfiguration) -> bool:
-        """
-        Configure new experimental session.
+        """Configure new experimental session.
 
         Args:
             config: Session configuration
@@ -672,8 +654,7 @@ class SessionManager:
         return True
 
     def start_session(self) -> bool:
-        """
-        Start experimental session.
+        """Start experimental session.
 
         Returns:
             True if session started successfully
@@ -708,8 +689,7 @@ class SessionManager:
             return False
 
     def run_next_task(self) -> Optional[str]:
-        """
-        Run the next task in the session.
+        """Run the next task in the session.
 
         Returns:
             Task name if started successfully, None if no more tasks
@@ -746,8 +726,7 @@ class SessionManager:
             return None
 
     def complete_current_task(self) -> bool:
-        """
-        Complete the current task and prepare for next.
+        """Complete the current task and prepare for next.
 
         Returns:
             True if task completed successfully
@@ -785,8 +764,7 @@ class SessionManager:
         return True
 
     def complete_session(self) -> bool:
-        """
-        Complete the experimental session.
+        """Complete the experimental session.
 
         Returns:
             True if session completed successfully

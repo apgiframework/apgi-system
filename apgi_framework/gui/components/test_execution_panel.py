@@ -1,5 +1,4 @@
-"""
-Test Execution Panel for APGI Framework GUI.
+"""Test Execution Panel for APGI Framework GUI.
 
 Extracted from the monolithic GUI to provide a focused component
 for running and managing falsification tests.
@@ -58,8 +57,7 @@ logger: Union[APGILogger, logging.Logger] = (  # type: ignore[no-redef]
 
 
 class ExecutionPanel(ctk.CTkFrame):
-    """
-    Panel for running falsification tests with progress tracking and result management.
+    """Panel for running falsification tests with progress tracking and result management.
 
     Provides comprehensive test execution capabilities including parameter validation,
     progress tracking, real-time logging, and result display.
@@ -74,8 +72,7 @@ class ExecutionPanel(ctk.CTkFrame):
         log_callback: Optional[Callable] = None,
         results_callback: Optional[Callable] = None,
     ):
-        """
-        Initialize the test execution panel.
+        """Initialize the test execution panel.
 
         Args:
             parent: Parent widget
@@ -892,8 +889,7 @@ def create_test_execution_panel(
     log_callback: Optional[Callable] = None,
     results_callback: Optional[Callable] = None,
 ) -> ExecutionPanel:
-    """
-    Create a test execution panel with default settings.
+    """Create a test execution panel with default settings.
 
     Args:
         parent: Parent widget

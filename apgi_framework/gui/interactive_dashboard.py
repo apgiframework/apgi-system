@@ -1,5 +1,4 @@
-"""
-Interactive Web Dashboard for APGI Framework
+"""Interactive Web Dashboard for APGI Framework.
 
 Provides real-time monitoring, interactive visualizations, and experiment management
 through a modern web interface using Flask and WebSocket for real-time updates.
@@ -55,8 +54,7 @@ except ImportError:
 
 
 class InteractiveWebDashboard:
-    """
-    Interactive web-based dashboard for real-time experiment monitoring.
+    """Interactive web-based dashboard for real-time experiment monitoring.
 
     Features:
     - Real-time data streaming via WebSocket
@@ -67,8 +65,7 @@ class InteractiveWebDashboard:
     """
 
     def __init__(self, port: int = 8050, host: str = "localhost"):
-        """
-        Initialize interactive dashboard.
+        """Initialize interactive dashboard.
 
         Args:
             port: Web server port
@@ -628,8 +625,7 @@ class InteractiveWebDashboard:
 def create_interactive_dashboard(
     port: int = 8050, host: str = "localhost"
 ) -> Optional[InteractiveWebDashboard]:
-    """
-    Create and configure an interactive dashboard.
+    """Create and configure an interactive dashboard.
 
     Args:
         port: Port number for the dashboard

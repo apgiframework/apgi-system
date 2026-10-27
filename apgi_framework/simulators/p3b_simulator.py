@@ -1,5 +1,4 @@
-"""
-P3b ERP signature simulator for APGI Framework falsification testing.
+"""P3b ERP signature simulator for APGI Framework falsification testing.
 
 This module implements the P3bSimulator class that generates realistic P3b ERP signatures
 with configurable amplitude and latency parameters for testing consciousness-related
@@ -24,16 +23,14 @@ class P3bSignature:
 
 
 class P3bSimulator:
-    """
-    Simulator for P3b ERP signatures with realistic amplitude and latency characteristics.
+    """Simulator for P3b ERP signatures with realistic amplitude and latency characteristics.
 
     The P3b component is a positive ERP deflection typically occurring 250-500 ms after
     stimulus onset, with amplitudes >5 μV at Pz electrode indicating conscious processing.
     """
 
     def __init__(self, random_seed: Optional[int] = None):
-        """
-        Initialize P3b simulator.
+        """Initialize P3b simulator.
 
         Args:
             random_seed: Optional seed for reproducible random number generation
@@ -49,8 +46,7 @@ class P3bSimulator:
         latency_range: Optional[Tuple[float, float]] = None,
         noise_level: float = 0.5,
     ) -> P3bSignature:
-        """
-        Generate a P3b signature indicating conscious processing.
+        """Generate a P3b signature indicating conscious processing.
 
         Args:
             amplitude_range: Range for amplitude generation (μV), default ensures >5 μV
@@ -90,8 +86,7 @@ class P3bSimulator:
         latency_range: Optional[Tuple[float, float]] = None,
         noise_level: float = 0.3,
     ) -> P3bSignature:
-        """
-        Generate a P3b signature indicating unconscious/subthreshold processing.
+        """Generate a P3b signature indicating unconscious/subthreshold processing.
 
         Args:
             amplitude_range: Range for amplitude generation (μV), default ensures <5 μV
@@ -132,8 +127,7 @@ class P3bSimulator:
         target_latency: Optional[float] = None,
         noise_level: float = 0.4,
     ) -> P3bSignature:
-        """
-        Generate a P3b signature with specific target parameters.
+        """Generate a P3b signature with specific target parameters.
 
         Args:
             target_amplitude: Target amplitude in μV
@@ -164,8 +158,7 @@ class P3bSimulator:
         )
 
     def validate_signature(self, signature: P3bSignature) -> bool:
-        """
-        Validate that a P3b signature meets basic physiological constraints.
+        """Validate that a P3b signature meets basic physiological constraints.
 
         Args:
             signature: P3bSignature to validate
@@ -188,8 +181,7 @@ class P3bSimulator:
         return True
 
     def is_conscious_level(self, signature: P3bSignature) -> bool:
-        """
-        Determine if P3b signature indicates conscious-level processing.
+        """Determine if P3b signature indicates conscious-level processing.
 
         Args:
             signature: P3bSignature to evaluate
@@ -202,8 +194,7 @@ class P3bSimulator:
     def simulate_p3b(
         self, amplitude_range: Tuple[float, float], latency_range: Tuple[float, float]
     ) -> P3bSignature:
-        """
-        Legacy method for backward compatibility with falsification tests.
+        """Legacy method for backward compatibility with falsification tests.
 
         Args:
             amplitude_range: Range for amplitude generation (μV)

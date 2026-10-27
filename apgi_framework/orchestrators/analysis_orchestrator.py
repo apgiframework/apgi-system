@@ -1,5 +1,4 @@
-"""
-Analysis Orchestrator for statistical and computational analysis.
+"""Analysis Orchestrator for statistical and computational analysis.
 
 Handles analysis pipeline execution, model fitting, and result generation.
 """
@@ -22,8 +21,7 @@ class AnalysisConfig:
 
 
 class AnalysisOrchestrator:
-    """
-    Orchestrates analysis operations.
+    """Orchestrates analysis operations.
 
     Responsibilities:
     - Initialize analysis engines
@@ -33,8 +31,7 @@ class AnalysisOrchestrator:
     """
 
     def __init__(self, config: Optional[AnalysisConfig] = None):
-        """
-        Initialize the analysis orchestrator.
+        """Initialize the analysis orchestrator.
 
         Args:
             config: Configuration for analysis orchestrator
@@ -74,8 +71,7 @@ class AnalysisOrchestrator:
         logger.debug("Analysis systems initialized")
 
     def execute_analysis(self, analysis_id: str, data: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Execute an analysis pipeline.
+        """Execute an analysis pipeline.
 
         Args:
             analysis_id: Identifier for the analysis
@@ -93,8 +89,7 @@ class AnalysisOrchestrator:
         return results
 
     def run_statistical_test(self, test_name: str, data: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Run a statistical test.
+        """Run a statistical test.
 
         Args:
             test_name: Name of the statistical test
@@ -111,8 +106,7 @@ class AnalysisOrchestrator:
         return results
 
     def generate_report(self, analysis_results: Dict[str, Any]) -> str:
-        """
-        Generate analysis report.
+        """Generate analysis report.
 
         Args:
             analysis_results: Results from analysis

@@ -1,5 +1,4 @@
-"""
-Adaptive staircase algorithms and stimulus control for parameter estimation tasks.
+"""Adaptive staircase algorithms and stimulus control for parameter estimation tasks.
 
 This module provides adaptive algorithms for optimal stimulus selection and
 stimulus control systems for the three core parameter estimation tasks.

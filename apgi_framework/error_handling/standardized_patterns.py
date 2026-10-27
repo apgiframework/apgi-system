@@ -1,5 +1,4 @@
-"""
-Standardized Error Handling Patterns for APGI Framework
+"""Standardized Error Handling Patterns for APGI Framework
 ===============================================
 
 This module provides standardized error handling patterns and utilities for the APGI Framework,
@@ -199,8 +198,7 @@ def error_boundary(
 
 
 class StandardizedErrorHandler:
-    """
-    Standardized error handler for consistent error handling across the APGI Framework.
+    """Standardized error handler for consistent error handling across the APGI Framework.
 
     Provides a unified interface for error categorization, logging, and user-friendly
     message formatting with automatic recovery suggestions.
@@ -391,8 +389,7 @@ class StandardizedErrorHandler:
         severity: Optional[ErrorSeverity] = None,
         category: Optional[ErrorCategory] = None,
     ) -> Tuple[ErrorCategory, ErrorSeverity]:
-        """
-        Categorize an error based on its type and context.
+        """Categorize an error based on its type and context.
 
         Args:
             error: The exception to categorize
@@ -490,8 +487,7 @@ class StandardizedErrorHandler:
         log_level: str = "error",
         include_traceback: bool = True,
     ) -> Optional[APGIFrameworkError]:
-        """
-        Handle error with standardized formatting and logging.
+        """Handle error with standardized formatting and logging.
 
         Args:
             error: The exception to handle
@@ -579,8 +575,7 @@ class StandardizedErrorHandler:
         suggestions: Optional[List[str]] = None,
         user_action: Optional[str] = None,
     ) -> str:
-        """
-        Create a standardized error message.
+        """Create a standardized error message.
 
         Args:
             message: Base error message
@@ -632,8 +627,7 @@ class StandardizedErrorHandler:
         context: Optional[Dict[str, Any]] = None,
         **kwargs: Any,
     ) -> Any:
-        """
-        Safely execute a function with comprehensive error handling.
+        """Safely execute a function with comprehensive error handling.
 
         Args:
             func: Function to execute
@@ -667,8 +661,7 @@ class StandardizedErrorHandler:
         exceptions: Tuple[Type[Exception], ...] = (Exception,),
         context: Optional[Dict[str, Any]] = None,
     ) -> Callable:
-        """
-        Decorator for retrying with exponential backoff.
+        """Decorator for retrying with exponential backoff.
 
         Args:
             max_retries: Maximum number of retry attempts

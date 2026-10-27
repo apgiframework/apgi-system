@@ -1,5 +1,4 @@
-"""
-Configuration-specific exceptions.
+"""Configuration-specific exceptions.
 
 This module contains exceptions specific to the configuration system.
 """
@@ -10,7 +9,7 @@ from ..exceptions import APGIFrameworkError
 
 
 class ConfigurationError(APGIFrameworkError):
-    """Configuration related errors"""
+    """Configuration related errors."""
 
     def __init__(self, message: str, config_file: Optional[str] = None, **kwargs: Any) -> None:
         if config_file:

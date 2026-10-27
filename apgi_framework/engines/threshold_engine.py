@@ -1,5 +1,4 @@
-"""
-Threshold management system for dynamic ignition threshold adjustment.
+"""Threshold management system for dynamic ignition threshold adjustment.
 
 This module implements the threshold manager that handles dynamic adjustment
 of the ignition threshold (θₜ) based on context, adaptation, and task demands.
@@ -24,8 +23,7 @@ class ThresholdAdaptationType(Enum):
 
 
 class ThresholdManager:
-    """
-    Manager for dynamic ignition threshold (θₜ) adjustment.
+    """Manager for dynamic ignition threshold (θₜ) adjustment.
 
     Handles threshold modulation based on context, recent ignition history,
     and adaptive mechanisms to maintain optimal ignition rates.
@@ -38,8 +36,7 @@ class ThresholdManager:
         max_threshold: float = 10.0,
         adaptation_type: ThresholdAdaptationType = ThresholdAdaptationType.ADAPTIVE,
     ):
-        """
-        Initialize threshold manager.
+        """Initialize threshold manager.
 
         Args:
             baseline_threshold: Default threshold value
@@ -82,8 +79,7 @@ class ThresholdManager:
     def get_current_threshold(
         self, context: Optional[ContextType] = None, arousal: float = 1.0
     ) -> float:
-        """
-        Get current ignition threshold with optional context modulation.
+        """Get current ignition threshold with optional context modulation.
 
         Args:
             context: Current contextual situation
@@ -117,8 +113,7 @@ class ThresholdManager:
     def update_threshold(
         self, ignition_occurred: bool, context: Optional[ContextType] = None
     ) -> float:
-        """
-        Update threshold based on recent ignition and adaptation type.
+        """Update threshold based on recent ignition and adaptation type.
 
         Args:
             ignition_occurred: Whether ignition occurred in the last trial
@@ -330,8 +325,7 @@ class ThresholdManager:
         return 0.0
 
     def reset_threshold(self, new_baseline: Optional[float] = None) -> None:
-        """
-        Reset threshold to baseline and clear history.
+        """Reset threshold to baseline and clear history.
 
         Args:
             new_baseline: New baseline threshold (if None, uses current baseline)
@@ -346,8 +340,7 @@ class ThresholdManager:
         self._threshold_history.clear()
 
     def get_ignition_statistics(self) -> Dict[str, float]:
-        """
-        Get statistics about recent ignition patterns.
+        """Get statistics about recent ignition patterns.
 
         Returns:
             Dictionary with ignition statistics
@@ -376,8 +369,7 @@ class ThresholdManager:
         return stats
 
     def update_context_modulation(self, context: ContextType, modulation: float) -> None:
-        """
-        Update threshold modulation for a specific context.
+        """Update threshold modulation for a specific context.
 
         Args:
             context: Context type to update
@@ -386,8 +378,7 @@ class ThresholdManager:
         self._context_modulations[context] = modulation
 
     def get_threshold_info(self) -> dict:
-        """
-        Get information about threshold manager configuration.
+        """Get information about threshold manager configuration.
 
         Returns:
             Dictionary with threshold manager settings

@@ -1,5 +1,4 @@
-"""
-Main Application Entry Points for APGI Framework Test Enhancement
+"""Main Application Entry Points for APGI Framework Test Enhancement.
 
 This module provides the main entry points for both GUI and CLI modes of the
 comprehensive test enhancement system, including dependency injection,

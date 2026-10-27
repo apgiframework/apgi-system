@@ -1,5 +1,4 @@
-"""
-Effect size and confidence interval calculations for APGI falsification testing.
+"""Effect size and confidence interval calculations for APGI falsification testing.
 
 This module provides comprehensive effect size calculations including Cohen's d,
 eta-squared, omega-squared, and bootstrap confidence interval estimation
@@ -66,16 +65,14 @@ class BootstrapResult:
 
 
 class EffectSizeCalculator:
-    """
-    Comprehensive effect size and confidence interval calculator.
+    """Comprehensive effect size and confidence interval calculator.
 
     Provides various effect size measures and bootstrap confidence
     interval estimation for statistical analysis in APGI framework testing.
     """
 
     def __init__(self, random_state: Optional[int] = None):
-        """
-        Initialize the effect size calculator.
+        """Initialize the effect size calculator.
 
         Args:
             random_state: Random seed for reproducible bootstrap results
@@ -89,8 +86,7 @@ class EffectSizeCalculator:
         confidence_level: float = 0.95,
         method: ConfidenceIntervalMethod = ConfidenceIntervalMethod.BOOTSTRAP,
     ) -> EffectSizeResult:
-        """
-        Calculate Cohen's d effect size with confidence intervals.
+        """Calculate Cohen's d effect size with confidence intervals.
 
         Args:
             group1: First group data
@@ -142,8 +138,7 @@ class EffectSizeCalculator:
         confidence_level: float = 0.95,
         method: ConfidenceIntervalMethod = ConfidenceIntervalMethod.BOOTSTRAP,
     ) -> EffectSizeResult:
-        """
-        Calculate Hedges' g effect size (bias-corrected Cohen's d).
+        """Calculate Hedges' g effect size (bias-corrected Cohen's d).
 
         Args:
             group1: First group data
@@ -189,8 +184,7 @@ class EffectSizeCalculator:
         f_statistic: float,
         confidence_level: float = 0.95,
     ) -> EffectSizeResult:
-        """
-        Calculate eta-squared effect size for ANOVA.
+        """Calculate eta-squared effect size for ANOVA.
 
         Args:
             groups: Tuple of group arrays
@@ -238,8 +232,7 @@ class EffectSizeCalculator:
         f_statistic: float,
         confidence_level: float = 0.95,
     ) -> EffectSizeResult:
-        """
-        Calculate omega-squared effect size (less biased than eta-squared).
+        """Calculate omega-squared effect size (less biased than eta-squared).
 
         Args:
             groups: Tuple of group arrays
@@ -279,8 +272,7 @@ class EffectSizeCalculator:
     def pearson_r(
         self, x: np.ndarray, y: np.ndarray, confidence_level: float = 0.95
     ) -> EffectSizeResult:
-        """
-        Calculate Pearson correlation coefficient with confidence intervals.
+        """Calculate Pearson correlation coefficient with confidence intervals.
 
         Args:
             x: First variable
@@ -333,8 +325,7 @@ class EffectSizeCalculator:
         n_bootstrap: int = 10000,
         method: ConfidenceIntervalMethod = ConfidenceIntervalMethod.BIAS_CORRECTED_BOOTSTRAP,
     ) -> BootstrapResult:
-        """
-        Calculate bootstrap confidence intervals for any statistic.
+        """Calculate bootstrap confidence intervals for any statistic.
 
         Args:
             data: Data array or tuple of arrays
@@ -541,8 +532,7 @@ class EffectSizeCalculator:
 
 
 def get_effect_size_guidelines() -> Dict[str, Dict[str, str]]:
-    """
-    Get interpretation guidelines for different effect sizes.
+    """Get interpretation guidelines for different effect sizes.
 
     Returns:
         Dictionary with effect size guidelines

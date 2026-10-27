@@ -1,5 +1,4 @@
-"""
-Centralized logging configuration for APGI Framework.
+"""Centralized logging configuration for APGI Framework.
 
 This module provides a single point of configuration for all logging
 across the framework to eliminate redundancy and ensure consistency.
@@ -27,8 +26,7 @@ class APGILogManager:
         log_file: Optional[str] = None,
         format_string: Optional[str] = None,
     ) -> None:
-        """
-        Setup centralized logging configuration.
+        """Setup centralized logging configuration.
 
         Args:
             level: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
@@ -67,8 +65,7 @@ class APGILogManager:
 
     @classmethod
     def get_logger(cls, name: str, level: Optional[str] = None) -> logging.Logger:
-        """
-        Get a logger with consistent configuration.
+        """Get a logger with consistent configuration.
 
         Args:
             name: Logger name
@@ -105,8 +102,7 @@ class APGILogManager:
 def get_logger(
     name: str, level: Optional[str] = None, log_file: Optional[str] = None
 ) -> logging.Logger:
-    """
-    Get a configured logger instance.
+    """Get a configured logger instance.
 
     Args:
         name: Logger name
@@ -124,9 +120,7 @@ def get_logger(
 
 
 class StructuredAPGILogger:
-    """
-    Structured logger that outputs JSON-formatted log entries and supports correlation IDs.
-    """
+    """Structured logger that outputs JSON-formatted log entries and supports correlation IDs."""
 
     def __init__(self, name: str):
         self.logger = logging.getLogger(name)
@@ -141,7 +135,8 @@ class StructuredAPGILogger:
             "correlation_id": kwargs.pop("correlation_id", str(uuid.uuid4())),
             **kwargs,
         }
-        return json.dumps(log_entry)
+        # exception classes, paths and other objects must not make logging itself fail
+        return json.dumps(log_entry, default=str)
 
     def info(self, message: str, **kwargs: Any) -> None:
         self.logger.info(self._format_log_entry("INFO", message, **kwargs))
@@ -154,6 +149,13 @@ class StructuredAPGILogger:
 
     def debug(self, message: str, **kwargs: Any) -> None:
         self.logger.debug(self._format_log_entry("DEBUG", message, **kwargs))
+
+    def critical(self, message: str, **kwargs: Any) -> None:
+        self.logger.critical(self._format_log_entry("CRITICAL", message, **kwargs))
+
+    def exception(self, message: str, **kwargs: Any) -> None:
+        """Log at ERROR level with the active exception's traceback."""
+        self.logger.exception(self._format_log_entry("ERROR", message, **kwargs))
 
 
 # Convenience function for structured logger

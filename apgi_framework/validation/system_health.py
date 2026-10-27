@@ -1,5 +1,4 @@
-"""
-System Health Checker
+"""System Health Checker.
 
 Provides comprehensive system health checks and diagnostics for the APGI Framework.
 """
@@ -15,7 +14,7 @@ import numpy as np
 
 @dataclass
 class HealthCheckResult:
-    """Result of system health check"""
+    """Result of system health check."""
 
     timestamp: datetime
     overall_status: str  # "healthy", "warning", "critical"
@@ -32,7 +31,7 @@ class HealthCheckResult:
         return self.overall_status == "healthy"
 
     def get_report(self) -> str:
-        """Get formatted health check report"""
+        """Get formatted health check report."""
         lines = []
         lines.append("=" * 60)
         lines.append("APGI FRAMEWORK SYSTEM HEALTH CHECK")
@@ -78,8 +77,7 @@ class HealthCheckResult:
 
 
 class SystemHealthChecker:
-    """
-    Comprehensive system health checker for APGI Framework.
+    """Comprehensive system health checker for APGI Framework.
 
     Performs checks on:
     - Python environment
@@ -94,8 +92,7 @@ class SystemHealthChecker:
         self.check_history: List[HealthCheckResult] = []
 
     def run_full_health_check(self) -> HealthCheckResult:
-        """
-        Run complete system health check.
+        """Run complete system health check.
 
         Returns:
             HealthCheckResult with detailed status
@@ -209,7 +206,7 @@ class SystemHealthChecker:
         return result
 
     def _check_python_environment(self) -> tuple:
-        """Check Python environment"""
+        """Check Python environment."""
         issues = []
         warnings: List[str] = []
 
@@ -233,7 +230,7 @@ class SystemHealthChecker:
         return status, issues, warnings
 
     def _check_dependencies(self) -> tuple:
-        """Check required dependencies"""
+        """Check required dependencies."""
         issues = []
         warnings: List[str] = []
 
@@ -267,7 +264,7 @@ class SystemHealthChecker:
         return status, issues, warnings
 
     def _check_configuration(self) -> tuple:
-        """Check configuration validity"""
+        """Check configuration validity."""
         issues = []
         warnings: List[str] = []
 
@@ -297,7 +294,7 @@ class SystemHealthChecker:
         return status, issues, warnings
 
     def _check_data_storage(self) -> tuple:
-        """Check data storage availability"""
+        """Check data storage availability."""
         issues = []
         warnings: List[str] = []
 
@@ -339,7 +336,7 @@ class SystemHealthChecker:
         return status, issues, warnings
 
     def _check_computational_resources(self) -> tuple:
-        """Check computational resources"""
+        """Check computational resources."""
         issues = []
         warnings: List[str] = []
 
@@ -364,7 +361,7 @@ class SystemHealthChecker:
         return status, issues, warnings
 
     def _check_core_components(self) -> tuple:
-        """Check core APGI Framework components"""
+        """Check core APGI Framework components."""
         issues = []
         warnings: List[str] = []
 
@@ -399,7 +396,7 @@ class SystemHealthChecker:
         return status, issues, warnings
 
     def _generate_recommendations(self, issues: List[str], warnings: List[str]) -> List[str]:
-        """Generate recommendations based on issues and warnings"""
+        """Generate recommendations based on issues and warnings."""
         recommendations = []
 
         if any("Python version" in issue for issue in issues):
@@ -429,8 +426,7 @@ class SystemHealthChecker:
         return recommendations
 
     def check_component(self, component_name: str) -> HealthCheckResult:
-        """
-        Check specific component health.
+        """Check specific component health.
 
         Args:
             component_name: Name of component to check
@@ -503,8 +499,7 @@ class SystemHealthChecker:
         )
 
     def get_diagnostic_info(self) -> Dict[str, Any]:
-        """
-        Get detailed diagnostic information.
+        """Get detailed diagnostic information.
 
         Returns:
             Dictionary with diagnostic information
@@ -535,7 +530,7 @@ class SystemHealthChecker:
         return info
 
     def get_health_history(self, n_recent: int = 10) -> List[HealthCheckResult]:
-        """Get recent health check history"""
+        """Get recent health check history."""
         return self.check_history[-n_recent:]
 
 
@@ -544,7 +539,7 @@ _health_checker = None
 
 
 def get_health_checker() -> SystemHealthChecker:
-    """Get global system health checker instance"""
+    """Get global system health checker instance."""
     global _health_checker
     if _health_checker is None:
         _health_checker = SystemHealthChecker()

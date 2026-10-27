@@ -1,5 +1,4 @@
-"""
-Core statistical testing framework for APGI falsification testing.
+"""Core statistical testing framework for APGI falsification testing.
 
 This module provides comprehensive statistical analysis capabilities including
 t-tests, ANOVA, non-parametric tests, cluster correction, and multiple
@@ -69,8 +68,7 @@ class ClusterCorrectionResult:
 
 
 class StatisticalTester:
-    """
-    Core statistical testing framework for APGI falsification testing.
+    """Core statistical testing framework for APGI falsification testing.
 
     Provides comprehensive statistical analysis capabilities including
     parametric and non-parametric tests, cluster correction, and
@@ -78,8 +76,7 @@ class StatisticalTester:
     """
 
     def __init__(self, alpha: float = 0.05, random_state: Optional[int] = None):
-        """
-        Initialize the statistical tester.
+        """Initialize the statistical tester.
 
         Args:
             alpha: Significance level for statistical tests
@@ -95,8 +92,7 @@ class StatisticalTester:
         equal_var: bool = True,
         alternative: str = "two-sided",
     ) -> StatisticalResult:
-        """
-        Perform independent samples t-test.
+        """Perform independent samples t-test.
 
         Args:
             group1: First group data
@@ -145,8 +141,7 @@ class StatisticalTester:
     def paired_t_test(
         self, before: np.ndarray, after: np.ndarray, alternative: str = "two-sided"
     ) -> StatisticalResult:
-        """
-        Perform paired samples t-test.
+        """Perform paired samples t-test.
 
         Args:
             before: Pre-condition measurements
@@ -187,8 +182,7 @@ class StatisticalTester:
         )
 
     def one_way_anova(self, *groups: np.ndarray) -> StatisticalResult:
-        """
-        Perform one-way ANOVA.
+        """Perform one-way ANOVA.
 
         Args:
             *groups: Variable number of group arrays
@@ -233,8 +227,7 @@ class StatisticalTester:
     def mann_whitney_u(
         self, group1: np.ndarray, group2: np.ndarray, alternative: str = "two-sided"
     ) -> StatisticalResult:
-        """
-        Perform Mann-Whitney U test (non-parametric alternative to independent t-test).
+        """Perform Mann-Whitney U test (non-parametric alternative to independent t-test).
 
         Args:
             group1: First group data
@@ -265,8 +258,7 @@ class StatisticalTester:
     def wilcoxon_signed_rank(
         self, before: np.ndarray, after: np.ndarray, alternative: str = "two-sided"
     ) -> StatisticalResult:
-        """
-        Perform Wilcoxon signed-rank test (non-parametric alternative to paired t-test).
+        """Perform Wilcoxon signed-rank test (non-parametric alternative to paired t-test).
 
         Args:
             before: Pre-condition measurements
@@ -299,8 +291,7 @@ class StatisticalTester:
         )
 
     def kruskal_wallis(self, *groups: np.ndarray) -> StatisticalResult:
-        """
-        Perform Kruskal-Wallis test (non-parametric alternative to one-way ANOVA).
+        """Perform Kruskal-Wallis test (non-parametric alternative to one-way ANOVA).
 
         Args:
             *groups: Variable number of group arrays
@@ -341,8 +332,7 @@ class StatisticalTester:
         method: CorrectionMethod = CorrectionMethod.FDR_BH,
         alpha: Optional[float] = None,
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Apply multiple comparisons correction to p-values.
+        """Apply multiple comparisons correction to p-values.
 
         Args:
             p_values: Array of uncorrected p-values
@@ -370,8 +360,7 @@ class StatisticalTester:
         cluster_threshold: float = 0.05,
         min_cluster_size: int = 1,
     ) -> ClusterCorrectionResult:
-        """
-        Apply cluster-based correction for multiple comparisons.
+        """Apply cluster-based correction for multiple comparisons.
 
         Args:
             p_values: Array of uncorrected p-values

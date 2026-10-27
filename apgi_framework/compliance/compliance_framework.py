@@ -1,5 +1,4 @@
-"""
-Compliance Framework for APGI Framework.
+"""Compliance Framework for APGI Framework.
 
 This module provides regulatory/privacy compliance controls including:
 - Data classification system
@@ -85,16 +84,14 @@ class AuditLogEntry:
 
 
 class ComplianceFramework:
-    """
-    Main compliance enforcement framework.
+    """Main compliance enforcement framework.
 
     Provides centralized compliance controls for data classification,
     retention, consent management, and audit logging.
     """
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):
-        """
-        Initialize compliance framework.
+        """Initialize compliance framework.
 
         Args:
             config: Configuration parameters for compliance rules
@@ -188,8 +185,7 @@ class ComplianceFramework:
     def classify_data(
         self, data: Dict[str, Any], context: Optional[Dict[str, Any]] = None
     ) -> DataClassification:
-        """
-        Classify data based on content and context.
+        """Classify data based on content and context.
 
         Args:
             data: Data to classify
@@ -227,8 +223,7 @@ class ComplianceFramework:
         purposes: List[str],
         expiry_date: Optional[datetime] = None,
     ) -> ConsentRecord:
-        """
-        Record participant consent for data usage.
+        """Record participant consent for data usage.
 
         Args:
             participant_id: Participant identifier
@@ -268,8 +263,7 @@ class ComplianceFramework:
         return consent_record
 
     def check_consent(self, participant_id: str, data_type: str, purpose: str) -> bool:
-        """
-        Check if valid consent exists for data usage.
+        """Check if valid consent exists for data usage.
 
         Args:
             participant_id: Participant identifier
@@ -297,8 +291,7 @@ class ComplianceFramework:
     def set_retention_schedule(
         self, resource_id: str, classification: DataClassification
     ) -> datetime:
-        """
-        Set retention schedule for a resource based on classification.
+        """Set retention schedule for a resource based on classification.
 
         Args:
             resource_id: Resource identifier
@@ -322,8 +315,7 @@ class ComplianceFramework:
         return expiry_date
 
     def check_retention(self, resource_id: str) -> bool:
-        """
-        Check if a resource should be retained based on retention schedule.
+        """Check if a resource should be retained based on retention schedule.
 
         Args:
             resource_id: Resource identifier
@@ -340,8 +332,7 @@ class ComplianceFramework:
     def apply_data_minimization(
         self, data: Dict[str, Any], classification: DataClassification
     ) -> Dict[str, Any]:
-        """
-        Apply data minimization based on classification.
+        """Apply data minimization based on classification.
 
         Args:
             data: Data to minimize
@@ -417,8 +408,7 @@ class ComplianceFramework:
             f.write(json.dumps(log_entry) + "\n")
 
     def get_audit_log(self, user_id: Optional[str] = None, limit: int = 100) -> List[AuditLogEntry]:
-        """
-        Retrieve audit log entries.
+        """Retrieve audit log entries.
 
         Args:
             user_id: Filter by user ID (optional)
@@ -433,8 +423,7 @@ class ComplianceFramework:
         return logs[-limit:]
 
     def cleanup_expired_data(self) -> List[str]:
-        """
-        Identify expired data based on retention schedules.
+        """Identify expired data based on retention schedules.
 
         Returns:
             List of resource IDs that have expired
@@ -447,8 +436,7 @@ class ComplianceFramework:
         return expired
 
     def generate_compliance_report(self) -> Dict[str, Any]:
-        """
-        Generate comprehensive compliance report.
+        """Generate comprehensive compliance report.
 
         Returns:
             Compliance report with metrics and status

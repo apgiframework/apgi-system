@@ -1,5 +1,4 @@
-"""
-System Requirements Validator for compatibility checking and performance assessment.
+"""System Requirements Validator for compatibility checking and performance assessment.
 
 Validates system requirements including hardware, software, and performance
 capabilities for running the APGI Framework parameter estimation system.
@@ -81,8 +80,7 @@ class SystemRequirementsReport:
 
 
 class SystemRequirementsValidator:
-    """
-    Validates system requirements for APGI Framework.
+    """Validates system requirements for APGI Framework.
 
     Checks hardware capabilities, software dependencies, and performance
     characteristics to ensure the system can run parameter estimation tasks.
@@ -110,8 +108,7 @@ class SystemRequirementsValidator:
         self.opt_python_version = (3, 10)
 
     def validate_system(self) -> SystemRequirementsReport:
-        """
-        Validate all system requirements.
+        """Validate all system requirements.
 
         Returns:
             Complete system requirements report.
@@ -371,8 +368,7 @@ class SystemRequirementsValidator:
         return requirements
 
     def check_real_time_capability(self) -> Tuple[bool, str]:
-        """
-        Check if system can handle real-time processing.
+        """Check if system can handle real-time processing.
 
         Returns:
             Tuple of (capable, message).
@@ -394,8 +390,7 @@ class SystemRequirementsValidator:
             return False, "System may not handle real-time processing reliably"
 
     def estimate_max_sampling_rate(self) -> int:
-        """
-        Estimate maximum sampling rate system can handle.
+        """Estimate maximum sampling rate system can handle.
 
         Returns:
             Estimated maximum sampling rate in Hz.
@@ -414,8 +409,7 @@ class SystemRequirementsValidator:
             return 1000  # Limited system
 
     def get_optimization_recommendations(self, report: SystemRequirementsReport) -> List[str]:
-        """
-        Get optimization recommendations based on system validation.
+        """Get optimization recommendations based on system validation.
 
         Args:
             report: System requirements report.

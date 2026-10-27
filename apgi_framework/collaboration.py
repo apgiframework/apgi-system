@@ -1,5 +1,4 @@
-"""
-Collaboration module for APGI Framework.
+"""Collaboration module for APGI Framework.
 
 This module provides collaborative workflow capabilities.
 """

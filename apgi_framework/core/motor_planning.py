@@ -1,6 +1,4 @@
-"""
-Stub module for motor planning.
-"""
+"""Stub module for motor planning."""
 
 import numpy as np
 

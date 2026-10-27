@@ -1,5 +1,4 @@
-"""
-Async Data Access Object (DAO) for parameter estimation functionality.
+"""Async Data Access Object (DAO) for parameter estimation functionality.
 
 Provides async CRUD operations for parameter estimation sessions, trials, and estimates
 using asyncio thread pool executor for non-blocking database operations.
@@ -25,16 +24,14 @@ class AsyncParameterEstimationDAOError(APGIFrameworkError):
 
 
 class AsyncParameterEstimationDAO:
-    """
-    Async Data Access Object for parameter estimation functionality.
+    """Async Data Access Object for parameter estimation functionality.
 
     Provides high-level async CRUD operations for sessions, trials, and parameter
     estimates by wrapping the synchronous DAO with asyncio thread pool execution.
     """
 
     def __init__(self, db_path: Path, max_workers: int = 4):
-        """
-        Initialize async DAO with database connection.
+        """Initialize async DAO with database connection.
 
         Args:
             db_path: Path to SQLite database file
@@ -58,8 +55,7 @@ class AsyncParameterEstimationDAO:
         return self._sync_dao
 
     async def create_session(self, session_data: SessionData) -> str:
-        """
-        Create a new parameter estimation session asynchronously.
+        """Create a new parameter estimation session asynchronously.
 
         Args:
             session_data: SessionData object to store
@@ -72,8 +68,7 @@ class AsyncParameterEstimationDAO:
         return await loop.run_in_executor(self._executor, dao.create_session, session_data)
 
     async def get_session(self, session_id: str) -> Optional[SessionData]:
-        """
-        Retrieve session by ID asynchronously.
+        """Retrieve session by ID asynchronously.
 
         Args:
             session_id: Session identifier
@@ -86,8 +81,7 @@ class AsyncParameterEstimationDAO:
         return await loop.run_in_executor(self._executor, dao.get_session, session_id)
 
     async def update_session(self, session_data: SessionData) -> None:
-        """
-        Update existing session asynchronously.
+        """Update existing session asynchronously.
 
         Args:
             session_data: Updated session data
@@ -99,8 +93,7 @@ class AsyncParameterEstimationDAO:
     async def list_sessions(
         self, participant_id: Optional[str] = None, limit: Optional[int] = None
     ) -> List[str]:
-        """
-        List session IDs asynchronously, optionally filtered by participant.
+        """List session IDs asynchronously, optionally filtered by participant.
 
         Args:
             participant_id: Filter by participant ID
@@ -116,8 +109,7 @@ class AsyncParameterEstimationDAO:
         )
 
     async def create_trial(self, trial_data: TrialData) -> str:
-        """
-        Create a new trial record asynchronously.
+        """Create a new trial record asynchronously.
 
         Args:
             trial_data: Trial data to store
@@ -130,8 +122,7 @@ class AsyncParameterEstimationDAO:
         return await loop.run_in_executor(self._executor, dao.create_trial, trial_data)
 
     async def create_trials_batch(self, trials: List[TrialData]) -> List[str]:
-        """
-        Create multiple trial records asynchronously in a single transaction.
+        """Create multiple trial records asynchronously in a single transaction.
 
         Args:
             trials: List of trial data objects
@@ -144,8 +135,7 @@ class AsyncParameterEstimationDAO:
         return await loop.run_in_executor(self._executor, dao.create_trials_batch, trials)
 
     async def get_detection_trials(self, session_id: str) -> List:
-        """
-        Get all detection trials for a session asynchronously.
+        """Get all detection trials for a session asynchronously.
 
         Args:
             session_id: Session identifier
@@ -158,8 +148,7 @@ class AsyncParameterEstimationDAO:
         return await loop.run_in_executor(self._executor, dao.get_detection_trials, session_id)
 
     async def get_heartbeat_trials(self, session_id: str) -> List:
-        """
-        Get all heartbeat trials for a session asynchronously.
+        """Get all heartbeat trials for a session asynchronously.
 
         Args:
             session_id: Session identifier
@@ -172,8 +161,7 @@ class AsyncParameterEstimationDAO:
         return await loop.run_in_executor(self._executor, dao.get_heartbeat_trials, session_id)
 
     async def get_oddball_trials(self, session_id: str) -> List:
-        """
-        Get all oddball trials for a session asynchronously.
+        """Get all oddball trials for a session asynchronously.
 
         Args:
             session_id: Session identifier
@@ -186,8 +174,7 @@ class AsyncParameterEstimationDAO:
         return await loop.run_in_executor(self._executor, dao.get_oddball_trials, session_id)
 
     async def create_parameter_estimates(self, estimates: ParameterEstimates) -> str:
-        """
-        Store parameter estimates for a session asynchronously.
+        """Store parameter estimates for a session asynchronously.
 
         Args:
             estimates: ParameterEstimates to store
@@ -200,8 +187,7 @@ class AsyncParameterEstimationDAO:
         return await loop.run_in_executor(self._executor, dao.create_parameter_estimates, estimates)
 
     async def get_parameter_estimates(self, session_id: str) -> Optional[ParameterEstimates]:
-        """
-        Retrieve parameter estimates for a session asynchronously.
+        """Retrieve parameter estimates for a session asynchronously.
 
         Args:
             session_id: Session identifier
@@ -228,8 +214,7 @@ class AsyncParameterEstimationDAO:
 
 
 class AsyncParameterEstimationDAOWithPooling:
-    """
-    Async DAO with connection pooling support for high-concurrency scenarios.
+    """Async DAO with connection pooling support for high-concurrency scenarios.
 
     Maintains a pool of sync DAO instances for improved parallel performance.
     """
@@ -240,8 +225,7 @@ class AsyncParameterEstimationDAOWithPooling:
         pool_size: int = 5,
         max_workers: int = 10,
     ):
-        """
-        Initialize pooled async DAO.
+        """Initialize pooled async DAO.
 
         Args:
             db_path: Path to SQLite database file
@@ -287,8 +271,7 @@ class AsyncParameterEstimationDAOWithPooling:
             pass
 
     async def execute_with_dao(self, operation, *args, **kwargs):
-        """
-        Execute an operation with a pooled DAO instance.
+        """Execute an operation with a pooled DAO instance.
 
         Args:
             operation: Callable that takes a DAO as first argument

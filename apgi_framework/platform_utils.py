@@ -1,5 +1,4 @@
-"""
-Cross-platform utilities for resource loading and platform detection.
+"""Cross-platform utilities for resource loading and platform detection.
 
 This module provides platform-agnostic functions for:
 - Detecting the current operating system
@@ -28,8 +27,7 @@ logging.basicConfig(
 
 
 def get_platform() -> str:
-    """
-    Get current platform identifier.
+    """Get current platform identifier.
 
     Returns
     -------
@@ -49,8 +47,7 @@ def get_platform() -> str:
 
 
 def is_bundled() -> bool:
-    """
-    Check if running as bundled executable.
+    """Check if running as bundled executable.
 
     PyInstaller sets sys.frozen and sys._MEIPASS when running as executable.
     py2app sets sys.frozen when running as .app bundle.
@@ -62,8 +59,7 @@ def is_bundled() -> bool:
 
 
 def get_resource_path(relative_path: str) -> Path:
-    """
-    Get absolute path to resource, works for dev and bundled environments.
+    """Get absolute path to resource, works for dev and bundled environments.
 
     In development: returns path relative to project root
     In bundled executable: returns path relative to temporary extraction directory
@@ -113,8 +109,7 @@ def get_resource_path(relative_path: str) -> Path:
 
 
 def get_config_dir() -> Path:
-    """
-    Get platform-appropriate configuration directory.
+    """Get platform-appropriate configuration directory.
 
     Returns user-writable directory for storing configuration files.
     Creates the directory if it doesn't exist.
@@ -170,8 +165,7 @@ def get_config_dir() -> Path:
 
 
 def get_data_dir() -> Path:
-    """
-    Get platform-appropriate data directory.
+    """Get platform-appropriate data directory.
 
     Returns user-writable directory for storing application data files.
     Creates the directory if it doesn't exist.
@@ -227,8 +221,7 @@ def get_data_dir() -> Path:
 
 
 def get_base_path() -> Path:
-    """
-    Get the base path of the application.
+    """Get the base path of the application.
 
     Returns:
         Path to application base directory
@@ -246,8 +239,7 @@ def get_base_path() -> Path:
 def load_resource_with_fallback(
     relative_path: str, fallback_content: Optional[str] = None
 ) -> Optional[str]:
-    """
-    Load resource file with fallback behavior.
+    """Load resource file with fallback behavior.
 
     Attempts to load a resource file and returns its content.
     If the file doesn't exist or cannot be read, returns fallback content.
@@ -286,8 +278,7 @@ def load_resource_with_fallback(
 
 
 def safe_write_file(file_path: Path, content: str, create_backup: bool = True) -> bool:
-    """
-    Safely write content to a file with error handling.
+    """Safely write content to a file with error handling.
 
     Args:
         file_path: Path to file to write
@@ -334,8 +325,7 @@ def safe_write_file(file_path: Path, content: str, create_backup: bool = True) -
 
 
 def check_required_libraries() -> Dict[str, bool]:
-    """
-    Check if required libraries are available.
+    """Check if required libraries are available.
 
     Returns:
         Dictionary with library names as keys and availability as boolean values

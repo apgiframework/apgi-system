@@ -1,5 +1,4 @@
-"""
-Neural signature simulators for APGI Framework falsification testing.
+"""Neural signature simulators for APGI Framework falsification testing.
 
 This package provides simulators for various neural signatures associated with
 consciousness, including P3b ERP, gamma-band synchrony, BOLD activation, and

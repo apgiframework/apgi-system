@@ -4,8 +4,7 @@ from typing import Any, Dict
 
 
 class EntropyTracker:
-    """
-    Tracks entropy production and thermodynamic costs of neural computation.
+    """Tracks entropy production and thermodynamic costs of neural computation.
 
     Implements thermodynamic tracking based on Landauer's principle: any
     logically irreversible computation must dissipate energy and increase
@@ -62,8 +61,7 @@ class EntropyTracker:
     def update(
         self, num_spikes: int = 0, ignition: bool = False, dt: float = 1.0
     ) -> Dict[str, Any]:
-        """
-        Update entropy production based on neural activity.
+        """Update entropy production based on neural activity.
 
         Computes entropy increase from neural computation events. Each spike
         represents information processing that erases bits and increases entropy.

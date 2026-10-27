@@ -1,5 +1,4 @@
-"""
-Precision calculation module for the APGI Framework.
+"""Precision calculation module for the APGI Framework.
 
 This module implements precision calculations for both exteroceptive (Πₑ)
 and interoceptive (Πᵢ) components, including validation and edge case handling.
@@ -325,16 +324,14 @@ class PrecisionWeighting:
 
 
 class PrecisionCalculator:
-    """
-    Calculator for exteroceptive and interoceptive precision values.
+    """Calculator for exteroceptive and interoceptive precision values.
 
     Precision represents the inverse of uncertainty/variance in prediction
     errors, with higher precision indicating more reliable predictions.
     """
 
     def __init__(self, min_precision: float = 1e-6, max_precision: float = 100.0):
-        """
-        Initialize precision calculator with bounds.
+        """Initialize precision calculator with bounds.
 
         Args:
             min_precision: Minimum allowed precision value to prevent division by zero
@@ -349,8 +346,7 @@ class PrecisionCalculator:
         self.max_precision = max_precision
 
     def calculate_exteroceptive_precision(self, variance: float, confidence: float = 1.0) -> float:
-        """
-        Calculate exteroceptive precision (Πₑ).
+        """Calculate exteroceptive precision (Πₑ).
 
         Precision is typically the inverse of variance, modulated by confidence.
 
@@ -380,8 +376,7 @@ class PrecisionCalculator:
     def calculate_interoceptive_precision(
         self, variance: float, attention: float = 1.0, arousal: float = 1.0
     ) -> float:
-        """
-        Calculate base interoceptive precision (Πᵢ).
+        """Calculate base interoceptive precision (Πᵢ).
 
         Interoceptive precision can be modulated by attention and arousal states.
 
@@ -414,8 +409,7 @@ class PrecisionCalculator:
     def calculate_precision_from_samples(
         self, samples: np.ndarray, method: str = "inverse_variance"
     ) -> float:
-        """
-        Calculate precision from sample data.
+        """Calculate precision from sample data.
 
         Args:
             samples: Array of prediction error samples
@@ -465,8 +459,7 @@ class PrecisionCalculator:
     def validate_precision_pair(
         self, extero_precision: float, intero_precision: float
     ) -> Tuple[bool, str]:
-        """
-        Validate a pair of exteroceptive and interoceptive precision values.
+        """Validate a pair of exteroceptive and interoceptive precision values.
 
         Args:
             extero_precision: Exteroceptive precision value
@@ -503,8 +496,7 @@ class PrecisionCalculator:
             return False, f"Invalid precision values: {e}"
 
     def _apply_precision_bounds(self, precision: float) -> float:
-        """
-        Apply minimum and maximum bounds to precision value.
+        """Apply minimum and maximum bounds to precision value.
 
         Args:
             precision: Raw precision value
@@ -522,8 +514,7 @@ class PrecisionCalculator:
             return precision
 
     def calculate_precision(self, data: np.ndarray, method: str = "inverse_variance") -> float:
-        """
-        Calculate precision from sample data (alias for calculate_precision_from_samples).
+        """Calculate precision from sample data (alias for calculate_precision_from_samples).
 
         Args:
             data: Array of prediction error samples
@@ -535,8 +526,7 @@ class PrecisionCalculator:
         return self.calculate_precision_from_samples(data, method)
 
     def confidence_interval(self, data: np.ndarray, confidence: float = 0.95) -> tuple:
-        """
-        Calculate confidence interval for data.
+        """Calculate confidence interval for data.
 
         Args:
             data: Array of samples
@@ -563,8 +553,7 @@ class PrecisionCalculator:
         return (mean - margin, mean + margin)
 
     def relative_precision(self, data: np.ndarray) -> float:
-        """
-        Calculate relative precision (coefficient of variation inverse).
+        """Calculate relative precision (coefficient of variation inverse).
 
         Args:
             data: Array of samples
@@ -585,8 +574,7 @@ class PrecisionCalculator:
         return min(1.0 / cv, self.max_precision)
 
     def coefficient_of_variation(self, data: np.ndarray) -> float:
-        """
-        Calculate coefficient of variation (CV).
+        """Calculate coefficient of variation (CV).
 
         Args:
             data: Array of samples
@@ -603,8 +591,7 @@ class PrecisionCalculator:
         return float(std / abs(mean))
 
     def standard_error(self, data: np.ndarray) -> float:
-        """
-        Calculate standard error of the mean.
+        """Calculate standard error of the mean.
 
         Args:
             data: Array of samples
@@ -618,8 +605,7 @@ class PrecisionCalculator:
         return float(np.std(data, ddof=1) / np.sqrt(len(data)))
 
     def calculate_precision_batch(self, datasets: list, method: str = "inverse_variance") -> list:
-        """
-        Calculate precision for multiple datasets.
+        """Calculate precision for multiple datasets.
 
         Args:
             datasets: List of numpy arrays
@@ -631,8 +617,7 @@ class PrecisionCalculator:
         return [self.calculate_precision(d, method) for d in datasets]
 
     def precision_metrics(self, data: np.ndarray) -> dict:
-        """
-        Calculate comprehensive precision metrics.
+        """Calculate comprehensive precision metrics.
 
         Args:
             data: Array of samples
@@ -649,8 +634,7 @@ class PrecisionCalculator:
         }
 
     def get_precision_info(self) -> dict:
-        """
-        Get information about precision calculation settings.
+        """Get information about precision calculation settings.
 
         Returns:
             Dictionary with precision calculator configuration

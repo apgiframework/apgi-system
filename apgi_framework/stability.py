@@ -1,5 +1,4 @@
-"""
-Numerical Stability Monitoring
+"""Numerical Stability Monitoring.
 
 Provides monitoring and handling of numerical stability issues in computations.
 Detects NaN, Inf, and overflow conditions with configurable thresholds.
@@ -14,8 +13,7 @@ from apgi_framework.types import ConfigDict, FloatArray
 
 
 class NumericalInstabilityError(Exception):
-    """
-    Exception raised when numerical instability is detected.
+    """Exception raised when numerical instability is detected.
 
     This error is raised when computed values exceed error thresholds,
     contain NaN or Inf values, or otherwise indicate numerical problems
@@ -45,8 +43,7 @@ class NumericalInstabilityError(Exception):
         context: Optional[str] = None,
         value: Optional[Union[float, FloatArray]] = None,
     ) -> None:
-        """
-        Initialize numerical instability error.
+        """Initialize numerical instability error.
 
         Parameters
         ----------
@@ -74,8 +71,7 @@ class NumericalInstabilityError(Exception):
 
 
 class NumericalStabilityWarning(UserWarning):
-    """
-    Warning issued when numerical values approach instability thresholds.
+    """Warning issued when numerical values approach instability thresholds.
 
     This warning is issued when values are large but not yet at error levels,
     allowing the system to continue while alerting about potential issues.
@@ -92,8 +88,7 @@ class NumericalStabilityWarning(UserWarning):
 
 
 class NumericalStabilityMonitor:
-    """
-    Monitor and handle numerical stability issues in computations.
+    """Monitor and handle numerical stability issues in computations.
 
     Provides centralized checking for NaN, Inf, overflow, and underflow
     conditions with configurable warning and error thresholds. Integrates
@@ -135,8 +130,7 @@ class NumericalStabilityMonitor:
     """
 
     def __init__(self, config: Optional[ConfigDict] = None) -> None:
-        """
-        Initialize numerical stability monitor.
+        """Initialize numerical stability monitor.
 
         Parameters
         ----------
@@ -171,8 +165,7 @@ class NumericalStabilityMonitor:
     def check_stability(
         self, values: Union[float, FloatArray], context: str, raise_on_error: bool = True
     ) -> Dict[str, Any]:
-        """
-        Check numerical stability of values.
+        """Check numerical stability of values.
 
         Examines values for NaN, Inf, overflow, and underflow conditions.
         Issues warnings or raises errors based on configured thresholds.
@@ -322,8 +315,7 @@ class NumericalStabilityMonitor:
         expected_shape: Optional[Tuple[int, ...]] = None,
         expected_range: Optional[Tuple[float, float]] = None,
     ) -> Dict[str, Any]:
-        """
-        Check array properties including stability, shape, and value range.
+        """Check array properties including stability, shape, and value range.
 
         Performs comprehensive validation of array properties beyond just
         numerical stability, including shape and value range checks.
@@ -409,8 +401,7 @@ class NumericalStabilityMonitor:
         return status
 
     def get_statistics(self) -> Dict[str, int]:
-        """
-        Get monitoring statistics.
+        """Get monitoring statistics.
 
         Returns
         -------
@@ -429,8 +420,7 @@ class NumericalStabilityMonitor:
         return {"warning_count": self.warning_count, "error_count": self.error_count}
 
     def reset_statistics(self) -> None:
-        """
-        Reset monitoring statistics.
+        """Reset monitoring statistics.
 
         Clears warning and error counts. Useful for starting new
         simulation runs or experimental trials.

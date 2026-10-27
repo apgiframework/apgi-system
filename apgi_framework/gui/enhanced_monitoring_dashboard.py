@@ -1,5 +1,4 @@
-"""
-Enhanced Real-time Monitoring Dashboard with WebSocket streaming.
+"""Enhanced Real-time Monitoring Dashboard with WebSocket streaming.
 
 Provides advanced real-time monitoring capabilities with live data streaming,
 interactive plots, and comprehensive alert system.
@@ -47,8 +46,7 @@ class RealTimePlotManager:
     """Manages real-time plotting for monitoring dashboard."""
 
     def __init__(self, parent_frame: tk.Widget):
-        """
-        Initialize real-time plot manager.
+        """Initialize real-time plot manager.
 
         Args:
             parent_frame: Parent tkinter frame
@@ -241,8 +239,7 @@ class WebSocketDataReceiver:
     """Handles WebSocket data reception for real-time updates."""
 
     def __init__(self, dashboard: Any) -> None:
-        """
-        Initialize WebSocket data receiver.
+        """Initialize WebSocket data receiver.
 
         Args:
             dashboard: Reference to main dashboard
@@ -436,8 +433,7 @@ class WebSocketDataReceiver:
 
 
 class EnhancedMonitoringDashboard:
-    """
-    Enhanced monitoring dashboard with real-time WebSocket streaming.
+    """Enhanced monitoring dashboard with real-time WebSocket streaming.
 
     Features:
     - Real-time data streaming via WebSocket

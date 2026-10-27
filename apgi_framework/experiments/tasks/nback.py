@@ -1,5 +1,4 @@
-"""
-Stub module for N-back task.
+"""Stub module for N-back task.
 
 This module provides type stubs for N-back experimental task
 that is being migrated from the old apgi_simulation structure.

@@ -4,8 +4,7 @@ from typing import Any, Dict
 
 
 class CoherenceMaintenance:
-    """
-    Maintains coherence and unity between minimal and narrative self-models.
+    """Maintains coherence and unity between minimal and narrative self-models.
 
     Integrates the moment-to-moment minimal self with the long-term narrative
     self to maintain a unified sense of personal identity. This component
@@ -55,8 +54,7 @@ class CoherenceMaintenance:
     def update(
         self, minimal_info: Dict[str, Any], narrative_info: Dict[str, Any]
     ) -> Dict[str, Any]:
-        """
-        Update coherence between minimal and narrative self-models.
+        """Update coherence between minimal and narrative self-models.
 
         Computes integrated coherence by combining coherence measures from
         both minimal and narrative self-components. Uses weighted averaging

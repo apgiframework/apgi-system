@@ -1,5 +1,4 @@
-"""
-Task configuration GUI for APGI Framework experiments.
+"""Task configuration GUI for APGI Framework experiments.
 
 Provides configuration interface for detection and heartbeat tasks with standardized
 UI components and error handling.
@@ -76,8 +75,7 @@ class OddballTaskConfig:
 
 
 class TaskParameterConfigurator:
-    """
-    Manages task parameter configuration.
+    """Manages task parameter configuration.
 
     Provides interface for adjusting adaptive algorithm and stimulus parameters.
     """
@@ -95,8 +93,7 @@ class TaskParameterConfigurator:
         return self.detection_config
 
     def update_detection_config(self, **kwargs: Any) -> None:
-        """
-        Update detection task configuration.
+        """Update detection task configuration.
 
         Args:
             **kwargs: Configuration parameters to update
@@ -113,8 +110,7 @@ class TaskParameterConfigurator:
         return self.heartbeat_config
 
     def update_heartbeat_config(self, **kwargs: Any) -> None:
-        """
-        Update heartbeat task configuration.
+        """Update heartbeat task configuration.
 
         Args:
             **kwargs: Configuration parameters to update
@@ -131,8 +127,7 @@ class TaskParameterConfigurator:
         return self.oddball_config
 
     def update_oddball_config(self, **kwargs: Any) -> None:
-        """
-        Update oddball task configuration.
+        """Update oddball task configuration.
 
         Args:
             **kwargs: Configuration parameters to update
@@ -145,8 +140,7 @@ class TaskParameterConfigurator:
                 logger.warning(f"Unknown oddball config parameter: {key}")
 
     def get_all_configs(self) -> Dict[str, Any]:
-        """
-        Get all task configurations.
+        """Get all task configurations.
 
         Returns:
             Dictionary with all configurations
@@ -166,8 +160,7 @@ class TaskParameterConfigurator:
         logger.info("Reset all task configurations to defaults")
 
     def validate_config(self, task_type: str) -> bool:
-        """
-        Validate configuration for a task type.
+        """Validate configuration for a task type.
 
         Args:
             task_type: Type of task ('detection', 'heartbeat', or 'oddball')

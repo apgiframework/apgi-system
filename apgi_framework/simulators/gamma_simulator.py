@@ -1,5 +1,4 @@
-"""
-Gamma-band synchrony simulator for APGI Framework falsification testing.
+"""Gamma-band synchrony simulator for APGI Framework falsification testing.
 
 This module implements the GammaSimulator class that generates realistic gamma-band
 synchrony patterns with phase-locking values (PLV) for testing consciousness-related
@@ -37,8 +36,7 @@ class GammaSignature:
 
 
 class GammaSimulator:
-    """
-    Simulator for gamma-band synchrony with realistic phase-locking characteristics.
+    """Simulator for gamma-band synchrony with realistic phase-locking characteristics.
 
     Gamma-band synchrony (30-80 Hz) with PLV >0.3 between frontoparietal and temporal
     regions, sustained >200 ms, indicates conscious processing and global workspace
@@ -46,8 +44,7 @@ class GammaSimulator:
     """
 
     def __init__(self, random_seed: Optional[int] = None):
-        """
-        Initialize gamma synchrony simulator.
+        """Initialize gamma synchrony simulator.
 
         Args:
             random_seed: Optional seed for reproducible random number generation
@@ -86,8 +83,7 @@ class GammaSimulator:
         duration_range: Tuple[float, float] = (220.0, 800.0),
         noise_level: float = 0.05,
     ) -> GammaSignature:
-        """
-        Generate gamma synchrony signature indicating conscious processing.
+        """Generate gamma synchrony signature indicating conscious processing.
 
         Args:
             plv_range: Range for PLV generation, default ensures >0.3
@@ -146,8 +142,7 @@ class GammaSimulator:
         duration_range: Tuple[float, float] = (50.0, 180.0),
         noise_level: float = 0.03,
     ) -> GammaSignature:
-        """
-        Generate gamma synchrony signature indicating unconscious/subthreshold processing.
+        """Generate gamma synchrony signature indicating unconscious/subthreshold processing.
 
         Args:
             plv_range: Range for PLV generation, default ensures <0.15
@@ -196,8 +191,7 @@ class GammaSimulator:
         connection_pattern: str = "frontoparietal",
         noise_level: float = 0.04,
     ) -> GammaSignature:
-        """
-        Generate gamma synchrony signature with specific target parameters.
+        """Generate gamma synchrony signature with specific target parameters.
 
         Args:
             target_plv: Target PLV value
@@ -279,8 +273,7 @@ class GammaSimulator:
         return connectivity
 
     def validate_signature(self, signature: GammaSignature) -> bool:
-        """
-        Validate that gamma signature meets basic physiological constraints.
+        """Validate that gamma signature meets basic physiological constraints.
 
         Args:
             signature: GammaSignature to validate
@@ -314,8 +307,7 @@ class GammaSimulator:
         return True
 
     def is_conscious_level(self, signature: GammaSignature) -> bool:
-        """
-        Determine if gamma signature indicates conscious-level processing.
+        """Determine if gamma signature indicates conscious-level processing.
 
         Args:
             signature: GammaSignature to evaluate
@@ -355,8 +347,7 @@ class GammaSimulator:
     def simulate_gamma_synchrony(
         self, plv_range: Tuple[float, float], duration_range: Tuple[float, float]
     ) -> "GammaResult":
-        """
-        Legacy method for backward compatibility with falsification tests.
+        """Legacy method for backward compatibility with falsification tests.
 
         Args:
             plv_range: Range for PLV generation

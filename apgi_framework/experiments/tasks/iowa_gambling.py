@@ -1,5 +1,4 @@
-"""
-Stub module for Iowa gambling task.
+"""Stub module for Iowa gambling task.
 
 This module provides type stubs for Iowa gambling experimental task
 that is being migrated from the old apgi_simulation structure.

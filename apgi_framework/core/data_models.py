@@ -1,5 +1,4 @@
-"""
-Core data models for the APGI Framework.
+"""Core data models for the APGI Framework.
 
 Defines the fundamental data structures used throughout the system for
 experimental trials, results, parameters, and statistical summaries.

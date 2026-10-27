@@ -1,5 +1,4 @@
-"""
-Real-time multi-modal monitoring dashboard.
+"""Real-time multi-modal monitoring dashboard.
 
 Provides live monitoring of EEG, pupillometry, cardiac signals, and parameter estimates.
 """
@@ -46,15 +45,13 @@ logger = get_logger(__name__)
 
 
 class LiveEEGMonitor:
-    """
-    Real-time EEG signal quality and P3b/HEP display.
+    """Real-time EEG signal quality and P3b/HEP display.
 
     Monitors EEG data quality, artifact rates, and neural signatures.
     """
 
     def __init__(self, parent_frame: tk.Widget):
-        """
-        Initialize EEG monitor.
+        """Initialize EEG monitor.
 
         Args:
             parent_frame: Parent tkinter frame
@@ -176,8 +173,7 @@ class LiveEEGMonitor:
         logger.info("LiveEEGMonitor initialized")
 
     def update_signal_quality(self, quality_score: float, artifact_rate: float) -> None:
-        """
-        Update EEG signal quality display.
+        """Update EEG signal quality display.
 
         Args:
             quality_score: Signal quality score (0-1)
@@ -205,8 +201,7 @@ class LiveEEGMonitor:
         self.artifact_label.config(text=artifact_text, foreground=artifact_color)
 
     def update_p3b(self, amplitude: float, latency: Optional[float] = None) -> None:
-        """
-        Update P3b amplitude display.
+        """Update P3b amplitude display.
 
         Args:
             amplitude: P3b amplitude in μV
@@ -222,8 +217,7 @@ class LiveEEGMonitor:
         self.p3b_label.config(text=text)
 
     def update_hep(self, amplitude: float) -> None:
-        """
-        Update HEP amplitude display.
+        """Update HEP amplitude display.
 
         Args:
             amplitude: HEP amplitude in μV
@@ -232,8 +226,7 @@ class LiveEEGMonitor:
         self.hep_label.config(text=f"{amplitude:.2f} μV")
 
     def update_bad_channels(self, bad_channels: List[str]) -> None:
-        """
-        Update bad channels display.
+        """Update bad channels display.
 
         Args:
             bad_channels: List of bad channel names
@@ -374,15 +367,13 @@ class LiveEEGMonitor:
 
 
 class PupillometryMonitor:
-    """
-    Live pupillometry signal monitoring.
+    """Live pupillometry signal monitoring.
 
     Displays pupil diameter, blink rate, and data quality.
     """
 
     def __init__(self, parent_frame: tk.Widget):
-        """
-        Initialize pupillometry monitor.
+        """Initialize pupillometry monitor.
 
         Args:
             parent_frame: Parent tkinter frame
@@ -487,8 +478,7 @@ class PupillometryMonitor:
         logger.info("PupillometryMonitor initialized")
 
     def update_quality(self, quality_score: float, data_loss: float) -> None:
-        """
-        Update pupillometry data quality.
+        """Update pupillometry data quality.
 
         Args:
             quality_score: Quality score (0-1)
@@ -507,8 +497,7 @@ class PupillometryMonitor:
         self.data_loss_label.config(text=loss_text, foreground=loss_color)
 
     def update_measurements(self, diameter: float, blink_rate: float, tracking_loss: int) -> None:
-        """
-        Update pupil measurements.
+        """Update pupil measurements.
 
         Args:
             diameter: Pupil diameter in mm
@@ -565,15 +554,13 @@ class PupillometryMonitor:
 
 
 class CardiacMonitor:
-    """
-    Live cardiac signal monitoring.
+    """Live cardiac signal monitoring.
 
     Displays heart rate, HRV, and R-peak detection quality.
     """
 
     def __init__(self, parent_frame: tk.Widget):
-        """
-        Initialize cardiac monitor.
+        """Initialize cardiac monitor.
 
         Args:
             parent_frame: Parent tkinter frame
@@ -678,8 +665,7 @@ class CardiacMonitor:
         logger.info("CardiacMonitor initialized")
 
     def update_quality(self, quality_score: float, rpeak_confidence: float) -> None:
-        """
-        Update cardiac signal quality.
+        """Update cardiac signal quality.
 
         Args:
             quality_score: Signal quality score (0-1)
@@ -700,8 +686,7 @@ class CardiacMonitor:
         self.rpeak_label.config(text=rpeak_text, foreground=rpeak_color)
 
     def update_measurements(self, heart_rate: float, hrv: float, rr_interval: float) -> None:
-        """
-        Update cardiac measurements.
+        """Update cardiac measurements.
 
         Args:
             heart_rate: Heart rate in BPM
@@ -758,15 +743,13 @@ class CardiacMonitor:
 
 
 class RealTimeParameterEstimateUpdater:
-    """
-    Real-time parameter estimate updates.
+    """Real-time parameter estimate updates.
 
     Displays ongoing Bayesian parameter estimates as data accumulates.
     """
 
     def __init__(self, parent_frame: tk.Widget):
-        """
-        Initialize parameter estimate updater.
+        """Initialize parameter estimate updater.
 
         Args:
             parent_frame: Parent tkinter frame
@@ -850,8 +833,7 @@ class RealTimeParameterEstimateUpdater:
         logger.info("RealTimeParameterEstimateUpdater initialized")
 
     def update_theta0(self, mean: float, std: float, ci_lower: float, ci_upper: float) -> None:
-        """
-        Update θ₀ estimate.
+        """Update θ₀ estimate.
 
         Args:
             mean: Mean estimate
@@ -869,8 +851,7 @@ class RealTimeParameterEstimateUpdater:
         self._update_plot()
 
     def update_pi_i(self, mean: float, std: float, ci_lower: float, ci_upper: float) -> None:
-        """
-        Update Πᵢ estimate.
+        """Update Πᵢ estimate.
 
         Args:
             mean: Mean estimate
@@ -889,8 +870,7 @@ class RealTimeParameterEstimateUpdater:
         self._update_plot()
 
     def update_beta(self, mean: float, std: float, ci_lower: float, ci_upper: float) -> None:
-        """
-        Update β estimate.
+        """Update β estimate.
 
         Args:
             mean: Mean estimate
@@ -940,8 +920,7 @@ class RealTimeParameterEstimateUpdater:
             self.canvas.draw()
 
     def update_convergence(self, converged: bool, r_hat: float) -> None:
-        """
-        Update convergence status.
+        """Update convergence status.
 
         Args:
             converged: Whether chains have converged
@@ -965,15 +944,13 @@ class RealTimeParameterEstimateUpdater:
 
 
 class QualityAlertSystem:
-    """
-    Automated data quality issue detection and notifications.
+    """Automated data quality issue detection and notifications.
 
     Monitors all data streams and generates alerts for quality issues.
     """
 
     def __init__(self, parent_frame: tk.Widget):
-        """
-        Initialize quality alert system.
+        """Initialize quality alert system.
 
         Args:
             parent_frame: Parent tkinter frame
@@ -995,8 +972,7 @@ class QualityAlertSystem:
         logger.info("QualityAlertSystem initialized")
 
     def add_alert(self, level: str, message: str, source: str = "") -> None:
-        """
-        Add a quality alert.
+        """Add a quality alert.
 
         Args:
             level: Alert level ('info', 'warning', or 'error')
@@ -1032,8 +1008,7 @@ class QualityAlertSystem:
             logger.error(alert_line)
 
     def check_eeg_quality(self, quality_score: float, artifact_rate: float) -> None:
-        """
-        Check EEG quality and generate alerts if needed.
+        """Check EEG quality and generate alerts if needed.
 
         Args:
             quality_score: EEG quality score (0-1)
@@ -1050,8 +1025,7 @@ class QualityAlertSystem:
             self.add_alert("warning", f"Elevated artifact rate: {artifact_rate * 100:.1f}%", "EEG")
 
     def check_pupil_quality(self, data_loss: float, tracking_loss: int) -> None:
-        """
-        Check pupillometry quality and generate alerts if needed.
+        """Check pupillometry quality and generate alerts if needed.
 
         Args:
             data_loss: Data loss proportion (0-1)
@@ -1074,8 +1048,7 @@ class QualityAlertSystem:
             )
 
     def check_cardiac_quality(self, quality_score: float, rpeak_confidence: float) -> None:
-        """
-        Check cardiac signal quality and generate alerts if needed.
+        """Check cardiac signal quality and generate alerts if needed.
 
         Args:
             quality_score: Cardiac quality score (0-1)
@@ -1097,8 +1070,7 @@ class QualityAlertSystem:
         self.alert_text.config(state=tk.DISABLED)
 
     def get_alert_summary(self) -> Dict[str, int]:
-        """
-        Get summary of alerts by level.
+        """Get summary of alerts by level.
 
         Returns:
             Dictionary with counts by alert level
@@ -1114,9 +1086,7 @@ class QualityAlertSystem:
 
 
 class MultiModalMonitoringDashboard:
-    """
-    Main dashboard that combines all monitoring components.
-    """
+    """Main dashboard that combines all monitoring components."""
 
     def __init__(self, root: tk.Tk):
         """Initialize the multi-modal monitoring dashboard."""

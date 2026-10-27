@@ -1,5 +1,4 @@
-"""
-Virtual Metabolic Layer: Neural Mass Models for ATP Flux Estimation
+"""Virtual Metabolic Layer: Neural Mass Models for ATP Flux Estimation.
 
 This module implements a biophysically-inspired metabolic estimation system using
 Neural Mass Models (NMMs) to compute ATP consumption during Global Ignition events.
@@ -36,8 +35,7 @@ import numpy as np
 
 @dataclass
 class NeuralMassParameters:
-    """
-    Parameters for the Neural Mass Model.
+    """Parameters for the Neural Mass Model.
 
     Based on Jansen-Rit model with modifications for metabolic estimation.
     Default values represent a canonical cortical column (~10^5 neurons).
@@ -90,8 +88,7 @@ class NeuralMassParameters:
 
 @dataclass
 class MetabolicCostFactors:
-    """
-    ATP cost factors for neural computation (in ATP molecules per event).
+    """ATP cost factors for neural computation (in ATP molecules per event).
 
     Based on comprehensive energy budget estimates from Attwell & Laughlin (2001)
     and subsequent updates from Howarth et al. (2012).
@@ -131,8 +128,7 @@ class MetabolicCostFactors:
 
 
 class NeuralMassModel:
-    """
-    Neural Mass Model for estimating population-level neural activity.
+    """Neural Mass Model for estimating population-level neural activity.
 
     Implements a Jansen-Rit inspired model to estimate firing rates and
     synaptic activity that drive metabolic demand calculations.
@@ -173,8 +169,7 @@ class NeuralMassModel:
         self.max_history = 1000
 
     def sigmoid(self, v: float) -> float:
-        """
-        Sigmoid firing rate function.
+        """Sigmoid firing rate function.
 
         S(v) = 2e_0 / (1 + exp(r(v_0 - v)))
 
@@ -189,8 +184,7 @@ class NeuralMassModel:
         return (2.0 * p.max_firing_rate) / (1.0 + np.exp(exp_arg))
 
     def derivatives(self, state: np.ndarray, input_current: float) -> np.ndarray:
-        """
-        Compute state derivatives for the neural mass model.
+        """Compute state derivatives for the neural mass model.
 
         Args:
             state: Current state vector [8]
@@ -263,8 +257,7 @@ class NeuralMassModel:
         return dydt
 
     def step(self, input_current: float, dt_ms: float = 1.0) -> Dict[str, float]:
-        """
-        Advance the neural mass model by one timestep.
+        """Advance the neural mass model by one timestep.
 
         Args:
             input_current: External input current (arbitrary units, scaled by connectivity)
@@ -336,8 +329,7 @@ class NeuralMassModel:
 
 
 class ATPFluxCalculator:
-    """
-    Calculate ATP flux based on neural mass model activity.
+    """Calculate ATP flux based on neural mass model activity.
 
     Converts firing rates and synaptic activity into biophysical ATP consumption
     estimates using established energy budgets for neural computation.
@@ -385,8 +377,7 @@ class ATPFluxCalculator:
         synaptic_activity: float,
         num_active_neurons: Optional[int] = None,
     ) -> Dict[str, float]:
-        """
-        Compute ATP flux components from neural activity.
+        """Compute ATP flux components from neural activity.
 
         Args:
             pyramidal_firing_rate_hz: Firing rate of pyramidal cells (Hz)
@@ -485,8 +476,7 @@ class ATPFluxCalculator:
         bits_processed: float,
         consider_landauer: bool = True,
     ) -> float:
-        """
-        Compute the κ (kappa) value: metabolic cost per bit of information.
+        """Compute the κ (kappa) value: metabolic cost per bit of information.
 
         κ = ATP_total / (bits × kT × ln(2))
 
@@ -527,8 +517,7 @@ class ATPFluxCalculator:
         workspace_size_neurons: int = 100_000,
         broadcast_amplitude: float = 1.0,
     ) -> Dict[str, float]:
-        """
-        Compute the total ATP cost for a Global Ignition event.
+        """Compute the total ATP cost for a Global Ignition event.
 
         This calculates the metabolic cost of the global workspace broadcast,
         including heightened neural activity, increased synaptic transmission,
@@ -631,8 +620,7 @@ class ATPFluxCalculator:
 
 
 class VirtualMetabolicLayer:
-    """
-    Virtual Metabolic Layer integrating Neural Mass Models with ATP flux estimation.
+    """Virtual Metabolic Layer integrating Neural Mass Models with ATP flux estimation.
 
     This is the main interface that combines:
     1. Neural Mass Model for population-level neural dynamics
@@ -659,8 +647,7 @@ class VirtualMetabolicLayer:
         metabolic_factors: Optional[MetabolicCostFactors] = None,
         rng: Optional[np.random.Generator] = None,
     ):
-        """
-        Initialize the Virtual Metabolic Layer.
+        """Initialize the Virtual Metabolic Layer.
 
         Args:
             neural_params: Neural mass model parameters
@@ -685,8 +672,7 @@ class VirtualMetabolicLayer:
         duration_ms: float,
         dt_ms: float = 1.0,
     ) -> Dict[str, Any]:
-        """
-        Simulate neural mass activity and compute ATP consumption.
+        """Simulate neural mass activity and compute ATP consumption.
 
         Args:
             input_drive: Input current to the neural mass (0-1 scale)
@@ -749,8 +735,7 @@ class VirtualMetabolicLayer:
         workspace_content: Optional[np.ndarray] = None,
         ignition_duration_ms: float = 300.0,
     ) -> Dict[str, Any]:
-        """
-        Compute the metabolic cost of a Global Ignition event.
+        """Compute the metabolic cost of a Global Ignition event.
 
         This method provides the key functionality for dynamic κ estimation.
         It calculates the ATP cost and computes κ based on the Landauer limit.
@@ -810,8 +795,7 @@ class VirtualMetabolicLayer:
         return ignition_cost
 
     def get_dynamic_kappa(self, use_recent_average: bool = True) -> float:
-        """
-        Get the current κ value for metabolic cost calculations.
+        """Get the current κ value for metabolic cost calculations.
 
         Args:
             use_recent_average: If True, return average of recent κ values
@@ -861,8 +845,7 @@ def estimate_kappa_for_ignition(
     ignition_duration_ms: float = 300.0,
     workspace_size_neurons: int = 100_000,
 ) -> float:
-    """
-    Quick estimate of κ for an ignition event.
+    """Quick estimate of κ for an ignition event.
 
     This is a convenience function for one-off κ calculations.
     For repeated use, create a VirtualMetabolicLayer instance.

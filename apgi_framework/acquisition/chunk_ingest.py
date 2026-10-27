@@ -85,14 +85,16 @@ class ObjectStore(ABC):
     """The private bucket."""
 
     @abstractmethod
-    def signed_upload_url(self, key: str, *, size_bytes: int, expires_in_s: int) -> str: ...
+    def signed_upload_url(self, key: str, *, size_bytes: int, expires_in_s: int) -> str:
+        """Return a time-limited URL the client PUTs the chunk to."""
 
     @abstractmethod
     def size(self, key: str) -> Optional[int]:
         """Stored byte length, or ``None`` if the object does not exist."""
 
     @abstractmethod
-    def read(self, key: str) -> bytes: ...
+    def read(self, key: str) -> bytes:
+        """Return the stored object bytes."""
 
 
 class LocalObjectStore(ObjectStore):

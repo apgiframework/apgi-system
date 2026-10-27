@@ -1,5 +1,4 @@
-"""
-Standardized logging configuration for APGI Framework.
+"""Standardized logging configuration for APGI Framework.
 
 Provides consistent logging across all modules with proper levels,
 formatting, and security considerations. Replaces inconsistent print() usage.
@@ -19,8 +18,7 @@ from typing import Any, Dict, Optional, Union
 
 
 class CorrelationContext:
-    """
-    Thread-safe correlation ID management for distributed tracing.
+    """Thread-safe correlation ID management for distributed tracing.
 
     Provides a way to track requests across multiple components and services,
     enabling end-to-end observability and debugging.
@@ -49,8 +47,7 @@ class CorrelationContext:
     @classmethod
     @contextmanager
     def correlation_scope(cls, correlation_id: Optional[str] = None) -> Any:
-        """
-        Context manager for correlation ID scope.
+        """Context manager for correlation ID scope.
 
         Args:
             correlation_id: Optional correlation ID to use. If None, generates new.
@@ -72,8 +69,7 @@ class CorrelationContext:
 
 
 class APGILogger:
-    """
-    Standardized logger for the APGI Framework.
+    """Standardized logger for the APGI Framework.
 
     Provides consistent logging with security features, structured output,
     and proper error handling to replace inconsistent print() statements.
@@ -87,8 +83,7 @@ class APGILogger:
         enable_console: bool = True,
         enable_structured: bool = False,
     ):
-        """
-        Initialize APGI logger.
+        """Initialize APGI logger.
 
         Args:
             name: Logger name (usually module name)
@@ -279,8 +274,7 @@ class StructuredFormatter(logging.Formatter):
 
 
 class LoggingManager:
-    """
-    Centralized logging manager for the APGI Framework.
+    """Centralized logging manager for the APGI Framework.
 
     Manages logger instances, configuration, and provides
     factory methods for consistent logging setup.
@@ -297,8 +291,7 @@ class LoggingManager:
         enable_structured: bool = False,
         enable_console: bool = True,
     ) -> None:
-        """
-        Configure global logging settings.
+        """Configure global logging settings.
 
         Args:
             log_level: Default logging level
@@ -321,8 +314,7 @@ class LoggingManager:
     def get_logger(
         cls, name: str, log_file: Optional[Union[str, Path]] = None, **kwargs: Any
     ) -> APGILogger:
-        """
-        Get or create a logger instance.
+        """Get or create a logger instance.
 
         Args:
             name: Logger name
@@ -354,8 +346,7 @@ class LoggingManager:
 
     @classmethod
     def replace_print_with_logging(cls, module_name: str) -> Any:
-        """
-        Replace print() statements with logging for a specific module.
+        """Replace print() statements with logging for a specific module.
 
         This is a utility function to help migrate from print() to proper logging.
 
@@ -375,8 +366,7 @@ class LoggingManager:
 
 
 def get_logger(name: str, **kwargs: Any) -> APGILogger:
-    """
-    Convenience function to get a logger.
+    """Convenience function to get a logger.
 
     Args:
         name: Logger name
@@ -393,8 +383,7 @@ def setup_logging(
     log_dir: Optional[str] = None,
     enable_structured: bool = False,
 ) -> None:
-    """
-    Setup global logging configuration.
+    """Setup global logging configuration.
 
     Args:
         log_level: Default logging level
@@ -433,8 +422,7 @@ def get_analysis_logger() -> APGILogger:
 
 
 def get_correlation_id() -> str:
-    """
-    Get the current correlation ID for distributed tracing.
+    """Get the current correlation ID for distributed tracing.
 
     Returns:
         Current correlation ID or newly generated one
@@ -448,8 +436,7 @@ def get_correlation_id() -> str:
 
 
 def set_correlation_id(correlation_id: str) -> None:
-    """
-    Set the correlation ID for the current thread.
+    """Set the correlation ID for the current thread.
 
     Args:
         correlation_id: Correlation ID to set

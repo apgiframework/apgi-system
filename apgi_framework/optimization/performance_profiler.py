@@ -1,5 +1,4 @@
-"""
-Performance Profiler for APGI Framework
+"""Performance Profiler for APGI Framework.
 
 Provides comprehensive performance monitoring, profiling, and optimization
 tools to identify and resolve computational bottlenecks.

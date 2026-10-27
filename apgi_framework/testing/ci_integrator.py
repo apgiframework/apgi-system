@@ -1,5 +1,4 @@
-"""
-CI/CD Integration Component for APGI Framework Test Enhancement
+"""CI/CD Integration Component for APGI Framework Test Enhancement.
 
 This module provides automated test execution capabilities for CI/CD pipelines,
 including change impact analysis, pre-commit hooks, and pipeline integration.
@@ -490,7 +489,9 @@ class CIIntegrator:
         """Generate unique execution ID."""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         hash_input = f"{timestamp}_{os.getpid()}"
-        hash_suffix = hashlib.md5(hash_input.encode()).hexdigest()[:8]
+        hash_suffix = hashlib.md5(hash_input.encode(), usedforsecurity=False).hexdigest()[
+            :8
+        ]  # id suffix, not security
         return f"ci_{timestamp}_{hash_suffix}"
 
     def _get_critical_tests(self) -> List[str]:
@@ -565,7 +566,6 @@ class CIIntegrator:
         execution_time: float,
     ) -> ExecutionResult:
         """Parse pytest results into ExecutionResult."""
-
         # Try to load JSON report
         report_file = self.project_root / ".ci" / "reports" / f"{execution_id}_report.json"
         coverage_file = self.project_root / ".ci" / "reports" / f"{execution_id}_coverage.json"

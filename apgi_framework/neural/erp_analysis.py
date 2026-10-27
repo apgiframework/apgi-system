@@ -1,5 +1,4 @@
-"""
-Event-Related Potential (ERP) analysis module.
+"""Event-Related Potential (ERP) analysis module.
 
 Provides P3b peak detection, early component extraction (N1, P1, N170),
 and single-trial ERP estimation for APGI framework validation.
@@ -60,16 +59,14 @@ class P3bMetrics:
 
 
 class ERPAnalysis:
-    """
-    Event-Related Potential analysis for APGI framework.
+    """Event-Related Potential analysis for APGI framework.
 
     Extracts P3b and early ERP components with advanced filtering
     and single-trial estimation capabilities.
     """
 
     def __init__(self, sampling_rate: float = 1000.0):
-        """
-        Initialize ERP analysis.
+        """Initialize ERP analysis.
 
         Args:
             sampling_rate: Sampling rate in Hz
@@ -80,8 +77,7 @@ class ERPAnalysis:
     def baseline_correct(
         self, data: np.ndarray, baseline_window: Tuple[float, float] = (-200, 0)
     ) -> np.ndarray:
-        """
-        Apply baseline correction to ERP data.
+        """Apply baseline correction to ERP data.
 
         Args:
             data: ERP data (channels x time) or (trials x channels x time)
@@ -112,8 +108,7 @@ class ERPAnalysis:
         highpass: Optional[float] = 0.1,
         order: int = 4,
     ) -> np.ndarray:
-        """
-        Apply bandpass filter to ERP data.
+        """Apply bandpass filter to ERP data.
 
         Args:
             data: ERP data array
@@ -152,8 +147,7 @@ class ERPAnalysis:
         search_window: Tuple[float, float],
         polarity: str = "positive",
     ) -> Tuple[float, float, int]:
-        """
-        Detect peak in specified time window.
+        """Detect peak in specified time window.
 
         Args:
             data: 1D ERP waveform
@@ -194,8 +188,7 @@ class ERPAnalysis:
         time_zero_idx: int,
         search_window: Tuple[float, float] = (300, 600),
     ) -> P3bMetrics:
-        """
-        Extract P3b component with detailed metrics.
+        """Extract P3b component with detailed metrics.
 
         Args:
             data: 1D ERP waveform
@@ -266,8 +259,7 @@ class ERPAnalysis:
     def extract_early_components(
         self, data: np.ndarray, time_zero_idx: int
     ) -> Dict[str, Tuple[float, float]]:
-        """
-        Extract early ERP components (P1, N1, N170).
+        """Extract early ERP components (P1, N1, N170).
 
         Args:
             data: 1D ERP waveform
@@ -299,8 +291,7 @@ class ERPAnalysis:
     def extract_all_components(
         self, data: np.ndarray, time_zero_idx: int, channel: Optional[str] = None
     ) -> ERPComponents:
-        """
-        Extract all ERP components from a single trial or averaged ERP.
+        """Extract all ERP components from a single trial or averaged ERP.
 
         Args:
             data: 1D ERP waveform
@@ -342,8 +333,7 @@ class ERPAnalysis:
     def single_trial_estimation(
         self, trial_data: np.ndarray, time_zero_idx: int, method: str = "wavelet"
     ) -> np.ndarray:
-        """
-        Estimate single-trial ERP using advanced filtering.
+        """Estimate single-trial ERP using advanced filtering.
 
         Args:
             trial_data: Single trial EEG data (channels x time)
@@ -363,8 +353,7 @@ class ERPAnalysis:
             raise ValueError(f"Unknown method: {method}")
 
     def _wavelet_denoising(self, data: np.ndarray) -> np.ndarray:
-        """
-        Apply wavelet denoising for single-trial ERP estimation.
+        """Apply wavelet denoising for single-trial ERP estimation.
 
         Args:
             data: EEG data array
@@ -377,8 +366,7 @@ class ERPAnalysis:
         return self.apply_filter(data, lowpass=15.0, highpass=0.5)
 
     def _adaptive_filtering(self, data: np.ndarray, time_zero_idx: int) -> np.ndarray:
-        """
-        Apply adaptive filtering for single-trial ERP estimation.
+        """Apply adaptive filtering for single-trial ERP estimation.
 
         Args:
             data: EEG data array
@@ -402,8 +390,7 @@ class ERPAnalysis:
         return data
 
     def _matched_filter(self, data: np.ndarray, time_zero_idx: int) -> np.ndarray:
-        """
-        Apply matched filter using template ERP.
+        """Apply matched filter using template ERP.
 
         Args:
             data: EEG data array
@@ -422,8 +409,7 @@ class ERPAnalysis:
         return cast(np.ndarray, filtered)
 
     def _create_p3b_template(self, time_points: np.ndarray) -> np.ndarray:
-        """
-        Create idealized P3b template waveform.
+        """Create idealized P3b template waveform.
 
         Args:
             time_points: Time points in ms
@@ -443,8 +429,7 @@ class ERPAnalysis:
     def compute_grand_average(
         self, trials: List[np.ndarray], reject_threshold: Optional[float] = None
     ) -> Tuple[np.ndarray, int]:
-        """
-        Compute grand average ERP across trials with optional artifact rejection.
+        """Compute grand average ERP across trials with optional artifact rejection.
 
         Args:
             trials: List of trial data arrays
@@ -477,8 +462,7 @@ class ERPAnalysis:
         n_bootstrap: int = 1000,
         confidence: float = 0.95,
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Compute bootstrap confidence intervals for ERP.
+        """Compute bootstrap confidence intervals for ERP.
 
         Args:
             trials: List of trial data arrays

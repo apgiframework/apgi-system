@@ -1,5 +1,4 @@
-"""
-Centralized logging utilities for the APGI Framework test enhancement system.
+"""Centralized logging utilities for the APGI Framework test enhancement system.
 
 This module provides structured logging with appropriate levels, log rotation
 and retention management, and component-specific loggers for comprehensive
@@ -58,8 +57,7 @@ class StructuredFormatter(logging.Formatter):
     """Custom formatter for structured logging."""
 
     def __init__(self, include_extra: bool = True):
-        """
-        Initialize structured formatter.
+        """Initialize structured formatter.
 
         Args:
             include_extra: Whether to include extra fields in output
@@ -170,16 +168,14 @@ class ColoredConsoleFormatter(logging.Formatter):
 
 
 class LoggingUtils:
-    """
-    Centralized logging utilities with structured logging and rotation.
+    """Centralized logging utilities with structured logging and rotation.
 
     Provides comprehensive logging functionality including structured logging,
     log rotation, retention management, and component-specific loggers.
     """
 
     def __init__(self, base_log_dir: Optional[Union[str, Path]] = None):
-        """
-        Initialize logging utilities.
+        """Initialize logging utilities.
 
         Args:
             base_log_dir: Base directory for log files
@@ -266,8 +262,7 @@ class LoggingUtils:
         log_file: Optional[str] = None,
         level: Optional[LogLevel] = None,
     ) -> logging.Logger:
-        """
-        Get or create component-specific logger.
+        """Get or create component-specific logger.
 
         Args:
             component: Component name for the logger
@@ -304,8 +299,7 @@ class LoggingUtils:
     def log_structured(
         self, component: str, level: LogLevel, message: str, **extra_data: Any
     ) -> None:
-        """
-        Log structured message with extra data.
+        """Log structured message with extra data.
 
         Args:
             component: Component name
@@ -329,8 +323,7 @@ class LoggingUtils:
         component: str = "test_execution",
         **extra_data: Any,
     ) -> None:
-        """
-        Log test execution with structured data.
+        """Log test execution with structured data.
 
         Args:
             test_name: Name of the test
@@ -357,8 +350,7 @@ class LoggingUtils:
         component: str = "coverage",
         **extra_data: Any,
     ) -> None:
-        """
-        Log coverage data with structured information.
+        """Log coverage data with structured information.
 
         Args:
             module: Module name
@@ -384,8 +376,7 @@ class LoggingUtils:
         context: Dict[str, Any],
         message: Optional[str] = None,
     ) -> None:
-        """
-        Log error with full context and traceback.
+        """Log error with full context and traceback.
 
         Args:
             component: Component name
@@ -415,8 +406,7 @@ class LoggingUtils:
         component: str = "performance",
         **extra_data: Any,
     ) -> None:
-        """
-        Log performance metrics.
+        """Log performance metrics.
 
         Args:
             operation: Operation name
@@ -434,8 +424,7 @@ class LoggingUtils:
         )
 
     def configure_logging(self, config: Dict[str, Any]) -> None:
-        """
-        Configure logging from configuration dictionary.
+        """Configure logging from configuration dictionary.
 
         Args:
             config: Logging configuration
@@ -485,8 +474,7 @@ class LoggingUtils:
                 self._add_file_handler(logger, "apgi_framework.log")
 
     def cleanup_old_logs(self) -> int:
-        """
-        Clean up old log files based on retention policy.
+        """Clean up old log files based on retention policy.
 
         Returns:
             Number of files cleaned up
@@ -523,8 +511,7 @@ class LoggingUtils:
         return cleaned_count
 
     def get_log_statistics(self) -> Dict[str, Any]:
-        """
-        Get logging statistics and information.
+        """Get logging statistics and information.
 
         Returns:
             Dictionary with logging statistics
@@ -572,8 +559,7 @@ class LoggingUtils:
         components: Optional[List[str]] = None,
         levels: Optional[List[LogLevel]] = None,
     ) -> Path:
-        """
-        Export filtered logs to file.
+        """Export filtered logs to file.
 
         Yields:
             Path to exported file
@@ -649,8 +635,7 @@ _logging_lock = threading.Lock()
 
 
 def get_logging_utils(base_log_dir: Optional[Union[str, Path]] = None) -> LoggingUtils:
-    """
-    Get global logging utilities instance.
+    """Get global logging utilities instance.
 
     Args:
         base_log_dir: Base directory for log files
@@ -671,8 +656,7 @@ def get_logging_utils(base_log_dir: Optional[Union[str, Path]] = None) -> Loggin
 def get_component_logger(
     component: str, log_file: Optional[str] = None, level: Optional[LogLevel] = None
 ) -> logging.Logger:
-    """
-    Convenience function to get component logger.
+    """Convenience function to get component logger.
 
     Args:
         component: Component name
@@ -716,8 +700,7 @@ def setup_logging(
     console_output: bool = True,
     structured_format: bool = False,
 ) -> LoggingUtils:
-    """
-    Setup logging configuration for the application.
+    """Setup logging configuration for the application.
 
     Args:
         level: Logging level (string or LogLevel enum)

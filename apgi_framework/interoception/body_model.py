@@ -1,5 +1,4 @@
-"""
-Body State Model
+"""Body State Model.
 
 Simulates physiological states and generates interoceptive predictions.
 """
@@ -25,8 +24,7 @@ class PhysiologicalState:
 
 
 class BodyModel:
-    """
-    Multi-organ physiological model for interoceptive processing.
+    """Multi-organ physiological model for interoceptive processing.
 
     The BodyModel simulates physiological states across multiple organ systems
     and generates interoceptive predictions for active inference. It maintains
@@ -281,8 +279,7 @@ class BodyModel:
         return self.current_state.copy()
 
     def _state_to_dict(self, state: PhysiologicalState) -> Dict[str, float]:
-        """
-        Convert physiological state to dictionary.
+        """Convert physiological state to dictionary.
 
         Parameters
         ----------

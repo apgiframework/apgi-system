@@ -4,8 +4,7 @@ from typing import Any, Dict
 
 
 class MetabolicBudget:
-    """
-    Tracks ATP consumption and metabolic energy constraints for neural computation.
+    """Tracks ATP consumption and metabolic energy constraints for neural computation.
 
     Implements a biologically-inspired energy budget system that constrains
     neural computation based on metabolic availability. The brain consumes
@@ -89,8 +88,7 @@ class MetabolicBudget:
         dt: float = 1.0,
         broadcast_content: Any = None,
     ) -> Dict[str, Any]:
-        """
-        Update metabolic budget based on system activity.
+        """Update metabolic budget based on system activity.
 
         Computes energy consumption based on current activity and updates
         energy reserves. Includes baseline consumption, ignition costs,

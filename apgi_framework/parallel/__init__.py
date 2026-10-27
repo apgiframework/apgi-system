@@ -1,5 +1,4 @@
-"""
-Parallel processing module for APGI Framework.
+"""Parallel processing module for APGI Framework.
 
 This module provides multiprocessing capabilities for CPU-bound simulations,
 including process pools, task distribution, and result aggregation.

@@ -1,5 +1,4 @@
-"""
-PII Protection Mechanisms for APGI.
+"""PII Protection Mechanisms for APGI.
 
 Provides utilities for identifying, masking, and encrypting
 Personally Identifiable Information (PII).
@@ -20,26 +19,20 @@ PII_PATTERNS: Dict[str, Pattern[str]] = {
 
 
 class PIIProtector:
-    """
-    Utility for protecting PII in logs and data storage.
-    """
+    """Utility for protecting PII in logs and data storage."""
 
     def __init__(self, encryption_key: Optional[str] = None):
         self.encryption_key = encryption_key or "default_masking_key"
 
     def mask_pii(self, text: str) -> str:
-        """
-        Mask PII in a string with placeholders.
-        """
+        """Mask PII in a string with placeholders."""
         masked_text = text
         for pii_type, pattern in PII_PATTERNS.items():
             masked_text = pattern.sub(f"[MASKED_{pii_type.upper()}]", masked_text)
         return masked_text
 
     def anonymize_data(self, data: Dict[str, Any], fields_to_mask: List[str]) -> Dict[str, Any]:
-        """
-        Anonymize specific fields in a dictionary.
-        """
+        """Anonymize specific fields in a dictionary."""
         anonymized = data.copy()
         for field in fields_to_mask:
             if field in anonymized:
@@ -50,9 +43,7 @@ class PIIProtector:
         return anonymized
 
     def redact_log_record(self, record_dict: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Redact PII from a log record dictionary.
-        """
+        """Redact PII from a log record dictionary."""
         # Redact the message
         if "message" in record_dict:
             record_dict["message"] = self.mask_pii(str(record_dict["message"]))

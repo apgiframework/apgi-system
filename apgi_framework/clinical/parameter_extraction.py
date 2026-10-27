@@ -1,5 +1,4 @@
-"""
-Clinical Parameter Extraction Module
+"""Clinical Parameter Extraction Module.
 
 Implements rapid 30-minute assessment battery for extracting individual APGI parameters
 (θₜ, Πₑ, Πᵢ, β) with reliability and validity metrics.
@@ -258,16 +257,14 @@ class AssessmentBattery:
 
 
 class ClinicalParameterExtractor:
-    """
-    Clinical parameter extraction system for rapid APGI assessment.
+    """Clinical parameter extraction system for rapid APGI assessment.
 
     Implements 30-minute assessment battery with individual parameter estimation
     (θₜ, Πₑ, Πᵢ, β) and reliability/validity metrics.
     """
 
     def __init__(self, participant_id: str = ""):
-        """
-        Initialize clinical parameter extractor.
+        """Initialize clinical parameter extractor.
 
         Args:
             participant_id: Unique participant identifier
@@ -278,8 +275,7 @@ class ClinicalParameterExtractor:
         logger.info(f"Initialized ClinicalParameterExtractor for participant {participant_id}")
 
     def create_standard_battery(self) -> AssessmentBattery:
-        """
-        Create standard 30-minute assessment battery.
+        """Create standard 30-minute assessment battery.
 
         Returns:
             AssessmentBattery configured with standard tasks
@@ -391,8 +387,7 @@ class ClinicalParameterExtractor:
         neural_data: Optional[Dict[str, Any]] = None,
         physiological_data: Optional[Dict[str, Any]] = None,
     ) -> ClinicalParameters:
-        """
-        Extract APGI parameters from completed assessment battery.
+        """Extract APGI parameters from completed assessment battery.
 
         Args:
             battery: Completed assessment battery
@@ -627,8 +622,7 @@ class ClinicalParameterExtractor:
         params2: ClinicalParameters,
         time_interval: Optional[timedelta] = None,
     ) -> ReliabilityMetrics:
-        """
-        Calculate reliability metrics from test-retest data.
+        """Calculate reliability metrics from test-retest data.
 
         Args:
             params1: Parameters from first assessment
@@ -662,8 +656,7 @@ class ClinicalParameterExtractor:
         return metrics
 
     def _calculate_icc(self, values1: List[float], values2: List[float]) -> float:
-        """
-        Calculate intraclass correlation coefficient.
+        """Calculate intraclass correlation coefficient.
 
         Simplified implementation - in practice would use proper ICC(2,1) or ICC(3,1).
         """
@@ -684,8 +677,7 @@ class ClinicalParameterExtractor:
     def calculate_internal_consistency(
         self, battery: AssessmentBattery, trial_data: Dict[str, List[float]]
     ) -> float:
-        """
-        Calculate internal consistency (Cronbach's alpha) from trial-level data.
+        """Calculate internal consistency (Cronbach's alpha) from trial-level data.
 
         Args:
             battery: Assessment battery
@@ -712,8 +704,7 @@ class ClinicalParameterExtractor:
         return alpha
 
     def _cronbach_alpha(self, item_scores: List[List[float]]) -> float:
-        """
-        Calculate Cronbach's alpha for internal consistency.
+        """Calculate Cronbach's alpha for internal consistency.
 
         Args:
             item_scores: List of lists, where each inner list contains scores for one item
@@ -754,8 +745,7 @@ class ClinicalParameterExtractor:
     def calculate_split_half_reliability(
         self, battery: AssessmentBattery, trial_data: Dict[str, List[float]]
     ) -> float:
-        """
-        Calculate split-half reliability.
+        """Calculate split-half reliability.
 
         Args:
             battery: Assessment battery
@@ -797,8 +787,7 @@ class ClinicalParameterExtractor:
     def validate_against_criterion(
         self, params: ClinicalParameters, criterion_measures: Dict[str, float]
     ) -> Dict[str, float]:
-        """
-        Validate parameters against external criterion measures.
+        """Validate parameters against external criterion measures.
 
         Args:
             params: Extracted clinical parameters
@@ -848,8 +837,7 @@ class ClinicalParameterExtractor:
     def calculate_classification_metrics(
         self, true_labels: List[str], predicted_labels: List[str]
     ) -> Tuple[float, float, float]:
-        """
-        Calculate sensitivity, specificity, and accuracy for disorder classification.
+        """Calculate sensitivity, specificity, and accuracy for disorder classification.
 
         Args:
             true_labels: True disorder labels
@@ -895,8 +883,7 @@ class ClinicalParameterExtractor:
         params: ClinicalParameters,
         reliability: Optional[ReliabilityMetrics] = None,
     ) -> str:
-        """
-        Generate clinical report with parameter estimates and interpretation.
+        """Generate clinical report with parameter estimates and interpretation.
 
         Args:
             params: Extracted clinical parameters
@@ -1020,8 +1007,7 @@ class ClinicalParameterExtractor:
         return "\n".join(report)
 
     def save_parameters(self, params: ClinicalParameters, filepath: str) -> None:
-        """
-        Save parameters to JSON file.
+        """Save parameters to JSON file.
 
         Args:
             params: Clinical parameters to save
@@ -1035,8 +1021,7 @@ class ClinicalParameterExtractor:
             logger.error(f"Error saving parameters: {e}")
 
     def load_parameters(self, filepath: str) -> ClinicalParameters:
-        """
-        Load parameters from JSON file.
+        """Load parameters from JSON file.
 
         Args:
             filepath: Path to parameter file
@@ -1057,8 +1042,7 @@ class ClinicalParameterExtractor:
     def track_longitudinal_changes(
         self, parameter_history: List[ClinicalParameters]
     ) -> Dict[str, Any]:
-        """
-        Track longitudinal changes in parameters over time.
+        """Track longitudinal changes in parameters over time.
 
         Args:
             parameter_history: List of parameters from multiple assessments
@@ -1114,8 +1098,7 @@ def extract_parameters_quick(
     neural_data: Optional[Dict[str, Any]] = None,
     physiological_data: Optional[Dict[str, Any]] = None,
 ) -> ClinicalParameters:
-    """
-    Quick parameter extraction without full battery setup.
+    """Quick parameter extraction without full battery setup.
 
     Args:
         participant_id: Participant identifier

@@ -1,5 +1,4 @@
-"""
-Configuration management system for experimental parameters.
+"""Configuration management system for experimental parameters.
 
 This module provides centralized configuration management for the APGI Framework,
 including parameter validation, default values, and experimental settings.

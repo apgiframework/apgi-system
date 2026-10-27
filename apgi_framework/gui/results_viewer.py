@@ -1,5 +1,4 @@
-"""
-Results Viewer
+"""Results Viewer.
 
 This module implements comprehensive result display with expandable test result views,
 failure highlighting, quick navigation to failure details, and stack trace display.

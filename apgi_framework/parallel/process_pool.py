@@ -1,5 +1,4 @@
-"""
-Process pool management for CPU-bound simulations.
+"""Process pool management for CPU-bound simulations.
 
 Provides ProcessPoolExecutor wrapper with proper initialization,
 task distribution, and result handling for neural simulations.
@@ -40,8 +39,7 @@ class TaskResult(Generic[T]):
 
 
 class ProcessPoolManager:
-    """
-    Manages a process pool for CPU-intensive APGI simulations.
+    """Manages a process pool for CPU-intensive APGI simulations.
 
     Features:
     - Dynamic worker pool sizing based on CPU count
@@ -56,8 +54,7 @@ class ProcessPoolManager:
         initializer: Optional[Callable[..., Any]] = None,
         initargs: Tuple[Any, ...] = (),
     ):
-        """
-        Initialize the process pool manager.
+        """Initialize the process pool manager.
 
         Args:
             max_workers: Maximum number of worker processes.
@@ -114,8 +111,7 @@ class ProcessPoolManager:
         items: List[Any],
         chunksize: Optional[int] = None,
     ) -> List[T]:
-        """
-        Map a function over a list of items in parallel.
+        """Map a function over a list of items in parallel.
 
         Args:
             func: Function to apply to each item
@@ -147,8 +143,7 @@ class ProcessPoolManager:
         timeout: Optional[float] = None,
         return_exceptions: bool = False,
     ) -> List[TaskResult[Any]]:
-        """
-        Execute a batch of tasks and return results.
+        """Execute a batch of tasks and return results.
 
         Args:
             tasks: List of simulation tasks

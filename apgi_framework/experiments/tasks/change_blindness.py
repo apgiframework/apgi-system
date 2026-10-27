@@ -1,5 +1,4 @@
-"""
-Stub module for change blindness task.
+"""Stub module for change blindness task.
 
 This module provides type stubs for change blindness experimental task
 that is being migrated from the old apgi_simulation structure.

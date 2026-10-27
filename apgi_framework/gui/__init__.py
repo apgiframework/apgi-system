@@ -1,5 +1,4 @@
-"""
-GUI components for parameter estimation experiment control.
+"""GUI components for parameter estimation experiment control.
 
 This module provides graphical user interfaces for running parameter estimation
 experiments, monitoring data quality, and managing sessions.
@@ -72,7 +71,6 @@ class InteractiveDesigner:
 
     def get_design(self, design_id: Any) -> Any:
         """Get design by ID."""
-
         return self.design_components.get(design_id)
 
 

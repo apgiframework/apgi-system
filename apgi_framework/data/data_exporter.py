@@ -1,5 +1,4 @@
-"""
-Data Export and Visualization System for APGI Framework
+"""Data Export and Visualization System for APGI Framework.
 
 This module provides multi-format data export capabilities and publication-quality
 plotting and figure generation for falsification test results.
@@ -23,13 +22,10 @@ from ..exceptions import DataExportError
 
 
 class DataExporter:
-    """
-    Handles multi-format data export (CSV, JSON, HDF5) for experimental results.
-    """
+    """Handles multi-format data export (CSV, JSON, HDF5) for experimental results."""
 
     def __init__(self, output_dir: str | None = None, config: dict[str, Any] | None = None):
-        """
-        Initialize the data exporter.
+        """Initialize the data exporter.
 
         Args:
             output_dir: Directory to save exported data (default: current directory)
@@ -49,8 +45,7 @@ class DataExporter:
         format: str = "csv",
         filename: Optional[str] = None,
     ) -> str:
-        """
-        Export falsification results to specified format.
+        """Export falsification results to specified format.
 
         Args:
             results: List of falsification results
@@ -83,8 +78,7 @@ class DataExporter:
         format: str = "csv",
         filename: Optional[str] = None,
     ) -> str:
-        """
-        Export experimental trials to specified format.
+        """Export experimental trials to specified format.
 
         Args:
             trials: List of experimental trials
@@ -112,7 +106,7 @@ class DataExporter:
             raise DataExportError(f"Failed to export experimental trials: {str(e)}")
 
     def _export_results_csv(self, results: List[FalsificationResult], filename: str) -> str:
-        """Export falsification results to CSV"""
+        """Export falsification results to CSV."""
         filepath = self.output_dir / f"{filename}.csv"
 
         # Convert results to flat dictionary format
@@ -148,7 +142,7 @@ class DataExporter:
         return str(filepath)
 
     def _export_results_json(self, results: List[FalsificationResult], filename: str) -> str:
-        """Export falsification results to JSON"""
+        """Export falsification results to JSON."""
         filepath = self.output_dir / f"{filename}.json"
 
         # Convert to serializable format
@@ -165,7 +159,7 @@ class DataExporter:
         return str(filepath)
 
     def _export_results_hdf5(self, results: List[FalsificationResult], filename: str) -> str:
-        """Export falsification results to HDF5"""
+        """Export falsification results to HDF5."""
         filepath = self.output_dir / f"{filename}.h5"
 
         with h5py.File(filepath, "w") as f:
@@ -199,7 +193,7 @@ class DataExporter:
         return str(filepath)
 
     def _export_trials_csv(self, trials: List[ExperimentalTrial], filename: str) -> str:
-        """Export experimental trials to CSV"""
+        """Export experimental trials to CSV."""
         filepath = self.output_dir / f"{filename}.csv"
 
         rows = []
@@ -248,7 +242,7 @@ class DataExporter:
         return str(filepath)
 
     def _export_trials_json(self, trials: List[ExperimentalTrial], filename: str) -> str:
-        """Export experimental trials to JSON"""
+        """Export experimental trials to JSON."""
         filepath = self.output_dir / f"{filename}.json"
 
         data = {
@@ -264,7 +258,7 @@ class DataExporter:
         return str(filepath)
 
     def _export_trials_hdf5(self, trials: List[ExperimentalTrial], filename: str) -> str:
-        """Export experimental trials to HDF5"""
+        """Export experimental trials to HDF5."""
         filepath = self.output_dir / f"{filename}.h5"
 
         with h5py.File(filepath, "w") as f:
@@ -313,8 +307,7 @@ class DataExporter:
 
     # Convenience methods for simpler API
     def export_to_json(self, data: dict, filepath: Union[str, Path]) -> str:
-        """
-        Export dictionary data to JSON file.
+        """Export dictionary data to JSON file.
 
         Args:
             data: Dictionary to export
@@ -342,8 +335,7 @@ class DataExporter:
         delimiter: str = ",",
         compression: Optional[Literal["infer", "gzip", "bz2", "zip", "xz", "zstd", "tar"]] = None,
     ) -> str:
-        """
-        Export data to CSV file.
+        """Export data to CSV file.
 
         Args:
             data: DataFrame or dict/list to export
@@ -500,8 +492,7 @@ class DataExporter:
         return format.lower() in self.get_supported_formats()
 
     def export_numpy(self, data: np.ndarray, filepath: Union[str, Path]) -> str:
-        """
-        Export numpy array to file.
+        """Export numpy array to file.
 
         Args:
             data: Numpy array to export
@@ -518,8 +509,7 @@ class DataExporter:
         return str(filepath)
 
     def get_supported_formats(self) -> list:
-        """
-        Get list of supported export formats.
+        """Get list of supported export formats.
 
         Returns:
             List of format names

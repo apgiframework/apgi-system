@@ -1,5 +1,4 @@
-"""
-Enhanced Data Validator for APGI Framework
+"""Enhanced Data Validator for APGI Framework.
 
 Provides comprehensive data validation, integrity checks, and sanitization
 for experimental data, parameters, and user inputs.

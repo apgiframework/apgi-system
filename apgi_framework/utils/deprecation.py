@@ -1,5 +1,4 @@
-"""
-Deprecation Utilities for APGI Framework
+"""Deprecation Utilities for APGI Framework.
 
 Provides standardized deprecation warnings and version-based deprecation management.
 """
@@ -28,8 +27,7 @@ def deprecated(
     removal_version: Optional[str] = None,
     alternative: Optional[str] = None,
 ) -> Callable[[F], F]:
-    """
-    Decorator to mark functions as deprecated.
+    """Decorator to mark functions as deprecated.
 
     Args:
         reason: Explanation of why the function is deprecated
@@ -85,8 +83,7 @@ def deprecated_class(
     removal_version: Optional[str] = None,
     alternative: Optional[str] = None,
 ) -> Callable[[T], T]:
-    """
-    Decorator to mark classes as deprecated.
+    """Decorator to mark classes as deprecated.
 
     Args:
         reason: Explanation of why the class is deprecated
@@ -136,8 +133,7 @@ def deprecated_parameter(
     removal_version: Optional[str] = None,
     alternative: Optional[str] = None,
 ) -> Callable[[F], F]:
-    """
-    Decorator to mark function parameters as deprecated.
+    """Decorator to mark function parameters as deprecated.
 
     Args:
         param_name: Name of the deprecated parameter
@@ -180,8 +176,7 @@ def emit_deprecation_warning(
     version: Optional[str] = None,
     stacklevel: int = 2,
 ) -> None:
-    """
-    Emit a standardized deprecation warning.
+    """Emit a standardized deprecation warning.
 
     Args:
         message: The deprecation message
@@ -242,8 +237,7 @@ def warn_deprecated_module(
 
 
 def is_deprecated(obj: Any) -> bool:
-    """
-    Check if a function or class is marked as deprecated.
+    """Check if a function or class is marked as deprecated.
 
     Args:
         obj: Object to check
@@ -255,8 +249,7 @@ def is_deprecated(obj: Any) -> bool:
 
 
 def get_deprecation_info(obj: Any) -> Optional[dict]:
-    """
-    Get deprecation information for a deprecated object.
+    """Get deprecation information for a deprecated object.
 
     Args:
         obj: Object to get info for
@@ -280,8 +273,7 @@ def check_version_deprecation(
     deprecated_since: str,
     removal_version: Optional[str] = None,
 ) -> bool:
-    """
-    Check if a feature should be deprecated based on version comparison.
+    """Check if a feature should be deprecated based on version comparison.
 
     Args:
         current_version: Current version of the software
@@ -312,8 +304,7 @@ def check_version_deprecation(
 
 
 class DeprecatedFeatureManager:
-    """
-    Manager for tracking and controlling deprecated features.
+    """Manager for tracking and controlling deprecated features.
 
     Allows runtime control of deprecation warnings and tracks
     which deprecated features are still being used.
@@ -326,8 +317,7 @@ class DeprecatedFeatureManager:
         self._warning_count: dict = {}
 
     def suppress_warning(self, feature_name: str) -> None:
-        """
-        Suppress deprecation warnings for a specific feature.
+        """Suppress deprecation warnings for a specific feature.
 
         Args:
             feature_name: Name of the feature to suppress warnings for
@@ -335,8 +325,7 @@ class DeprecatedFeatureManager:
         self._suppressed_warnings.add(feature_name)
 
     def enable_warning(self, feature_name: str) -> None:
-        """
-        Re-enable deprecation warnings for a specific feature.
+        """Re-enable deprecation warnings for a specific feature.
 
         Args:
             feature_name: Name of the feature to enable warnings for
@@ -344,8 +333,7 @@ class DeprecatedFeatureManager:
         self._suppressed_warnings.discard(feature_name)
 
     def is_suppressed(self, feature_name: str) -> bool:
-        """
-        Check if warnings are suppressed for a feature.
+        """Check if warnings are suppressed for a feature.
 
         Args:
             feature_name: Name of the feature
@@ -356,8 +344,7 @@ class DeprecatedFeatureManager:
         return feature_name in self._suppressed_warnings
 
     def record_warning(self, feature_name: str) -> None:
-        """
-        Record that a deprecation warning was emitted.
+        """Record that a deprecation warning was emitted.
 
         Args:
             feature_name: Name of the feature that triggered the warning
@@ -366,8 +353,7 @@ class DeprecatedFeatureManager:
         self._warning_count[feature_name] = self._warning_count.get(feature_name, 0) + 1
 
     def get_warning_stats(self) -> dict:
-        """
-        Get statistics on deprecation warnings.
+        """Get statistics on deprecation warnings.
 
         Returns:
             Dictionary with warning statistics

@@ -1,5 +1,4 @@
-"""
-Stub module for attentional blink task.
+"""Stub module for attentional blink task.
 
 This module provides type stubs for attentional blink experimental task
 that is being migrated from the old apgi_simulation structure.

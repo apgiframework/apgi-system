@@ -1,5 +1,4 @@
-"""
-Dependency Injection Container for APGI Framework.
+"""Dependency Injection Container for APGI Framework.
 
 This module provides a centralized service container to manage dependencies
 and eliminate circular import patterns across the codebase.
@@ -22,8 +21,7 @@ T = TypeVar("T")
 
 
 class ServiceContainer:
-    """
-    Centralized service container for dependency injection.
+    """Centralized service container for dependency injection.
 
     Thread-safe singleton pattern for managing application services.
     Eliminates circular dependencies by providing a single point of access
@@ -46,8 +44,7 @@ class ServiceContainer:
 
     @classmethod
     def register(cls, name: str, service: Any, singleton: bool = True) -> None:
-        """
-        Register a service in the container.
+        """Register a service in the container.
 
         Args:
             name: Service identifier
@@ -71,8 +68,7 @@ class ServiceContainer:
 
     @classmethod
     def get(cls, name: str) -> Any:
-        """
-        Retrieve a service from the container.
+        """Retrieve a service from the container.
 
         Args:
             name: Service identifier
@@ -136,8 +132,7 @@ class ServiceContainer:
 
 
 class ServiceProvider(ABC):
-    """
-    Abstract base class for service providers.
+    """Abstract base class for service providers.
 
     Implement this to create custom service registration logic.
     """
@@ -190,8 +185,7 @@ class AuthServiceProvider(ServiceProvider):
 
 
 def bootstrap_container() -> ServiceContainer:
-    """
-    Bootstrap the service container with all providers.
+    """Bootstrap the service container with all providers.
 
     Returns:
         Configured ServiceContainer instance

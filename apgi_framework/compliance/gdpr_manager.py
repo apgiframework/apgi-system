@@ -1,5 +1,4 @@
-"""
-GDPR Compliance Framework for APGI.
+"""GDPR Compliance Framework for APGI.
 
 Handles data subject right requests (access, deletion, portability),
 consent management, and privacy by design assessments.
@@ -18,9 +17,7 @@ logger = logging.getLogger("gdpr")
 
 
 class GDPRManager:
-    """
-    Manages GDPR compliance workflows.
-    """
+    """Manages GDPR compliance workflows."""
 
     def __init__(self, data_dir: str = "data/participants", consent_dir: str = "data/consent"):
         self.data_dir = Path(data_dir)
@@ -29,9 +26,7 @@ class GDPRManager:
         self.consent_dir.mkdir(parents=True, exist_ok=True)
 
     def record_consent(self, participant_id: str, consent_data: Dict[str, Any]) -> None:
-        """
-        Record participant consent.
-        """
+        """Record participant consent."""
         consent_file = self.consent_dir / f"{participant_id}_consent.json"
 
         consent_record = {
@@ -53,9 +48,7 @@ class GDPRManager:
         )
 
     def export_data_portability(self, participant_id: str) -> Optional[Path]:
-        """
-        Export all data for a participant in a portable format (JSON).
-        """
+        """Export all data for a participant in a portable format (JSON)."""
         participant_files = list(self.data_dir.glob(f"{participant_id}*"))
         if not participant_files:
             return None
@@ -89,9 +82,7 @@ class GDPRManager:
         return export_file
 
     def delete_participant_data(self, participant_id: str) -> bool:
-        """
-        Delete all data for a participant (Right to Erasure).
-        """
+        """Delete all data for a participant (Right to Erasure)."""
         participant_files = list(self.data_dir.glob(f"{participant_id}*"))
         consent_files = list(self.consent_dir.glob(f"{participant_id}*"))
 
@@ -120,9 +111,7 @@ class GDPRManager:
         return True
 
     def perform_dpia(self, project_name: str, assessment_data: Dict[str, Any]) -> Path:
-        """
-        Record a Data Protection Impact Assessment (DPIA).
-        """
+        """Record a Data Protection Impact Assessment (DPIA)."""
         dpia_dir = Path("docs/compliance/dpia")
         dpia_dir.mkdir(parents=True, exist_ok=True)
         dpia_file = dpia_dir / f"dpia_{project_name}_{datetime.now().strftime('%Y%m%d')}.json"

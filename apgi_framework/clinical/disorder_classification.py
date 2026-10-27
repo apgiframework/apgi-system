@@ -1,5 +1,4 @@
-"""
-Disorder classification module for anxiety disorders.
+"""Disorder classification module for anxiety disorders.
 
 Implements GAD, panic disorder, and social anxiety differentiation using
 neural signatures and machine learning classification with cross-validation.
@@ -144,16 +143,14 @@ class ClassificationResult:
 
 
 class DisorderClassification:
-    """
-    Disorder classification system for anxiety disorders.
+    """Disorder classification system for anxiety disorders.
 
     Implements GAD, panic disorder, and social anxiety differentiation
     using neural signatures and machine learning with cross-validation.
     """
 
     def __init__(self, classifier_type: str = "random_forest", random_state: int = 42) -> None:
-        """
-        Initialize disorder classifier.
+        """Initialize disorder classifier.
 
         Args:
             classifier_type: Type of classifier ('random_forest', 'gradient_boosting', 'svm')
@@ -202,8 +199,7 @@ class DisorderClassification:
         apgi_params: Dict[str, float],
         behavioral_data: Dict[str, float],
     ) -> NeuralSignatureProfile:
-        """
-        Extract neural signature profile from experimental data.
+        """Extract neural signature profile from experimental data.
 
         Args:
             p3b_data: P3b metrics (amplitude_extero, amplitude_intero, latency_extero, latency_intero)
@@ -261,8 +257,7 @@ class DisorderClassification:
         apgi_params: Dict[str, float],
         behavioral_data: Dict[str, float],
     ) -> None:
-        """
-        Validate inputs for neural signature extraction.
+        """Validate inputs for neural signature extraction.
 
         Args:
             All input data dictionaries
@@ -438,8 +433,7 @@ class DisorderClassification:
         labels: List[DisorderType],
         cv_folds: int = 5,
     ) -> Dict[str, Any]:
-        """
-        Train classifier with cross-validation.
+        """Train classifier with cross-validation.
 
         Args:
             profiles: List of neural signature profiles
@@ -494,8 +488,7 @@ class DisorderClassification:
         profile: Optional[NeuralSignatureProfile] = None,
         neural_profile: Optional[NeuralSignatureProfile] = None,
     ) -> ClassificationResult:
-        """
-        Classify disorder from neural signature profile.
+        """Classify disorder from neural signature profile.
 
         Args:
             profile: Neural signature profile (primary parameter)
@@ -550,8 +543,7 @@ class DisorderClassification:
     def evaluate(
         self, profiles: List[NeuralSignatureProfile], true_labels: List[DisorderType]
     ) -> ClassificationResult:
-        """
-        Evaluate classifier on test set.
+        """Evaluate classifier on test set.
 
         Args:
             profiles: List of neural signature profiles
@@ -600,8 +592,7 @@ class DisorderClassification:
         )
 
     def get_disorder_specific_signatures(self) -> Dict[DisorderType, Dict[str, Any]]:
-        """
-        Get disorder-specific neural signature patterns.
+        """Get disorder-specific neural signature patterns.
 
         Returns:
             Dictionary mapping disorders to their characteristic signatures
@@ -654,8 +645,7 @@ class DisorderClassification:
         return signatures
 
     def compare_to_normative(self, profile: NeuralSignatureProfile) -> Dict[str, float]:
-        """
-        Compare profile to normative control data.
+        """Compare profile to normative control data.
 
         Args:
             profile: Neural signature profile

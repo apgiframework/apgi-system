@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Interactive Visualization Dashboard for APGI Framework
+"""Interactive Visualization Dashboard for APGI Framework
 =====================================================
 
 This module provides interactive visualization tools for real-time monitoring
@@ -64,8 +63,7 @@ class InteractiveVisualizer:
         beta_history: List[float],
         time_points: Optional[List[float]] = None,
     ) -> go.Figure:
-        """
-        Create interactive dashboard for parameter estimation.
+        """Create interactive dashboard for parameter estimation.
 
         Parameters
         ----------
@@ -157,8 +155,7 @@ class InteractiveVisualizer:
         channel_names: Optional[List[str]] = None,
         time_range: Optional[Tuple[float, float]] = None,
     ) -> go.Figure:
-        """
-        Create interactive EEG signal visualization.
+        """Create interactive EEG signal visualization.
 
         Parameters
         ----------
@@ -238,8 +235,7 @@ class InteractiveVisualizer:
         biomarkers: Dict[str, float],
         history: Optional[Dict[str, List[float]]] = None,
     ) -> go.Figure:
-        """
-        Create interactive biomarker visualization.
+        """Create interactive biomarker visualization.
 
         Parameters
         ----------
@@ -348,8 +344,7 @@ class InteractiveVisualizer:
     def create_connectivity_matrix_plot(
         self, connectivity_matrix: np.ndarray, channel_names: Optional[List[str]] = None
     ) -> go.Figure:
-        """
-        Create interactive connectivity matrix visualization.
+        """Create interactive connectivity matrix visualization.
 
         Parameters
         ----------
@@ -389,8 +384,7 @@ class InteractiveVisualizer:
     def create_statistical_analysis_plot(
         self, data: pd.DataFrame, x_col: str, y_col: str, analysis_type: str = "scatter"
     ) -> go.Figure:
-        """
-        Create statistical analysis plots.
+        """Create statistical analysis plots.
 
         Parameters
         ----------
@@ -433,8 +427,7 @@ class StreamlitDashboard:
             raise ImportError("Streamlit required for web dashboard")
 
     def run_dashboard(self, experiment_data: Dict[str, Any]) -> None:
-        """
-        Run the Streamlit dashboard.
+        """Run the Streamlit dashboard.
 
         Parameters
         ----------
@@ -476,8 +469,7 @@ class StreamlitDashboard:
 def create_interactive_report(
     results: Dict[str, Any], output_file: str = "apgi_report.html"
 ) -> None:
-    """
-    Create an interactive HTML report.
+    """Create an interactive HTML report.
 
     Parameters
     ----------

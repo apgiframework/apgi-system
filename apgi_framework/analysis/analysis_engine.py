@@ -1,5 +1,4 @@
-"""
-APGI Analysis Engine
+"""APGI Analysis Engine.
 
 Provides comprehensive analysis capabilities for experimental data including:
 - Statistical analysis
@@ -34,7 +33,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class AnalysisResult:
-    """Container for analysis results"""
+    """Container for analysis results."""
 
     analysis_id: str
     timestamp: datetime
@@ -57,8 +56,7 @@ class AnalysisResult:
 
 
 class AnalysisEngine:
-    """
-    Comprehensive analysis engine for APGI experimental data.
+    """Comprehensive analysis engine for APGI experimental data.
 
     Features:
     - Statistical analysis (t-tests, ANOVA, correlation, regression)
@@ -102,8 +100,7 @@ class AnalysisEngine:
         parameters: Optional[Dict[str, Any]] = None,
         generate_plots: bool = True,
     ) -> AnalysisResult:
-        """
-        Perform comprehensive analysis on experimental data.
+        """Perform comprehensive analysis on experimental data.
 
         Args:
             data: Experimental data as DataFrame

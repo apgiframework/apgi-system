@@ -1,5 +1,4 @@
-"""
-Command-Line Interface for APGI Framework Testing System.
+"""Command-Line Interface for APGI Framework Testing System.
 
 This module provides a comprehensive CLI for running individual tests,
 batch experiment execution, and configuration management.

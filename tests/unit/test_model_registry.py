@@ -52,7 +52,8 @@ class TestEveryModelClassIsMapped:
         assert require_registered_model(BodyModel) == "M-BODY"
 
     def test_an_instance_resolves_like_its_class(self) -> None:
-        class Impostor: ...
+        class Impostor:
+            pass
 
         with pytest.raises(UnmappedModelError, match="not mapped to a registered model"):
             require_registered_model(Impostor())

@@ -1,5 +1,4 @@
-"""
-AST (Abstract Syntax Tree) analysis utilities for Python code analysis.
+"""AST (Abstract Syntax Tree) analysis utilities for Python code analysis.
 
 This module provides comprehensive Python AST parsing and analysis capabilities
 for function/class/method extraction, code complexity analysis, and test code
@@ -74,8 +73,7 @@ class TestMetrics:
 
 
 class ASTAnalyzer:
-    """
-    Comprehensive AST analysis for Python code.
+    """Comprehensive AST analysis for Python code.
 
     Provides parsing, analysis, and extraction capabilities for code elements,
     complexity metrics, and test-specific analysis.
@@ -87,8 +85,7 @@ class ASTAnalyzer:
         self.logger = logging.getLogger(__name__)
 
     def parse_file(self, file_path: Union[str, Path]) -> ast.AST:
-        """
-        Parse Python file into AST.
+        """Parse Python file into AST.
 
         Args:
             file_path: Path to Python file
@@ -113,8 +110,7 @@ class ASTAnalyzer:
             raise
 
     def extract_code_elements(self, file_path: Union[str, Path]) -> List[CodeElement]:
-        """
-        Extract all code elements (functions, classes, methods) from file.
+        """Extract all code elements (functions, classes, methods) from file.
 
         Args:
             file_path: Path to Python file
@@ -214,8 +210,7 @@ class ASTAnalyzer:
         return elements
 
     def calculate_complexity_metrics(self, file_path: Union[str, Path]) -> ComplexityMetrics:
-        """
-        Calculate comprehensive complexity metrics for file.
+        """Calculate comprehensive complexity metrics for file.
 
         Args:
             file_path: Path to Python file
@@ -253,8 +248,7 @@ class ASTAnalyzer:
         )
 
     def analyze_test_code(self, file_path: Union[str, Path]) -> TestMetrics:
-        """
-        Analyze test-specific metrics and patterns.
+        """Analyze test-specific metrics and patterns.
 
         Args:
             file_path: Path to test file
@@ -385,8 +379,7 @@ class ASTAnalyzer:
     def find_functions_by_name(
         self, file_path: Union[str, Path], name_pattern: str
     ) -> List[CodeElement]:
-        """
-        Find functions matching name pattern.
+        """Find functions matching name pattern.
 
         Args:
             file_path: Path to Python file
@@ -414,8 +407,7 @@ class ASTAnalyzer:
     def find_classes_by_name(
         self, file_path: Union[str, Path], name_pattern: str
     ) -> List[CodeElement]:
-        """
-        Find classes matching name pattern.
+        """Find classes matching name pattern.
 
         Args:
             file_path: Path to Python file
@@ -437,8 +429,7 @@ class ASTAnalyzer:
         return matching
 
     def get_imports(self, file_path: Union[str, Path]) -> Dict[str, List[str]]:
-        """
-        Extract all imports from file.
+        """Extract all imports from file.
 
         Args:
             file_path: Path to Python file
@@ -463,8 +454,7 @@ class ASTAnalyzer:
         return {"imports": imports, "from_imports": from_imports}
 
     def get_dependencies(self, file_path: Union[str, Path]) -> Set[str]:
-        """
-        Get all module dependencies from imports.
+        """Get all module dependencies from imports.
 
         Args:
             file_path: Path to Python file

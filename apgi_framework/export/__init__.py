@@ -1,5 +1,4 @@
-"""
-Export module for APGI Framework
+"""Export module for APGI Framework
 Provides various export formats for data integration.
 """
 

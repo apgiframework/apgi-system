@@ -1,5 +1,4 @@
-"""
-Plugin registry for APGI Framework.
+"""Plugin registry for APGI Framework.
 
 Provides entry point-based plugin discovery and registration.
 """
@@ -65,8 +64,7 @@ class PluginSpec:
 
 
 class PluginRegistry:
-    """
-    Central registry for APGI plugins.
+    """Central registry for APGI plugins.
 
     Supports:
     - Entry point-based plugin discovery
@@ -104,8 +102,7 @@ class PluginRegistry:
             logger.info(f"Unregistered plugin: {name}")
 
     def discover_plugins(self) -> List[str]:
-        """
-        Discover plugins via entry points.
+        """Discover plugins via entry points.
 
         Returns:
             List of discovered plugin names
@@ -142,8 +139,7 @@ class PluginRegistry:
         return self._plugins.get(name)
 
     def get_engine(self, name: str, config: Optional[Dict[str, Any]] = None) -> EngineInterface:
-        """
-        Get or create an engine instance.
+        """Get or create an engine instance.
 
         Args:
             name: Plugin name
@@ -190,8 +186,7 @@ class PluginRegistry:
         self._engines.clear()
 
     def check_dependencies(self, spec: PluginSpec) -> List[str]:
-        """
-        Check if plugin dependencies are satisfied.
+        """Check if plugin dependencies are satisfied.
 
         Returns:
             List of missing dependencies

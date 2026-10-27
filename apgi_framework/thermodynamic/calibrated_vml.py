@@ -1,5 +1,4 @@
-"""
-Calibrated Virtual Metabolic Layer
+"""Calibrated Virtual Metabolic Layer.
 
 This module extends the VirtualMetabolicLayer with ground-truth calibrated
 cost coefficients (c_1, c_2) from high-resolution metabolic imaging data.
@@ -53,8 +52,7 @@ from apgi_framework.thermodynamic.neural_mass_metabolism import (
 
 
 class CalibratedVirtualMetabolicLayer(VirtualMetabolicLayer):
-    """
-    Virtual Metabolic Layer with ground-truth calibrated cost coefficients.
+    """Virtual Metabolic Layer with ground-truth calibrated cost coefficients.
 
     This class extends VirtualMetabolicLayer to use experimentally-measured
     cost coefficients c_1 (dynamic) and c_2 (static) from high-resolution
@@ -92,8 +90,7 @@ class CalibratedVirtualMetabolicLayer(VirtualMetabolicLayer):
         use_calibrated_defaults: bool = True,
         rng: Optional[np.random.Generator] = None,
     ):
-        """
-        Initialize the Calibrated Virtual Metabolic Layer.
+        """Initialize the Calibrated Virtual Metabolic Layer.
 
         Args:
             neural_params: Neural mass model parameters (passed to parent)
@@ -155,8 +152,7 @@ class CalibratedVirtualMetabolicLayer(VirtualMetabolicLayer):
         num_neurons: Optional[int] = None,
         use_calibrated: bool = True,
     ) -> Dict[str, Any]:
-        """
-        Compute ignition cost using calibrated c_1/c_2 coefficients.
+        """Compute ignition cost using calibrated c_1/c_2 coefficients.
 
         This method provides a ground-truth based estimate that partitions
         ATP consumption into:
@@ -253,8 +249,7 @@ class CalibratedVirtualMetabolicLayer(VirtualMetabolicLayer):
         threshold: float = 2.0,
         ignition_duration_ms: float = 300.0,
     ) -> Dict[str, Any]:
-        """
-        Compare calibrated vs. generic (parent class) cost estimates.
+        """Compare calibrated vs. generic (parent class) cost estimates.
 
         This is useful for validation and understanding the impact of
         ground-truth calibration on metabolic cost estimates.
@@ -297,8 +292,7 @@ class CalibratedVirtualMetabolicLayer(VirtualMetabolicLayer):
         }
 
     def get_calibration_summary(self) -> Dict[str, Any]:
-        """
-        Get summary of calibration state and recent computations.
+        """Get summary of calibration state and recent computations.
 
         Returns:
             Summary dictionary with coefficient values and statistics
@@ -335,8 +329,7 @@ class CalibratedVirtualMetabolicLayer(VirtualMetabolicLayer):
         return summary
 
     def validate_against_literature(self) -> Dict[str, Any]:
-        """
-        Validate coefficients against established literature values.
+        """Validate coefficients against established literature values.
 
         Returns:
             Validation report with comparison to Attwell & Laughlin, etc.
@@ -362,8 +355,7 @@ def create_calibrated_vml_from_datasets(
     pmrs_format: Literal["parrec", "csv", "twix"] = "csv",
     workspace_neurons: int = 100_000,
 ) -> CalibratedVirtualMetabolicLayer:
-    """
-    Convenience factory to create calibrated VML from datasets.
+    """Convenience factory to create calibrated VML from datasets.
 
     Args:
         two_photon_path: Path to Two-photon dataset (or None for literature c_1)

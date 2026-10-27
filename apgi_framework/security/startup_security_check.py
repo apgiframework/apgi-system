@@ -1,5 +1,4 @@
-"""
-Security Posture Verification at Startup
+"""Security Posture Verification at Startup.
 
 Provides comprehensive security readiness checks that fail closed for production.
 Ensures JWT keys, TLS certs, CORS, CSRF, and rate-limiter backend state are valid.
@@ -41,8 +40,7 @@ class SecurityPostureChecker:
     """Comprehensive security posture verification."""
 
     def __init__(self, environment: str = "development", strict_mode: bool = False):
-        """
-        Initialize security checker.
+        """Initialize security checker.
 
         Args:
             environment: 'development', 'staging', or 'production'
@@ -53,8 +51,7 @@ class SecurityPostureChecker:
         self.results: List[SecurityCheckResult] = []
 
     def run_all_checks(self) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Run all security checks and return overall status.
+        """Run all security checks and return overall status.
 
         Returns:
             Tuple of (all_passed, detailed_report)
@@ -471,8 +468,7 @@ class SecurityPostureChecker:
 def get_security_posture_report(
     environment: Optional[str] = None, strict_mode: bool = False
 ) -> Dict[str, Any]:
-    """
-    Get security posture report.
+    """Get security posture report.
 
     Args:
         environment: Override environment (defaults to APGI_ENV)

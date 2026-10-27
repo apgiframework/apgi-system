@@ -1,5 +1,4 @@
-"""
-Allostatic Regulation
+"""Allostatic Regulation.
 
 Maintains homeostatic set points and manages allostatic load.
 """
@@ -22,8 +21,7 @@ class AllostaticSetPoint:
 
 
 class AllostaticRegulator:
-    """
-    Manages allostatic regulation and cumulative load tracking.
+    """Manages allostatic regulation and cumulative load tracking.
 
     Allostasis refers to achieving stability through change - the process by
     which the body maintains homeostasis through adaptive responses to stressors.
@@ -78,8 +76,7 @@ class AllostaticRegulator:
         self.wide_range_factor = ranges_config.get("wide", 0.3)
 
     def update(self, body_state: np.ndarray, dt: float = 1.0) -> Dict[str, np.ndarray]:
-        """
-        Update allostasis for batch.
+        """Update allostasis for batch.
 
         Args:
             body_state: State array (B, D) where D includes indices 0, 2, 3, 4

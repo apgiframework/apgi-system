@@ -1,5 +1,4 @@
-"""
-Performance Monitor for APGI Framework
+"""Performance Monitor for APGI Framework.
 
 Real-time performance monitoring with GUI integration for tracking
 system resources, operation performance, and optimization opportunities.

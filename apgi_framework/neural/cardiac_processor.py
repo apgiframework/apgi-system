@@ -1,5 +1,4 @@
-"""
-Cardiac signal processing pipeline for parameter estimation.
+"""Cardiac signal processing pipeline for parameter estimation.
 
 Provides R-peak detection, HRV analysis, HEP extraction, and quality assessment
 for interoceptive precision estimation in APGI experiments.
@@ -141,8 +140,7 @@ class CardiacQualityMetrics:
 
 
 class CardiacProcessor:
-    """
-    Cardiac signal processor with multiple R-peak detection algorithms.
+    """Cardiac signal processor with multiple R-peak detection algorithms.
 
     Integrates existing R-peak detection with additional algorithms
     for robust heartbeat detection in various signal conditions.
@@ -154,8 +152,7 @@ class CardiacProcessor:
         algorithm: RPeakAlgorithm = RPeakAlgorithm.ADAPTIVE,
         heart_rate_monitor: Optional[Any] = None,
     ):
-        """
-        Initialize cardiac processor.
+        """Initialize cardiac processor.
 
         Args:
             sampling_rate: ECG/PPG sampling rate in Hz
@@ -167,8 +164,7 @@ class CardiacProcessor:
         self.heart_rate_monitor = heart_rate_monitor
 
     def preprocess_ecg(self, ecg_signal: np.ndarray) -> np.ndarray:
-        """
-        Preprocess ECG signal with filtering.
+        """Preprocess ECG signal with filtering.
 
         Args:
             ecg_signal: Raw ECG signal
@@ -190,8 +186,7 @@ class CardiacProcessor:
     def detect_r_peaks_pan_tompkins(
         self, ecg_signal: np.ndarray, timestamps: np.ndarray
     ) -> np.ndarray:
-        """
-        Detect R-peaks using optimized Pan-Tompkins algorithm.
+        """Detect R-peaks using optimized Pan-Tompkins algorithm.
 
         Args:
             ecg_signal: Preprocessed ECG signal
@@ -258,8 +253,7 @@ class CardiacProcessor:
         return np.asarray(peaks)
 
     def detect_r_peaks_adaptive(self, ecg_signal: np.ndarray, timestamps: np.ndarray) -> np.ndarray:
-        """
-        Detect R-peaks using adaptive threshold method.
+        """Detect R-peaks using adaptive threshold method.
 
         Args:
             ecg_signal: Preprocessed ECG signal
@@ -295,8 +289,7 @@ class CardiacProcessor:
         return np.array(peaks)
 
     def detect_r_peaks(self, ecg_signal: np.ndarray, timestamps: np.ndarray) -> np.ndarray:
-        """
-        Detect R-peaks using configured algorithm.
+        """Detect R-peaks using configured algorithm.
 
         Args:
             ecg_signal: ECG signal (raw or preprocessed)
@@ -332,8 +325,7 @@ class CardiacProcessor:
     def correct_ectopic_beats(
         self, rr_intervals: np.ndarray, threshold: float = 0.2
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Detect and correct ectopic beats (abnormal heartbeats).
+        """Detect and correct ectopic beats (abnormal heartbeats).
 
         Args:
             rr_intervals: RR interval array (ms)
@@ -364,16 +356,14 @@ class CardiacProcessor:
 
 
 class HRVAnalyzer:
-    """
-    Heart rate variability analyzer with time and frequency domain metrics.
+    """Heart rate variability analyzer with time and frequency domain metrics.
 
     Extends existing HRV metrics with frequency domain analysis
     for comprehensive autonomic assessment.
     """
 
     def __init__(self, sampling_rate: float = 1000.0):
-        """
-        Initialize HRV analyzer.
+        """Initialize HRV analyzer.
 
         Args:
             sampling_rate: Sampling rate for interpolation
@@ -381,8 +371,7 @@ class HRVAnalyzer:
         self.sampling_rate = sampling_rate
 
     def compute_time_domain_metrics(self, rr_intervals: np.ndarray) -> Dict[str, float]:
-        """
-        Compute time domain HRV metrics.
+        """Compute time domain HRV metrics.
 
         Args:
             rr_intervals: RR interval array (ms)
@@ -417,8 +406,7 @@ class HRVAnalyzer:
     def compute_frequency_domain_metrics(
         self, rr_intervals: np.ndarray, r_peak_times: np.ndarray
     ) -> Dict[str, float]:
-        """
-        Compute frequency domain HRV metrics using Welch's method.
+        """Compute frequency domain HRV metrics using Welch's method.
 
         Args:
             rr_intervals: RR interval array (ms)
@@ -476,8 +464,7 @@ class HRVAnalyzer:
     def compute_comprehensive_hrv(
         self, rr_intervals: np.ndarray, r_peak_times: np.ndarray
     ) -> HRVMetrics:
-        """
-        Compute comprehensive HRV metrics (time and frequency domain).
+        """Compute comprehensive HRV metrics (time and frequency domain).
 
         Args:
             rr_intervals: RR interval array (ms)
@@ -510,16 +497,14 @@ class HRVAnalyzer:
 
 
 class HEPExtractor:
-    """
-    Heartbeat-evoked potential (HEP) extractor.
+    """Heartbeat-evoked potential (HEP) extractor.
 
     Extracts EEG epochs time-locked to R-peaks for interoceptive
     neural processing analysis.
     """
 
     def __init__(self, sampling_rate: float = 1000.0):
-        """
-        Initialize HEP extractor.
+        """Initialize HEP extractor.
 
         Args:
             sampling_rate: EEG sampling rate in Hz
@@ -534,8 +519,7 @@ class HEPExtractor:
         tmin: float = -0.2,
         tmax: float = 0.8,
     ) -> np.ndarray:
-        """
-        Extract HEP epochs around R-peaks.
+        """Extract HEP epochs around R-peaks.
 
         Args:
             eeg_data: EEG data (channels x samples)
@@ -584,8 +568,7 @@ class HEPExtractor:
         time_window: Tuple[float, float] = (0.25, 0.4),
         tmin: float = -0.2,
     ) -> np.ndarray:
-        """
-        Compute HEP amplitude in specified time window.
+        """Compute HEP amplitude in specified time window.
 
         Args:
             hep_epochs: HEP epochs (epochs x channels x samples)
@@ -618,8 +601,7 @@ class HEPExtractor:
         baseline_window: Tuple[float, float] = (-0.2, 0.0),
         tmin: float = -0.2,
     ) -> np.ndarray:
-        """
-        Apply baseline correction to HEP epochs.
+        """Apply baseline correction to HEP epochs.
 
         Args:
             hep_epochs: HEP epochs (epochs x channels x samples)
@@ -654,16 +636,14 @@ class HEPExtractor:
 
 
 class CardiacQualityAssessor:
-    """
-    Cardiac signal quality assessment.
+    """Cardiac signal quality assessment.
 
     Evaluates signal quality, detects artifacts, and validates beat detection
     for reliable HRV and HEP analysis.
     """
 
     def __init__(self, sampling_rate: float = 1000.0):
-        """
-        Initialize cardiac quality assessor.
+        """Initialize cardiac quality assessor.
 
         Args:
             sampling_rate: Cardiac signal sampling rate in Hz
@@ -671,8 +651,7 @@ class CardiacQualityAssessor:
         self.sampling_rate = sampling_rate
 
     def preprocess_ecg(self, ecg_signal: np.ndarray) -> np.ndarray:
-        """
-        Preprocess ECG signal with filtering.
+        """Preprocess ECG signal with filtering.
 
         Args:
             ecg_signal: Raw ECG signal
@@ -694,8 +673,7 @@ class CardiacQualityAssessor:
     def detect_r_peaks_pan_tompkins(
         self, ecg_signal: np.ndarray, timestamps: np.ndarray
     ) -> np.ndarray:
-        """
-        Detect R-peaks using optimized Pan-Tompkins algorithm.
+        """Detect R-peaks using optimized Pan-Tompkins algorithm.
 
         Args:
             ecg_signal: Preprocessed ECG signal
@@ -762,8 +740,7 @@ class CardiacQualityAssessor:
         return np.asarray(peaks)
 
     def detect_r_peaks_adaptive(self, ecg_signal: np.ndarray, timestamps: np.ndarray) -> np.ndarray:
-        """
-        Detect R-peaks using adaptive threshold method.
+        """Detect R-peaks using adaptive threshold method.
 
         Args:
             ecg_signal: Preprocessed ECG signal
@@ -804,8 +781,7 @@ class CardiacQualityAssessor:
         r_peaks: np.ndarray,
         timestamps: np.ndarray,
     ) -> float:
-        """
-        Compute signal quality index based on template matching.
+        """Compute signal quality index based on template matching.
 
         Args:
             ecg_signal: ECG signal
@@ -853,8 +829,7 @@ class CardiacQualityAssessor:
         return float(max(0.0, min(1.0, sqi)))
 
     def detect_ectopic_beats(self, rr_intervals: np.ndarray) -> Tuple[float, np.ndarray]:
-        """
-        Detect ectopic beats in RR interval series.
+        """Detect ectopic beats in RR interval series.
 
         Args:
             rr_intervals: RR interval array (ms)
@@ -876,8 +851,7 @@ class CardiacQualityAssessor:
         return float(ectopic_percentage), ectopic
 
     def estimate_missed_beats(self, rr_intervals: np.ndarray) -> float:
-        """
-        Estimate percentage of missed beats.
+        """Estimate percentage of missed beats.
 
         Args:
             rr_intervals: RR interval array (ms)
@@ -906,8 +880,7 @@ class CardiacQualityAssessor:
         rr_intervals: np.ndarray,
         timestamps: np.ndarray,
     ) -> CardiacQualityMetrics:
-        """
-        Comprehensive cardiac signal quality assessment.
+        """Comprehensive cardiac signal quality assessment.
 
         Args:
             ecg_signal: ECG signal
@@ -961,8 +934,7 @@ class CardiacQualityAssessor:
     def benchmark_performance(
         self, signal_length: int = 60000, n_iterations: int = 10
     ) -> Dict[str, float]:
-        """
-        Benchmark cardiac processing performance.
+        """Benchmark cardiac processing performance.
 
         Args:
             signal_length: Length of test signal in samples (default: 60s at 1kHz)

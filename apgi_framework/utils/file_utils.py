@@ -1,5 +1,4 @@
-"""
-File operation utilities for the APGI Framework test enhancement system.
+"""File operation utilities for the APGI Framework test enhancement system.
 
 This module provides safe file operations with comprehensive error handling,
 path manipulation and validation utilities, and temporary file management.
@@ -24,16 +23,14 @@ class FileOperationError(Exception):
 
 
 class FileUtils:
-    """
-    Comprehensive file operation utilities with error handling and validation.
+    """Comprehensive file operation utilities with error handling and validation.
 
     Provides safe file operations, path manipulation, temporary file management,
     and file content operations for the test enhancement system.
     """
 
     def __init__(self, base_path: Optional[Union[str, Path]] = None):
-        """
-        Initialize FileUtils with optional base path.
+        """Initialize FileUtils with optional base path.
 
         Args:
             base_path: Base directory for relative operations
@@ -47,8 +44,7 @@ class FileUtils:
         encoding: str = "utf-8",
         fallback_encodings: Optional[List[str]] = None,
     ) -> str:
-        """
-        Safely read text file with encoding fallback.
+        """Safely read text file with encoding fallback.
 
         Args:
             file_path: Path to the file
@@ -97,8 +93,7 @@ class FileUtils:
         create_dirs: bool = True,
         backup: bool = False,
     ) -> Path:
-        """
-        Safely write text to file with optional backup.
+        """Safely write text to file with optional backup.
 
         Args:
             file_path: Path to write to
@@ -136,8 +131,7 @@ class FileUtils:
             raise FileOperationError(f"Failed to write file {resolved_path}: {e}")
 
     def safe_read_binary(self, file_path: Union[str, Path]) -> bytes:
-        """
-        Safely read binary file.
+        """Safely read binary file.
 
         Args:
             file_path: Path to the file
@@ -171,8 +165,7 @@ class FileUtils:
         create_dirs: bool = True,
         backup: bool = False,
     ) -> Path:
-        """
-        Safely write binary content to file.
+        """Safely write binary content to file.
 
         Args:
             file_path: Path to write to
@@ -215,8 +208,7 @@ class FileUtils:
         create_dirs: bool = True,
         preserve_metadata: bool = True,
     ) -> Path:
-        """
-        Safely copy file with error handling.
+        """Safely copy file with error handling.
 
         Args:
             src: Source file path
@@ -262,8 +254,7 @@ class FileUtils:
         dst: Union[str, Path],
         create_dirs: bool = True,
     ) -> Path:
-        """
-        Safely move file with error handling.
+        """Safely move file with error handling.
 
         Args:
             src: Source file path
@@ -298,8 +289,7 @@ class FileUtils:
             raise FileOperationError(f"Failed to move {src_path} to {dst_path}: {e}")
 
     def safe_delete(self, file_path: Union[str, Path], backup: bool = False) -> bool:
-        """
-        Safely delete file with optional backup.
+        """Safely delete file with optional backup.
 
         Args:
             file_path: Path to file to delete
@@ -338,8 +328,7 @@ class FileUtils:
         file_path: Union[str, Path],
         backup_dir: Optional[Union[str, Path]] = None,
     ) -> Path:
-        """
-        Create backup of file with timestamp.
+        """Create backup of file with timestamp.
 
         Args:
             file_path: Path to file to backup
@@ -385,8 +374,7 @@ class FileUtils:
         readable: bool = False,
         writable: bool = False,
     ) -> bool:
-        """
-        Validate path with various criteria.
+        """Validate path with various criteria.
 
         Args:
             path: Path to validate
@@ -423,8 +411,7 @@ class FileUtils:
         return True
 
     def get_file_hash(self, file_path: Union[str, Path], algorithm: str = "sha256") -> str:
-        """
-        Calculate file hash.
+        """Calculate file hash.
 
         Args:
             file_path: Path to file
@@ -460,8 +447,7 @@ class FileUtils:
         recursive: bool = True,
         include_dirs: bool = False,
     ) -> List[Path]:
-        """
-        Find files matching pattern.
+        """Find files matching pattern.
 
         Args:
             pattern: Glob pattern to match
@@ -488,8 +474,7 @@ class FileUtils:
         return sorted(matches)
 
     def read_json(self, file_path: Union[str, Path]) -> Dict[str, Any]:
-        """
-        Read JSON file safely.
+        """Read JSON file safely.
 
         Args:
             file_path: Path to JSON file
@@ -516,8 +501,7 @@ class FileUtils:
         create_dirs: bool = True,
         backup: bool = False,
     ) -> Path:
-        """
-        Write data to JSON file safely.
+        """Write data to JSON file safely.
 
         Args:
             file_path: Path to write JSON to
@@ -547,8 +531,7 @@ class FileUtils:
         prefix: str = "apgi_test_",
         text_mode: bool = True,
     ) -> Iterator[Union[TextIO, BinaryIO]]:
-        """
-        Context manager for temporary file.
+        """Context manager for temporary file.
 
         Args:
             suffix: File suffix
@@ -593,8 +576,7 @@ class FileUtils:
 
     @contextmanager
     def temporary_directory(self, prefix: str = "apgi_test_") -> Iterator[Path]:
-        """
-        Context manager for temporary directory.
+        """Context manager for temporary directory.
 
         Args:
             prefix: Directory prefix
@@ -613,8 +595,7 @@ class FileUtils:
                 shutil.rmtree(temp_dir_path)
 
     def get_file_stats(self, file_path: Union[str, Path]) -> Dict[str, Any]:
-        """
-        Get comprehensive file statistics.
+        """Get comprehensive file statistics.
 
         Args:
             file_path: Path to file
@@ -674,8 +655,7 @@ class FileUtils:
             raise FileOperationError(f"Failed to get stats for {resolved_path}: {e}")
 
     def cleanup_temp_files(self, max_age_hours: int = 24) -> int:
-        """
-        Clean up old temporary files.
+        """Clean up old temporary files.
 
         Args:
             max_age_hours: Maximum age of files to keep

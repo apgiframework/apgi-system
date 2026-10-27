@@ -1,5 +1,4 @@
-"""
-Font management system for APGI Framework.
+"""Font management system for APGI Framework.
 Provides cross-platform font compatibility with fallback chains.
 """
 
@@ -13,8 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class FontManager:
-    """
-    Manages font selection with cross-platform fallback chains.
+    """Manages font selection with cross-platform fallback chains.
 
     Ensures consistent typography across Windows, macOS, and Linux systems
     by providing appropriate font families for each platform.
@@ -73,8 +71,7 @@ class FontManager:
         logger.info(f"Found {len(self.available_fonts)} available fonts")
 
     def _detect_available_fonts(self) -> List[str]:
-        """
-        Detect available fonts on the current system.
+        """Detect available fonts on the current system.
 
         Returns:
             List of available font family names
@@ -121,8 +118,7 @@ class FontManager:
             return []
 
     def get_font_family(self, font_type: str = "ui") -> str:
-        """
-        Get the best available font family for the specified type.
+        """Get the best available font family for the specified type.
 
         Args:
             font_type: Type of font ('ui', 'code', 'heading', 'sans-serif', etc.)
@@ -160,8 +156,7 @@ class FontManager:
         weight: str = "normal",
         slant: str = "roman",
     ) -> tkFont.Font:
-        """
-        Get a configured font object.
+        """Get a configured font object.
 
         Args:
             font_type: Type of font ('ui', 'code', 'heading', etc.)
@@ -214,8 +209,7 @@ class FontManager:
         return self.get_font("sans-serif", size)
 
     def get_font_info(self) -> dict:
-        """
-        Get information about available fonts and selections.
+        """Get information about available fonts and selections.
 
         Returns:
             Dictionary with font information
@@ -228,8 +222,7 @@ class FontManager:
         }
 
     def test_font(self, font_name: str) -> bool:
-        """
-        Test if a font is available and usable.
+        """Test if a font is available and usable.
 
         Args:
             font_name: Font family name to test
@@ -248,8 +241,7 @@ class FontManager:
     def get_best_font_for_text(
         self, text: str, font_type: str = "ui", size: int = 12
     ) -> Tuple[str, tkFont.Font]:
-        """
-        Get the best font for rendering specific text.
+        """Get the best font for rendering specific text.
 
         Args:
             text: Text to be rendered
@@ -324,8 +316,7 @@ def configure_widget_fonts(
     font_type: str = "ui",
     size: Optional[int] = None,
 ) -> None:
-    """
-    Configure font for a widget and its children.
+    """Configure font for a widget and its children.
 
     Args:
         widget: Root widget to configure
@@ -371,8 +362,7 @@ UI_FONT_PRESETS = {
 
 
 def get_preset_font(preset_name: str) -> tkFont.Font:
-    """
-    Get a font by preset name.
+    """Get a font by preset name.
 
     Args:
         preset_name: Name of the preset

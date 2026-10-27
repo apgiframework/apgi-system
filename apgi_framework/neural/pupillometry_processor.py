@@ -1,5 +1,4 @@
-"""
-Pupillometry signal processing pipeline for parameter estimation.
+"""Pupillometry signal processing pipeline for parameter estimation.
 
 Provides pupil feature extraction, quality assessment, and metrics calculation
 for interoceptive precision estimation in APGI experiments.
@@ -46,8 +45,7 @@ class PupilQualityMetrics:
 
 
 class PupillometryProcessor:
-    """
-    Pupillometry signal processor integrating blink detection and interpolation.
+    """Pupillometry signal processor integrating blink detection and interpolation.
 
     Provides comprehensive pupil signal processing including artifact handling,
     baseline correction, and feature extraction for parameter estimation.
@@ -59,8 +57,7 @@ class PupillometryProcessor:
         blink_detector: Optional[Any] = None,
         artifact_interpolator: Optional[Any] = None,
     ):
-        """
-        Initialize pupillometry processor.
+        """Initialize pupillometry processor.
 
         Args:
             sampling_rate: Pupillometry sampling rate in Hz
@@ -79,8 +76,7 @@ class PupillometryProcessor:
         baseline_window: Tuple[float, float] = (-0.5, 0.0),
         stimulus_time: float = 0.0,
     ) -> Dict[str, np.ndarray]:
-        """
-        Process pupil data for a single trial.
+        """Process pupil data for a single trial.
 
         Args:
             pupil_data: Pupil diameter array (mm)
@@ -144,8 +140,7 @@ class PupillometryProcessor:
         return result
 
     def smooth_signal(self, data: np.ndarray, window_size: int = 50) -> np.ndarray:
-        """
-        Smooth pupil signal using moving average.
+        """Smooth pupil signal using moving average.
 
         Args:
             data: Pupil diameter array
@@ -165,16 +160,14 @@ class PupillometryProcessor:
 
 
 class PupilFeatureExtractor:
-    """
-    Extract pupil dilation features from post-stimulus windows.
+    """Extract pupil dilation features from post-stimulus windows.
 
     Computes peak, mean, time-to-peak, and other metrics for
     200-500ms post-stimulus windows.
     """
 
     def __init__(self, sampling_rate: float = 1000.0):
-        """
-        Initialize pupil feature extractor.
+        """Initialize pupil feature extractor.
 
         Args:
             sampling_rate: Pupillometry sampling rate in Hz
@@ -189,8 +182,7 @@ class PupilFeatureExtractor:
         window: Tuple[float, float] = (0.2, 0.5),
         baseline: Optional[float] = None,
     ) -> PupilFeatures:
-        """
-        Extract features from a post-stimulus time window.
+        """Extract features from a post-stimulus time window.
 
         Args:
             pupil_data: Pupil diameter array (baseline-corrected or raw)
@@ -281,8 +273,7 @@ class PupilFeatureExtractor:
         )
 
     def _compute_quality_score(self, data: np.ndarray, baseline: float) -> float:
-        """
-        Compute quality score for pupil data.
+        """Compute quality score for pupil data.
 
         Args:
             data: Pupil data array
@@ -315,8 +306,7 @@ class PupilFeatureExtractor:
         event_times: List[float],
         window: Tuple[float, float] = (0.2, 0.5),
     ) -> List[PupilFeatures]:
-        """
-        Extract features for multiple events/trials.
+        """Extract features for multiple events/trials.
 
         Args:
             pupil_data: Continuous pupil diameter array
@@ -337,16 +327,14 @@ class PupilFeatureExtractor:
 
 
 class PupilMetricsCalculator:
-    """
-    Calculate comprehensive pupil dilation metrics.
+    """Calculate comprehensive pupil dilation metrics.
 
     Computes area under curve, velocity, and other derived metrics
     for interoceptive precision estimation.
     """
 
     def __init__(self, sampling_rate: float = 1000.0):
-        """
-        Initialize pupil metrics calculator.
+        """Initialize pupil metrics calculator.
 
         Args:
             sampling_rate: Pupillometry sampling rate in Hz
@@ -356,8 +344,7 @@ class PupilMetricsCalculator:
     def compute_dilation_velocity(
         self, pupil_data: np.ndarray, timestamps: np.ndarray
     ) -> np.ndarray:
-        """
-        Compute pupil dilation velocity.
+        """Compute pupil dilation velocity.
 
         Args:
             pupil_data: Pupil diameter array
@@ -385,8 +372,7 @@ class PupilMetricsCalculator:
         timestamps: np.ndarray,
         baseline: Optional[float] = None,
     ) -> float:
-        """
-        Compute area under the pupil dilation curve.
+        """Compute area under the pupil dilation curve.
 
         Args:
             pupil_data: Pupil diameter array
@@ -416,8 +402,7 @@ class PupilMetricsCalculator:
         timestamps: np.ndarray,
         baseline: Optional[float] = None,
     ) -> Dict[str, float]:
-        """
-        Compute peak-related metrics.
+        """Compute peak-related metrics.
 
         Args:
             pupil_data: Pupil diameter array
@@ -456,8 +441,7 @@ class PupilMetricsCalculator:
         stimulus_time: float,
         response_window: Tuple[float, float] = (0.2, 0.5),
     ) -> Dict[str, float]:
-        """
-        Compute comprehensive response metrics for a stimulus.
+        """Compute comprehensive response metrics for a stimulus.
 
         Args:
             pupil_data: Pupil diameter array
@@ -517,16 +501,14 @@ class PupilMetricsCalculator:
 
 
 class PupilQualityScorer:
-    """
-    Comprehensive data quality assessment for pupillometry.
+    """Comprehensive data quality assessment for pupillometry.
 
     Evaluates tracking quality, artifact levels, and provides
     recommendations for data usability.
     """
 
     def __init__(self, sampling_rate: float = 1000.0):
-        """
-        Initialize pupil quality scorer.
+        """Initialize pupil quality scorer.
 
         Args:
             sampling_rate: Pupillometry sampling rate in Hz
@@ -540,8 +522,7 @@ class PupilQualityScorer:
         blinks: Optional[np.ndarray] = None,
         artifacts: Optional[np.ndarray] = None,
     ) -> PupilQualityMetrics:
-        """
-        Assess comprehensive data quality.
+        """Assess comprehensive data quality.
 
         Args:
             pupil_data: Pupil diameter array
@@ -620,8 +601,7 @@ class PupilQualityScorer:
         confidence: np.ndarray,
         trial_window: Tuple[int, int],
     ) -> float:
-        """
-        Assess quality for a specific trial window.
+        """Assess quality for a specific trial window.
 
         Args:
             pupil_data: Pupil diameter array

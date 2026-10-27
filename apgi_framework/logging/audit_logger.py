@@ -1,5 +1,4 @@
-"""
-Comprehensive Audit Logging System for APGI.
+"""Comprehensive Audit Logging System for APGI.
 
 Provides immutable, tamper-evident logging of sensitive operations,
 user actions, and configuration changes.
@@ -18,9 +17,7 @@ logger = logging.getLogger("audit")
 
 
 class AuditLogger:
-    """
-    Handles secure audit logging for sensitive system operations.
-    """
+    """Handles secure audit logging for sensitive system operations."""
 
     def __init__(self, log_dir: str = "logs/audit"):
         self.log_dir = Path(log_dir)
@@ -50,8 +47,7 @@ class AuditLogger:
         details: Dict[str, Any],
         severity: str = "INFO",
     ) -> str:
-        """
-        Log a sensitive event to the audit trail.
+        """Log a sensitive event to the audit trail.
 
         Args:
             user_id: ID of the user performing the action
@@ -98,8 +94,7 @@ class AuditLogger:
         return entry_hash
 
     def verify_integrity(self) -> bool:
-        """
-        Verify the integrity of the audit log chain.
+        """Verify the integrity of the audit log chain.
 
         Returns:
             True if integrity is intact, False if tampering detected.
@@ -146,9 +141,7 @@ class AuditLogger:
         user_id: Optional[str] = None,
         event_type: Optional[str] = None,
     ) -> List[Dict[str, Any]]:
-        """
-        Query the audit logs with filters.
-        """
+        """Query the audit logs with filters."""
         results: List[Dict[str, Any]] = []
         if not self.current_log_file.exists():
             return results

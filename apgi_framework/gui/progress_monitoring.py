@@ -1,5 +1,4 @@
-"""
-Real-time progress monitoring for parameter estimation tasks.
+"""Real-time progress monitoring for parameter estimation tasks.
 
 Provides classes for tracking task completion and data quality during experiments.
 """
@@ -12,8 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class RealTimeProgressMonitor:
-    """
-    Monitors task progress and data quality in real-time.
+    """Monitors task progress and data quality in real-time.
 
     Tracks trial completion, timing, and provides progress updates.
     """
@@ -32,8 +30,7 @@ class RealTimeProgressMonitor:
         logger.info("RealTimeProgressMonitor initialized")
 
     def start_task(self, task_name: str, total_trials: int) -> None:
-        """
-        Start monitoring a new task.
+        """Start monitoring a new task.
 
         Args:
             task_name: Name of the task
@@ -49,8 +46,7 @@ class RealTimeProgressMonitor:
         self._notify_progress()
 
     def update_progress(self, completed_trials: int) -> None:
-        """
-        Update progress with number of completed trials.
+        """Update progress with number of completed trials.
 
         Args:
             completed_trials: Number of completed trials
@@ -90,8 +86,7 @@ class RealTimeProgressMonitor:
         return self.current_task is not None
 
     def add_progress_callback(self, callback: Callable[[Dict[str, Any]], None]) -> None:
-        """
-        Add callback for progress updates.
+        """Add callback for progress updates.
 
         Args:
             callback: Function to call with progress updates
@@ -109,8 +104,7 @@ class RealTimeProgressMonitor:
                 logger.error(f"Error in progress callback: {e}")
 
     def get_progress_data(self) -> Dict[str, Any]:
-        """
-        Get current progress data.
+        """Get current progress data.
 
         Returns:
             Dictionary with progress information
@@ -135,8 +129,7 @@ class RealTimeProgressMonitor:
         }
 
     def get_progress_string(self) -> str:
-        """
-        Get formatted progress string.
+        """Get formatted progress string.
 
         Returns:
             Human-readable progress string

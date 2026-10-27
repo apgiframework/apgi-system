@@ -1,5 +1,4 @@
-"""
-Data models for the APGI Framework data management system.
+"""Data models for the APGI Framework data management system.
 
 Defines the core data structures for experimental datasets, metadata,
 versioning, and backup information.

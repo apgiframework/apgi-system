@@ -1,5 +1,4 @@
-"""
-Pharmacological Simulator for APGI Framework Testing
+"""Pharmacological Simulator for APGI Framework Testing.
 
 This module implements the PharmacologicalSimulator class that models drug effects
 on ignition threshold modulation and physiological control measures for testing
@@ -17,7 +16,7 @@ from ..exceptions import ValidationError
 
 
 class DrugClass(Enum):
-    """Classification of drug types by mechanism"""
+    """Classification of drug types by mechanism."""
 
     BETA_BLOCKER = "beta_blocker"
     DOPAMINE_PRECURSOR = "dopamine_precursor"
@@ -27,7 +26,7 @@ class DrugClass(Enum):
 
 
 class NeuromodulatorSystem(Enum):
-    """Neuromodulatory systems affected by drugs"""
+    """Neuromodulatory systems affected by drugs."""
 
     NOREPINEPHRINE = "norepinephrine"
     DOPAMINE = "dopamine"
@@ -37,7 +36,7 @@ class NeuromodulatorSystem(Enum):
 
 @dataclass
 class DrugProfile:
-    """Pharmacological profile of a drug"""
+    """Pharmacological profile of a drug."""
 
     name: str
     drug_class: DrugClass
@@ -57,7 +56,7 @@ class DrugProfile:
 
 @dataclass
 class DrugAdministration:
-    """Drug administration parameters"""
+    """Drug administration parameters."""
 
     drug_profile: DrugProfile
     dosage: float  # mg or standardized units
@@ -72,7 +71,7 @@ class DrugAdministration:
 
 @dataclass
 class PharmacologicalResponse:
-    """Complete pharmacological response simulation"""
+    """Complete pharmacological response simulation."""
 
     drug_administration: DrugAdministration
     time_course: Dict[float, float]  # time_hours: plasma_concentration
@@ -92,15 +91,14 @@ class PharmacologicalResponse:
 
 
 class PharmacologicalSimulator:
-    """
-    Simulator for drug effects on ignition threshold and physiological measures.
+    """Simulator for drug effects on ignition threshold and physiological measures.
 
     Models pharmacokinetics, pharmacodynamics, and individual variability
     for testing neuromodulatory falsification criteria.
     """
 
     def __init__(self, random_seed: Optional[int] = None):
-        """Initialize pharmacological simulator with drug profiles"""
+        """Initialize pharmacological simulator with drug profiles."""
         self.drug_profiles = self._initialize_drug_profiles()
 
         # Simulation parameters
@@ -115,7 +113,7 @@ class PharmacologicalSimulator:
         self.rng = np.random.RandomState(random_seed if random_seed is not None else 42)
 
     def _initialize_drug_profiles(self) -> Dict[str, DrugProfile]:
-        """Initialize standard drug profiles for testing"""
+        """Initialize standard drug profiles for testing."""
         profiles = {}
 
         # Propranolol (beta-blocker)
@@ -219,8 +217,7 @@ class PharmacologicalSimulator:
         metabolism_rate: Optional[float] = None,
         sensitivity_factor: Optional[float] = None,
     ) -> PharmacologicalResponse:
-        """
-        Simulate complete pharmacological response to drug administration.
+        """Simulate complete pharmacological response to drug administration.
 
         Args:
             drug_name: Name of drug to simulate
@@ -297,7 +294,7 @@ class PharmacologicalSimulator:
         )
 
     def _simulate_pharmacokinetics(self, administration: DrugAdministration) -> Dict[float, float]:
-        """Simulate plasma concentration over time"""
+        """Simulate plasma concentration over time."""
         drug_profile = administration.drug_profile
 
         # Adjust dose for weight and bioavailability
@@ -342,7 +339,7 @@ class PharmacologicalSimulator:
         administration: DrugAdministration,
         time_course: Dict[float, float],
     ) -> Dict[float, float]:
-        """Simulate ignition threshold modulation over time"""
+        """Simulate ignition threshold modulation over time."""
         drug_profile = administration.drug_profile
         threshold_changes = {}
 
@@ -392,7 +389,7 @@ class PharmacologicalSimulator:
         administration: DrugAdministration,
         time_course: Dict[float, float],
     ) -> Dict[str, Dict[float, float]]:
-        """Simulate physiological control measures over time"""
+        """Simulate physiological control measures over time."""
         drug_profile = administration.drug_profile
         responses = {}
 
@@ -433,7 +430,7 @@ class PharmacologicalSimulator:
         return responses
 
     def _confirm_drug_levels(self, time_course: Dict[float, float]) -> bool:
-        """Confirm that drug reached detectable levels"""
+        """Confirm that drug reached detectable levels."""
         if not time_course:  # Handle empty time course
             return False
 
@@ -448,7 +445,7 @@ class PharmacologicalSimulator:
         physiological_responses: Dict[str, Dict[float, float]],
         drug_profile: DrugProfile,
     ) -> bool:
-        """Confirm that physiological effects match expected patterns"""
+        """Confirm that physiological effects match expected patterns."""
         confirmed_effects = 0
         total_effects = len(drug_profile.physiological_effects)
 
@@ -477,7 +474,7 @@ class PharmacologicalSimulator:
         threshold_modulation: Dict[float, float],
         physiological_responses: Dict[str, Dict[float, float]],
     ) -> float:
-        """Calculate correlation between expected and observed effects"""
+        """Calculate correlation between expected and observed effects."""
         drug_profile = administration.drug_profile
 
         if drug_profile.name == "placebo":
@@ -537,8 +534,7 @@ class PharmacologicalSimulator:
         participant_weight: float = 70.0,
         route: str = "oral",
     ) -> Dict[str, PharmacologicalResponse]:
-        """
-        Simulate multiple drug administration with potential interactions.
+        """Simulate multiple drug administration with potential interactions.
 
         Args:
             drug_names: List of drugs to administer
@@ -609,7 +605,7 @@ class PharmacologicalSimulator:
     def _apply_drug_interactions(
         self, responses: Dict[str, PharmacologicalResponse]
     ) -> Dict[str, PharmacologicalResponse]:
-        """Apply drug interaction effects (simplified model)"""
+        """Apply drug interaction effects (simplified model)."""
         # This is a simplified interaction model
         # In reality, drug interactions are complex and drug-specific
 
@@ -628,7 +624,7 @@ class PharmacologicalSimulator:
         return responses
 
     def _get_interaction_factor(self, drug1: str, drug2: str) -> float:
-        """Get interaction factor between two drugs"""
+        """Get interaction factor between two drugs."""
         # Simplified interaction matrix
         interactions = {
             ("propranolol", "l_dopa"): 0.9,  # Slight antagonism
@@ -642,18 +638,17 @@ class PharmacologicalSimulator:
         return factor
 
     def get_drug_profile(self, drug_name: str) -> DrugProfile:
-        """Get drug profile for a specific drug"""
+        """Get drug profile for a specific drug."""
         if drug_name not in self.drug_profiles:
             raise ValidationError(f"Unknown drug: {drug_name}")
         return self.drug_profiles[drug_name]
 
     def list_available_drugs(self) -> List[str]:
-        """List all available drugs in the simulator"""
+        """List all available drugs in the simulator."""
         return list(self.drug_profiles.keys())
 
     def validate_dosage(self, drug_name: str, dosage: float) -> Tuple[bool, str]:
-        """
-        Validate if dosage is within safe/realistic range.
+        """Validate if dosage is within safe/realistic range.
 
         Args:
             drug_name: Name of drug

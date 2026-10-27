@@ -1,5 +1,4 @@
-"""
-Persistence layer for the APGI Framework data management system.
+"""Persistence layer for the APGI Framework data management system.
 
 Provides unified interface for data storage using SQLite and HDF5 backends.
 """
@@ -38,8 +37,7 @@ class PersistenceError(APGIFrameworkError):
 
 
 class PersistenceLayer:
-    """
-    Unified persistence layer supporting SQLite and HDF5 storage.
+    """Unified persistence layer supporting SQLite and HDF5 storage.
 
     Provides data storage, retrieval, versioning, and backup capabilities
     with automatic format detection and conversion.
@@ -295,8 +293,7 @@ class PersistenceLayer:
             conn.commit()
 
     def store_dataset(self, dataset: ExperimentalDataset) -> str:
-        """
-        Store experimental dataset with metadata.
+        """Store experimental dataset with metadata.
 
         Args:
             dataset: ExperimentalDataset to store
@@ -335,8 +332,7 @@ class PersistenceLayer:
     def load_dataset(
         self, experiment_id: str, version: Optional[str] = None
     ) -> ExperimentalDataset:
-        """
-        Load experimental dataset by ID.
+        """Load experimental dataset by ID.
 
         Args:
             experiment_id: Experiment identifier
@@ -1552,8 +1548,7 @@ class PersistenceLayer:
             raise PersistenceError(f"Failed to delete experiment {experiment_id}: {str(e)}")
 
     def flush_all(self) -> None:
-        """
-        Flush all pending operations and ensure data persistence.
+        """Flush all pending operations and ensure data persistence.
 
         Forces all cached data to be written to disk and commits
         any pending database transactions.
@@ -1580,8 +1575,7 @@ class PersistenceLayer:
         data_type: str = "processed_data",
         chunk_size: int = 1000,
     ) -> Iterator[Dict[str, Any]]:
-        """
-        Stream dataset data in chunks to handle large datasets efficiently.
+        """Stream dataset data in chunks to handle large datasets efficiently.
 
         Args:
             experiment_id: Experiment identifier
@@ -1634,8 +1628,7 @@ class PersistenceLayer:
             raise PersistenceError(f"Failed to stream dataset {experiment_id}: {str(e)}")
 
     def get_dataset_info(self, experiment_id: str) -> Dict[str, Any]:
-        """
-        Get dataset information without loading full data.
+        """Get dataset information without loading full data.
 
         Args:
             experiment_id: Experiment identifier
@@ -1685,8 +1678,7 @@ class PersistenceLayer:
             raise PersistenceError(f"Failed to get dataset info for {experiment_id}: {str(e)}")
 
     def _analyze_group_structure(self, group: h5py.Group) -> Dict[str, Any]:
-        """
-        Analyze HDF5 group structure and estimate memory usage.
+        """Analyze HDF5 group structure and estimate memory usage.
 
         Args:
             group: HDF5 group to analyze
@@ -1735,8 +1727,7 @@ class PersistenceLayer:
         chunk_size: int = 1000,
         max_memory_mb: float = 500.0,
     ) -> Iterator[Dict[str, Any]]:
-        """
-        Load dataset with memory-aware chunking.
+        """Load dataset with memory-aware chunking.
 
         Args:
             experiment_id: Experiment identifier
@@ -1775,8 +1766,7 @@ class PersistenceLayer:
         data_type: str = "processed_data",
         chunk_size: int = 1000,
     ) -> List[Any]:
-        """
-        Process large datasets in chunks to avoid memory issues.
+        """Process large datasets in chunks to avoid memory issues.
 
         Args:
             experiment_id: Experiment identifier

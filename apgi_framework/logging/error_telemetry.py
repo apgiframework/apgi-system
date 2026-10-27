@@ -1,5 +1,4 @@
-"""
-Error Telemetry for APGI Framework
+"""Error Telemetry for APGI Framework.
 
 Provides basic error reporting and telemetry collection for debugging and
 improving the framework.
@@ -19,8 +18,7 @@ class ErrorTelemetry:
     """Basic error telemetry and reporting system."""
 
     def __init__(self, telemetry_dir: str = "logs/telemetry"):
-        """
-        Initialize error telemetry.
+        """Initialize error telemetry.
 
         Args:
             telemetry_dir: Directory to store telemetry data
@@ -63,8 +61,7 @@ class ErrorTelemetry:
         context: Optional[Dict[str, Any]] = None,
         user_id: Optional[str] = None,
     ) -> None:
-        """
-        Report an error for telemetry collection.
+        """Report an error for telemetry collection.
 
         Args:
             error_type: Type of error (e.g., 'ValueError', 'NetworkError')
@@ -217,8 +214,7 @@ def report_error(
     context: Optional[Dict[str, Any]] = None,
     user_id: Optional[str] = None,
 ) -> None:
-    """
-    Convenience function to report an error.
+    """Convenience function to report an error.
 
     Args:
         error_type: Type of error
@@ -232,8 +228,7 @@ def report_error(
 
 
 def enable_error_reporting(enable: bool = True) -> None:
-    """
-    Enable or disable automatic error reporting.
+    """Enable or disable automatic error reporting.
 
     Args:
         enable: Whether to enable error reporting
