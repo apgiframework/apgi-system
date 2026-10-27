@@ -49,6 +49,7 @@ class ScriptedTransport(Transport):
         if self.failures:
             raise self.failures.pop(0)
         self.uploaded.append(remote_key)
+        self.present.add(remote_key)  # the server now holds it, so read-back succeeds
 
 
 class Env:
@@ -332,6 +333,8 @@ class TestHttpTransport:
         def handler(request: httpx.Request) -> httpx.Response:
             key = request.url.path
             if request.method == "HEAD":
+                if key in stored:
+                    return httpx.Response(200, headers={"X-Content-SHA256": sha(stored[key])})
                 return httpx.Response(404)
             stored[key] = request.content
             return httpx.Response(200)

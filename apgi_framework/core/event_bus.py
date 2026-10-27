@@ -8,6 +8,8 @@ prioritized subscriptions, and event filtering.
 
 import asyncio
 import logging
+import time
+import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
@@ -34,8 +36,11 @@ class Event:
     payload: Any
     source: str = ""
     timestamp: datetime = field(default_factory=datetime.now)
-    event_id: str = field(default_factory=lambda: f"evt_{datetime.now().timestamp()}")
+    event_id: str = field(default_factory=lambda: f"evt_{uuid.uuid4().hex}")
     metadata: Dict[str, Any] = field(default_factory=dict)
+    seq_no: int = 0  # assigned by EventBus.publish, per bus
+    monotonic_ns: int = field(default_factory=time.monotonic_ns)
+    utc_ns: int = field(default_factory=time.time_ns)
 
     def to_dict(self) -> dict:
         """Convert event to dictionary."""
@@ -45,6 +50,9 @@ class Event:
             "payload": self.payload,
             "source": self.source,
             "timestamp": self.timestamp.isoformat(),
+            "seq_no": self.seq_no,
+            "monotonic_ns": self.monotonic_ns,
+            "utc_ns": self.utc_ns,
             "metadata": self.metadata,
         }
 
@@ -58,7 +66,7 @@ class EventSubscription:
     priority: EventPriority = EventPriority.NORMAL
     filter_fn: Optional[Callable[[Event], bool]] = None
     once: bool = False
-    subscription_id: str = field(default_factory=lambda: f"sub_{datetime.now().timestamp()}")
+    subscription_id: str = field(default_factory=lambda: f"sub_{uuid.uuid4().hex}")
 
 
 class EventBus:
@@ -78,6 +86,7 @@ class EventBus:
         self._subscriptions: Dict[str, List[EventSubscription]] = {}
         self._event_history: List[Event] = []
         self._history_limit = 1000
+        self._next_seq = 1
         self._lock = asyncio.Lock()
         self._running = False
 
@@ -165,6 +174,9 @@ class EventBus:
         if not self._running:
             logger.warning("EventBus not running, event not published")
             return []
+
+        event.seq_no = self._next_seq
+        self._next_seq += 1
 
         # Store in history
         self._event_history.append(event)

@@ -19,6 +19,7 @@ from .device import SampleChunk
 from .errors import DeviceError, InvalidTransition
 from .manager import DeviceManager
 from .markers import EventMarker, MarkerLog
+from .pin import PinError, TaskPin
 from .recorder import LocalRecorder, RecordingSummary
 from .state_machine import SessionEvent, SessionMachine, SessionState
 from .store import SessionStore
@@ -37,6 +38,9 @@ class AcquisitionSession:
         sync_interval_s: Pause between probes, so the mapper sees a time spread to fit drift.
         sleep: Injected for tests; defaults to ``time.sleep``.
         drain_timeout_s: Longest :meth:`stop` spends reading what the devices still hold.
+        task_pin: Task manifest and battery version this session runs; stored with the
+            session at creation and written into ``recording.json``. Immutable afterwards.
+        require_pin: Refuse to create the session without ``task_pin``.
     """
 
     def __init__(
@@ -56,7 +60,11 @@ class AcquisitionSession:
         drain_timeout_s: float = 2.0,
         clock_ns: Callable[[], int] = time.monotonic_ns,
         online: bool = True,
+        task_pin: Optional[TaskPin] = None,
+        require_pin: bool = False,
     ) -> None:
+        if task_pin is None and require_pin:
+            raise PinError("this session requires a task manifest/battery pin (task_pin)")
         ids = manager.device_ids
         if device_id is None:
             if len(ids) != 1:
@@ -75,8 +83,14 @@ class AcquisitionSession:
         self.session_id = session_id or uuid.uuid4().hex[:12]
         self.directory = Path(sessions_dir) / self.session_id
         self.markers = MarkerLog(clock_ns)
+        self.task_pin = task_pin
         self.machine = SessionMachine.create(
-            store, self.session_id, directory=str(self.directory), subject=subject, online=online
+            store,
+            self.session_id,
+            directory=str(self.directory),
+            subject=subject,
+            online=online,
+            meta={"task_pin": task_pin.to_dict()} if task_pin is not None else None,
         )
         self._recorder: Optional[LocalRecorder] = None
         self._lock = threading.RLock()
@@ -97,7 +111,11 @@ class AcquisitionSession:
                 self._recorder = LocalRecorder(
                     self.directory,
                     device.info,
-                    session_meta={"session_id": self.session_id, "subject": self._subject},
+                    session_meta={
+                        "session_id": self.session_id,
+                        "subject": self._subject,
+                        "task_pin": self.task_pin.to_dict() if self.task_pin else None,
+                    },
                     segment_samples=self._segment_samples,
                     fsync=self._fsync,
                     on_file_ready=self._enqueue,

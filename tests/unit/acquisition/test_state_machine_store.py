@@ -228,7 +228,7 @@ class TestStore:
             store.enqueue_file("a", "f2", "h2", 20)
             store.enqueue_file("a", "f1", "h1", 10)  # same digest: untouched
             assert {i.rel_path for i in store.due_uploads()} == {"f1", "f2"}
-            store.mark_upload_done("a", "f1")
+            store.mark_upload_done("a", "f1", server_verified=True)
             store.mark_upload_failed("a", "f2", "timeout", retry_at_ns=5_000)
             assert store.due_uploads() == []  # f2 waits for its retry time
             assert [i.rel_path for i in store.due_uploads(now_ns=5_000)] == ["f2"]
@@ -245,7 +245,7 @@ class TestStore:
         with self.open(tmp_path) as store:
             store.create_session("a", directory="/d")
             store.enqueue_file("a", "f", "old", 1)
-            store.mark_upload_done("a", "f")
+            store.mark_upload_done("a", "f", server_verified=True)
             store.enqueue_file("a", "f", "new", 2)
             item = store.due_uploads()[0]
             assert item.sha256 == "new" and item.status == "pending"

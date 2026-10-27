@@ -21,6 +21,7 @@ import hashlib
 import json
 import os
 import threading
+import stat
 import zlib
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -32,6 +33,7 @@ from numpy.typing import NDArray
 
 from .device import DeviceInfo, SampleChunk, SyncProbe
 from .errors import RecorderError
+from .integrity import crc32c, sha256_hex
 from .markers import EventMarker
 
 FORMAT_VERSION = 1
@@ -73,7 +75,7 @@ class ChunkRecord:
     sequence: int
     first_sample_index: int
     n_samples: int
-    first_device_time_s: float
+    first_device_time_s: Optional[float]
     host_receive_ns: int
 
 
@@ -98,6 +100,8 @@ class Recording:
     def sample0_device_time_s(self) -> float:
         """Device-clock time of sample index 0."""
         first = self.chunks[0]
+        if first.first_device_time_s is None:
+            raise RecorderError("this device reported no timestamps; device time is unavailable")
         return first.first_device_time_s - first.first_sample_index / self.info.sampling_rate_hz
 
 
@@ -107,6 +111,35 @@ def _sha256_file(path: Path) -> str:
         for block in iter(lambda: fh.read(1 << 20), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+_WRITE_BITS = stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH
+
+
+def _make_read_only(path: Path) -> None:
+    if path.exists():
+        path.chmod(path.stat().st_mode & ~_WRITE_BITS)
+
+
+def verify_write_once(session_dir: Path) -> List[str]:
+    """Problems found with a sealed recording; empty means every raw file is intact.
+
+    Checks that each sealed segment and index file still hashes to its manifest
+    value and has no write permission bits.
+    """
+    session_dir = Path(session_dir)
+    problems: List[str] = []
+    for seg in _read_manifest_segments(session_dir):
+        for rel, expected in ((seg.data_file, seg.sha256), (seg.index_file, seg.index_sha256)):
+            path = session_dir / rel
+            if not path.is_file():
+                problems.append(f"{rel}: missing")
+                continue
+            if _sha256_file(path) != expected:
+                problems.append(f"{rel}: content changed after sealing")
+            if path.stat().st_mode & _WRITE_BITS:
+                problems.append(f"{rel}: still writable")
+    return problems
 
 
 def _atomic_write_json(path: Path, payload: Dict[str, Any]) -> None:
@@ -213,6 +246,8 @@ class LocalRecorder:
                 "host_ns": chunk.host_receive_ns,
                 "offset": offset,
                 "crc32": zlib.crc32(raw),
+                "crc32c": crc32c(raw),
+                "sha256": sha256_hex(raw),
             }
             self._index_fh.write(json.dumps(line) + "\n")
             self._flush(self._index_fh)
@@ -334,7 +369,9 @@ class LocalRecorder:
                         sequence=int(entry["seq"]),
                         first_sample_index=int(entry["first"]),
                         n_samples=int(entry["n"]),
-                        first_device_time_s=float(entry["t0"]),
+                        first_device_time_s=(
+                            None if entry["t0"] is None else float(entry["t0"])
+                        ),
                         host_receive_ns=int(entry["host_ns"]),
                     )
                 )
@@ -405,6 +442,8 @@ class LocalRecorder:
             index_sha256=_sha256_file(index_path),
             first_sample_index=self._seg_first_sample,
         )
+        _make_read_only(data_path)
+        _make_read_only(index_path)
         self._segments.append(record)
         self._notify(record)
         self._seg_index += 1
@@ -424,11 +463,16 @@ class LocalRecorder:
             "n_markers": self._n_markers,
             "segments": [s.to_dict() for s in self._segments],
         }
+        for seg in self._segments:
+            _make_read_only(self._dir / seg.data_file)
+            _make_read_only(self._dir / seg.index_file)
         _atomic_write_json(self._dir / "manifest.json", manifest)
         meta = _read_meta(self._dir)
         meta["complete"] = True
         _atomic_write_json(self._dir / "recording.json", meta)
         (self._dir / "COMPLETE").write_text("", encoding="utf-8")
+        for name in ("markers.jsonl", "sync.jsonl"):
+            _make_read_only(self._dir / name)
         if self._on_file_ready is not None:
             for name in ("markers.jsonl", "sync.jsonl", "manifest.json", "recording.json"):
                 path = self._dir / name
@@ -525,12 +569,19 @@ def _repair_segment(session_dir: Path, index: int, info: DeviceInfo) -> Optional
                     break
                 if len(raw) != size or zlib.crc32(raw) != int(entry["crc32"]):
                     break
+                if "crc32c" in entry and crc32c(raw) != int(entry["crc32c"]):
+                    break
+                if "sha256" in entry and sha256_hex(raw) != entry["sha256"]:
+                    break
                 kept.append(entry)
                 good_bytes += size
     if not kept:
         data_path.unlink(missing_ok=True)
         index_path.unlink(missing_ok=True)
         return None
+    # a crash between sealing and the manifest write leaves read-only, unlisted files
+    for path in (data_path, index_path):
+        path.chmod(path.stat().st_mode | stat.S_IWUSR)
     with open(data_path, "r+b") as fh:
         fh.truncate(good_bytes)
     with open(index_path, "w", encoding="utf-8") as fh:
@@ -560,5 +611,7 @@ def _repair_markers(path: Path) -> int:
         except ValueError:
             break
         good.append(line)
-    path.write_text("".join(f"{ln}\n" for ln in good), encoding="utf-8")
+    text = "".join(f"{ln}\n" for ln in good)
+    if text != path.read_text(encoding="utf-8"):
+        path.write_text(text, encoding="utf-8")
     return len(good)

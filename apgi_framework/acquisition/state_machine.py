@@ -18,7 +18,7 @@ from __future__ import annotations
 import enum
 import threading
 from dataclasses import dataclass
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 from .errors import InvalidTransition, StoreError
 from .store import SessionStore
@@ -117,8 +117,9 @@ class SessionMachine:
         directory: str,
         subject: Optional[str] = None,
         online: bool = True,
+        meta: Optional[Dict[str, Any]] = None,
     ) -> "SessionMachine":
-        store.create_session(session_id, directory=directory, subject=subject)
+        store.create_session(session_id, directory=directory, subject=subject, meta=meta)
         return cls(session_id, store=store, online=online)
 
     @classmethod

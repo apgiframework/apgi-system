@@ -77,6 +77,7 @@ class SimulatedDevice(Device):
             channels=tuple(channels),
             firmware="sim-1.0",
             serial=f"SIM-{seed:06d}",
+            data_origin="synthetic",
         )
         self._n_eeg = len(names)
         self._has_trigger = trigger_channel

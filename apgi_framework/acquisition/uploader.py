@@ -8,6 +8,7 @@ consuming retries, and the queue survives restarts.
 
 from __future__ import annotations
 
+import logging
 import os
 import random
 import shutil
@@ -24,6 +25,8 @@ if TYPE_CHECKING:
 from .errors import NetworkUnavailable, PermanentTransportError, TransportError
 from .state_machine import SessionEvent, SessionMachine, SessionState
 from .store import SessionStore, UploadItem, _sha256_hex_of_file
+
+logger = logging.getLogger(__name__)
 
 
 class Transport(ABC):
@@ -175,6 +178,8 @@ class UploadAgent:
         self._max_attempts = max_attempts
         self._batch = batch_size
         self._rng = random.Random(seed)
+        self.loop_errors = 0
+        self.last_loop_error: Optional[str] = None
         self._thread: Optional[threading.Thread] = None
         self._stop = threading.Event()
 
@@ -230,8 +235,10 @@ class UploadAgent:
         while not self._stop.is_set():
             try:
                 self.run_once()
-            except Exception:  # keep the agent alive; the queue is persistent
-                pass
+            except Exception as exc:  # keep the agent alive; the queue is persistent
+                self.loop_errors += 1
+                self.last_loop_error = f"{type(exc).__name__}: {exc}"
+                logger.exception("upload agent pass failed; will retry next interval")
             self._stop.wait(interval_s)
 
     def _process(self, item: UploadItem, report: UploadReport) -> str:
@@ -251,10 +258,13 @@ class UploadAgent:
             if _sha256_hex_of_file(local) != item.sha256:
                 raise PermanentTransportError(f"local file changed since sealing: {item.rel_path}")
             if self._transport.exists(remote_key, item.sha256):
-                self._store.mark_upload_done(item.session_id, item.rel_path)
+                self._store.mark_upload_done(item.session_id, item.rel_path, server_verified=True)
                 report.already_present += 1
                 return "present"
             self._transport.upload(local, remote_key, item.sha256)
+            # read back: only the server's own answer makes the copy verified
+            if not self._transport.exists(remote_key, item.sha256):
+                raise TransportError(f"server could not confirm {item.rel_path} after upload")
         except NetworkUnavailable:
             return "offline"
         except PermanentTransportError as exc:
@@ -264,7 +274,7 @@ class UploadAgent:
         except TransportError as exc:
             self._schedule_retry(item, str(exc), report)
             return "retry"
-        self._store.mark_upload_done(item.session_id, item.rel_path)
+        self._store.mark_upload_done(item.session_id, item.rel_path, server_verified=True)
         report.uploaded += 1
         return "done"
 
@@ -314,3 +324,21 @@ class UploadAgent:
         else:
             machine.fire(SessionEvent.UPLOAD_COMPLETE)
             report.synced_sessions.append(session_id)
+
+
+def purge_verified_local_data(store: SessionStore, session_id: str) -> List[str]:
+    """Delete a session's queued local files, but only when all are server-verified.
+
+    Returns the relative paths removed. Nothing is deleted while any queued file is
+    pending, failed or merely uploaded without a server read-back.
+    """
+    row = store.get_session(session_id)
+    if row is None or not store.all_server_verified(session_id):
+        return []
+    removed: List[str] = []
+    for rel in store.verified_paths(session_id):
+        path = Path(row.directory) / rel
+        if path.is_file():
+            path.unlink()
+            removed.append(rel)
+    return removed

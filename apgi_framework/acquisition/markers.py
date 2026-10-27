@@ -30,6 +30,8 @@ class EventMarker:
     source: str = "software"
     marker_id: str = field(default_factory=lambda: uuid.uuid4().hex)
     extra: Dict[str, Any] = field(default_factory=dict, compare=False)
+    seq_no: int = 0
+    onset_utc_ns: Optional[int] = None
 
     def __post_init__(self) -> None:
         if not self.label:
@@ -37,9 +39,17 @@ class EventMarker:
         if self.duration_s < 0:
             raise ValueError("duration_s must not be negative")
 
+    @property
+    def event_id(self) -> str:
+        """Stable, collision-safe identifier (a UUID4 hex string)."""
+        return self.marker_id
+
     def to_dict(self) -> Dict[str, Any]:
         return {
             "marker_id": self.marker_id,
+            "event_id": self.marker_id,
+            "seq_no": self.seq_no,
+            "onset_utc_ns": self.onset_utc_ns,
             "label": self.label,
             "onset_host_ns": self.onset_host_ns,
             "code": self.code,
@@ -60,6 +70,8 @@ class EventMarker:
             source=str(data.get("source", "software")),
             marker_id=str(data["marker_id"]),
             extra=dict(data.get("extra") or {}),
+            seq_no=int(data.get("seq_no", 0)),
+            onset_utc_ns=None if data.get("onset_utc_ns") is None else int(data["onset_utc_ns"]),
         )
 
 
@@ -69,8 +81,14 @@ MarkerListener = Callable[[EventMarker], None]
 class MarkerLog:
     """Thread-safe, ordered collection of markers with subscriber callbacks."""
 
-    def __init__(self, clock_ns: Callable[[], int] = time.monotonic_ns) -> None:
+    def __init__(
+        self,
+        clock_ns: Callable[[], int] = time.monotonic_ns,
+        utc_ns: Callable[[], int] = time.time_ns,
+    ) -> None:
         self._clock_ns = clock_ns
+        self._utc_ns = utc_ns
+        self._next_seq = 1
         self._markers: List[EventMarker] = []
         self._listeners: List[MarkerListener] = []
         self._lock = threading.RLock()
@@ -90,8 +108,16 @@ class MarkerLog:
         source: str = "software",
         **extra: Any,
     ) -> EventMarker:
-        """Record an event now (or at an explicit ``onset_host_ns``)."""
-        onset = self._clock_ns() if onset_host_ns is None else onset_host_ns
+        """Record an event now (or at an explicit ``onset_host_ns``).
+
+        Every event gets a monotonic host stamp, a UTC wall-clock stamp taken at the
+        same moment, and the next per-session sequence number (starting at 1).
+        """
+        with self._lock:
+            seq_no = self._next_seq
+            self._next_seq += 1
+            utc = self._utc_ns()
+            onset = self._clock_ns() if onset_host_ns is None else onset_host_ns
         marker = EventMarker(
             label=label,
             onset_host_ns=onset,
@@ -100,6 +126,8 @@ class MarkerLog:
             value=value,
             source=source,
             extra=dict(extra),
+            seq_no=seq_no,
+            onset_utc_ns=utc,
         )
         with self._lock:
             self._markers.append(marker)

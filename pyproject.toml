@@ -269,6 +269,8 @@ markers = [
     "slow: Tests that take significant time to run",
     "edge_case: Tests for edge cases and boundary conditions",
     "gui: marks tests that require GUI/display",
+    "device_mock: acquisition gate - drivers exercised against the simulated device",
+    "offline_upload: acquisition gate - network loss and recovery during upload",
 ]
 filterwarnings = [
     "ignore::DeprecationWarning",

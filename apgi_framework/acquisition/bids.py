@@ -356,7 +356,12 @@ def _eeg_sidecar(
         "RecordingType": "continuous",
         "ManufacturersModelName": info.model,
         "SoftwareVersions": f"apgi-framework acquisition (device driver {info.driver})",
+        "DataOrigin": info.data_origin,
     }
+    pin = (recording.meta.get("meta") or {}).get("task_pin")
+    if pin:
+        sidecar["TaskManifestVersion"] = pin.get("task_manifest_version")
+        sidecar["BatteryVersion"] = pin.get("battery_version")
     if description:
         sidecar["TaskDescription"] = description
     if info.firmware:

@@ -26,7 +26,7 @@ from .device import SyncProbe
 from .errors import StoreError, StoreKeyError, StoreUnavailableError
 from .markers import EventMarker
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 KEY_ENV_VAR = "APGI_STORE_KEY"
 SQLITE_MAGIC = b"SQLite format 3\x00"
 
@@ -66,7 +66,9 @@ CREATE TABLE markers (
     session_id TEXT NOT NULL REFERENCES sessions(session_id) ON DELETE CASCADE,
     label      TEXT NOT NULL,
     onset_host_ns INTEGER NOT NULL,
-    json       TEXT NOT NULL
+    json       TEXT NOT NULL,
+    seq_no     INTEGER NOT NULL DEFAULT 0,
+    onset_utc_ns INTEGER
 );
 CREATE TABLE upload_items (
     session_id      TEXT NOT NULL REFERENCES sessions(session_id) ON DELETE CASCADE,
@@ -78,11 +80,22 @@ CREATE TABLE upload_items (
     next_attempt_ns INTEGER NOT NULL DEFAULT 0,
     last_error      TEXT NOT NULL DEFAULT '',
     updated_ns      INTEGER NOT NULL,
+    server_verified INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY (session_id, rel_path)
 );
 CREATE INDEX idx_upload_due ON upload_items(status, next_attempt_ns);
 CREATE INDEX idx_state_log_session ON state_log(session_id, id);
+CREATE UNIQUE INDEX idx_markers_seq ON markers(session_id, seq_no) WHERE seq_no > 0;
 """
+
+_MIGRATIONS = {
+    2: (
+        "ALTER TABLE markers ADD COLUMN seq_no INTEGER NOT NULL DEFAULT 0",
+        "ALTER TABLE markers ADD COLUMN onset_utc_ns INTEGER",
+        "ALTER TABLE upload_items ADD COLUMN server_verified INTEGER NOT NULL DEFAULT 0",
+        "CREATE UNIQUE INDEX idx_markers_seq ON markers(session_id, seq_no) WHERE seq_no > 0",
+    ),
+}
 
 
 @dataclass(frozen=True)
@@ -115,6 +128,7 @@ class UploadItem:
     attempts: int
     next_attempt_ns: int
     last_error: str = ""
+    server_verified: bool = False
 
 
 @dataclass(frozen=True)
@@ -322,13 +336,16 @@ class SessionStore:
     def add_marker(self, session_id: str, marker: EventMarker) -> None:
         with self._tx() as cur:
             cur.execute(
-                "INSERT OR REPLACE INTO markers VALUES (?,?,?,?,?)",
+                "INSERT OR REPLACE INTO markers(marker_id,session_id,label,onset_host_ns,json,"
+                "seq_no,onset_utc_ns) VALUES (?,?,?,?,?,?,?)",
                 (
                     marker.marker_id,
                     session_id,
                     marker.label,
                     marker.onset_host_ns,
                     json.dumps(marker.to_dict()),
+                    marker.seq_no,
+                    marker.onset_utc_ns,
                 ),
             )
 
@@ -368,20 +385,43 @@ class SessionStore:
         with self._tx() as cur:
             cur.execute(
                 "SELECT session_id,rel_path,sha256,size_bytes,status,attempts,next_attempt_ns,"
-                "last_error FROM upload_items WHERE status=? AND next_attempt_ns<=?"
+                "last_error,server_verified FROM upload_items WHERE status=? AND next_attempt_ns<=?"
                 " ORDER BY updated_ns, rel_path LIMIT ?",
                 (STATUS_PENDING, now, limit),
             )
-            return [UploadItem(*r) for r in cur.fetchall()]
+            return [UploadItem(*r[:-1], server_verified=bool(r[-1])) for r in cur.fetchall()]
 
-    def mark_upload_done(self, session_id: str, rel_path: str) -> None:
+    def mark_upload_done(self, session_id: str, rel_path: str, *, server_verified: bool) -> None:
+        """Mark an item uploaded. ``server_verified`` is True only after the server's own
+        copy was read back and its SHA-256 matched."""
         now = self._clock_ns()
         with self._tx() as cur:
             cur.execute(
-                "UPDATE upload_items SET status=?,last_error='',updated_ns=?"
+                "UPDATE upload_items SET status=?,last_error='',updated_ns=?,server_verified=?"
                 " WHERE session_id=? AND rel_path=?",
-                (STATUS_DONE, now, session_id, rel_path),
+                (STATUS_DONE, now, int(server_verified), session_id, rel_path),
             )
+
+    def verified_paths(self, session_id: str) -> List[str]:
+        """Relative paths of this session's files that are server-verified."""
+        with self._tx() as cur:
+            cur.execute(
+                "SELECT rel_path FROM upload_items WHERE session_id=? AND server_verified=1"
+                " ORDER BY rel_path",
+                (session_id,),
+            )
+            return [str(r[0]) for r in cur.fetchall()]
+
+    def all_server_verified(self, session_id: str) -> bool:
+        """True when the session has queued files and every one is server-verified."""
+        with self._tx() as cur:
+            cur.execute(
+                "SELECT COUNT(*), COALESCE(SUM(server_verified),0) FROM upload_items"
+                " WHERE session_id=?",
+                (session_id,),
+            )
+            total, verified = cur.fetchone()
+        return int(total) > 0 and int(total) == int(verified)
 
     def mark_upload_failed(
         self,
@@ -459,6 +499,12 @@ class SessionStore:
             with self._lock, self._conn:
                 for statement in _SCHEMA.strip().split(";"):
                     if statement.strip():
+                        self._conn.execute(statement)
+                self._conn.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
+        elif version < SCHEMA_VERSION:
+            with self._lock, self._conn:
+                for target in range(version + 1, SCHEMA_VERSION + 1):
+                    for statement in _MIGRATIONS[target]:
                         self._conn.execute(statement)
                 self._conn.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
 

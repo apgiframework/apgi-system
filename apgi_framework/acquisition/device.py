@@ -19,6 +19,9 @@ from numpy.typing import NDArray
 from .errors import DeviceError
 
 
+DATA_ORIGINS = ("real", "synthetic")
+
+
 class DeviceState(str, enum.Enum):
     """Lifecycle of a device connection."""
 
@@ -64,8 +67,11 @@ class DeviceInfo:
     firmware: str = ""
     serial: Optional[str] = None
     extra: Dict[str, Any] = field(default_factory=dict, compare=False)
+    data_origin: str = "real"
 
     def __post_init__(self) -> None:
+        if self.data_origin not in DATA_ORIGINS:
+            raise ValueError(f"data_origin must be one of {DATA_ORIGINS}, got {self.data_origin!r}")
         if self.sampling_rate_hz <= 0:
             raise ValueError("sampling_rate_hz must be positive")
         if not self.channels:
@@ -81,10 +87,14 @@ class DeviceInfo:
             "firmware": self.firmware,
             "serial": self.serial,
             "extra": self.extra,
+            "data_origin": self.data_origin,
         }
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "DeviceInfo":
+        driver = str(data["driver"])
+        # recordings written before data_origin existed: only the simulator was synthetic
+        default_origin = "synthetic" if driver == "simulated" else "real"
         return cls(
             device_id=str(data["device_id"]),
             driver=str(data["driver"]),
@@ -94,6 +104,7 @@ class DeviceInfo:
             firmware=str(data.get("firmware", "")),
             serial=None if data.get("serial") is None else str(data["serial"]),
             extra=dict(data.get("extra") or {}),
+            data_origin=str(data.get("data_origin", default_origin)),
         )
 
     @property
@@ -106,19 +117,41 @@ class DeviceInfo:
 
 
 @dataclass(frozen=True)
+class DeviceCapabilities:
+    """What a driver can and cannot provide.
+
+    ``device_timestamps`` is ``False`` for hardware that reports no clock of its
+    own. Such a driver must leave ``SampleChunk.first_device_time_s`` as ``None``;
+    the base class rejects any chunk that invents a time.
+    """
+
+    device_timestamps: bool = True
+    hardware_markers: bool = False
+    clock_sync: bool = True
+    data_origin: str = "real"
+
+    def __post_init__(self) -> None:
+        if self.data_origin not in DATA_ORIGINS:
+            raise ValueError(f"data_origin must be one of {DATA_ORIGINS}, got {self.data_origin!r}")
+
+    def to_dict(self) -> Dict[str, Any]:
+        return dict(self.__dict__)
+
+
+@dataclass(frozen=True)
 class SampleChunk:
     """A block of consecutive samples.
 
     ``samples`` has shape ``(n_samples, n_channels)``. ``first_device_time_s`` is
-    the device-clock time of the first sample; later samples follow at the
-    nominal sampling interval. ``first_sample_index`` counts samples since
+    the device-clock time of the first sample (``None`` when the device reports
+    no time); later samples follow at the nominal sampling interval. ``first_sample_index`` counts samples since
     streaming started, so gaps (dropped chunks) are detectable.
     """
 
     device_id: str
     sequence: int
     first_sample_index: int
-    first_device_time_s: float
+    first_device_time_s: Optional[float]
     samples: NDArray[np.float64]
     host_receive_ns: int
 
@@ -182,6 +215,15 @@ class Device(ABC):
         """Whether :meth:`emit_hardware_marker` writes into the data stream."""
         return False
 
+    @property
+    def capabilities(self) -> DeviceCapabilities:
+        return DeviceCapabilities(
+            device_timestamps=True,
+            hardware_markers=self.supports_hardware_markers,
+            clock_sync=True,
+            data_origin=self.info.data_origin,
+        )
+
     # -- lifecycle --------------------------------------------------------
     def connect(self) -> None:
         self._require(DeviceState.DISCONNECTED, DeviceState.ERROR)
@@ -212,7 +254,10 @@ class Device(ABC):
     def read(self, max_samples: Optional[int] = None) -> Optional[SampleChunk]:
         """Return the next available chunk, or ``None`` if nothing is ready."""
         self._require(DeviceState.STREAMING)
-        return self._guard(lambda: self._do_read(max_samples))
+        chunk = self._guard(lambda: self._do_read(max_samples))
+        if chunk is not None:
+            self._guard(lambda: self._check_timestamp(chunk))
+        return chunk
 
     def sync_probe(self) -> SyncProbe:
         """Take one clock-sync measurement."""
@@ -255,6 +300,18 @@ class Device(ABC):
             raise DeviceError(
                 f"{self.info.device_id}: operation needs state {names}, "
                 f"device is {self._state.value}"
+            )
+
+    def _check_timestamp(self, chunk: SampleChunk) -> None:
+        """Device time is reported by the device or absent, never made up by the host."""
+        has_time = chunk.first_device_time_s is not None
+        if has_time and not self.capabilities.device_timestamps:
+            raise DeviceError(
+                f"{self.info.device_id}: driver declares no device timestamps but stamped a chunk"
+            )
+        if not has_time and self.capabilities.device_timestamps:
+            raise DeviceError(
+                f"{self.info.device_id}: driver declares device timestamps but sent a chunk without"
             )
 
     def _guard(self, fn: Any) -> Any:

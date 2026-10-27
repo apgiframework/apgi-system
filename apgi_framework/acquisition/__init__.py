@@ -21,7 +21,15 @@ from .bids import (
     validate_bids_eeg,
 )
 from .clock import ClockFit, ClockMapper
-from .device import ChannelSpec, Device, DeviceInfo, DeviceState, SampleChunk, SyncProbe
+from .device import (
+    ChannelSpec,
+    Device,
+    DeviceCapabilities,
+    DeviceInfo,
+    DeviceState,
+    SampleChunk,
+    SyncProbe,
+)
 from .drivers.simulated import SimulatedDevice
 from .errors import (
     AcquisitionError,
@@ -38,9 +46,18 @@ from .errors import (
     StoreUnavailableError,
     TransportError,
 )
+from .integrity import chunk_digests, crc32c
 from .manager import DeviceHealth, DeviceManager
 from .markers import EventMarker, MarkerLog, marker_device_time_s, marker_sample_index
-from .recorder import LocalRecorder, Recording, RecordingSummary, SegmentRecord
+from .pin import PinError, TaskPin
+from .qc import QCReport, compute_qc
+from .recorder import (
+    LocalRecorder,
+    Recording,
+    RecordingSummary,
+    SegmentRecord,
+    verify_write_once,
+)
 from .registry import DeviceRegistry, default_registry
 from .session import AcquisitionSession, recover_session
 from .state_machine import (
@@ -50,7 +67,14 @@ from .state_machine import (
     recover_interrupted_sessions,
 )
 from .store import SessionStore
-from .uploader import HttpTransport, LocalDirectoryTransport, Transport, UploadAgent, UploadReport
+from .uploader import (
+    HttpTransport,
+    LocalDirectoryTransport,
+    Transport,
+    UploadAgent,
+    UploadReport,
+    purge_verified_local_data,
+)
 
 __all__ = [
     "AcquisitionError",
@@ -61,6 +85,7 @@ __all__ = [
     "ClockMapper",
     "ClockSyncError",
     "Device",
+    "DeviceCapabilities",
     "DeviceError",
     "DeviceHealth",
     "DeviceInfo",
@@ -77,6 +102,8 @@ __all__ = [
     "MarkerLog",
     "NetworkUnavailable",
     "PermanentTransportError",
+    "PinError",
+    "QCReport",
     "RecorderError",
     "Recording",
     "RecordingSummary",
@@ -91,16 +118,22 @@ __all__ = [
     "StoreKeyError",
     "StoreUnavailableError",
     "SyncProbe",
+    "TaskPin",
     "Transport",
     "TransportError",
     "UploadAgent",
     "UploadReport",
+    "chunk_digests",
+    "compute_qc",
+    "crc32c",
     "default_registry",
     "export_recording_to_bids",
     "export_session_to_bids",
     "marker_device_time_s",
     "marker_sample_index",
+    "purge_verified_local_data",
     "recover_interrupted_sessions",
     "recover_session",
     "validate_bids_eeg",
+    "verify_write_once",
 ]
