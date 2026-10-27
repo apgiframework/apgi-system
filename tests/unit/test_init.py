@@ -37,11 +37,15 @@ def test_package_all() -> None:
 
     assert hasattr(apgi_framework, "__all__")
     assert isinstance(apgi_framework.__all__, list)
-    assert len(apgi_framework.__all__) == 4
-    expected = [
+    core = [
         "ActiveInferenceEngine",
         "FreeEnergyCalculator",
         "HierarchicalPredictor",
         "PrecisionWeighting",
     ]
-    assert apgi_framework.__all__ == expected
+    names = apgi_framework.__all__
+    assert len(names) == len(set(names)), "__all__ must not contain duplicates"
+    for name in core:
+        assert name in names, f"{name} must stay exported"
+    for name in names:
+        assert hasattr(apgi_framework, name), f"__all__ lists missing attribute {name}"

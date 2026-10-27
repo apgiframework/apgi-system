@@ -217,17 +217,18 @@ def extract_version_from_pyproject(pyproject_path: str = "pyproject.toml") -> st
         raise InstallerError(f"pyproject.toml file not found: {pyproject_path}")
 
     try:
-        import toml  # type: ignore
+        import tomllib
 
-        config = toml.load(pyproject_file)
+        with open(pyproject_file, "rb") as fh:
+            config = tomllib.load(fh)
         version = config.get("project", {}).get("version")
 
         if not version:
             raise InstallerError("Version not found in pyproject.toml")
 
         return str(version)
-    except ImportError:
-        raise InstallerError("toml package not available for parsing pyproject.toml")
+    except InstallerError:
+        raise
     except Exception as e:
         raise InstallerError(f"Failed to parse pyproject.toml: {e}")
 

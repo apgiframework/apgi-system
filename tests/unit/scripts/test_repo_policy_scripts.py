@@ -91,9 +91,17 @@ class TestIdentifiers:
         assert ids_mod.write(tmp_path) == []  # idempotent
 
     def test_version_comes_from_the_package(self, ids: Dict[str, Any]) -> None:
-        from apgi_framework.__version__ import __version__
+        # Importing the submodule apgi_framework.__version__ would rebind the package's
+        # ``__version__`` string to the module object, so read the file instead.
+        import re
+        from pathlib import Path
 
-        assert ids["version"] == __version__
+        source = (
+            Path(__file__).resolve().parents[3] / "apgi_framework" / "__version__.py"
+        ).read_text()
+        match = re.search(r'__version__\s*=\s*"([^"]+)"', source)
+        assert match is not None
+        assert ids["version"] == match.group(1)
 
 
 class TestReadmeStatus:

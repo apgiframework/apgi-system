@@ -8,12 +8,26 @@ manual interventions without launching the full GUI.
 Tests focus on the backend logic that powers the GUI functionality.
 """
 
+import time
 import tkinter as tk
 
 import numpy as np
 import pytest
 
 from apgi_framework.system import APGISystem
+
+
+def _new_root() -> tk.Tk:
+    """Create a Tk root, retrying once or twice: Tcl occasionally fails to read its init
+    script on Windows runners when many roots are created in one process."""
+    for attempt in range(3):
+        try:
+            return tk.Tk()
+        except tk.TclError:
+            if attempt == 2:
+                raise
+            time.sleep(0.5)
+    raise RuntimeError("unreachable")
 
 
 class TestGUIInitialization:
@@ -28,7 +42,7 @@ class TestGUIInitialization:
         **Validates: Requirements 6.1**
         """
         # Create root window
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             # Import GUI class
@@ -75,7 +89,7 @@ class TestGUIInitialization:
         Test that GUI initializes with default configuration.
         **Validates: Requirements 6.1**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui
@@ -98,7 +112,7 @@ class TestGUIInitialization:
         Test that all visualization panels are created.
         **Validates: Requirements 6.1**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui
@@ -125,7 +139,7 @@ class TestPlotUpdateMechanisms:
         **Validates: Requirements 6.4**
         """
         try:
-            root = tk.Tk()
+            root = _new_root()
         except Exception as e:
             # Skip test if Tkinter is not properly configured
             pytest.skip(f"Tkinter not available: {e}")
@@ -162,7 +176,7 @@ class TestPlotUpdateMechanisms:
         Test that plot updates handle empty buffers gracefully.
         **Validates: Requirements 6.4**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui
@@ -189,7 +203,7 @@ class TestPlotUpdateMechanisms:
         Test that status labels update with correct values.
         **Validates: Requirements 6.4**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui
@@ -256,7 +270,7 @@ class TestParameterAdjustments:
         Test that speed control variable updates correctly.
         **Validates: Requirements 6.2**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui
@@ -283,7 +297,7 @@ class TestManualInterventions:
         Test that manual ignition trigger works correctly.
         **Validates: Requirements 6.5**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui
@@ -317,7 +331,7 @@ class TestManualInterventions:
         Test that stressor induction works correctly.
         **Validates: Requirements 6.5**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui
@@ -350,7 +364,7 @@ class TestManualInterventions:
         Test that precision modulation dialog can be created.
         **Validates: Requirements 6.5**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui
@@ -372,7 +386,7 @@ class TestManualInterventions:
         Test that reset simulation works correctly.
         **Validates: Requirements 6.5**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui
@@ -383,9 +397,9 @@ class TestManualInterventions:
             assert app.system is not None
             for i in range(10):
                 obs = np.random.randn(256) * 0.5
-                app.system.step(obs)
-                # Note: _record_state doesn't exist in new implementation
-                # Data is captured via _on_simulation_step callback
+                state = app.system.step(obs)
+                # Buffers are filled by the simulation-step callback (the mediator calls it)
+                app._on_simulation_step({"time": state["time"], "surprise": 0.0})
 
             # Verify data was accumulated
             assert len(app.time_buffer) > 0
@@ -433,7 +447,7 @@ class TestSimulationControl:
         Test that starting simulation changes GUI state correctly.
         **Validates: Requirements 6.1**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui
@@ -460,7 +474,7 @@ class TestSimulationControl:
         Test that input generation produces valid arrays.
         **Validates: Requirements 6.1**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui
@@ -490,7 +504,7 @@ class TestEventLogging:
         Test that logging events adds entries to the log.
         **Validates: Requirements 6.1**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui
@@ -515,7 +529,7 @@ class TestEventLogging:
         Test that updating status changes the status bar.
         **Validates: Requirements 6.1**
         """
-        root = tk.Tk()
+        root = _new_root()
 
         try:
             from apgi_gui.main import APGIGui

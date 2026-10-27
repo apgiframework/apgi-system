@@ -139,6 +139,8 @@ class FreeEnergyCalculator:
         self.config = config or {}
         self.eps = self.config.get("numerical_tolerance", 1e-10)
         self.eps = self.config.get("eps", self.eps)
+        self.precision_min = self.config.get("precision_min", 1e-6)
+        self.precision_max = self.config.get("precision_max", 1e6)
         self.precision_exteroceptive = self.config.get("precision_exteroceptive", 1.0)
         self.precision_interoceptive = self.config.get("precision_interoceptive", 1.0)
         self.prediction_error_weight = self.config.get("prediction_error_weight", 1.0)
@@ -357,7 +359,7 @@ class FreeEnergyCalculator:
         weighted_error = np.linalg.norm((observation - prediction) * np.sqrt(precision))
         mean_absolute_error = np.mean(np.abs(observation - prediction))
         max_error = np.max(np.abs(observation - prediction))
-        precision_weighted_elements = (observation - prediction) * precision
+        precision_weighted_elements = np.abs(observation - prediction) * precision
 
         return {
             "raw_error": float(raw_error),
@@ -459,10 +461,21 @@ class FreeEnergyCalculator:
                 raise ValueError("Precision must be positive")
         elif isinstance(precision, np.ndarray):
             if np.any(precision <= 0):
-                raise ValueError("All precision values must be positive")
+                raise ValueError(
+                    "Array precision must be positive: all precision values must be > 0"
+                )
 
         if not np.all(np.isfinite(observation)):
             raise ValueError("Observation must be finite")
+
+        if observation.size == 0:
+            raise ValueError("Observation must not be empty")
+
+        if np.shape(posterior_mean) != np.shape(prior_mean):
+            raise ValueError(
+                f"Posterior and prior mean shapes must match, got "
+                f"{np.shape(posterior_mean)} and {np.shape(prior_mean)}"
+            )
 
         # Accuracy term: prediction error weighted by precision
         pred_error = observation - prediction
@@ -531,7 +544,7 @@ class FreeEnergyCalculator:
         exploitation_drive = pragmatic_value
 
         # Expected free energy
-        efe = -epistemic_value + pragmatic_value
+        efe = epistemic_value + pragmatic_value
 
         components = {
             "epistemic_value": float(epistemic_value),

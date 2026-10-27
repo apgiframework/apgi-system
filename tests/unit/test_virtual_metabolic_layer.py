@@ -149,20 +149,22 @@ class TestNeuralMassModel:
         """Test that model responds appropriately to input."""
         model = NeuralMassModel()
 
-        # Low input
-        for _ in range(100):
-            low_result = model.step(input_current=0.1, dt_ms=1.0)
-        low_firing = low_result["pyramidal_firing_rate_hz"]
-
+        # The Jansen-Rit column oscillates, so compare time-averaged rates after the transient
+        low_firing = _settled_firing_rate(model, 0.1)
         model.reset()
-
-        # High input
-        for _ in range(100):
-            high_result = model.step(input_current=0.5, dt_ms=1.0)
-        high_firing = high_result["pyramidal_firing_rate_hz"]
+        high_firing = _settled_firing_rate(model, 0.5)
 
         # High input should produce higher firing rate
         assert high_firing > low_firing
+
+
+def _settled_firing_rate(model: NeuralMassModel, input_current: float) -> float:
+    """Mean pyramidal firing rate (Hz) after a 100 ms transient, over the next 300 ms."""
+    rates = [
+        model.step(input_current=input_current, dt_ms=1.0)["pyramidal_firing_rate_hz"]
+        for _ in range(400)
+    ]
+    return float(np.mean(rates[100:]))
 
 
 class TestATPFluxCalculator:
@@ -282,7 +284,8 @@ class TestVirtualMetabolicLayer:
         assert layer.current_input_drive == 0.0
         assert layer.accumulated_atp == 0.0
         assert layer.ignition_event_count == 0
-        assert layer.vml is not None
+        assert layer.neural_model is not None
+        assert layer.atp_calculator is not None
 
     def test_simulate_neural_activity(self):
         """Test neural activity simulation."""
@@ -642,11 +645,7 @@ def test_neural_response_scaling(input_drive, expected_response):
     """Test that neural model responds appropriately to different inputs."""
     model = NeuralMassModel()
 
-    # Run simulation
-    for _ in range(50):
-        result = model.step(input_current=input_drive, dt_ms=1.0)
-
-    firing_rate = result["pyramidal_firing_rate_hz"]
+    firing_rate = _settled_firing_rate(model, input_drive)
 
     # Verify firing rate is in reasonable range
     assert 0 <= firing_rate <= 10.0  # Max firing rate is 5.0, allow margin

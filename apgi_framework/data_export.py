@@ -6,7 +6,7 @@ including scientific formats, statistical analysis, and visualization exports.
 
 import importlib.util
 import json
-from dataclasses import asdict
+from dataclasses import asdict, is_dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
@@ -28,6 +28,21 @@ analysis_module = importlib.util.module_from_spec(spec)  # type: ignore[arg-type
 spec.loader.exec_module(analysis_module)
 
 AnalysisResults = analysis_module.AnalysisResults  # type: ignore[misc]
+
+
+def _is_analysis_results(obj: Any) -> bool:
+    """True for an AnalysisResults instance, even one built from a re-loaded analysis.py.
+
+    ``analysis.py`` is loaded by path (it is shadowed by the ``analysis/`` package), so
+    callers can hold a class object that is not identical to ``AnalysisResults``; compare
+    structurally instead of by identity.
+    """
+    return isinstance(obj, AnalysisResults) or (
+        is_dataclass(obj)
+        and not isinstance(obj, type)
+        and type(obj).__name__ == "AnalysisResults"
+        and hasattr(obj, "ignition_statistics")
+    )
 
 
 class DataExporter:
@@ -71,7 +86,7 @@ class DataExporter:
         try:
             filepath = Path(filepath)
 
-            if isinstance(data, AnalysisResults):
+            if _is_analysis_results(data):
                 # Convert AnalysisResults to exportable format
                 export_data = self._prepare_tabular_data(data, include_temporal)
             else:
@@ -145,7 +160,7 @@ class DataExporter:
         try:
             filepath = Path(filepath)
 
-            if isinstance(data, AnalysisResults):
+            if _is_analysis_results(data):
                 export_data = asdict(data)
             else:
                 export_data = data
@@ -192,7 +207,7 @@ class DataExporter:
         try:
             filepath = Path(filepath)
 
-            if isinstance(data, AnalysisResults):
+            if _is_analysis_results(data):
                 export_data = asdict(data)
             else:
                 export_data = data
@@ -227,7 +242,7 @@ class DataExporter:
         try:
             filepath = Path(filepath)
 
-            if isinstance(data, AnalysisResults):
+            if _is_analysis_results(data):
                 export_data = asdict(data)
             else:
                 export_data = data
@@ -265,7 +280,7 @@ class DataExporter:
         try:
             filepath = Path(filepath)
 
-            if isinstance(data, AnalysisResults):
+            if _is_analysis_results(data):
                 export_data = asdict(data)
             else:
                 export_data = data
@@ -308,7 +323,7 @@ class DataExporter:
         try:
             filepath = Path(filepath)
 
-            if isinstance(data, AnalysisResults):
+            if _is_analysis_results(data):
                 export_data = asdict(data)
             else:
                 export_data = data
@@ -345,7 +360,7 @@ class DataExporter:
             output_dir = Path(output_dir)
             output_dir.mkdir(parents=True, exist_ok=True)
 
-            if isinstance(data, AnalysisResults):
+            if _is_analysis_results(data):
                 export_data = asdict(data)
             else:
                 export_data = data

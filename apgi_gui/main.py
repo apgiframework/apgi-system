@@ -17,6 +17,7 @@ try:
 except ImportError:
     HAS_PSUTIL = False
 
+from apgi_framework import platform_utils
 from apgi_framework.platform_utils import get_data_dir
 from apgi_framework.system import APGISystem
 from apgi_gui.theme_manager import get_theme_manager
@@ -39,6 +40,8 @@ class APGIGui:
         self.root.title("APGI Consciousness Modeling Framework")
 
         self.data_dir = get_data_dir()
+        # Default configuration shipped with the app (works from source and bundled builds)
+        self.config_path: Path = platform_utils.get_resource_path("config/default.yaml")
         self.theme_manager = get_theme_manager()
 
         self.system = APGISystem()
@@ -707,23 +710,37 @@ class APGIGui:
         except Exception as e:
             logger.debug(f"Zoom adjust: {e}")
 
+    # Levels the manual ignition pulse drives the arousal / stress controls to.
+    IGNITION_PULSE_LEVELS = {"arousal": 0.9, "stress": 0.8}
+
     def _trigger_ignition(self):
-        """Trigger manual ignition by temporarily elevating arousal/stress."""
+        """Trigger manual ignition by temporarily elevating arousal/stress.
+
+        The arousal and stress sliders move to the pulse levels (never lower than they are)
+        and the system attributes are raised with them; both are restored after 2 seconds.
+        """
         try:
             orig_arousal = getattr(self.system, "arousal_level", 0.5)
             orig_stress = getattr(self.system, "stress_level", 0.0)
             setattr(self.system, "arousal_level", min(1.0, orig_arousal + 0.4))
             setattr(self.system, "stress_level", min(1.0, orig_stress + 0.3))
+
+            originals = {}
+            for name, level in self.IGNITION_PULSE_LEVELS.items():
+                var = self.param_vars.get(name)
+                if var is not None:
+                    originals[name] = var.get()
+                    var.set(max(originals[name], level))
+
+            def restore() -> None:
+                setattr(self.system, "arousal_level", orig_arousal)
+                setattr(self.system, "stress_level", orig_stress)
+                for name, value in originals.items():
+                    self.param_vars[name].set(value)
+                self.control_panel.log_event("Ignition pulse complete: parameters restored")
+
             self.control_panel.log_event("Manual ignition triggered: arousal/stress elevated")
-            # Restore after 2 seconds
-            self.root.after(
-                2000,
-                lambda: (
-                    setattr(self.system, "arousal_level", orig_arousal),
-                    setattr(self.system, "stress_level", orig_stress),
-                    self.control_panel.log_event("Ignition pulse complete: parameters restored"),
-                ),
-            )
+            self.root.after(2000, restore)  # Restore after 2 seconds
         except Exception as e:
             logger.warning(f"Trigger ignition failed: {e}")
             self.control_panel.log_event(f"Trigger ignition error: {e}")
