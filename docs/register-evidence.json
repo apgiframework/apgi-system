@@ -1,0 +1,623 @@
+{
+ "S2-ING-02.2": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/store.py",
+   "tests/acquisition/test_journal_milestones.py"
+  ],
+  "note": "chunk_journal table in the SQLCipher store, schema v3 migration"
+ },
+ "S6-PRT-03": {
+  "status": "blocked",
+  "evidence": [],
+  "note": "waits on S1-REG-04 (qualified reference model); needs partner ethics approval"
+ },
+ "S6-SYS-02": {
+  "status": "implemented-pending-D10",
+  "evidence": [
+   "apgi_framework/acquisition/drivers/eeg.py",
+   "apgi_framework/acquisition/drivers/ecg.py",
+   "apgi_framework/acquisition/drivers/lsl.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": "simulated drivers pass the integration tests; LSL drivers tested through a fake inlet only; vendor SDK not included; D10 not formally decided"
+ },
+ "S6-SYS-03": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/device_registry.py",
+   "apgi_framework/acquisition/registry.py",
+   "tests/acquisition/test_public_modules.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-04": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/device_manager.py",
+   "apgi_framework/acquisition/manager.py",
+   "tests/acquisition/test_public_modules.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-05": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/drivers/base.py",
+   "tests/acquisition/test_public_modules.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-06": {
+  "status": "implemented-pending-D10",
+  "evidence": [
+   "apgi_framework/acquisition/drivers/eeg.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": "as S6-SYS-02"
+ },
+ "S6-SYS-07": {
+  "status": "implemented-pending-D10",
+  "evidence": [
+   "apgi_framework/acquisition/drivers/ecg.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": "as S6-SYS-02"
+ },
+ "S6-SYS-08": {
+  "status": "implemented-pending-D10",
+  "evidence": [
+   "apgi_framework/acquisition/drivers/ppg.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": "as S6-SYS-02"
+ },
+ "S6-SYS-09": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/drivers/simulated.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-10": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/clock_sync.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-11": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/event_markers.py",
+   "tests/acquisition/test_event_identity.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-12": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/local_recorder.py",
+   "tests/acquisition/test_qc_write_once_pin.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-13": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/upload_agent.py",
+   "tests/acquisition/test_upload_guarantees.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-14": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/synchronization/__init__.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-15": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/interoperability/bids_export.py",
+   "tests/acquisition/test_public_modules.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-16": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/interoperability/api_client.py",
+   "tests/acquisition/test_chunk_ingest_api.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-17": {
+  "status": "implemented",
+  "evidence": [
+   "tests/acquisition/conftest.py",
+   "tests/acquisition/test_public_modules.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-18": {
+  "status": "implemented",
+  "evidence": [
+   "tests/integration/test_acquisition_offline.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-19": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/device.py",
+   "tests/acquisition/test_device_contract.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-19.1": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/device.py",
+   "tests/acquisition/test_device_contract.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-20": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/live.py",
+   "tests/acquisition/test_live_derived_keys.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-20.1": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/live.py",
+   "tests/acquisition/test_live_derived_keys.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-21.2": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/synchronization/tolerance.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-22": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-22.1": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-22.10": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-22.11": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-22.12": {
+  "status": "implemented-pending-D10",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": "metric computed from device-reported impedances / firmware and calibration date; real device fields depend on D10"
+ },
+ "S6-SYS-22.2": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-22.3": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-22.4": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-22.5": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-22.6": {
+  "status": "implemented-pending-D10",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": "metric computed from device-reported impedances / firmware and calibration date; real device fields depend on D10"
+ },
+ "S6-SYS-22.7": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-22.8": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-22.9": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/qc.py",
+   "tests/acquisition/test_qc_all_metrics.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-23": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/derived.py",
+   "tests/acquisition/test_live_derived_keys.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-24": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/milestones.py",
+   "apgi_framework/acquisition/state_machine.py",
+   "tests/acquisition/test_journal_milestones.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-24.1": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/milestones.py",
+   "apgi_framework/acquisition/state_machine.py",
+   "tests/acquisition/test_journal_milestones.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-24.2": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/milestones.py",
+   "apgi_framework/acquisition/state_machine.py",
+   "tests/acquisition/test_journal_milestones.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-24.3": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/milestones.py",
+   "apgi_framework/acquisition/state_machine.py",
+   "tests/acquisition/test_journal_milestones.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-24.4": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/milestones.py",
+   "apgi_framework/acquisition/state_machine.py",
+   "tests/acquisition/test_journal_milestones.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-24.5": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/milestones.py",
+   "apgi_framework/acquisition/state_machine.py",
+   "tests/acquisition/test_journal_milestones.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-24.6": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/milestones.py",
+   "apgi_framework/acquisition/state_machine.py",
+   "tests/acquisition/test_journal_milestones.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-24.7": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/milestones.py",
+   "apgi_framework/acquisition/state_machine.py",
+   "tests/acquisition/test_journal_milestones.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-24.8": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/milestones.py",
+   "apgi_framework/acquisition/state_machine.py",
+   "tests/acquisition/test_journal_milestones.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-24.9": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/milestones.py",
+   "apgi_framework/acquisition/state_machine.py",
+   "tests/acquisition/test_journal_milestones.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-25": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/key_management.py",
+   "tests/acquisition/test_live_derived_keys.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-26": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/bids.py",
+   "tests/unit/acquisition/test_bids_session.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-28": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-28.1": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-28.10": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-28.11": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-28.2": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-28.3": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-28.4": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-28.5": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-28.6": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-28.7": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-28.8": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-28.9": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-29": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-30": {
+  "status": "implemented",
+  "evidence": [
+   "apgi_framework/acquisition/hardware.py",
+   "tests/acquisition/test_drivers_hardware.py"
+  ],
+  "note": ""
+ },
+ "S6-SYS-31": {
+  "status": "implemented-reference",
+  "evidence": [
+   "apgi_framework/acquisition/chunk_ingest.py",
+   "apgi_framework/interoperability/api_client.py",
+   "tests/acquisition/test_chunk_ingest_api.py"
+  ],
+  "note": "service logic and client done; the apgi-api HTTP routes and real V4 bucket signing live in the apgi-api repository"
+ },
+ "S6-SYS-31.1": {
+  "status": "implemented-reference",
+  "evidence": [
+   "apgi_framework/acquisition/chunk_ingest.py",
+   "apgi_framework/interoperability/api_client.py",
+   "tests/acquisition/test_chunk_ingest_api.py"
+  ],
+  "note": "service logic and client done; the apgi-api HTTP routes and real V4 bucket signing live in the apgi-api repository"
+ },
+ "S6-SYS-31.2": {
+  "status": "implemented-reference",
+  "evidence": [
+   "apgi_framework/acquisition/chunk_ingest.py",
+   "apgi_framework/interoperability/api_client.py",
+   "tests/acquisition/test_chunk_ingest_api.py"
+  ],
+  "note": "service logic and client done; the apgi-api HTTP routes and real V4 bucket signing live in the apgi-api repository"
+ },
+ "S6-SYS-31.3": {
+  "status": "implemented-reference",
+  "evidence": [
+   "apgi_framework/acquisition/chunk_ingest.py",
+   "apgi_framework/interoperability/api_client.py",
+   "tests/acquisition/test_chunk_ingest_api.py"
+  ],
+  "note": "service logic and client done; the apgi-api HTTP routes and real V4 bucket signing live in the apgi-api repository"
+ },
+ "S6-SYS-31.4": {
+  "status": "implemented-reference",
+  "evidence": [
+   "apgi_framework/acquisition/chunk_ingest.py",
+   "apgi_framework/interoperability/api_client.py",
+   "tests/acquisition/test_chunk_ingest_api.py"
+  ],
+  "note": "service logic and client done; the apgi-api HTTP routes and real V4 bucket signing live in the apgi-api repository"
+ },
+ "S6-SYS-31.5": {
+  "status": "implemented-reference",
+  "evidence": [
+   "apgi_framework/acquisition/chunk_ingest.py",
+   "apgi_framework/interoperability/api_client.py",
+   "tests/acquisition/test_chunk_ingest_api.py"
+  ],
+  "note": "service logic and client done; the apgi-api HTTP routes and real V4 bucket signing live in the apgi-api repository"
+ },
+ "S6-SYS-32": {
+  "status": "blocked",
+  "evidence": [],
+  "note": "waits on S6-SYS-01 (partner, device access, ethics milestone)"
+ },
+ "XC-CI-03": {
+  "status": "implemented-not-enforced",
+  "evidence": [
+   ".github/workflows/acquisition-gates.yml",
+   "docs/CI-GATES.md"
+  ],
+  "note": "jobs exist; making them required status checks is a repository setting (branch protection) that must be applied by an admin"
+ },
+ "XC-CI-03.1": {
+  "status": "implemented-not-enforced",
+  "evidence": [
+   ".github/workflows/acquisition-gates.yml",
+   "docs/CI-GATES.md"
+  ],
+  "note": "jobs exist; making them required status checks is a repository setting (branch protection) that must be applied by an admin"
+ },
+ "XC-CI-03.2": {
+  "status": "implemented-not-enforced",
+  "evidence": [
+   ".github/workflows/acquisition-gates.yml",
+   "docs/CI-GATES.md"
+  ],
+  "note": "jobs exist; making them required status checks is a repository setting (branch protection) that must be applied by an admin"
+ },
+ "XC-CI-03.3": {
+  "status": "implemented-not-enforced",
+  "evidence": [
+   ".github/workflows/acquisition-gates.yml",
+   "docs/CI-GATES.md"
+  ],
+  "note": "jobs exist; making them required status checks is a repository setting (branch protection) that must be applied by an admin"
+ },
+ "XC-CI-03.4": {
+  "status": "implemented-not-enforced",
+  "evidence": [
+   ".github/workflows/acquisition-gates.yml",
+   "docs/CI-GATES.md"
+  ],
+  "note": "jobs exist; making them required status checks is a repository setting (branch protection) that must be applied by an admin"
+ }
+}

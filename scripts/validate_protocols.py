@@ -197,8 +197,7 @@ def _payload_paths(folder):
     return sorted(
         p
         for p in folder.rglob("*")
-        if p.is_file()
-        and p.name != "MANIFEST.json"
+        if p.is_file() and p.name != "MANIFEST.json"
         # Packaging artifacts of the apgi-system data package, not registered content.
         and p.relative_to(folder).as_posix() != "__init__.py"
         and not any(
@@ -331,7 +330,9 @@ def validate_release(folder, *, source_dir=None, refresh_metadata=False):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("directory", nargs="?", type=pathlib.Path, default=ROOT / "apgi_framework" / "protocols")
+    parser.add_argument(
+        "directory", nargs="?", type=pathlib.Path, default=ROOT / "apgi_framework" / "protocols"
+    )
     parser.add_argument(
         "--source-dir", type=pathlib.Path, help="Verify provenance against local source documents"
     )

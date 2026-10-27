@@ -176,3 +176,19 @@ class TestForbiddenLanguage:
         assert lang_mod.main(["--root", str(tmp_path), "--config", str(cfg)]) == 1
         (tmp_path / "README.md").write_text("Plain description.\n")
         assert lang_mod.main(["--root", str(tmp_path), "--config", str(cfg)]) == 0
+
+
+class TestRegisterEvidence:
+    def test_every_evidence_path_exists_and_markdown_is_current(self) -> None:
+        reg = load("register_status")
+        assert reg.problems(reg.load(ROOT), ROOT) == []
+        assert reg.OUT.read_text(encoding="utf-8") == reg.render(reg.load(ROOT))
+
+    def test_missing_path_and_unknown_status_are_reported(self) -> None:
+        reg = load("register_status")
+        bad = {
+            "X": {"status": "done", "evidence": ["nope.py"], "note": ""},
+            "Y": {"status": "implemented", "evidence": [], "note": ""},
+        }
+        found = reg.problems(bad, ROOT)
+        assert len(found) == 3 and any("missing" in f for f in found)

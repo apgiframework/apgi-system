@@ -86,6 +86,16 @@ jobs:
           uv pip compile requirements.txt --universal --python-version 3.11 -o requirements.lock -q
           diff -u /tmp/requirements.lock.orig requirements.lock
 
+  register-evidence:
+    name: Register evidence paths exist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/register_status.py --check
+
   policy-script-tests:
     name: Tests for the policy scripts
     runs-on: ubuntu-latest
