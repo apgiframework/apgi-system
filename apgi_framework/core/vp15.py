@@ -240,7 +240,8 @@ class VP15ValidationProtocol:
             corrections_applied=corrections,
         )
 
-        is_valid = bool(system_health_score > 0.5)
+        # A collapsed allostatic integrity is a hard failure, whatever the weighted score says
+        is_valid = bool(system_health_score > 0.5 and allostatic_integrity > 0.0)
 
         return is_valid, metrics
 

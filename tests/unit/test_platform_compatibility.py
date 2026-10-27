@@ -508,11 +508,11 @@ class TestDeploymentScenarios:
 
         assert container_ready
 
-    def test_web_deployment_compatibility(self) -> None:
+    def test_web_deployment_compatibility(self, monkeypatch: pytest.MonkeyPatch) -> None:
         """Test compatibility with web-based deployment scenarios."""
         # Test that we can run in headless mode (no GUI)
 
-        os.environ["DISPLAY"] = ""  # Simulate headless environment
+        monkeypatch.setenv("DISPLAY", "")  # Simulate headless environment (undone after the test)
 
         # Try to import GUI modules (should not crash in headless mode)
         try:
