@@ -1,5 +1,4 @@
-"""
-Data Access Object (DAO) for parameter estimation functionality.
+"""Data Access Object (DAO) for parameter estimation functionality.
 
 Provides CRUD operations for parameter estimation sessions, trials, and estimates
 with the SQLite database backend.
@@ -35,16 +34,14 @@ class ParameterEstimationDAOError(APGIFrameworkError):
 
 
 class ParameterEstimationDAO:
-    """
-    Data Access Object for parameter estimation functionality.
+    """Data Access Object for parameter estimation functionality.
 
     Provides high-level CRUD operations for sessions, trials, and parameter
     estimates with automatic schema management and data validation.
     """
 
     def __init__(self, db_path: Path):
-        """
-        Initialize DAO with database connection.
+        """Initialize DAO with database connection.
 
         Args:
             db_path: Path to SQLite database file
@@ -59,8 +56,7 @@ class ParameterEstimationDAO:
     # Session operations
 
     def create_session(self, session_data: SessionData) -> str:
-        """
-        Create a new parameter estimation session.
+        """Create a new parameter estimation session.
 
         Args:
             session_data: SessionData object to store
@@ -103,8 +99,7 @@ class ParameterEstimationDAO:
             raise ParameterEstimationDAOError(f"Failed to create session: {str(e)}")
 
     def get_session(self, session_id: str) -> Optional[SessionData]:
-        """
-        Retrieve session by ID.
+        """Retrieve session by ID.
 
         Args:
             session_id: Session identifier
@@ -157,8 +152,7 @@ class ParameterEstimationDAO:
             raise ParameterEstimationDAOError(f"Failed to get session {session_id}: {str(e)}")
 
     def update_session(self, session_data: SessionData) -> None:
-        """
-        Update existing session.
+        """Update existing session.
 
         Args:
             session_data: Updated session data
@@ -194,8 +188,7 @@ class ParameterEstimationDAO:
     def list_sessions(
         self, participant_id: Optional[str] = None, limit: Optional[int] = None
     ) -> List[str]:
-        """
-        List session IDs, optionally filtered by participant.
+        """List session IDs, optionally filtered by participant.
 
         Args:
             participant_id: Filter by participant ID
@@ -228,8 +221,7 @@ class ParameterEstimationDAO:
     # Trial operations
 
     def create_trial(self, trial_data: TrialData) -> str:
-        """
-        Create a new trial record.
+        """Create a new trial record.
 
         Args:
             trial_data: Trial data to store
@@ -315,8 +307,7 @@ class ParameterEstimationDAO:
             raise ParameterEstimationDAOError(f"Failed to create trial: {str(e)}")
 
     def create_trials_batch(self, trials: List[TrialData]) -> List[str]:
-        """
-        Create multiple trial records in a single transaction.
+        """Create multiple trial records in a single transaction.
 
         Args:
             trials: List of trial data objects
@@ -791,8 +782,7 @@ class ParameterEstimationDAO:
     # Parameter estimation operations
 
     def create_parameter_estimates(self, estimates: ParameterEstimates) -> str:
-        """
-        Store parameter estimates for a session.
+        """Store parameter estimates for a session.
 
         Args:
             estimates: ParameterEstimates to store
@@ -883,8 +873,7 @@ class ParameterEstimationDAO:
             raise ParameterEstimationDAOError(f"Failed to create parameter estimates: {str(e)}")
 
     def get_parameter_estimates(self, session_id: str) -> Optional[ParameterEstimates]:
-        """
-        Get parameter estimates for a session.
+        """Get parameter estimates for a session.
 
         Args:
             session_id: Session identifier
@@ -986,8 +975,7 @@ class ParameterEstimationDAO:
         )
 
     def delete_session(self, session_id: str) -> None:
-        """
-        Delete a session and all associated data.
+        """Delete a session and all associated data.
 
         Args:
             session_id: Session identifier
@@ -1030,8 +1018,7 @@ class ParameterEstimationDAO:
 
 
 def create_parameter_estimation_dao(db_path: Path) -> ParameterEstimationDAO:
-    """
-    Factory function to create parameter estimation DAO.
+    """Factory function to create parameter estimation DAO.
 
     Args:
         db_path: Path to SQLite database file

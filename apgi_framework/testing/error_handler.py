@@ -1,5 +1,4 @@
-"""
-Error Handler for Comprehensive Test Enhancement System
+"""Error Handler for Comprehensive Test Enhancement System.
 
 Provides comprehensive diagnostic capture, error categorization, and resolution
 guidance for test execution errors, framework issues, and environmental problems.
@@ -190,8 +189,7 @@ class DiagnosticInfo:
 
 
 class ErrorHandler:
-    """
-    Comprehensive error handler for test enhancement system.
+    """Comprehensive error handler for test enhancement system.
 
     Provides error categorization, diagnostic capture, and resolution guidance
     for test failures, framework issues, and environmental problems.
@@ -426,8 +424,7 @@ class ErrorHandler:
         test_context: Optional[Context] = None,
         **metadata: Any,
     ) -> DiagnosticInfo:
-        """
-        Handle an error with comprehensive diagnostic capture.
+        """Handle an error with comprehensive diagnostic capture.
 
         Args:
             exception: The exception that occurred

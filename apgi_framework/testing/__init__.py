@@ -1,5 +1,4 @@
-"""
-Testing module for APGI Framework
+"""Testing module for APGI Framework.
 
 This module provides comprehensive testing capabilities including:
 - Batch test execution

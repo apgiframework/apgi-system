@@ -45,10 +45,17 @@ class UntimedDevice(Device):
     def capabilities(self) -> DeviceCapabilities:
         return DeviceCapabilities(device_timestamps=False, clock_sync=False)
 
-    def _do_connect(self) -> None: ...
-    def _do_disconnect(self) -> None: ...
-    def _do_start_stream(self) -> None: ...
-    def _do_stop_stream(self) -> None: ...
+    def _do_connect(self) -> None:
+        pass
+
+    def _do_disconnect(self) -> None:
+        pass
+
+    def _do_start_stream(self) -> None:
+        pass
+
+    def _do_stop_stream(self) -> None:
+        pass
 
     def _do_read(self, max_samples: Optional[int]) -> Optional[SampleChunk]:
         return SampleChunk(

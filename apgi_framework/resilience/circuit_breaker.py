@@ -1,5 +1,4 @@
-"""
-Circuit breaker pattern implementation for resilient external calls.
+"""Circuit breaker pattern implementation for resilient external calls.
 
 Provides automatic fault detection and graceful degradation for
 external service dependencies.
@@ -38,8 +37,7 @@ class CircuitBreakerConfig:
 
 
 class CircuitBreaker:
-    """
-    Circuit breaker for resilient external service calls.
+    """Circuit breaker for resilient external service calls.
 
     Automatically detects failures and prevents cascade failures
     by temporarily rejecting calls to failing services.
@@ -205,8 +203,7 @@ class CircuitBreakerOpenError(Exception):
 
 
 class ResilientClient:
-    """
-    HTTP client with built-in circuit breaker and retry logic.
+    """HTTP client with built-in circuit breaker and retry logic.
 
     Provides resilient external API calls with automatic failure handling.
     """

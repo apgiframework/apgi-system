@@ -1,5 +1,4 @@
-"""
-Cross-species validation module for APGI Framework.
+"""Cross-species validation module for APGI Framework.
 
 Provides comparative analysis across different species to validate the generalizability
 of active inference principles and neural signatures of consciousness.
@@ -115,16 +114,14 @@ class ValidationResult:
 
 
 class CrossSpeciesValidator:
-    """
-    Main class for cross-species validation of APGI signatures.
+    """Main class for cross-species validation of APGI signatures.
 
     Provides comprehensive analysis tools for comparing neural signatures
     across different species and validating the generalizability of findings.
     """
 
     def __init__(self, significance_threshold: float = 0.05):
-        """
-        Initialize cross-species validator.
+        """Initialize cross-species validator.
 
         Args:
             significance_threshold: Statistical significance threshold
@@ -225,8 +222,7 @@ class CrossSpeciesValidator:
         }
 
     def add_signature(self, signature: CrossSpeciesSignature) -> None:
-        """
-        Add a neural signature for cross-species validation.
+        """Add a neural signature for cross-species validation.
 
         Args:
             signature: Cross-species signature data
@@ -322,8 +318,7 @@ class CrossSpeciesValidator:
     def compare_signatures(
         self, species1: Species, species2: Species, signature_type: NeuralSignatureType
     ) -> ValidationResult:
-        """
-        Compare neural signatures between two species.
+        """Compare neural signatures between two species.
 
         Args:
             species1: First species to compare
@@ -528,8 +523,7 @@ class CrossSpeciesValidator:
     def run_comprehensive_validation(
         self, signature_types: List[NeuralSignatureType]
     ) -> Dict[str, List[ValidationResult]]:
-        """
-        Run comprehensive cross-species validation for all signature types.
+        """Run comprehensive cross-species validation for all signature types.
 
         Args:
             signature_types: List of signature types to validate
@@ -565,8 +559,7 @@ class CrossSpeciesValidator:
         return results
 
     def generate_validation_report(self, results: Dict[str, List[ValidationResult]]) -> str:
-        """
-        Generate comprehensive validation report.
+        """Generate comprehensive validation report.
 
         Args:
             results: Validation results from comprehensive validation
@@ -616,8 +609,7 @@ class CrossSpeciesValidator:
 def create_cross_species_validator(
     significance_threshold: float = 0.05,
 ) -> CrossSpeciesValidator:
-    """
-    Create a cross-species validator with default settings.
+    """Create a cross-species validator with default settings.
 
     Args:
         significance_threshold: Statistical significance threshold

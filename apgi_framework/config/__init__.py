@@ -1,5 +1,4 @@
-"""
-APGI Framework Configuration Module
+"""APGI Framework Configuration Module.
 
 This module contains configuration constants and settings for the APGI framework.
 """

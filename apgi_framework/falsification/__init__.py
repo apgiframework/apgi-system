@@ -1,5 +1,4 @@
-"""
-APGI Framework Testing Module
+"""APGI Framework Testing Module.
 
 This module implements the primary falsification testing framework for the APGI
 (Allostatic Precision-Gated Ignition) Framework, including consciousness assessment,

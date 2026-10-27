@@ -1,5 +1,4 @@
-"""
-Neural data acquisition and processing pipeline for APGI framework.
+"""Neural data acquisition and processing pipeline for APGI framework.
 
 This module provides interfaces for EEG/MEG data acquisition, real-time processing,
 neural signature extraction including ERPs, microstates, and gamma synchrony,

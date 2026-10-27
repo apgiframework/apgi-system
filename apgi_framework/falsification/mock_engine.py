@@ -1,6 +1,4 @@
-"""
-Mock falsification engine for testing purposes.
-"""
+"""Mock falsification engine for testing purposes."""
 
 from typing import Any, Dict, Optional
 

@@ -1,5 +1,4 @@
-"""
-EEG signal processing pipeline for parameter estimation.
+"""EEG signal processing pipeline for parameter estimation.
 
 Provides real-time filtering, artifact detection/rejection, and ERP extraction
 for P3b and HEP components in APGI experiments.
@@ -53,8 +52,7 @@ class ERPFeatures:
 
 
 class EEGProcessor:
-    """
-    Real-time EEG signal processor with filtering and preprocessing.
+    """Real-time EEG signal processor with filtering and preprocessing.
 
     Implements bandpass filtering (0.1-30 Hz), artifact detection,
     and real-time signal conditioning for ERP analysis.
@@ -67,8 +65,7 @@ class EEGProcessor:
         lowpass: float = 30.0,
         notch_freq: Optional[float] = 60.0,
     ):
-        """
-        Initialize EEG processor.
+        """Initialize EEG processor.
 
         Args:
             sampling_rate: EEG sampling rate in Hz
@@ -104,8 +101,7 @@ class EEGProcessor:
             )
 
     def apply_bandpass_filter(self, data: np.ndarray, axis: int = -1) -> np.ndarray:
-        """
-        Apply bandpass filter to EEG data.
+        """Apply bandpass filter to EEG data.
 
         Args:
             data: EEG data array (channels x samples or samples)
@@ -120,8 +116,7 @@ class EEGProcessor:
         return np.asarray(filtered)
 
     def apply_notch_filter(self, data: np.ndarray, axis: int = -1) -> np.ndarray:
-        """
-        Apply notch filter to remove power line noise.
+        """Apply notch filter to remove power line noise.
 
         Args:
             data: EEG data array
@@ -140,8 +135,7 @@ class EEGProcessor:
     def process_realtime(
         self, raw_data: np.ndarray, timestamps: np.ndarray, channels: List[str]
     ) -> ProcessedEEG:
-        """
-        Process EEG data in real-time with filtering.
+        """Process EEG data in real-time with filtering.
 
         Args:
             raw_data: Raw EEG data (channels x samples)
@@ -169,8 +163,7 @@ class EEGProcessor:
         reference_type: str = "average",
         reference_channels: Optional[List[int]] = None,
     ) -> np.ndarray:
-        """
-        Apply reference scheme to EEG data.
+        """Apply reference scheme to EEG data.
 
         Args:
             data: EEG data (channels x samples)
@@ -195,16 +188,14 @@ class EEGProcessor:
 
 
 class FASTERArtifactDetector:
-    """
-    FASTER (Fully Automated Statistical Thresholding for EEG artifact Rejection).
+    """FASTER (Fully Automated Statistical Thresholding for EEG artifact Rejection).
 
     Implements automated artifact detection using statistical thresholds
     across multiple dimensions: channels, epochs, and time points.
     """
 
     def __init__(self, z_threshold: float = 3.0):
-        """
-        Initialize FASTER artifact detector.
+        """Initialize FASTER artifact detector.
 
         Args:
             z_threshold: Z-score threshold for artifact detection
@@ -213,8 +204,7 @@ class FASTERArtifactDetector:
         self.artifact_stats: Dict[str, Any] = {}
 
     def detect_bad_channels(self, data: np.ndarray) -> np.ndarray:
-        """
-        Detect bad channels based on statistical properties.
+        """Detect bad channels based on statistical properties.
 
         Args:
             data: EEG data (channels x samples)
@@ -258,8 +248,7 @@ class FASTERArtifactDetector:
         return np.asarray(bad_channels)
 
     def detect_bad_epochs(self, epochs: np.ndarray) -> np.ndarray:
-        """
-        Detect bad epochs based on amplitude and variance.
+        """Detect bad epochs based on amplitude and variance.
 
         Args:
             epochs: Epoched data (epochs x channels x samples)
@@ -294,8 +283,7 @@ class FASTERArtifactDetector:
         return np.asarray(bad_epochs)
 
     def detect_bad_samples(self, data: np.ndarray, window_size: int = 100) -> np.ndarray:
-        """
-        Detect bad samples using sliding window statistics.
+        """Detect bad samples using sliding window statistics.
 
         Args:
             data: EEG data (channels x samples)
@@ -332,8 +320,7 @@ class FASTERArtifactDetector:
         detect_channels: bool = True,
         detect_samples: bool = True,
     ) -> Tuple[np.ndarray, Dict[str, Any]]:
-        """
-        Clean EEG data by detecting and handling artifacts.
+        """Clean EEG data by detecting and handling artifacts.
 
         Args:
             data: EEG data (channels x samples)
@@ -382,15 +369,13 @@ class FASTERArtifactDetector:
 
 
 class EpochExtractor:
-    """
-    Extract epochs (time-locked segments) from continuous EEG data.
+    """Extract epochs (time-locked segments) from continuous EEG data.
 
     Supports event-locked epoching for ERP analysis with baseline correction.
     """
 
     def __init__(self, sampling_rate: float = 1000.0):
-        """
-        Initialize epoch extractor.
+        """Initialize epoch extractor.
 
         Args:
             sampling_rate: EEG sampling rate in Hz
@@ -405,8 +390,7 @@ class EpochExtractor:
         tmin: float = -0.2,
         tmax: float = 0.8,
     ) -> np.ndarray:
-        """
-        Extract epochs around events.
+        """Extract epochs around events.
 
         Args:
             data: Continuous EEG data (channels x samples)
@@ -451,15 +435,13 @@ class EpochExtractor:
 
 
 class BaselineCorrector:
-    """
-    Baseline correction for ERP analysis.
+    """Baseline correction for ERP analysis.
 
     Removes pre-stimulus baseline activity to isolate event-related responses.
     """
 
     def __init__(self, sampling_rate: float = 1000.0):
-        """
-        Initialize baseline corrector.
+        """Initialize baseline corrector.
 
         Args:
             sampling_rate: EEG sampling rate in Hz
@@ -472,8 +454,7 @@ class BaselineCorrector:
         baseline_window: Tuple[float, float] = (-0.2, 0.0),
         method: str = "mean",
     ) -> np.ndarray:
-        """
-        Apply baseline correction to epochs.
+        """Apply baseline correction to epochs.
 
         Args:
             epochs: Epoched data (epochs x channels x samples)
@@ -512,15 +493,13 @@ class BaselineCorrector:
 
 
 class ERPExtractor:
-    """
-    Extract event-related potentials (ERPs) from EEG data.
+    """Extract event-related potentials (ERPs) from EEG data.
 
     Specialized for P3b (250-500ms at Pz) and HEP (250-400ms post R-peak) extraction.
     """
 
     def __init__(self, sampling_rate: float = 1000.0):
-        """
-        Initialize ERP extractor.
+        """Initialize ERP extractor.
 
         Args:
             sampling_rate: EEG sampling rate in Hz
@@ -536,8 +515,7 @@ class ERPExtractor:
         time_window: Tuple[float, float] = (0.25, 0.5),
         tmin: float = -0.2,
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Extract P3b amplitude from epochs.
+        """Extract P3b amplitude from epochs.
 
         Args:
             epochs: Epoched data (epochs x channels x samples)
@@ -576,8 +554,7 @@ class ERPExtractor:
         channel_indices: Optional[List[int]] = None,
         time_window: Tuple[float, float] = (0.25, 0.4),
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Extract heartbeat-evoked potential (HEP) around R-peaks.
+        """Extract heartbeat-evoked potential (HEP) around R-peaks.
 
         Args:
             data: Continuous EEG data (channels x samples)
@@ -627,8 +604,7 @@ class ERPExtractor:
         pz_channel_idx: int,
         r_peak_times: Optional[np.ndarray] = None,
     ) -> ERPFeatures:
-        """
-        Extract comprehensive ERP features.
+        """Extract comprehensive ERP features.
 
         Args:
             data: Continuous EEG data (channels x samples)

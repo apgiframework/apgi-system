@@ -1,6 +1,4 @@
-"""
-Threshold insensitivity falsification test.
-"""
+"""Threshold insensitivity falsification test."""
 
 import logging
 from datetime import datetime
@@ -8,8 +6,7 @@ from typing import Any, Dict, List, cast
 
 
 class ThresholdInsensitivityTest:
-    """
-    Tests whether the framework is insensitive to reasonable threshold variations.
+    """Tests whether the framework is insensitive to reasonable threshold variations.
 
     This falsification test examines whether small changes in the thresholds
     for neural signatures and consciousness measures lead to dramatically different
@@ -29,8 +26,7 @@ class ThresholdInsensitivityTest:
         }
 
     def run_test(self, n_trials: int = 100, threshold_variations: float = 0.2) -> dict:
-        """
-        Run the threshold insensitivity test.
+        """Run the threshold insensitivity test.
 
         Args:
             n_trials: Number of trials per threshold configuration

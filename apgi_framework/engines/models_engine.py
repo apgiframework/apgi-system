@@ -1,5 +1,4 @@
-"""
-Core neural models for APGI Framework.
+"""Core neural models for APGI Framework.
 
 This module contains the main neural network models including:
 - SomaticAgent: Active inference agent with somatic markers
@@ -15,8 +14,7 @@ from .prediction_error_engine import PredictionErrorProcessor
 
 
 class SomaticAgent:
-    """
-    Active inference agent with somatic markers for decision making.
+    """Active inference agent with somatic markers for decision making.
 
     The agent uses expected free energy minimization and somatic markers
     to make decisions between habitual (unconscious) and conscious modes.
@@ -29,8 +27,7 @@ class SomaticAgent:
         n_contexts: int = 2,
         precision: float = 1.0,
     ):
-        """
-        Initialize the SomaticAgent.
+        """Initialize the SomaticAgent.
 
         Args:
             n_states: Number of hidden states
@@ -58,8 +55,7 @@ class SomaticAgent:
     def expected_free_energy(
         self, beliefs: np.ndarray, context: int
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Calculate expected free energy for each action.
+        """Calculate expected free energy for each action.
 
         Args:
             beliefs: Current belief state over hidden states
@@ -82,8 +78,7 @@ class SomaticAgent:
         return modified_G, basic_G_extended
 
     def update_somatic_marker(self, context: int, action: int, outcome_valence: float) -> None:
-        """
-        Update somatic markers based on action outcome.
+        """Update somatic markers based on action outcome.
 
         Args:
             context: Environmental context
@@ -104,8 +99,7 @@ class SomaticAgent:
     def decide(
         self, beliefs: np.ndarray, context: int, surprise: float
     ) -> Tuple[int, bool, np.ndarray]:
-        """
-        Make a decision based on beliefs, context, and surprise.
+        """Make a decision based on beliefs, context, and surprise.
 
         Args:
             beliefs: Current belief state
@@ -137,8 +131,7 @@ class SomaticAgent:
 
 
 class PredictiveIgnitionNetwork:
-    """
-    Neural network with predictive coding and ignition dynamics.
+    """Neural network with predictive coding and ignition dynamics.
 
     Implements a predictive coding network where high surprise can trigger
     global ignition, broadcasting information throughout the network.
@@ -151,8 +144,7 @@ class PredictiveIgnitionNetwork:
         threshold: float = 1.0,
         alpha: float = 2.0,
     ):
-        """
-        Initialize the PredictiveIgnitionNetwork.
+        """Initialize the PredictiveIgnitionNetwork.
 
         Args:
             n_features: Number of input features
@@ -185,8 +177,7 @@ class PredictiveIgnitionNetwork:
     def forward_pass(
         self, sensory_input: np.ndarray, somatic_gain: float = 1.0
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, bool, float]:
-        """
-        Perform a forward pass through the network.
+        """Perform a forward pass through the network.
 
         Args:
             sensory_input: Input sensory data

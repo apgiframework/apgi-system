@@ -857,6 +857,21 @@ export. See [docs/ACQUISITION.md](docs/ACQUISITION.md) and `examples/acquisition
 
 ## Installation
 
+### Python version and virtual environment
+
+APGI supports **Python 3.11, 3.12 and 3.13** (`requires-python = ">=3.11,<3.14"`). Newer interpreters
+are refused because compiled dependencies such as `h5py` publish no wheels for them yet. Install into a
+virtual environment, not into the system or Homebrew Python (which rejects `pip install` with
+`externally-managed-environment`):
+
+```bash
+# macOS (Homebrew)
+brew install python@3.13 python-tk@3.13
+python3.13 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev,testing,gui,api,acquisition]" -c requirements.lock
+```
+
 ### Basic Installation
 
 ```bash

@@ -1,5 +1,4 @@
-"""
-State Classifier for Emergent Psychological States.
+"""State Classifier for Emergent Psychological States.
 
 Enables psychological states to be emergent properties of system dynamics
 by classifying current parameters into the closest archetypal state.
@@ -11,15 +10,13 @@ import numpy as np
 
 
 class StateClassifier:
-    """
-    Classifies the current dynamical state of the APGI system into
+    """Classifies the current dynamical state of the APGI system into
     psychological categories based on information-theoretic and
     physiological parameters.
     """
 
     def __init__(self, state_library: Union[Any, Dict[str, Any]]):
-        """
-        Initialize the classifier with a library of archetypal states.
+        """Initialize the classifier with a library of archetypal states.
 
         Args:
             state_library: Instance of APGIStateLibrary or Dict[str, PsychologicalState]
@@ -78,8 +75,7 @@ class StateClassifier:
                 self.state_profiles[name] = state
 
     def classify(self, current_params: Dict[str, float]) -> Tuple[str, float]:
-        """
-        Identify the closest psychological state.
+        """Identify the closest psychological state.
 
         Args:
             current_params: Dictionary with keys 'Pi_e', 'Pi_i', 'M', 'A', 'theta'

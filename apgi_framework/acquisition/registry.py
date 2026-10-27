@@ -44,7 +44,7 @@ class DeviceRegistry:
             del self._factories[name]
 
     def driver(self, name: str, *, replace: bool = False) -> Callable[[Any], Any]:
-        """Class decorator: ``@registry.driver("my-amp")``."""
+        """Return a class decorator that registers the class under ``name``."""
 
         def decorator(cls: Any) -> Any:
             self.register(name, cls, replace=replace)

@@ -1,5 +1,4 @@
-"""
-Pupillometry interface for high-speed eye tracking.
+"""Pupillometry interface for high-speed eye tracking.
 
 Provides pupil diameter extraction, blink detection, baseline correction,
 artifact interpolation, and luminance-independent dilation measurement
@@ -87,8 +86,7 @@ class BlinkDetector:
     """Real-time blink detection for pupillometry data."""
 
     def __init__(self, config: PupillometryConfig):
-        """
-        Initialize blink detector.
+        """Initialize blink detector.
 
         Args:
             config: Pupillometry configuration
@@ -97,8 +95,7 @@ class BlinkDetector:
         self.detection_history: deque = deque(maxlen=1000)
 
     def detect_velocity_blinks(self, diameters: np.ndarray, timestamps: np.ndarray) -> np.ndarray:
-        """
-        Detect blinks based on rapid pupil size changes.
+        """Detect blinks based on rapid pupil size changes.
 
         Args:
             diameters: Pupil diameter array
@@ -135,8 +132,7 @@ class BlinkDetector:
     def detect_missing_data_blinks(
         self, diameters: np.ndarray, confidence: np.ndarray
     ) -> np.ndarray:
-        """
-        Detect blinks based on tracking loss or low confidence.
+        """Detect blinks based on tracking loss or low confidence.
 
         Args:
             diameters: Pupil diameter array
@@ -170,8 +166,7 @@ class BlinkDetector:
     def detect_blinks(
         self, diameters: np.ndarray, timestamps: np.ndarray, confidence: np.ndarray
     ) -> np.ndarray:
-        """
-        Detect blinks using configured method.
+        """Detect blinks using configured method.
 
         Args:
             diameters: Pupil diameter array
@@ -209,8 +204,7 @@ class ArtifactInterpolator:
     """Interpolate artifacts and blinks in pupillometry data."""
 
     def __init__(self, config: PupillometryConfig):
-        """
-        Initialize artifact interpolator.
+        """Initialize artifact interpolator.
 
         Args:
             config: Pupillometry configuration
@@ -218,8 +212,7 @@ class ArtifactInterpolator:
         self.config = config
 
     def detect_artifacts(self, diameters: np.ndarray) -> np.ndarray:
-        """
-        Detect physiologically implausible pupil measurements.
+        """Detect physiologically implausible pupil measurements.
 
         Args:
             diameters: Pupil diameter array
@@ -245,8 +238,7 @@ class ArtifactInterpolator:
         return artifacts
 
     def interpolate_linear(self, data: np.ndarray, mask: np.ndarray) -> np.ndarray:
-        """
-        Linear interpolation of masked data points.
+        """Linear interpolation of masked data points.
 
         Args:
             data: Data array
@@ -292,8 +284,7 @@ class ArtifactInterpolator:
         return np.asarray(result)
 
     def interpolate_cubic(self, data: np.ndarray, mask: np.ndarray) -> np.ndarray:
-        """
-        Cubic spline interpolation of masked data points.
+        """Cubic spline interpolation of masked data points.
 
         Args:
             data: Data array
@@ -321,8 +312,7 @@ class ArtifactInterpolator:
         return np.asarray(result)
 
     def interpolate(self, data: np.ndarray, mask: np.ndarray, method: str = "linear") -> np.ndarray:
-        """
-        Interpolate masked data points.
+        """Interpolate masked data points.
 
         Args:
             data: Data array
@@ -346,8 +336,7 @@ class BaselineCorrector:
     """Baseline correction for pupillometry data."""
 
     def __init__(self, config: PupillometryConfig):
-        """
-        Initialize baseline corrector.
+        """Initialize baseline corrector.
 
         Args:
             config: Pupillometry configuration
@@ -356,8 +345,7 @@ class BaselineCorrector:
         self.baseline_value: Optional[float] = None
 
     def compute_baseline(self, data: np.ndarray, method: Optional[str] = None) -> float:
-        """
-        Compute baseline pupil diameter.
+        """Compute baseline pupil diameter.
 
         Args:
             data: Pupil diameter array
@@ -393,8 +381,7 @@ class BaselineCorrector:
     def apply_baseline_correction(
         self, data: np.ndarray, baseline: Optional[float] = None
     ) -> np.ndarray:
-        """
-        Apply baseline correction to data.
+        """Apply baseline correction to data.
 
         Args:
             data: Pupil diameter array
@@ -417,8 +404,7 @@ class BaselineCorrector:
     def apply_percent_change(
         self, data: np.ndarray, baseline: Optional[float] = None
     ) -> np.ndarray:
-        """
-        Convert to percent change from baseline.
+        """Convert to percent change from baseline.
 
         Args:
             data: Pupil diameter array
@@ -446,8 +432,7 @@ class LuminanceCorrector:
     """Luminance-independent pupil dilation measurement."""
 
     def __init__(self, config: PupillometryConfig):
-        """
-        Initialize luminance corrector.
+        """Initialize luminance corrector.
 
         Args:
             config: Pupillometry configuration
@@ -458,8 +443,7 @@ class LuminanceCorrector:
     def fit_luminance_model(
         self, diameters: np.ndarray, luminance: np.ndarray, timestamps: np.ndarray
     ) -> Dict[str, float]:
-        """
-        Fit model of pupil response to luminance changes.
+        """Fit model of pupil response to luminance changes.
 
         Args:
             diameters: Pupil diameter array
@@ -494,8 +478,7 @@ class LuminanceCorrector:
     def correct_luminance_effect(
         self, diameters: np.ndarray, luminance: np.ndarray, timestamps: np.ndarray
     ) -> np.ndarray:
-        """
-        Remove luminance-driven pupil changes to isolate cognitive dilation.
+        """Remove luminance-driven pupil changes to isolate cognitive dilation.
 
         Args:
             diameters: Pupil diameter array
@@ -529,16 +512,14 @@ class LuminanceCorrector:
 
 
 class PupillometryInterface:
-    """
-    Interface for high-speed pupillometry data acquisition and processing.
+    """Interface for high-speed pupillometry data acquisition and processing.
 
     Provides pupil diameter extraction, blink detection, baseline correction,
     artifact interpolation, and luminance-independent dilation measurement.
     """
 
     def __init__(self, config: PupillometryConfig):
-        """
-        Initialize pupillometry interface.
+        """Initialize pupillometry interface.
 
         Args:
             config: Pupillometry configuration
@@ -564,8 +545,7 @@ class PupillometryInterface:
         self.start_time: Optional[float] = None
 
     def start_streaming(self, data_source: Optional[Callable] = None) -> None:
-        """
-        Start real-time pupillometry data streaming.
+        """Start real-time pupillometry data streaming.
 
         Args:
             data_source: Optional callback function that returns PupilSample
@@ -615,8 +595,7 @@ class PupillometryInterface:
             self.stream_thread.join(timeout=2.0)
 
     def register_callback(self, callback: Callable) -> None:
-        """
-        Register callback for real-time data processing.
+        """Register callback for real-time data processing.
 
         Args:
             callback: Function with signature (sample: PupilSample) -> None
@@ -624,8 +603,7 @@ class PupillometryInterface:
         self.data_callbacks.append(callback)
 
     def get_buffer_data(self, n_samples: Optional[int] = None) -> List[PupilSample]:
-        """
-        Retrieve samples from buffer.
+        """Retrieve samples from buffer.
 
         Args:
             n_samples: Number of recent samples to retrieve (None for all)
@@ -643,8 +621,7 @@ class PupillometryInterface:
     def extract_diameter_timeseries(
         self, samples: Optional[List[PupilSample]] = None
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Extract diameter and timestamp arrays from samples.
+        """Extract diameter and timestamp arrays from samples.
 
         Args:
             samples: List of pupil samples (None to use buffer)
@@ -671,8 +648,7 @@ class PupillometryInterface:
         apply_baseline_correction: bool = True,
         apply_luminance_correction: bool = False,
     ) -> Dict[str, np.ndarray]:
-        """
-        Process pupillometry data with full pipeline.
+        """Process pupillometry data with full pipeline.
 
         Args:
             samples: List of pupil samples (None to use buffer)
@@ -749,8 +725,7 @@ class PupillometryInterface:
         return result
 
     def get_quality_metrics(self) -> Dict[str, Any]:
-        """
-        Assess pupillometry data quality.
+        """Assess pupillometry data quality.
 
         Returns:
             Dictionary with quality metrics
@@ -786,8 +761,7 @@ class PupillometryInterface:
         self.sample_buffer.clear()
 
     def export_data(self, filename: str, format: str = "numpy") -> None:
-        """
-        Export pupillometry data to file.
+        """Export pupillometry data to file.
 
         Args:
             filename: Output filename

@@ -1,5 +1,4 @@
-"""
-Installation Manager for automated dependency installation.
+"""Installation Manager for automated dependency installation.
 
 Handles installation of LSL, Stan, eye tracker SDKs, and other dependencies
 required for the APGI Framework parameter estimation system.
@@ -64,8 +63,7 @@ class InstallationReport:
 
 
 class InstallationManager:
-    """
-    Manages automated installation of APGI Framework dependencies.
+    """Manages automated installation of APGI Framework dependencies.
 
     Handles installation of:
     - Python packages (numpy, scipy, pystan, etc.)
@@ -76,8 +74,7 @@ class InstallationManager:
     """
 
     def __init__(self, install_dir: Optional[Path] = None):
-        """
-        Initialize installation manager.
+        """Initialize installation manager.
 
         Args:
             install_dir: Directory for installing dependencies. If None, uses default.
@@ -194,8 +191,7 @@ class InstallationManager:
         return deps
 
     def check_dependency(self, dep: DependencyInfo) -> DependencyInfo:
-        """
-        Check if a dependency is installed.
+        """Check if a dependency is installed.
 
         Args:
             dep: Dependency information.
@@ -228,8 +224,7 @@ class InstallationManager:
         return dep
 
     def install_dependency(self, dep: DependencyInfo) -> DependencyInfo:
-        """
-        Install a dependency.
+        """Install a dependency.
 
         Args:
             dep: Dependency information.
@@ -279,8 +274,7 @@ class InstallationManager:
         return dep
 
     def check_all_dependencies(self) -> InstallationReport:
-        """
-        Check status of all dependencies.
+        """Check status of all dependencies.
 
         Returns:
             Installation report with dependency status.
@@ -296,8 +290,7 @@ class InstallationManager:
         return report
 
     def install_all_dependencies(self, skip_optional: bool = False) -> InstallationReport:
-        """
-        Install all missing dependencies.
+        """Install all missing dependencies.
 
         Args:
             skip_optional: If True, skip optional dependencies.
@@ -340,8 +333,7 @@ class InstallationManager:
         return report
 
     def install_lsl(self) -> bool:
-        """
-        Install Lab Streaming Layer.
+        """Install Lab Streaming Layer.
 
         Returns:
             True if successful, False otherwise.
@@ -358,8 +350,7 @@ class InstallationManager:
         return dep.status == DependencyStatus.INSTALLED
 
     def install_stan(self) -> bool:
-        """
-        Install Stan for Bayesian modeling.
+        """Install Stan for Bayesian modeling.
 
         Returns:
             True if successful, False otherwise.
@@ -376,8 +367,7 @@ class InstallationManager:
         return dep.status == DependencyStatus.INSTALLED
 
     def install_eye_tracker_sdk(self, tracker_type: str = "tobii") -> bool:
-        """
-        Install eye tracker SDK.
+        """Install eye tracker SDK.
 
         Args:
             tracker_type: Type of eye tracker ('tobii', 'eyelink', etc.).
@@ -398,8 +388,7 @@ class InstallationManager:
         return False
 
     def generate_requirements_file(self, output_path: Path) -> None:
-        """
-        Generate requirements.txt file from dependencies.
+        """Generate requirements.txt file from dependencies.
 
         Args:
             output_path: Path to save requirements.txt.
@@ -429,8 +418,7 @@ class InstallationManager:
         self.logger.info("Requirements file generated successfully")
 
     def get_installation_status(self) -> Dict[str, str]:
-        """
-        Get current installation status of all dependencies.
+        """Get current installation status of all dependencies.
 
         Returns:
             Dictionary mapping dependency names to status strings.

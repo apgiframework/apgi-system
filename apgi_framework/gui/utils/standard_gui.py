@@ -1,5 +1,4 @@
-"""
-Standardized GUI utilities for APGI Framework applications.
+"""Standardized GUI utilities for APGI Framework applications.
 
 Provides consistent styling, window management, error handling, and cross-platform
 compatibility across all GUI applications.
@@ -96,8 +95,7 @@ class StandardWindow(ABC):
     """Base class for standardized GUI windows."""
 
     def __init__(self, title: str, size: Optional[str] = None, use_customtkinter: bool = False):
-        """
-        Initialize a standardized window.
+        """Initialize a standardized window.
 
         Args:
             title: Window title
@@ -199,8 +197,7 @@ class StandardMenuBar:
     """Standard menu bar for GUI applications."""
 
     def __init__(self, root: tk.Tk, window_instance: StandardWindow) -> None:
-        """
-        Create a standard menu bar.
+        """Create a standard menu bar.
 
         Args:
             root: Root window

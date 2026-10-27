@@ -1,5 +1,4 @@
-"""
-Activity Logger for APGI Framework Test Enhancement
+"""Activity Logger for APGI Framework Test Enhancement.
 
 This module provides comprehensive activity logging for all test execution activities
 with structured logging, JSON formatting, log rotation, and retention management.
@@ -286,8 +285,7 @@ class LoggingConfiguration:
 
 
 class ActivityLogger:
-    """
-    Comprehensive activity logger for test execution activities.
+    """Comprehensive activity logger for test execution activities.
 
     Provides structured logging with JSON formatting, log rotation, retention management,
     and integration with all test execution components.

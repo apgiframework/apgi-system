@@ -1,5 +1,4 @@
-"""
-JWT/OAuth2 Authentication Framework for APGI
+"""JWT/OAuth2 Authentication Framework for APGI.
 
 Provides modern authentication with:
 - JWT token generation and validation
@@ -180,8 +179,7 @@ class TokenPair:
 
 
 class JWTAuthManager:
-    """
-    JWT Authentication Manager with RBAC support.
+    """JWT Authentication Manager with RBAC support.
 
     Features:
     - JWT token generation with RS256 or HS256
@@ -199,8 +197,7 @@ class JWTAuthManager:
         refresh_token_ttl: int = 86400 * 7,  # 7 days
         enable_refresh_rotation: bool = True,
     ):
-        """
-        Initialize JWT authentication manager.
+        """Initialize JWT authentication manager.
 
         Args:
             secret_key: Secret key for signing (generate if None)
@@ -228,8 +225,7 @@ class JWTAuthManager:
         role: Role,
         additional_claims: Optional[Dict[str, Any]] = None,
     ) -> TokenPair:
-        """
-        Generate access and refresh token pair.
+        """Generate access and refresh token pair.
 
         Args:
             subject: User or service identifier
@@ -282,8 +278,7 @@ class JWTAuthManager:
         )
 
     def refresh_access_token(self, refresh_token: str) -> TokenPair:
-        """
-        Refresh access token using refresh token.
+        """Refresh access token using refresh token.
 
         Args:
             refresh_token: Valid refresh token
@@ -335,8 +330,7 @@ class JWTAuthManager:
         return token_pair
 
     def decode_token(self, token: str) -> TokenClaims:
-        """
-        Decode and validate JWT token.
+        """Decode and validate JWT token.
 
         Args:
             token: JWT token string
@@ -369,8 +363,7 @@ class JWTAuthManager:
             raise InvalidTokenError(f"Invalid token format: {e}")
 
     def verify_permission(self, token: str, required_permission: Permission) -> TokenClaims:
-        """
-        Verify token and check permission.
+        """Verify token and check permission.
 
         Args:
             token: JWT access token
@@ -398,8 +391,7 @@ class JWTAuthManager:
         return claims
 
     def revoke_token(self, token: str) -> None:
-        """
-        Revoke a token (add to blacklist).
+        """Revoke a token (add to blacklist).
 
         Args:
             token: Token to revoke
@@ -418,8 +410,7 @@ class JWTAuthManager:
             pass  # Token might be malformed
 
     def revoke_all_user_tokens(self, subject: str) -> None:
-        """
-        Revoke all tokens for a user (emergency revocation).
+        """Revoke all tokens for a user (emergency revocation).
 
         Args:
             subject: User identifier
@@ -438,8 +429,7 @@ class JWTAuthManager:
         )
 
     def _encode_token(self, claims: TokenClaims) -> str:
-        """
-        Encode claims to JWT string (simplified implementation).
+        """Encode claims to JWT string (simplified implementation).
 
         Production should use PyJWT with proper cryptographic signing.
         """
@@ -466,8 +456,7 @@ class JWTAuthManager:
         return f"{message}.{b64url_encode(signature.encode())}"
 
     def _decode_token(self, token: str) -> TokenClaims:
-        """
-        Decode JWT string to claims (simplified implementation).
+        """Decode JWT string to claims (simplified implementation).
 
         Production should use PyJWT with proper verification.
         """
@@ -512,8 +501,7 @@ class OAuth2Config:
 
 
 class OAuth2Client:
-    """
-    OAuth2 client for external identity provider integration.
+    """OAuth2 client for external identity provider integration.
 
     Supports authorization code flow for web applications.
     """
@@ -523,8 +511,7 @@ class OAuth2Client:
         self._state_store: Dict[str, Dict[str, Any]] = {}
 
     def get_authorization_url(self, state: Optional[str] = None) -> str:
-        """
-        Generate authorization URL for OAuth2 flow.
+        """Generate authorization URL for OAuth2 flow.
 
         Args:
             state: Optional state parameter for CSRF protection
@@ -548,8 +535,7 @@ class OAuth2Client:
         return f"{self.config.authorize_url}?{urllib.parse.urlencode(params)}"
 
     def exchange_code_for_token(self, code: str, state: str) -> Dict[str, Any]:
-        """
-        Exchange authorization code for access token.
+        """Exchange authorization code for access token.
 
         Args:
             code: Authorization code
@@ -578,8 +564,7 @@ class OAuth2Client:
 
 
 def require_permission(permission: Permission) -> Any:
-    """
-    Decorator to require specific permission for function access.
+    """Decorator to require specific permission for function access.
 
     Args:
         permission: Required permission

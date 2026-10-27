@@ -19,6 +19,9 @@ from typing import Any
 
 import pytest
 
+# AI_Assistant.py imports torch unconditionally, so Assistant_GUI cannot even be imported without it.
+pytest.importorskip("torch", reason="Assistant_GUI needs torch (AI_Assistant.py imports it)")
+
 
 def load_module_from_file(module_name: str, file_path: Path) -> Any:
     """Load a Python module from a file path, handling hyphenated filenames."""

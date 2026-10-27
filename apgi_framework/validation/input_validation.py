@@ -1,5 +1,4 @@
-"""
-Input validation utilities for the APGI Framework.
+"""Input validation utilities for the APGI Framework.
 
 Provides common validation functions for user input, parameters,
 and data to ensure security and data integrity.
@@ -24,8 +23,7 @@ def validate_file_path(
     must_exist: bool = True,
     allowed_extensions: Optional[List[str]] = None,
 ) -> Path:
-    """
-    Validate file path input.
+    """Validate file path input.
 
     Args:
         file_path: Input file path
@@ -69,8 +67,7 @@ def validate_numeric_input(
     max_val: Optional[float] = None,
     allow_float: bool = True,
 ) -> float:
-    """
-    Validate numeric input.
+    """Validate numeric input.
 
     Args:
         value: Input value to validate
@@ -112,8 +109,7 @@ def validate_string_input(
     allowed_chars: Optional[str] = None,
     forbidden_patterns: Optional[List[str]] = None,
 ) -> str:
-    """
-    Validate string input.
+    """Validate string input.
 
     Args:
         value: Input value to validate
@@ -156,8 +152,7 @@ def validate_string_input(
 
 
 def validate_experiment_parameters(params: dict) -> Dict[str, Any]:
-    """
-    Validate experiment parameters.
+    """Validate experiment parameters.
 
     Args:
         params: Dictionary of experiment parameters
@@ -212,8 +207,7 @@ def validate_confirmation_input(
     valid_yes: Optional[List[str]] = None,
     valid_no: Optional[List[str]] = None,
 ) -> bool:
-    """
-    Validate user confirmation input with retry logic.
+    """Validate user confirmation input with retry logic.
 
     Args:
         prompt: Prompt message to display
@@ -259,8 +253,7 @@ def validate_confirmation_input(
 
 
 def sanitize_filename(filename: str) -> str:
-    """
-    Sanitize filename to prevent path traversal and invalid characters.
+    """Sanitize filename to prevent path traversal and invalid characters.
 
     Args:
         filename: Input filename

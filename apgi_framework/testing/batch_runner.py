@@ -1,5 +1,4 @@
-"""
-Batch Test Execution System for APGI Framework
+"""Batch Test Execution System for APGI Framework.
 
 This module provides comprehensive batch test execution capabilities including:
 - Parallel test execution
@@ -151,7 +150,6 @@ class BatchTestRunner:
         failfast: bool = False,
     ) -> BatchExecutionSummary:
         """Run batch tests with specified parameters."""
-
         start_time = datetime.now()
         execution_id = f"batch_{start_time.strftime('%Y%m%d_%H%M%S')}_{os.getpid()}"
 
@@ -460,7 +458,6 @@ class BatchTestRunner:
         duration: float,
     ) -> TestResult:
         """Parse pytest output into Result."""
-
         output = subprocess_result.stdout
         error_output = subprocess_result.stderr
 
@@ -524,7 +521,6 @@ class BatchTestRunner:
         self, summary: BatchExecutionSummary, output_path: Optional[str] = None
     ) -> str:
         """Generate comprehensive test execution report."""
-
         if output_path is None:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             output_path = f"batch_test_report_{timestamp}.html"
@@ -541,7 +537,6 @@ class BatchTestRunner:
 
     def _generate_html_report(self, summary: BatchExecutionSummary) -> str:
         """Generate HTML report content."""
-
         # Calculate statistics
         success_rate = (
             (summary.passed / summary.total_tests * 100) if summary.total_tests > 0 else 0
@@ -687,7 +682,6 @@ def run_research_tests(parallel: bool = True) -> BatchExecutionSummary:
 
 def run_failed_tests(previous_results_file: str, parallel: bool = True) -> BatchExecutionSummary:
     """Re-run only failed tests from a previous execution."""
-
     # Load previous results
     with open(previous_results_file, "r") as f:
         previous_data = json.load(f)

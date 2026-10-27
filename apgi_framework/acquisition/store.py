@@ -301,7 +301,8 @@ class SessionStore:
             if states:
                 marks = ",".join("?" for _ in states)
                 cur.execute(
-                    f"SELECT * FROM sessions WHERE state IN ({marks}) ORDER BY created_ns",
+                    # only "?" placeholders are interpolated, values are bound
+                    f"SELECT * FROM sessions WHERE state IN ({marks}) ORDER BY created_ns",  # nosec B608
                     tuple(states),
                 )
             else:
@@ -504,8 +505,11 @@ class SessionStore:
             ]
 
     def mark_upload_done(self, session_id: str, rel_path: str, *, server_verified: bool) -> None:
-        """Mark an item uploaded. ``server_verified`` is True only after the server's own
-        copy was read back and its SHA-256 matched."""
+        """Mark an item uploaded.
+
+        ``server_verified`` is True only after the server's own copy was read back and its
+        SHA-256 matched.
+        """
         now = self._clock_ns()
         with self._tx() as cur:
             cur.execute(
@@ -612,13 +616,15 @@ class SessionStore:
                 for statement in _SCHEMA.strip().split(";"):
                     if statement.strip():
                         self._conn.execute(statement)
-                self._conn.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
+                _sql = f"PRAGMA user_version = {SCHEMA_VERSION}"  # nosemgrep: sql-injection-risk - PRAGMA with an int constant
+                self._conn.execute(_sql)
         elif version < SCHEMA_VERSION:
             with self._lock, self._conn:
                 for target in range(version + 1, SCHEMA_VERSION + 1):
                     for statement in _MIGRATIONS[target]:
                         self._conn.execute(statement)
-                self._conn.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
+                _sql = f"PRAGMA user_version = {SCHEMA_VERSION}"  # nosemgrep: sql-injection-risk - PRAGMA with an int constant
+                self._conn.execute(_sql)
 
     @contextlib.contextmanager
     def _tx(self) -> Iterator[Any]:

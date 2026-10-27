@@ -1,5 +1,4 @@
-"""
-Security module for APGI Framework
+"""Security module for APGI Framework
 Provides input sanitization, authentication, and security utilities.
 """
 

@@ -1,5 +1,4 @@
-"""
-Parameter Estimation User Manual generator.
+"""Parameter Estimation User Manual generator.
 
 Generates comprehensive user manual with detailed protocols for all three tasks
 (detection, heartbeat detection, dual-modality oddball).
@@ -12,16 +11,14 @@ from typing import Optional
 
 
 class ParameterEstimationUserManual:
-    """
-    Generates comprehensive user manual for APGI Framework parameter estimation.
+    """Generates comprehensive user manual for APGI Framework parameter estimation.
 
     Includes detailed protocols, setup instructions, and best practices
     for all three parameter estimation tasks.
     """
 
     def __init__(self, output_dir: Optional[Path] = None):
-        """
-        Initialize user manual generator.
+        """Initialize user manual generator.
 
         Args:
             output_dir: Directory for saving manual files.
@@ -31,8 +28,7 @@ class ParameterEstimationUserManual:
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
     def generate_complete_manual(self) -> Path:
-        """
-        Generate complete user manual.
+        """Generate complete user manual.
 
         Returns:
             Path to generated manual file.

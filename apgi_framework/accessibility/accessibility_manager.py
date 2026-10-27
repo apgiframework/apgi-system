@@ -1,5 +1,4 @@
-"""
-Accessibility Features for APGI Framework GUIs
+"""Accessibility Features for APGI Framework GUIs
 =======================================
 
 This module provides accessibility features to make the APGI Framework GUIs
@@ -56,9 +55,7 @@ class AccessibilityConfig:
 
 
 class AccessibilityManager:
-    """
-    Manages accessibility features for GUI applications.
-    """
+    """Manages accessibility features for GUI applications."""
 
     def __init__(self, root: tk.Tk, config: Optional[AccessibilityConfig] = None):
         """Initialize accessibility manager."""

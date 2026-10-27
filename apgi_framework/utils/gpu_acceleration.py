@@ -1,5 +1,4 @@
-"""
-GPU Acceleration Support
+"""GPU Acceleration Support.
 
 Provides GPU-accelerated computation for APGI framework operations.
 Leverages JAX/TensorFlow for automatic GPU utilization.
@@ -29,8 +28,7 @@ class GPUInfo:
 
 
 class GPUAccelerationManager:
-    """
-    Manager for GPU acceleration in APGI framework.
+    """Manager for GPU acceleration in APGI framework.
 
     Handles GPU detection, memory management, and provides
     hardware-accelerated computation functions.
@@ -157,8 +155,7 @@ class GPUAccelerationManager:
         return self._gpu_info.backend if self._gpu_info else None
 
     def set_preferred_backend(self, backend: str) -> bool:
-        """
-        Set preferred backend for GPU acceleration.
+        """Set preferred backend for GPU acceleration.
 
         Args:
             backend: Backend name (jax, tensorflow, pytorch)
@@ -181,8 +178,7 @@ class GPUAccelerationManager:
             return False
 
     def get_array_module(self) -> Any:
-        """
-        Get array module with GPU support.
+        """Get array module with GPU support.
 
         Returns:
             numpy-like module (jax.numpy, tensorflow, or numpy)
@@ -205,8 +201,7 @@ class GPUAccelerationManager:
         return np
 
     def to_device(self, array: np.ndarray) -> Any:
-        """
-        Move numpy array to GPU device.
+        """Move numpy array to GPU device.
 
         Args:
             array: Input numpy array
@@ -234,8 +229,7 @@ class GPUAccelerationManager:
         return array
 
     def to_numpy(self, array: Any) -> np.ndarray:
-        """
-        Convert device array back to numpy.
+        """Convert device array back to numpy.
 
         Args:
             array: Device array
@@ -259,8 +253,7 @@ class GPUAccelerationManager:
 
     @contextmanager
     def gpu_context(self):
-        """
-        Context manager for GPU operations.
+        """Context manager for GPU operations.
 
         Ensures proper device placement and cleanup.
         """
@@ -280,8 +273,7 @@ class GPUAccelerationManager:
                 jax.block_until_ready(jax.numpy.array([0.0]))
 
     def matmul(self, a: np.ndarray, b: np.ndarray) -> np.ndarray:
-        """
-        GPU-accelerated matrix multiplication.
+        """GPU-accelerated matrix multiplication.
 
         Args:
             a: First matrix
@@ -297,8 +289,7 @@ class GPUAccelerationManager:
         return self.to_numpy(result)
 
     def fft(self, a: np.ndarray) -> np.ndarray:
-        """
-        GPU-accelerated Fast Fourier Transform.
+        """GPU-accelerated Fast Fourier Transform.
 
         Args:
             a: Input array
@@ -330,8 +321,7 @@ class GPUAccelerationManager:
 
 
 def enable_gpu_acceleration() -> GPUAccelerationManager:
-    """
-    Enable and return GPU acceleration manager.
+    """Enable and return GPU acceleration manager.
 
     Returns:
         Configured GPUAccelerationManager instance

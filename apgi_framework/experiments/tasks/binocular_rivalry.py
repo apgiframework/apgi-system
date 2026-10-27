@@ -1,5 +1,4 @@
-"""
-Stub module for binocular rivalry task.
+"""Stub module for binocular rivalry task.
 
 This module provides type stubs for binocular rivalry experimental task
 that is being migrated from the old apgi_simulation structure.

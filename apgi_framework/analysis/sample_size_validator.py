@@ -1,5 +1,4 @@
-"""
-Sample size validation and power reporting for APGI falsification testing.
+"""Sample size validation and power reporting for APGI falsification testing.
 
 This module provides comprehensive sample size validation, power analysis
 reporting, and statistical power warnings for ensuring adequate statistical
@@ -77,8 +76,7 @@ class PowerReport:
 
 
 class SampleSizeValidator:
-    """
-    Comprehensive sample size validation for APGI framework studies.
+    """Comprehensive sample size validation for APGI framework studies.
 
     Provides validation against specific requirements for different types
     of APGI falsification tests, with special attention to soma-bias testing
@@ -91,8 +89,7 @@ class SampleSizeValidator:
         power_threshold: float = 0.8,
         strict_mode: bool = True,
     ):
-        """
-        Initialize the sample size validator.
+        """Initialize the sample size validator.
 
         Args:
             alpha: Type I error rate
@@ -110,8 +107,7 @@ class SampleSizeValidator:
     def validate_soma_bias_sample_size(
         self, n_participants: int, expected_effect_size: float = 0.3
     ) -> ValidationResult:
-        """
-        Validate sample size for soma-bias testing (requires n > 100).
+        """Validate sample size for soma-bias testing (requires n > 100).
 
         Args:
             n_participants: Number of participants
@@ -196,8 +192,7 @@ class SampleSizeValidator:
         n_trials_per_participant: int,
         expected_effect_size: float = 0.5,
     ) -> ValidationResult:
-        """
-        Validate sample size for neural signature detection.
+        """Validate sample size for neural signature detection.
 
         Args:
             n_participants: Number of participants
@@ -283,8 +278,7 @@ class SampleSizeValidator:
         expected_effect_size: float = 0.4,
         test_type: str = "primary",
     ) -> ValidationResult:
-        """
-        Validate sample size for falsification testing.
+        """Validate sample size for falsification testing.
 
         Args:
             n_participants: Number of participants
@@ -378,8 +372,7 @@ class SampleSizeValidator:
     def validate_replication_sample_size(
         self, n_participants_per_lab: int, n_labs: int, original_effect_size: float
     ) -> ValidationResult:
-        """
-        Validate sample size for replication studies.
+        """Validate sample size for replication studies.
 
         Args:
             n_participants_per_lab: Participants per laboratory
@@ -466,8 +459,7 @@ class SampleSizeValidator:
     def generate_power_report(
         self, study_configurations: List[Dict[str, Any]], study_id: str = "APGI_Study"
     ) -> PowerReport:
-        """
-        Generate comprehensive power analysis report for study.
+        """Generate comprehensive power analysis report for study.
 
         Args:
             study_configurations: List of test configurations

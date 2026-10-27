@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import datetime as dt
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import numpy as np
 import pytest
@@ -15,14 +15,12 @@ from apgi_framework.acquisition import (
     DeviceInfo,
     LocalRecorder,
     SampleChunk,
-    SimulatedDevice,
     SyncProbe,
     ThreeDomainClock,
     compute_session_qc,
 )
 from apgi_framework.acquisition.clock import ClockSyncError
 from apgi_framework.acquisition.drivers import SimulatedECGDevice
-from apgi_framework.acquisition.markers import EventMarker
 from apgi_framework.acquisition.qc import METRIC_NAMES, QCThresholds, detect_r_peaks
 from apgi_framework.synchronization import ProtocolTimingRegistry, TimingTolerance, TimingViolation
 from tests.acquisition.conftest import build_session, record_session, requires_sqlcipher

@@ -1,5 +1,4 @@
-"""
-Main Application Controller for APGI Framework Testing System.
+"""Main Application Controller for APGI Framework Testing System.
 
 This module provides the central orchestration point for the entire system,
 managing component integration, dependency injection, and system initialization.
@@ -43,16 +42,14 @@ from apgi_framework.simulators import (
 
 
 class MainApplicationController:
-    """
-    Central controller for the APGI Framework Testing System.
+    """Central controller for the APGI Framework Testing System.
 
     Manages system initialization, component integration, and orchestrates
     the execution of falsification tests with proper dependency injection.
     """
 
     def __init__(self, config_path: Optional[str] = None):
-        """
-        Initialize the main application controller.
+        """Initialize the main application controller.
 
         Args:
             config_path: Optional path to configuration file.
@@ -73,8 +70,7 @@ class MainApplicationController:
         self.logger.info("MainApplicationController initialized")
 
     def initialize_system(self) -> None:
-        """
-        Initialize all system components with proper dependency injection.
+        """Initialize all system components with proper dependency injection.
 
         Raises:
             APGIFrameworkError: If system initialization fails.
@@ -319,8 +315,7 @@ class MainApplicationController:
         return self._data_manager
 
     def run_system_validation(self) -> Dict[str, bool]:
-        """
-        Run comprehensive system validation checks.
+        """Run comprehensive system validation checks.
 
         Returns:
             Dictionary with validation results for each component.
@@ -487,8 +482,7 @@ class MainApplicationController:
             raise APGIFrameworkError(f"Failed to shutdown system cleanly: {e}")
 
     def get_system_status(self) -> Dict[str, Any]:
-        """
-        Get current system status and component information.
+        """Get current system status and component information.
 
         Returns:
             Dictionary with system status information.
@@ -505,8 +499,7 @@ class MainApplicationController:
         }
 
     def execute_research_workflow(self, research_data: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Execute a complete research workflow.
+        """Execute a complete research workflow.
 
         Args:
             research_data: Dictionary containing research workflow data
@@ -558,8 +551,7 @@ class MainApplicationController:
             }
 
     def execute_cross_species_workflow(self, species_data: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Execute a cross-species workflow.
+        """Execute a cross-species workflow.
 
         Args:
             species_data: Dictionary containing cross-species workflow data

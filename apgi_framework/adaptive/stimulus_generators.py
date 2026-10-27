@@ -1,5 +1,4 @@
-"""
-Stimulus generators for parameter estimation tasks.
+"""Stimulus generators for parameter estimation tasks.
 
 Implements stimulus generation and control for visual, auditory, and interoceptive
 stimuli used in the three core parameter estimation tasks.
@@ -167,8 +166,7 @@ class StimulusGenerator(ABC, Generic[T]):
 
 
 class GaborPatchGenerator(StimulusGenerator[GaborParameters]):
-    """
-    Generator for Gabor patch visual stimuli.
+    """Generator for Gabor patch visual stimuli.
 
     Creates Gabor patches with precise intensity control for visual detection tasks.
     """
@@ -180,8 +178,7 @@ class GaborPatchGenerator(StimulusGenerator[GaborParameters]):
         screen_height: int = 1080,
         viewing_distance_cm: float = 60.0,
     ):
-        """
-        Initialize Gabor patch generator.
+        """Initialize Gabor patch generator.
 
         Args:
             generator_id: Unique identifier for this generator
@@ -257,8 +254,7 @@ class GaborPatchGenerator(StimulusGenerator[GaborParameters]):
         return gabor_clipped
 
     def generate_stimulus(self, parameters: GaborParameters) -> bool:
-        """
-        Generate and present Gabor patch stimulus.
+        """Generate and present Gabor patch stimulus.
 
         Args:
             parameters: Gabor patch parameters
@@ -317,8 +313,7 @@ class GaborPatchGenerator(StimulusGenerator[GaborParameters]):
 
 
 class ToneGenerator(StimulusGenerator[ToneParameters]):
-    """
-    Generator for auditory tone stimuli.
+    """Generator for auditory tone stimuli.
 
     Creates pure tones with precise timing for auditory detection and
     heartbeat synchronization tasks.
@@ -330,8 +325,7 @@ class ToneGenerator(StimulusGenerator[ToneParameters]):
         sample_rate: int = 44100,
         buffer_size: int = 1024,
     ):
-        """
-        Initialize tone generator.
+        """Initialize tone generator.
 
         Args:
             generator_id: Unique identifier for this generator
@@ -406,8 +400,7 @@ class ToneGenerator(StimulusGenerator[ToneParameters]):
         return tone
 
     def generate_stimulus(self, parameters: ToneParameters) -> bool:
-        """
-        Generate and present auditory tone stimulus.
+        """Generate and present auditory tone stimulus.
 
         Args:
             parameters: Tone parameters
@@ -489,15 +482,13 @@ class ToneGenerator(StimulusGenerator[ToneParameters]):
 
 
 class CO2PuffController(StimulusGenerator[CO2PuffParameters]):
-    """
-    Controller for CO2 puff interoceptive stimuli.
+    """Controller for CO2 puff interoceptive stimuli.
 
     Manages CO2 delivery with safety interlocks for interoceptive oddball tasks.
     """
 
     def __init__(self, generator_id: str = "co2_controller", safety_enabled: bool = True):
-        """
-        Initialize CO2 puff controller.
+        """Initialize CO2 puff controller.
 
         Args:
             generator_id: Unique identifier for this controller
@@ -596,8 +587,7 @@ class CO2PuffController(StimulusGenerator[CO2PuffParameters]):
         return True
 
     def generate_stimulus(self, parameters: CO2PuffParameters) -> bool:
-        """
-        Generate CO2 puff stimulus with safety monitoring.
+        """Generate CO2 puff stimulus with safety monitoring.
 
         Args:
             parameters: CO2 puff parameters
@@ -686,8 +676,7 @@ class CO2PuffController(StimulusGenerator[CO2PuffParameters]):
 
 
 class HeartbeatSynchronizer:
-    """
-    Synchronizes stimulus presentation to cardiac cycle.
+    """Synchronizes stimulus presentation to cardiac cycle.
 
     Provides real-time R-peak detection and timing for heartbeat-locked
     stimulus presentation.
@@ -698,8 +687,7 @@ class HeartbeatSynchronizer:
         synchronizer_id: str = "heartbeat_sync",
         detection_method: str = "pan_tompkins",
     ):
-        """
-        Initialize heartbeat synchronizer.
+        """Initialize heartbeat synchronizer.
 
         Args:
             synchronizer_id: Unique identifier
@@ -786,8 +774,7 @@ class HeartbeatSynchronizer:
         logger.info("Cardiac signal monitoring thread stopped")
 
     def wait_for_r_peak(self, timeout_ms: float = 2000.0) -> Optional[datetime]:
-        """
-        Wait for the next R-peak detection.
+        """Wait for the next R-peak detection.
 
         Args:
             timeout_ms: Maximum time to wait in milliseconds
@@ -815,8 +802,7 @@ class HeartbeatSynchronizer:
         return None
 
     def get_heart_rate(self) -> Optional[float]:
-        """
-        Calculate current heart rate from recent R-peaks.
+        """Calculate current heart rate from recent R-peaks.
 
         Returns:
             Heart rate in BPM or None if insufficient data
@@ -840,8 +826,7 @@ class HeartbeatSynchronizer:
         return None
 
     def get_rr_interval(self) -> Optional[float]:
-        """
-        Get the most recent R-R interval.
+        """Get the most recent R-R interval.
 
         Returns:
             R-R interval in milliseconds or None if insufficient data
@@ -853,8 +838,7 @@ class HeartbeatSynchronizer:
         return last_interval
 
     def predict_next_r_peak(self) -> Optional[datetime]:
-        """
-        Predict timing of next R-peak based on recent history.
+        """Predict timing of next R-peak based on recent history.
 
         Returns:
             Predicted timestamp of next R-peak

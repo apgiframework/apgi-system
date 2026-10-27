@@ -1,5 +1,4 @@
-"""
-Stub module for oscillation engine.
+"""Stub module for oscillation engine.
 
 This module provides type stubs for oscillation engine
 that is being migrated from the old apgi_simulation structure.

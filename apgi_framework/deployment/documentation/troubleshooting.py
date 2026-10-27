@@ -1,5 +1,4 @@
-"""
-Troubleshooting Guide with hardware-specific solutions and FAQ.
+"""Troubleshooting Guide with hardware-specific solutions and FAQ.
 
 Provides comprehensive troubleshooting information for common issues
 encountered during APGI Framework parameter estimation.
@@ -24,15 +23,13 @@ class TroubleshootingEntry:
 
 
 class TroubleshootingGuide:
-    """
-    Generates comprehensive troubleshooting guide.
+    """Generates comprehensive troubleshooting guide.
 
     Includes hardware-specific solutions, common issues, and FAQ.
     """
 
     def __init__(self, output_dir: Optional[Path] = None):
-        """
-        Initialize troubleshooting guide generator.
+        """Initialize troubleshooting guide generator.
 
         Args:
             output_dir: Directory for saving guide files.
@@ -372,8 +369,7 @@ class TroubleshootingGuide:
         return entries
 
     def generate_guide(self) -> Path:
-        """
-        Generate complete troubleshooting guide.
+        """Generate complete troubleshooting guide.
 
         Returns:
             Path to generated guide file.

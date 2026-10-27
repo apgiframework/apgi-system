@@ -1,5 +1,4 @@
-"""
-Serialization utilities for APGI Framework.
+"""Serialization utilities for APGI Framework.
 
 This module provides safe serialization alternatives to pickle, supporting JSON and msgpack
 formats with custom encoders for APGI-specific data types.
@@ -104,8 +103,7 @@ class APGIJSONDecoder(json.JSONDecoder):
 
 
 def serialize_json(data: Any, indent: int = 2) -> str:
-    """
-    Serialize data to JSON with custom encoder.
+    """Serialize data to JSON with custom encoder.
 
     Args:
         data: Data to serialize
@@ -118,8 +116,7 @@ def serialize_json(data: Any, indent: int = 2) -> str:
 
 
 def deserialize_json(json_str: str) -> Any:
-    """
-    Deserialize JSON string with custom decoder.
+    """Deserialize JSON string with custom decoder.
 
     Args:
         json_str: JSON string to deserialize
@@ -131,8 +128,7 @@ def deserialize_json(json_str: str) -> Any:
 
 
 def serialize_json_to_file(data: Any, file_path: Path, indent: int = 2) -> None:
-    """
-    Serialize data to JSON file.
+    """Serialize data to JSON file.
 
     Args:
         data: Data to serialize
@@ -145,8 +141,7 @@ def serialize_json_to_file(data: Any, file_path: Path, indent: int = 2) -> None:
 
 
 def deserialize_json_from_file(file_path: Path) -> Any:
-    """
-    Deserialize JSON file with custom decoder.
+    """Deserialize JSON file with custom decoder.
 
     Args:
         file_path: Path to JSON file
@@ -159,8 +154,7 @@ def deserialize_json_from_file(file_path: Path) -> Any:
 
 
 def can_serialize_as_json(data: Any) -> bool:
-    """
-    Check if data can be safely serialized as JSON.
+    """Check if data can be safely serialized as JSON.
 
     Args:
         data: Data to check
@@ -179,8 +173,7 @@ def can_serialize_as_json(data: Any) -> bool:
 
 
 def migrate_pickle_to_json(pickle_file: Path, json_file: Optional[Path] = None) -> bool:
-    """
-    Migrate a pickle file to JSON format.
+    """Migrate a pickle file to JSON format.
 
     Args:
         pickle_file: Path to pickle file
@@ -211,8 +204,7 @@ def migrate_pickle_to_json(pickle_file: Path, json_file: Optional[Path] = None) 
 
 
 def auto_detect_and_load(file_path: Path) -> Any:
-    """
-    Load data from file with automatic format detection.
+    """Load data from file with automatic format detection.
 
     Supports: .json, .msgpack, .pkl (with secure_pickle)
 

@@ -1,5 +1,4 @@
-"""
-End-to-End Workflow Orchestration for APGI Framework Testing.
+"""End-to-End Workflow Orchestration for APGI Framework Testing.
 
 This module provides comprehensive workflow orchestration for running complete
 falsification testing pipelines, automated experiment execution, and result
@@ -114,8 +113,7 @@ class WorkflowResult:
 
 
 class WorkflowOrchestrator:
-    """
-    Orchestrates end-to-end falsification testing workflows.
+    """Orchestrates end-to-end falsification testing workflows.
 
     Manages the complete pipeline from system initialization through
     result reporting, with support for parallel execution and
@@ -156,8 +154,7 @@ class WorkflowOrchestrator:
     """
 
     def __init__(self, controller: MainApplicationController, config: WorkflowConfiguration):
-        """
-        Initialize the workflow orchestrator.
+        """Initialize the workflow orchestrator.
 
         Args:
             controller: Main application controller instance.
@@ -186,8 +183,7 @@ class WorkflowOrchestrator:
             raise APGIFrameworkError("Workflow cancelled by user request")
 
     def register_stage_callback(self, stage: WorkflowStage, callback: Callable) -> None:
-        """
-        Register a callback function for a specific workflow stage.
+        """Register a callback function for a specific workflow stage.
 
         Args:
             stage: Workflow stage to register callback for.
@@ -199,8 +195,7 @@ class WorkflowOrchestrator:
             self.stage_callbacks[stage].append(callback)
 
     def run_complete_workflow(self, workflow_id: Optional[str] = None) -> WorkflowResult:
-        """
-        Run the complete testing workflow.
+        """Run the complete testing workflow.
 
         Args:
             workflow_id: Optional workflow identifier. If None, generates one.
@@ -268,8 +263,7 @@ class WorkflowOrchestrator:
         return self.current_workflow
 
     def run_parallel_workflow(self, workflow_id: Optional[str] = None) -> WorkflowResult:
-        """
-        Run workflow with parallel execution where possible.
+        """Run workflow with parallel execution where possible.
 
         Args:
             workflow_id: Optional workflow identifier.
@@ -336,8 +330,7 @@ class WorkflowOrchestrator:
         return self.current_workflow
 
     def _execute_stage(self, stage: WorkflowStage, stage_function: Callable) -> None:
-        """
-        Execute a workflow stage with error handling and timing.
+        """Execute a workflow stage with error handling and timing.
 
         Args:
             stage: Workflow stage to execute.
@@ -777,8 +770,7 @@ def run_standard_falsification_workflow(
     parallel: bool = False,
     controller: Optional[MainApplicationController] = None,
 ) -> WorkflowResult:
-    """
-    Run a standard falsification testing workflow.
+    """Run a standard falsification testing workflow.
 
     Args:
         config_path: Path to configuration file.
@@ -817,8 +809,7 @@ def run_standard_falsification_workflow(
 
 
 def run_quick_validation_workflow(config_path: Optional[str] = None) -> WorkflowResult:
-    """
-    Run a quick validation workflow with minimal tests.
+    """Run a quick validation workflow with minimal tests.
 
     Args:
         config_path: Path to configuration file.

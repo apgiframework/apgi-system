@@ -1,5 +1,4 @@
-"""
-Experimental Control Validation System
+"""Experimental Control Validation System.
 
 This module implements validation for experimental controls required in APGI Framework
 falsification testing. Ensures proper experimental conditions and rules out confounding
@@ -24,7 +23,7 @@ from ..exceptions import ValidationError
 
 
 class ControlType(Enum):
-    """Types of experimental controls"""
+    """Types of experimental controls."""
 
     MOTOR_SYSTEM = "motor_system"
     VERBAL_SYSTEM = "verbal_system"
@@ -34,7 +33,7 @@ class ControlType(Enum):
 
 
 class ResponseModality(Enum):
-    """Response modalities for control validation"""
+    """Response modalities for control validation."""
 
     BUTTON_PRESS = "button_press"
     VERBAL_REPORT = "verbal_report"
@@ -44,8 +43,7 @@ class ResponseModality(Enum):
 
 @dataclass
 class MotorResponse:
-    """
-    Data model for motor response validation.
+    """Data model for motor response validation.
 
     Represents motor system integrity measurements for experimental control.
     """
@@ -59,7 +57,7 @@ class MotorResponse:
     timestamp: datetime = field(default_factory=datetime.now)
 
     def __post_init__(self) -> None:
-        """Validate motor response parameters"""
+        """Validate motor response parameters."""
         if not 0.0 <= self.accuracy <= 1.0:
             raise ValidationError(f"Accuracy must be between 0.0 and 1.0, got {self.accuracy}")
 
@@ -77,8 +75,7 @@ class MotorResponse:
         accuracy_threshold: float = 0.8,
         consistency_threshold: float = 0.7,
     ) -> bool:
-        """
-        Check if motor function is intact.
+        """Check if motor function is intact.
 
         Args:
             rt_threshold: Maximum acceptable reaction time (ms)
@@ -97,8 +94,7 @@ class MotorResponse:
 
 @dataclass
 class VerbalResponse:
-    """
-    Data model for verbal response validation.
+    """Data model for verbal response validation.
 
     Represents verbal system integrity measurements for experimental control.
     """
@@ -111,7 +107,7 @@ class VerbalResponse:
     timestamp: datetime = field(default_factory=datetime.now)
 
     def __post_init__(self) -> None:
-        """Validate verbal response parameters"""
+        """Validate verbal response parameters."""
         for attr_name in [
             "response_clarity",
             "vocabulary_complexity",
@@ -131,8 +127,7 @@ class VerbalResponse:
         latency_threshold: float = 3000.0,
         comprehension_threshold: float = 0.85,
     ) -> bool:
-        """
-        Check if verbal function is intact.
+        """Check if verbal function is intact.
 
         Args:
             clarity_threshold: Minimum acceptable response clarity
@@ -151,8 +146,7 @@ class VerbalResponse:
 
 @dataclass
 class MetacognitiveAssessment:
-    """
-    Data model for metacognitive sensitivity assessment.
+    """Data model for metacognitive sensitivity assessment.
 
     Represents metacognitive function measurements for experimental control.
     """
@@ -166,7 +160,7 @@ class MetacognitiveAssessment:
     timestamp: datetime = field(default_factory=datetime.now)
 
     def __post_init__(self) -> None:
-        """Validate metacognitive assessment parameters"""
+        """Validate metacognitive assessment parameters."""
         if not -1.0 <= self.confidence_accuracy_correlation <= 1.0:
             raise ValidationError("Confidence-accuracy correlation must be between -1.0 and 1.0")
 
@@ -186,8 +180,7 @@ class MetacognitiveAssessment:
         sensitivity_threshold: float = 0.5,
         efficiency_threshold: float = 0.6,
     ) -> bool:
-        """
-        Check if metacognitive function is intact.
+        """Check if metacognitive function is intact.
 
         Args:
             correlation_threshold: Minimum confidence-accuracy correlation
@@ -206,8 +199,7 @@ class MetacognitiveAssessment:
 
 @dataclass
 class TaskComprehension:
-    """
-    Data model for task comprehension validation.
+    """Data model for task comprehension validation.
 
     Represents task understanding and training validation measurements.
     """
@@ -221,7 +213,7 @@ class TaskComprehension:
     timestamp: datetime = field(default_factory=datetime.now)
 
     def __post_init__(self) -> None:
-        """Validate task comprehension parameters"""
+        """Validate task comprehension parameters."""
         for attr_name in [
             "training_accuracy",
             "instruction_comprehension",
@@ -240,8 +232,7 @@ class TaskComprehension:
         comprehension_threshold: float = 0.85,
         consistency_threshold: float = 0.7,
     ) -> bool:
-        """
-        Check if task comprehension is adequate.
+        """Check if task comprehension is adequate.
 
         Args:
             training_threshold: Minimum training accuracy
@@ -260,8 +251,7 @@ class TaskComprehension:
 
 @dataclass
 class StimulusValidation:
-    """
-    Data model for stimulus validation.
+    """Data model for stimulus validation.
 
     Represents stimulus presentation and detection validation measurements.
     """
@@ -275,7 +265,7 @@ class StimulusValidation:
     timestamp: datetime = field(default_factory=datetime.now)
 
     def __post_init__(self) -> None:
-        """Validate stimulus parameters"""
+        """Validate stimulus parameters."""
         for attr_name in [
             "stimulus_visibility",
             "contrast_level",
@@ -291,8 +281,7 @@ class StimulusValidation:
     def is_supraliminal_presentation(
         self, visibility_threshold: float = 0.8, detection_threshold: float = 0.9
     ) -> bool:
-        """
-        Check if stimulus presentation is supraliminal.
+        """Check if stimulus presentation is supraliminal.
 
         Args:
             visibility_threshold: Minimum visibility for supraliminal
@@ -309,8 +298,7 @@ class StimulusValidation:
 
 @dataclass
 class ExperimentalControlResult:
-    """
-    Complete result of experimental control validation.
+    """Complete result of experimental control validation.
 
     Contains all control validation measures for falsification testing.
     """
@@ -345,15 +333,14 @@ class ExperimentalControlResult:
 
 
 class ExperimentalControlValidator:
-    """
-    Validator for experimental controls in falsification testing.
+    """Validator for experimental controls in falsification testing.
 
     Implements validation logic for motor/verbal systems, metacognitive function,
     task comprehension, and stimulus presentation according to experimental requirements.
     """
 
     def __init__(self) -> None:
-        """Initialize the experimental control validator with default thresholds"""
+        """Initialize the experimental control validator with default thresholds."""
         self.validation_thresholds = {
             # Motor system thresholds
             "motor_rt_max": 1500.0,  # Maximum reaction time (ms)
@@ -379,8 +366,7 @@ class ExperimentalControlValidator:
     def validate_motor_system(
         self, motor_responses: List[MotorResponse]
     ) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Validate motor system integrity.
+        """Validate motor system integrity.
 
         Args:
             motor_responses: List of motor response measurements
@@ -441,8 +427,7 @@ class ExperimentalControlValidator:
     def validate_verbal_system(
         self, verbal_responses: List[VerbalResponse]
     ) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Validate verbal system integrity.
+        """Validate verbal system integrity.
 
         Args:
             verbal_responses: List of verbal response measurements
@@ -502,8 +487,7 @@ class ExperimentalControlValidator:
     def validate_metacognitive_function(
         self, metacognitive_assessment: Optional[MetacognitiveAssessment]
     ) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Validate metacognitive function integrity.
+        """Validate metacognitive function integrity.
 
         Args:
             metacognitive_assessment: Metacognitive assessment measurements
@@ -533,8 +517,7 @@ class ExperimentalControlValidator:
     def validate_task_comprehension(
         self, task_comprehension: Optional[TaskComprehension]
     ) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Validate task comprehension adequacy.
+        """Validate task comprehension adequacy.
 
         Args:
             task_comprehension: Task comprehension measurements
@@ -564,8 +547,7 @@ class ExperimentalControlValidator:
     def validate_stimulus_presentation(
         self, stimulus_validation: Optional[StimulusValidation]
     ) -> Tuple[bool, Dict[str, Any]]:
-        """
-        Validate stimulus presentation validity.
+        """Validate stimulus presentation validity.
 
         Args:
             stimulus_validation: Stimulus validation measurements
@@ -601,8 +583,7 @@ class ExperimentalControlValidator:
         trial_id: str,
         participant_id: str,
     ) -> ExperimentalControlResult:
-        """
-        Perform complete experimental control validation.
+        """Perform complete experimental control validation.
 
         Args:
             motor_responses: Motor response measurements
@@ -681,7 +662,7 @@ class ExperimentalControlValidator:
         task_details: Dict,
         stimulus_details: Dict,
     ) -> float:
-        """Calculate confidence level for experimental control validation"""
+        """Calculate confidence level for experimental control validation."""
         confidence = 0.5  # Base confidence
 
         # Boost confidence based on quality of measurements
@@ -703,7 +684,7 @@ class ExperimentalControlValidator:
         return min(confidence, 1.0)
 
     def _calculate_response_quality(self, motor_details: Dict, verbal_details: Dict) -> float:
-        """Calculate overall response quality score"""
+        """Calculate overall response quality score."""
         motor_quality = float(motor_details.get("mean_accuracy", 0)) * float(
             motor_details.get("mean_consistency", 0)
         )
@@ -721,7 +702,7 @@ class ExperimentalControlValidator:
         task_adequate: bool,
         stimulus_valid: bool,
     ) -> float:
-        """Calculate control reliability score"""
+        """Calculate control reliability score."""
         valid_controls = sum(
             [motor_intact, verbal_intact, metacog_intact, task_adequate, stimulus_valid]
         )
@@ -729,15 +710,13 @@ class ExperimentalControlValidator:
 
 
 class ExperimentalControlSimulator:
-    """
-    Simulator for experimental control measures.
+    """Simulator for experimental control measures.
 
     Generates realistic experimental control data for falsification testing scenarios.
     """
 
     def __init__(self, random_seed: Optional[int] = None):
-        """
-        Initialize the experimental control simulator.
+        """Initialize the experimental control simulator.
 
         Args:
             random_seed: Random seed for reproducible simulations
@@ -748,8 +727,7 @@ class ExperimentalControlSimulator:
     def simulate_motor_responses(
         self, system_integrity: str = "intact", n_responses: int = 10
     ) -> List[MotorResponse]:
-        """
-        Simulate motor response measurements.
+        """Simulate motor response measurements.
 
         Args:
             system_integrity: 'intact', 'impaired', or 'threshold'
@@ -792,8 +770,7 @@ class ExperimentalControlSimulator:
     def simulate_verbal_responses(
         self, system_integrity: str = "intact", n_responses: int = 5
     ) -> List[VerbalResponse]:
-        """
-        Simulate verbal response measurements.
+        """Simulate verbal response measurements.
 
         Args:
             system_integrity: 'intact', 'impaired', or 'threshold'
@@ -836,8 +813,7 @@ class ExperimentalControlSimulator:
     def simulate_metacognitive_assessment(
         self, function_level: str = "intact"
     ) -> MetacognitiveAssessment:
-        """
-        Simulate metacognitive assessment.
+        """Simulate metacognitive assessment.
 
         Args:
             function_level: 'intact', 'impaired', or 'threshold'
@@ -873,8 +849,7 @@ class ExperimentalControlSimulator:
     def simulate_task_comprehension(
         self, comprehension_level: str = "adequate"
     ) -> TaskComprehension:
-        """
-        Simulate task comprehension assessment.
+        """Simulate task comprehension assessment.
 
         Args:
             comprehension_level: 'adequate', 'inadequate', or 'threshold'
@@ -910,8 +885,7 @@ class ExperimentalControlSimulator:
     def simulate_stimulus_validation(
         self, presentation_type: str = "supraliminal"
     ) -> StimulusValidation:
-        """
-        Simulate stimulus validation measurements.
+        """Simulate stimulus validation measurements.
 
         Args:
             presentation_type: 'supraliminal', 'subliminal', or 'threshold'

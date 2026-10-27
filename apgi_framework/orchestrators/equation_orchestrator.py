@@ -1,5 +1,4 @@
-"""
-Equation Orchestrator for mathematical model management.
+"""Equation Orchestrator for mathematical model management.
 
 Handles initialization, execution, and validation of mathematical equations
 and computational models.
@@ -23,8 +22,7 @@ class EquationConfig:
 
 
 class EquationOrchestrator:
-    """
-    Orchestrates mathematical equation initialization and execution.
+    """Orchestrates mathematical equation initialization and execution.
 
     Responsibilities:
     - Initialize mathematical engines
@@ -34,8 +32,7 @@ class EquationOrchestrator:
     """
 
     def __init__(self, config: Optional[EquationConfig] = None):
-        """
-        Initialize the equation orchestrator.
+        """Initialize the equation orchestrator.
 
         Args:
             config: Configuration for equation orchestrator
@@ -101,8 +98,7 @@ class EquationOrchestrator:
         return PlaceholderEngine()
 
     def get_engine(self, engine_name: str) -> Any:
-        """
-        Get a specific engine.
+        """Get a specific engine.
 
         Args:
             engine_name: Name of the engine
@@ -118,8 +114,7 @@ class EquationOrchestrator:
         return self._engines[engine_name]
 
     def execute_equation(self, equation_id: str, parameters: Dict[str, Any]) -> Any:
-        """
-        Execute a mathematical equation.
+        """Execute a mathematical equation.
 
         Args:
             equation_id: Identifier for the equation
@@ -152,8 +147,7 @@ class EquationOrchestrator:
         return result
 
     def validate_equation_parameters(self, equation_id: str, parameters: Dict[str, Any]) -> bool:
-        """
-        Validate parameters for an equation.
+        """Validate parameters for an equation.
 
         Args:
             equation_id: Identifier for the equation

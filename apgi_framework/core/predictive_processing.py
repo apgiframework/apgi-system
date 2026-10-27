@@ -1,5 +1,4 @@
-"""
-Stub module for predictive processing.
+"""Stub module for predictive processing.
 
 This module provides type stubs for predictive processing functionality
 that is being migrated from the old apgi_simulation structure.

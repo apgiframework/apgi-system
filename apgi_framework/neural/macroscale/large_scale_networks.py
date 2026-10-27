@@ -1,5 +1,4 @@
-"""
-Stub module for large scale network management.
+"""Stub module for large scale network management.
 
 This module provides type stubs for large scale network management
 that is being migrated from the old apgi_simulation structure.

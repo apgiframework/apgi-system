@@ -1,5 +1,4 @@
-"""
-Memory-Efficient Test Runner for APGI Framework
+"""Memory-Efficient Test Runner for APGI Framework.
 
 Provides memory-efficient execution for large test suites with:
 - Progress checkpointing and resume capability
@@ -237,7 +236,6 @@ class MemoryEfficientTestRunner(BatchTestRunner):
         **kwargs: Any,
     ) -> BatchExecutionSummary:
         """Run batch tests with memory-efficient checkpointing."""
-
         # Start memory monitoring
         self.memory_monitor.start_monitoring()  # type: ignore[no-untyped-call]
 
@@ -253,7 +251,6 @@ class MemoryEfficientTestRunner(BatchTestRunner):
         self, test_selection: Optional[List[str]], **kwargs: Any
     ) -> BatchExecutionSummary:
         """Run tests with periodic checkpointing."""
-
         start_time = datetime.now()
         self.current_execution_id = (
             f"memory_efficient_{start_time.strftime('%Y%m%d_%H%M%S')}_{os.getpid()}"
@@ -352,7 +349,6 @@ class MemoryEfficientTestRunner(BatchTestRunner):
 
     def _run_test_with_memory_monitoring(self, test_file: str, timeout: int) -> TestResult:
         """Run a single test with memory monitoring."""
-
         # Get memory stats before test
         pre_stats = self.memory_monitor.get_current_stats()
 
@@ -379,7 +375,6 @@ class MemoryEfficientTestRunner(BatchTestRunner):
         execution_config: Dict[str, Any],
     ) -> None:
         """Create a checkpoint file."""
-
         checkpoint = MemoryCheckpoint(
             execution_id=execution_id,
             timestamp=datetime.now(),
@@ -411,7 +406,6 @@ class MemoryEfficientTestRunner(BatchTestRunner):
 
     def _resume_from_checkpoint(self, checkpoint_file: str, **kwargs: Any) -> BatchExecutionSummary:
         """Resume execution from a checkpoint."""
-
         checkpoint_path = Path(checkpoint_file)
         if not checkpoint_path.exists():
             raise FileNotFoundError(f"Checkpoint file not found: {checkpoint_file}")
@@ -709,7 +703,6 @@ def run_memory_efficient_tests(
     resume_from: Optional[str] = None,
 ) -> BatchExecutionSummary:
     """Run tests with memory-efficient execution."""
-
     runner = MemoryEfficientTestRunner(
         memory_limit_mb=memory_limit_mb, checkpoint_interval=checkpoint_interval
     )

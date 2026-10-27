@@ -1,5 +1,4 @@
-"""
-Statistical report generator for APGI falsification testing.
+"""Statistical report generator for APGI falsification testing.
 
 This module provides comprehensive statistical report generation including
 detailed statistical summaries, falsification probability assessments,
@@ -92,8 +91,7 @@ class PublicationReport:
 
 
 class StatisticalReportGenerator:
-    """
-    Comprehensive statistical report generator for APGI framework studies.
+    """Comprehensive statistical report generator for APGI framework studies.
 
     Generates detailed statistical summaries, falsification probability
     assessments, and publication-ready reports for APGI framework
@@ -106,8 +104,7 @@ class StatisticalReportGenerator:
         effect_size_threshold: float = 0.2,
         power_threshold: float = 0.8,
     ):
-        """
-        Initialize the report generator.
+        """Initialize the report generator.
 
         Args:
             significance_threshold: P-value threshold for significance
@@ -136,8 +133,7 @@ class StatisticalReportGenerator:
         sample_size: int,
         theoretical_predictions: Dict[str, Any],
     ) -> FalsificationAssessment:
-        """
-        Generate comprehensive falsification assessment for a specific criterion.
+        """Generate comprehensive falsification assessment for a specific criterion.
 
         Args:
             criterion_type: Type of falsification criterion
@@ -213,8 +209,7 @@ class StatisticalReportGenerator:
         replication_data: Optional[List[ExperimentResult]] = None,
         theoretical_framework: Optional[Dict[str, Any]] = None,
     ) -> StatisticalSummary:
-        """
-        Generate comprehensive statistical summary for the study.
+        """Generate comprehensive statistical summary for the study.
 
         Args:
             study_id: Unique identifier for the study
@@ -291,8 +286,7 @@ class StatisticalReportGenerator:
         authors: List[str],
         format_type: ReportFormat = ReportFormat.MARKDOWN,
     ) -> PublicationReport:
-        """
-        Generate publication-ready report.
+        """Generate publication-ready report.
 
         Args:
             summary: Statistical summary to convert
@@ -345,8 +339,7 @@ class StatisticalReportGenerator:
         filename: str,
         format_type: ReportFormat = ReportFormat.JSON,
     ) -> str:
-        """
-        Export report to specified format.
+        """Export report to specified format.
 
         Args:
             report: Report to export

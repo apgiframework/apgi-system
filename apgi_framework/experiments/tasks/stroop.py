@@ -1,5 +1,4 @@
-"""
-Stub module for Stroop task.
+"""Stub module for Stroop task.
 
 This module provides type stubs for Stroop experimental task
 that is being migrated from the old apgi_simulation structure.

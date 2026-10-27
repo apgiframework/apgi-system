@@ -1,5 +1,4 @@
-"""
-GUI Resource Manager for memory management and cleanup.
+"""GUI Resource Manager for memory management and cleanup.
 
 Provides context managers and utilities for proper resource cleanup
 in GUI applications to prevent memory leaks.
@@ -15,8 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class GUIResourceManager:
-    """
-    Manages GUI resources and ensures proper cleanup.
+    """Manages GUI resources and ensures proper cleanup.
 
     Tracks widgets, figures, and other resources for cleanup.
     """
@@ -29,8 +27,7 @@ class GUIResourceManager:
         self._cleanup_callbacks: List[Callable] = []
 
     def register_widget(self, widget: Any) -> None:
-        """
-        Register a GUI widget for tracking.
+        """Register a GUI widget for tracking.
 
         Args:
             widget: Widget to track
@@ -40,8 +37,7 @@ class GUIResourceManager:
         logger.debug("Widget registered: %s", type(widget).__name__)
 
     def register_figure(self, figure: Any) -> None:
-        """
-        Register a matplotlib figure for cleanup.
+        """Register a matplotlib figure for cleanup.
 
         Args:
             figure: Matplotlib figure to track
@@ -50,8 +46,7 @@ class GUIResourceManager:
         logger.debug("Figure registered")
 
     def register_thread(self, thread: Any) -> None:
-        """
-        Register a thread for cleanup.
+        """Register a thread for cleanup.
 
         Args:
             thread: Thread to track
@@ -60,8 +55,7 @@ class GUIResourceManager:
         logger.debug("Thread registered")
 
     def register_cleanup_callback(self, callback: Callable) -> None:
-        """
-        Register a cleanup callback.
+        """Register a cleanup callback.
 
         Args:
             callback: Function to call during cleanup
@@ -136,8 +130,7 @@ class GUIResourceManager:
         logger.info("Resource cleanup complete")
 
     def get_memory_usage(self) -> dict:
-        """
-        Get current memory usage statistics.
+        """Get current memory usage statistics.
 
         Returns:
             Dictionary with memory usage info
@@ -161,8 +154,7 @@ class GUIResourceManager:
 
 @contextmanager
 def gui_resource_context(resource_manager: GUIResourceManager):
-    """
-    Context manager for GUI resource cleanup.
+    """Context manager for GUI resource cleanup.
 
     Usage:
         with gui_resource_context(manager):
@@ -184,8 +176,7 @@ def gui_resource_context(resource_manager: GUIResourceManager):
 
 @contextmanager
 def widget_context(widget: Any, resource_manager: Optional[GUIResourceManager] = None):
-    """
-    Context manager for individual widget cleanup.
+    """Context manager for individual widget cleanup.
 
     Usage:
         with widget_context(my_widget, manager):
@@ -214,8 +205,7 @@ def widget_context(widget: Any, resource_manager: Optional[GUIResourceManager] =
 
 @contextmanager
 def figure_context(figure: Any, resource_manager: Optional[GUIResourceManager] = None):
-    """
-    Context manager for matplotlib figure cleanup.
+    """Context manager for matplotlib figure cleanup.
 
     Usage:
         with figure_context(fig, manager):
@@ -244,8 +234,7 @@ def figure_context(figure: Any, resource_manager: Optional[GUIResourceManager] =
 
 
 class LazyGUILoader:
-    """
-    Lazy loader for GUI components to reduce startup time.
+    """Lazy loader for GUI components to reduce startup time.
 
     Loads GUI components on-demand instead of at startup.
     """
@@ -256,8 +245,7 @@ class LazyGUILoader:
         self._loaded: Dict[str, Any] = {}
 
     def register_component(self, name: str, loader: Callable) -> None:
-        """
-        Register a component loader.
+        """Register a component loader.
 
         Args:
             name: Component name
@@ -267,8 +255,7 @@ class LazyGUILoader:
         logger.debug("Component registered for lazy loading: %s", name)
 
     def get_component(self, name: str) -> Any:
-        """
-        Get a component, loading it if necessary.
+        """Get a component, loading it if necessary.
 
         Args:
             name: Component name
@@ -295,8 +282,7 @@ class LazyGUILoader:
         return component
 
     def unload_component(self, name: str) -> None:
-        """
-        Unload a component to free memory.
+        """Unload a component to free memory.
 
         Args:
             name: Component name

@@ -1,5 +1,4 @@
-"""
-Workflow Orchestrator for coordinating multi-domain workflows.
+"""Workflow Orchestrator for coordinating multi-domain workflows.
 
 Coordinates research, clinical, and falsification workflows by delegating
 to specialized orchestrators.
@@ -45,8 +44,7 @@ class WorkflowConfig:
 
 
 class WorkflowOrchestrator:
-    """
-    Orchestrates multi-domain workflows.
+    """Orchestrates multi-domain workflows.
 
     Responsibilities:
     - Coordinate equation, data, and analysis orchestrators
@@ -57,8 +55,7 @@ class WorkflowOrchestrator:
     """
 
     def __init__(self, config: Optional[WorkflowConfig] = None):
-        """
-        Initialize the workflow orchestrator.
+        """Initialize the workflow orchestrator.
 
         Args:
             config: Configuration for workflow orchestrator
@@ -95,8 +92,7 @@ class WorkflowOrchestrator:
     def execute_research_workflow(
         self, workflow_id: str, parameters: Dict[str, Any]
     ) -> Dict[str, Any]:
-        """
-        Execute a research workflow.
+        """Execute a research workflow.
 
         Args:
             workflow_id: Identifier for the workflow
@@ -151,8 +147,7 @@ class WorkflowOrchestrator:
     def execute_clinical_workflow(
         self, workflow_id: str, parameters: Dict[str, Any]
     ) -> Dict[str, Any]:
-        """
-        Execute a clinical workflow.
+        """Execute a clinical workflow.
 
         Args:
             workflow_id: Identifier for the workflow
@@ -180,8 +175,7 @@ class WorkflowOrchestrator:
     def execute_falsification_workflow(
         self, workflow_id: str, parameters: Dict[str, Any]
     ) -> Dict[str, Any]:
-        """
-        Execute a falsification workflow.
+        """Execute a falsification workflow.
 
         Args:
             workflow_id: Identifier for the workflow
@@ -207,8 +201,7 @@ class WorkflowOrchestrator:
             raise
 
     def get_workflow_status(self, workflow_id: str) -> Dict[str, Any]:
-        """
-        Get the status of a workflow.
+        """Get the status of a workflow.
 
         Args:
             workflow_id: Identifier for the workflow

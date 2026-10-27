@@ -1,5 +1,4 @@
-"""
-Integration module: Virtual Metabolic Layer with APGI Ignition System.
+"""Integration module: Virtual Metabolic Layer with APGI Ignition System.
 
 This module provides the bridge between the Virtual Metabolic Layer (using Neural Mass Models
 for ATP flux estimation) and the existing APGI ignition and metabolic budget systems.
@@ -48,8 +47,7 @@ from apgi_framework.thermodynamic.neural_mass_metabolism import (
 
 
 class IntegratedMetabolicSystem:
-    """
-    Integrated metabolic system combining Virtual Metabolic Layer with APGI budget.
+    """Integrated metabolic system combining Virtual Metabolic Layer with APGI budget.
 
     This class serves as the primary integration point, providing:
     1. Dynamic κ values based on biophysical ATP calculations
@@ -67,8 +65,7 @@ class IntegratedMetabolicSystem:
         config: Dict[str, Any],
         rng: Optional[np.random.Generator] = None,
     ):
-        """
-        Initialize the integrated metabolic system.
+        """Initialize the integrated metabolic system.
 
         Args:
             config: Configuration dictionary with keys:
@@ -146,8 +143,7 @@ class IntegratedMetabolicSystem:
         task_active: bool = False,
         dt_ms: float = 1.0,
     ) -> Dict[str, Any]:
-        """
-        Update metabolic system state.
+        """Update metabolic system state.
 
         This is the main integration method called during simulation loops.
 
@@ -214,8 +210,7 @@ class IntegratedMetabolicSystem:
         }
 
     def _compute_input_drive(self, ignition_signal: float, threshold: float) -> float:
-        """
-        Compute input drive to neural mass model from ignition signal.
+        """Compute input drive to neural mass model from ignition signal.
 
         Scales the signal-to-threshold ratio to appropriate input range.
         """
@@ -232,8 +227,7 @@ class IntegratedMetabolicSystem:
         return float(input_drive)
 
     def get_current_kappa(self, use_recent_average: bool = True) -> float:
-        """
-        Get the current κ value for thermodynamic calculations.
+        """Get the current κ value for thermodynamic calculations.
 
         If dynamic kappa is enabled, returns NMM-based estimate.
         Otherwise returns static configuration value.
@@ -257,8 +251,7 @@ class IntegratedMetabolicSystem:
         threshold: float,
         workspace_content: Optional[np.ndarray] = None,
     ) -> Dict[str, Any]:
-        """
-        Compute estimated ATP cost for a hypothetical ignition.
+        """Compute estimated ATP cost for a hypothetical ignition.
 
         This allows pre-computation of ignition cost without triggering
         actual state updates.
@@ -346,8 +339,7 @@ class IntegratedMetabolicSystem:
 
 
 class MetabolicIgnitionAdapter:
-    """
-    Adapter class for integrating metabolic tracking with ignition threshold.
+    """Adapter class for integrating metabolic tracking with ignition threshold.
 
     This adapter connects the Virtual Metabolic Layer to the IgnitionThreshold
     class, providing real-time metabolic state updates for threshold modulation.
@@ -384,8 +376,7 @@ class MetabolicIgnitionAdapter:
         workspace_content: Optional[np.ndarray] = None,
         dt_ms: float = 1.0,
     ) -> Dict[str, Any]:
-        """
-        Update both ignition threshold and metabolic system.
+        """Update both ignition threshold and metabolic system.
 
         This method coordinates the two systems, using metabolic state
         for threshold modulation and ignition events for metabolic cost tracking.
@@ -439,8 +430,7 @@ class MetabolicIgnitionAdapter:
         }
 
     def get_kappa_for_cost_update(self) -> float:
-        """
-        Get current κ value for metabolic cost calculations.
+        """Get current κ value for metabolic cost calculations.
 
         Returns:
             Current κ (dynamic or static based on configuration)
@@ -459,8 +449,7 @@ class MetabolicIgnitionAdapter:
         threshold: float,
         workspace_content: Optional[np.ndarray] = None,
     ) -> Dict[str, Any]:
-        """
-        Estimate cost of a potential future ignition.
+        """Estimate cost of a potential future ignition.
 
         Args:
             projected_signal: Projected surprise signal
@@ -482,8 +471,7 @@ def create_metabolic_system_with_vml(
     use_dynamic_kappa: bool = True,
     config_overrides: Optional[Dict[str, Any]] = None,
 ) -> IntegratedMetabolicSystem:
-    """
-    Factory function to create an integrated metabolic system with Virtual Metabolic Layer.
+    """Factory function to create an integrated metabolic system with Virtual Metabolic Layer.
 
     Args:
         workspace_neurons: Number of neurons in the global workspace

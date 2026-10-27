@@ -1,5 +1,4 @@
-"""
-Anti-Pattern Detector for Test Code Analysis
+"""Anti-Pattern Detector for Test Code Analysis.
 
 Analyzes test code using AST parsing to detect common anti-patterns,
 provides improvement suggestions, and gives resource requirement feedback.
@@ -489,8 +488,7 @@ class TestCodeAnalyzer(ast.NodeVisitor):
 
 
 class AntiPatternDetector:
-    """
-    Detects anti-patterns in test code using AST analysis.
+    """Detects anti-patterns in test code using AST analysis.
 
     Provides comprehensive analysis of test code quality, identifies
     common anti-patterns, and suggests improvements.
@@ -500,8 +498,7 @@ class AntiPatternDetector:
         self.logger = get_logger("anti_pattern_detector")
 
     def analyze_file(self, file_path: Path) -> List[AntiPattern]:
-        """
-        Analyze a single test file for anti-patterns.
+        """Analyze a single test file for anti-patterns.
 
         Args:
             file_path: Path to the test file
@@ -520,8 +517,7 @@ class AntiPatternDetector:
             return []
 
     def analyze_code(self, source_code: str, filename: str = "<string>") -> List[AntiPattern]:
-        """
-        Analyze source code for anti-patterns.
+        """Analyze source code for anti-patterns.
 
         Args:
             source_code: Python source code to analyze
@@ -550,8 +546,7 @@ class AntiPatternDetector:
     def analyze_directory(
         self, directory_path: Path, pattern: str = "test_*.py"
     ) -> Dict[str, List[AntiPattern]]:
-        """
-        Analyze all test files in a directory.
+        """Analyze all test files in a directory.
 
         Args:
             directory_path: Path to directory containing test files
@@ -597,8 +592,7 @@ class AntiPatternDetector:
                     )
 
     def generate_report(self, anti_patterns: List[AntiPattern]) -> Dict[str, Any]:
-        """
-        Generate a comprehensive report of anti-patterns.
+        """Generate a comprehensive report of anti-patterns.
 
         Args:
             anti_patterns: List of detected anti-patterns

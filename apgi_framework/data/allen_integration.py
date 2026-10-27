@@ -1,5 +1,4 @@
-"""
-Allen Brain Map Dataset Integration for APGI Framework
+"""Allen Brain Map Dataset Integration for APGI Framework.
 
 This module provides specialized loaders for Allen Brain Map datasets, which
 are critical for validating the Landauer Bridge (E_min ≥ kTln2) through
@@ -32,8 +31,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class AllenVisualCodingDataset:
-    """
-    Allen Visual Coding: Two-Photon Calcium Imaging dataset.
+    """Allen Visual Coding: Two-Photon Calcium Imaging dataset.
 
     This dataset contains single-neuron activity from thousands of neurons
     simultaneously, enabling calculation of PCI-like complexity metrics and
@@ -90,8 +88,7 @@ class AllenVisualCodingDataset:
     def compute_pci_like_complexity(
         self, time_window_ms: float = 500.0, n_bins: int = 50
     ) -> Dict[str, float]:
-        """
-        Compute PCI-like complexity metric from neural activity.
+        """Compute PCI-like complexity metric from neural activity.
 
         This metric quantifies the complexity of neural activity patterns,
         analogous to the Perturbational Complexity Index (PCI) used in
@@ -145,8 +142,7 @@ class AllenVisualCodingDataset:
         }
 
     def _compute_lempel_ziv(self, binary_sequence: npt.NDArray[np.int64]) -> int:
-        """
-        Compute Lempel-Ziv complexity of binary sequence.
+        """Compute Lempel-Ziv complexity of binary sequence.
 
         Args:
             binary_sequence: Binary sequence (0s and 1s)
@@ -189,8 +185,7 @@ class AllenVisualCodingDataset:
     def compute_reservoir_state(
         self, reservoir_size: int = 100, time_window_ms: float = 100.0
     ) -> npt.NDArray[np.float64]:
-        """
-        Compute reservoir state vector x(t) for Liquid State Machine validation.
+        """Compute reservoir state vector x(t) for Liquid State Machine validation.
 
         The reservoir state represents the high-dimensional projection of neural
         activity, which is used in LSM models for temporal processing.
@@ -219,8 +214,7 @@ class AllenVisualCodingDataset:
     def detect_ignition_events(
         self, threshold_std: float = 3.0, min_duration_ms: float = 50.0
     ) -> List[Dict[str, Any]]:
-        """
-        Detect ignition events from population activity.
+        """Detect ignition events from population activity.
 
         Ignition events are characterized by widespread, sustained neural
         activity across many neurons.
@@ -268,16 +262,14 @@ class AllenVisualCodingDataset:
 
 
 class AllenLoader:
-    """
-    Specialized loader for Allen Brain Map datasets.
+    """Specialized loader for Allen Brain Map datasets.
 
     Provides convenience methods for loading specific Allen datasets with
     appropriate preprocessing for APGI validation protocols.
     """
 
     def __init__(self, cache_dir: Optional[Path] = None):
-        """
-        Initialize Allen loader.
+        """Initialize Allen loader.
 
         Args:
             cache_dir: Directory for caching downloaded datasets
@@ -289,8 +281,7 @@ class AllenLoader:
     def load_visual_coding(
         self, file_path: Union[str, Path], **kwargs: Any
     ) -> AllenVisualCodingDataset:
-        """
-        Load Allen Visual Coding dataset (Two-Photon Calcium Imaging).
+        """Load Allen Visual Coding dataset (Two-Photon Calcium Imaging).
 
         Args:
             file_path: Path to Visual Coding dataset file (.nwb format)
@@ -324,8 +315,7 @@ class AllenLoader:
         )
 
     def download_visual_coding(self, experiment_id: str, output_dir: Optional[Path] = None) -> Path:
-        """
-        Download Allen Visual Coding dataset using Allen SDK.
+        """Download Allen Visual Coding dataset using Allen SDK.
 
         Note: This requires Allen SDK installation and API access.
         Users should download manually from https://portal.brain-map.org/
@@ -359,8 +349,7 @@ class AllenLoader:
         return output_dir
 
     def list_available_experiments(self) -> List[str]:
-        """
-        List available Allen Brain Map experiments.
+        """List available Allen Brain Map experiments.
 
         Returns:
             List of experiment IDs

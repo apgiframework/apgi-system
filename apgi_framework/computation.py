@@ -1,5 +1,4 @@
-"""
-Computation module for APGI Framework.
+"""Computation module for APGI Framework.
 
 This module provides intensive computation capabilities.
 """

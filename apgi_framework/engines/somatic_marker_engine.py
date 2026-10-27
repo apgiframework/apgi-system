@@ -1,5 +1,4 @@
-"""
-Somatic marker engine for context-dependent gain modulation.
+"""Somatic marker engine for context-dependent gain modulation.
 
 This module implements the somatic marker system that modulates interoceptive
 precision based on contextual factors like emotional valence, stakes, and arousal.
@@ -34,16 +33,14 @@ class ContextType(Enum):
 
 
 class SomaticMarkerEngine:
-    """
-    Engine for calculating somatic marker gain (M_{c,a}) based on context.
+    """Engine for calculating somatic marker gain (M_{c,a}) based on context.
 
     The somatic marker system modulates interoceptive precision based on
     the emotional and contextual significance of the current situation.
     """
 
     def __init__(self, baseline_gain: float = 1.0, max_gain: float = 5.0, min_gain: float = 0.1):
-        """
-        Initialize somatic marker engine.
+        """Initialize somatic marker engine.
 
         Args:
             baseline_gain: Default gain for neutral contexts
@@ -78,8 +75,7 @@ class SomaticMarkerEngine:
         valence: float = 0.0,
         stakes: float = 1.0,
     ) -> float:
-        """
-        Calculate somatic marker gain for given context and parameters.
+        """Calculate somatic marker gain for given context and parameters.
 
         Args:
             context: Type of contextual situation
@@ -126,8 +122,7 @@ class SomaticMarkerEngine:
         return float(gain)
 
     def update_context_modulation(self, context: ContextType, modulation: float) -> None:
-        """
-        Update modulation factor for a specific context type.
+        """Update modulation factor for a specific context type.
 
         Args:
             context: Context type to update
@@ -151,8 +146,7 @@ class SomaticMarkerEngine:
         context: ContextType,
         adaptation_rate: float = 0.1,
     ) -> float:
-        """
-        Calculate adaptive somatic gain based on recent prediction errors.
+        """Calculate adaptive somatic gain based on recent prediction errors.
 
         Args:
             recent_errors: Array of recent prediction errors
@@ -193,8 +187,7 @@ class SomaticMarkerEngine:
         return float(adaptive_gain)
 
     def get_engine_info(self) -> dict:
-        """
-        Get information about the somatic marker engine configuration.
+        """Get information about the somatic marker engine configuration.
 
         Returns:
             Dictionary with engine settings and parameters

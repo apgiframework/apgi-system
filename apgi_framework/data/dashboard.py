@@ -1,5 +1,4 @@
-"""
-Comprehensive Reporting Dashboard for APGI Framework
+"""Comprehensive Reporting Dashboard for APGI Framework.
 
 This module provides a web-based dashboard for experiment monitoring,
 real-time progress tracking, and experiment comparison and analysis tools.
@@ -19,13 +18,10 @@ from .visualizer import InteractiveVisualizer
 
 
 class ExperimentMonitor:
-    """
-    Monitors experiment progress and provides real-time updates.
-    """
+    """Monitors experiment progress and provides real-time updates."""
 
     def __init__(self, update_interval: float = 1.0):
-        """
-        Initialize experiment monitor.
+        """Initialize experiment monitor.
 
         Args:
             update_interval: Update interval in seconds
@@ -41,7 +37,7 @@ class ExperimentMonitor:
         self._monitor_thread: Optional[threading.Thread] = None
 
     def start_monitoring(self) -> None:
-        """Start the monitoring thread"""
+        """Start the monitoring thread."""
         if not self.is_monitoring:
             self.is_monitoring = True
             self._monitor_thread = threading.Thread(target=self._monitor_loop, daemon=True)
@@ -49,14 +45,14 @@ class ExperimentMonitor:
             self.logger.info("Started experiment monitoring")
 
     def stop_monitoring(self) -> None:
-        """Stop the monitoring thread"""
+        """Stop the monitoring thread."""
         self.is_monitoring = False
         if self._monitor_thread:
             self._monitor_thread.join(timeout=5.0)
         self.logger.info("Stopped experiment monitoring")
 
     def register_experiment(self, experiment_id: str, metadata: Dict[str, Any]) -> None:
-        """Register a new experiment for monitoring"""
+        """Register a new experiment for monitoring."""
         with self._lock:
             self.experiments[experiment_id] = {
                 "id": experiment_id,
@@ -86,7 +82,7 @@ class ExperimentMonitor:
         new_results: Optional[List[FalsificationResult]] = None,
         new_trials: Optional[List[ExperimentalTrial]] = None,
     ) -> None:
-        """Update experiment progress"""
+        """Update experiment progress."""
         with self._lock:
             if experiment_id not in self.experiments:
                 return
@@ -113,7 +109,7 @@ class ExperimentMonitor:
         self._notify_listeners("experiment_updated", experiment_id)
 
     def complete_experiment(self, experiment_id: str) -> None:
-        """Mark experiment as completed"""
+        """Mark experiment as completed."""
         with self._lock:
             if experiment_id in self.experiments:
                 self.experiments[experiment_id]["status"] = "completed"
@@ -124,27 +120,27 @@ class ExperimentMonitor:
         self.logger.info(f"Experiment {experiment_id} completed")
 
     def get_experiment_status(self, experiment_id: str) -> Optional[Dict[str, Any]]:
-        """Get current experiment status"""
+        """Get current experiment status."""
         with self._lock:
             result: Dict[str, Any] = self.experiments.get(experiment_id, {}).copy()
             return result if result else None
 
     def get_all_experiments(self) -> Dict[str, Dict[str, Any]]:
-        """Get status of all experiments"""
+        """Get status of all experiments."""
         with self._lock:
             return {eid: exp.copy() for eid, exp in self.experiments.items()}
 
     def add_listener(self, callback: Callable[[str, str], None]) -> None:
-        """Add event listener for experiment updates"""
+        """Add event listener for experiment updates."""
         self.listeners.append(callback)
 
     def remove_listener(self, callback: Callable[[str, str], None]) -> None:
-        """Remove event listener"""
+        """Remove event listener."""
         if callback in self.listeners:
             self.listeners.remove(callback)
 
     def _monitor_loop(self) -> None:
-        """Main monitoring loop"""
+        """Main monitoring loop."""
         while self.is_monitoring:
             try:
                 with self._lock:
@@ -158,7 +154,7 @@ class ExperimentMonitor:
                 time.sleep(self.update_interval)
 
     def _update_experiment_statistics(self, experiment_id: str) -> None:
-        """Update experiment statistics"""
+        """Update experiment statistics."""
         if experiment_id not in self.experiments:
             return
 
@@ -177,7 +173,7 @@ class ExperimentMonitor:
                 )
 
     def _notify_listeners(self, event_type: str, experiment_id: str) -> None:
-        """Notify all listeners of an event"""
+        """Notify all listeners of an event."""
         for listener in self.listeners:
             try:
                 listener(event_type, experiment_id)
@@ -186,17 +182,14 @@ class ExperimentMonitor:
 
 
 class ExperimentComparator:
-    """
-    Provides experiment comparison and analysis capabilities.
-    """
+    """Provides experiment comparison and analysis capabilities."""
 
     def __init__(self) -> None:
-        """Initialize experiment comparator"""
+        """Initialize experiment comparator."""
         self.logger = logging.getLogger(__name__)
 
     def compare_experiments(self, experiments: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
-        """
-        Compare multiple experiments and generate analysis.
+        """Compare multiple experiments and generate analysis.
 
         Args:
             experiments: Dictionary of experiment data
@@ -221,8 +214,7 @@ class ExperimentComparator:
     def _generate_comparison_summary(
         self, experiments: Dict[str, Dict[str, Any]]
     ) -> Dict[str, Any]:
-        """Generate high-level comparison summary"""
-
+        """Generate high-level comparison summary."""
         total_experiments = len(experiments)
         completed_experiments = sum(
             1 for exp in experiments.values() if exp["status"] == "completed"
@@ -245,8 +237,7 @@ class ExperimentComparator:
         }
 
     def _compare_statistics(self, experiments: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
-        """Compare statistical metrics across experiments"""
-
+        """Compare statistical metrics across experiments."""
         stats_by_experiment = {}
 
         for exp_id, exp_data in experiments.items():
@@ -284,8 +275,7 @@ class ExperimentComparator:
         return {"by_experiment": stats_by_experiment, "comparison": comparison_stats}
 
     def _analyze_parameters(self, experiments: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
-        """Analyze parameter distributions across experiments"""
-
+        """Analyze parameter distributions across experiments."""
         parameter_analysis: Dict[str, List[float]] = {
             "extero_precision": [],
             "intero_precision": [],
@@ -319,8 +309,7 @@ class ExperimentComparator:
         return param_stats
 
     def _compare_performance(self, experiments: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
-        """Compare performance metrics across experiments"""
-
+        """Compare performance metrics across experiments."""
         performance_metrics = {}
 
         for exp_id, exp_data in experiments.items():
@@ -356,8 +345,7 @@ class ExperimentComparator:
         return performance_metrics
 
     def _generate_recommendations(self, experiments: Dict[str, Dict[str, Any]]) -> List[str]:
-        """Generate recommendations based on experiment comparison"""
-
+        """Generate recommendations based on experiment comparison."""
         recommendations = []
 
         # Analyze falsification patterns
@@ -426,9 +414,7 @@ class ExperimentComparator:
 
 
 class DashboardServer:
-    """
-    Web-based dashboard server for experiment monitoring and analysis.
-    """
+    """Web-based dashboard server for experiment monitoring and analysis."""
 
     def __init__(self, port: int = 8080, data_dir: str = "data"):
         self.data: Dict[str, Any] = {}
@@ -459,7 +445,7 @@ class DashboardServer:
         }
 
     def start_dashboard(self) -> None:
-        """Start the dashboard server"""
+        """Start the dashboard server."""
         try:
             self.monitor.start_monitoring()
             self.monitor.add_listener(self._on_experiment_event)
@@ -473,7 +459,7 @@ class DashboardServer:
             raise DashboardError(f"Failed to start dashboard server: {str(e)}")
 
     def stop_dashboard(self) -> None:
-        """Stop the dashboard server"""
+        """Stop the dashboard server."""
         try:
             self.monitor.stop_monitoring()
             self._save_dashboard_state()
@@ -483,8 +469,7 @@ class DashboardServer:
             self.logger.error(f"Error stopping dashboard server: {str(e)}")
 
     def get_data(self, experiment_id: Optional[str] = None) -> Dict[str, Any]:
-        """Get current unified dashboard data"""
-
+        """Get current unified dashboard data."""
         # Update with latest experiment data
         experiments_data: Dict[str, Dict[str, Any]] = self.monitor.get_all_experiments()
         self.data["experiments"] = experiments_data
@@ -497,8 +482,7 @@ class DashboardServer:
         return self.get_data(experiment_id)
 
     def get_experiment_visualization_data(self, experiment_id: str) -> Dict[str, Any]:
-        """Get visualization data for specific experiment"""
-
+        """Get visualization data for specific experiment."""
         experiment = self.monitor.get_experiment_status(experiment_id)
 
         if not experiment:
@@ -523,8 +507,7 @@ class DashboardServer:
             return {"error": str(e)}
 
     def export_dashboard_report(self, format: str = "json") -> str:
-        """Export comprehensive dashboard report"""
-
+        """Export comprehensive dashboard report."""
         try:
             data = self.get_data()
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -546,7 +529,7 @@ class DashboardServer:
             raise DashboardError(f"Failed to export dashboard report: {str(e)}")
 
     def _on_experiment_event(self, event_type: str, experiment_id: str) -> None:
-        """Handle experiment events"""
+        """Handle experiment events."""
         self.logger.debug(f"Experiment event: {event_type} for {experiment_id}")
 
         # Update unified data structure
@@ -557,7 +540,7 @@ class DashboardServer:
             self._save_dashboard_state()
 
     def _save_dashboard_state(self) -> None:
-        """Save current dashboard state to disk"""
+        """Save current dashboard state to disk."""
         try:
             state_file = self.data_dir / "dashboard_state.json"
 
@@ -568,7 +551,7 @@ class DashboardServer:
             self.logger.error(f"Error saving dashboard state: {str(e)}")
 
     def _load_dashboard_state(self) -> None:
-        """Load dashboard state from disk"""
+        """Load dashboard state from disk."""
         try:
             state_file = self.data_dir / "dashboard_state.json"
 
@@ -582,8 +565,7 @@ class DashboardServer:
 
 # Convenience function for easy dashboard setup
 def create_dashboard(port: int = 8080, data_dir: str = "data") -> DashboardServer:
-    """
-    Create and configure a dashboard server instance.
+    """Create and configure a dashboard server instance.
 
     Args:
         port: Server port

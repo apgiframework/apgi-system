@@ -1,5 +1,4 @@
-"""
-Comprehensive reporting and visualization system.
+"""Comprehensive reporting and visualization system.
 
 Provides session reports, parameter visualizations, and data export functionality.
 """
@@ -32,16 +31,14 @@ logger = logging.getLogger(__name__)
 
 
 class SessionReportGenerator:
-    """
-    Generates detailed session summaries with parameter estimates.
+    """Generates detailed session summaries with parameter estimates.
 
     Creates comprehensive reports including all three parameter estimates,
     task performance, and data quality metrics.
     """
 
     def __init__(self, dao: ParameterEstimationDAO):
-        """
-        Initialize session report generator.
+        """Initialize session report generator.
 
         Args:
             dao: Data access object for retrieving session data
@@ -50,8 +47,7 @@ class SessionReportGenerator:
         logger.info("SessionReportGenerator initialized")
 
     def generate_report(self, session_id: str) -> Dict[str, Any]:
-        """
-        Generate comprehensive session report.
+        """Generate comprehensive session report.
 
         Args:
             session_id: Session identifier
@@ -154,8 +150,7 @@ class SessionReportGenerator:
         }
 
     def export_report_text(self, report: Dict[str, Any], output_path: Path) -> None:
-        """
-        Export report as formatted text file.
+        """Export report as formatted text file.
 
         Args:
             report: Report dictionary
@@ -216,8 +211,7 @@ class SessionReportGenerator:
 
 
 class ParameterVisualizationEngine:
-    """
-    Visualizes parameter estimates with credible intervals and posteriors.
+    """Visualizes parameter estimates with credible intervals and posteriors.
 
     Creates plots for parameter distributions and credible intervals.
     """
@@ -227,8 +221,7 @@ class ParameterVisualizationEngine:
         logger.info("ParameterVisualizationEngine initialized")
 
     def create_parameter_plot(self, estimates: ParameterEstimates, output_path: Path) -> None:
-        """
-        Create parameter visualization plot.
+        """Create parameter visualization plot.
 
         Args:
             estimates: Parameter estimates to visualize
@@ -305,8 +298,7 @@ class ParameterVisualizationEngine:
 
 
 class DataQualitySummarizer:
-    """
-    Summarizes artifact statistics and signal quality across modalities.
+    """Summarizes artifact statistics and signal quality across modalities.
 
     Provides comprehensive quality metrics for EEG, pupillometry, and cardiac data.
     """
@@ -316,8 +308,7 @@ class DataQualitySummarizer:
         logger.info("DataQualitySummarizer initialized")
 
     def summarize_session_quality(self, session: SessionData) -> Dict[str, Any]:
-        """
-        Summarize data quality for entire session.
+        """Summarize data quality for entire session.
 
         Args:
             session: Session data
@@ -367,15 +358,13 @@ class DataQualitySummarizer:
 
 
 class DataExporter:
-    """
-    Exports data in analysis-ready formats (CSV, HDF5, BIDS).
+    """Exports data in analysis-ready formats (CSV, HDF5, BIDS).
 
     Provides multiple export formats for downstream analysis.
     """
 
     def __init__(self, dao: ParameterEstimationDAO):
-        """
-        Initialize data exporter.
+        """Initialize data exporter.
 
         Args:
             dao: Data access object for retrieving data
@@ -384,8 +373,7 @@ class DataExporter:
         logger.info("DataExporter initialized")
 
     def export_session_csv(self, session_id: str, output_dir: Path) -> List[Path]:
-        """
-        Export session data as CSV files.
+        """Export session data as CSV files.
 
         Args:
             session_id: Session identifier
@@ -605,8 +593,7 @@ class DataExporter:
             )
 
     def export_session_json(self, session_id: str, output_path: Path) -> None:
-        """
-        Export complete session data as JSON.
+        """Export complete session data as JSON.
 
         Args:
             session_id: Session identifier

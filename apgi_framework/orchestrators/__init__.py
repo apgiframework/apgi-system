@@ -1,5 +1,4 @@
-"""
-Orchestrators for domain-specific workflow management.
+"""Orchestrators for domain-specific workflow management.
 
 This module provides specialized orchestrators that replace the monolithic
 MainApplicationController, following the Single Responsibility Principle.

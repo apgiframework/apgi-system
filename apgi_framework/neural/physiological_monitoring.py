@@ -1,5 +1,4 @@
-"""
-Physiological monitoring for multi-modal biosignals.
+"""Physiological monitoring for multi-modal biosignals.
 
 Provides heart rate, skin conductance, respiratory monitoring,
 and synchronized physiological data streaming for APGI experiments.
@@ -98,8 +97,7 @@ class HeartRateMonitor:
     """Heart rate and HRV monitoring from ECG/PPG signals."""
 
     def __init__(self, config: PhysiologicalConfig):
-        """
-        Initialize heart rate monitor.
+        """Initialize heart rate monitor.
 
         Args:
             config: Physiological monitoring configuration
@@ -109,8 +107,7 @@ class HeartRateMonitor:
         self.rr_intervals: List[float] = []
 
     def detect_r_peaks(self, ecg_signal: np.ndarray, timestamps: np.ndarray) -> np.ndarray:
-        """
-        Detect R-peaks in ECG signal.
+        """Detect R-peaks in ECG signal.
 
         Args:
             ecg_signal: ECG signal array
@@ -172,8 +169,7 @@ class HeartRateMonitor:
         return np.array(peaks)
 
     def compute_rr_intervals(self, r_peaks: Optional[np.ndarray] = None) -> np.ndarray:
-        """
-        Compute RR intervals from R-peaks.
+        """Compute RR intervals from R-peaks.
 
         Args:
             r_peaks: Array of R-peak timestamps (None to use stored peaks)
@@ -201,8 +197,7 @@ class HeartRateMonitor:
         return rr_intervals
 
     def compute_heart_rate(self, rr_intervals: Optional[np.ndarray] = None) -> float:
-        """
-        Compute instantaneous heart rate from RR intervals.
+        """Compute instantaneous heart rate from RR intervals.
 
         Args:
             rr_intervals: Array of RR intervals in ms (None to use stored)
@@ -227,8 +222,7 @@ class HeartRateMonitor:
         return float(heart_rate)
 
     def compute_hrv_metrics(self, rr_intervals: Optional[np.ndarray] = None) -> Dict[str, float]:
-        """
-        Compute heart rate variability metrics.
+        """Compute heart rate variability metrics.
 
         Args:
             rr_intervals: Array of RR intervals in ms (None to use stored)
@@ -259,8 +253,7 @@ class SkinConductanceMonitor:
     """Skin conductance response (SCR) monitoring."""
 
     def __init__(self, config: PhysiologicalConfig):
-        """
-        Initialize skin conductance monitor.
+        """Initialize skin conductance monitor.
 
         Args:
             config: Physiological monitoring configuration
@@ -271,8 +264,7 @@ class SkinConductanceMonitor:
     def decompose_signal(
         self, scr_signal: np.ndarray, timestamps: np.ndarray
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Decompose SCR signal into tonic (SCL) and phasic (SCR) components.
+        """Decompose SCR signal into tonic (SCL) and phasic (SCR) components.
 
         Args:
             scr_signal: Raw skin conductance signal
@@ -303,8 +295,7 @@ class SkinConductanceMonitor:
     def detect_scr_events(
         self, phasic_signal: np.ndarray, timestamps: np.ndarray
     ) -> List[Dict[str, float]]:
-        """
-        Detect SCR events in phasic signal.
+        """Detect SCR events in phasic signal.
 
         Args:
             phasic_signal: Phasic SCR component
@@ -363,8 +354,7 @@ class SkinConductanceMonitor:
     def compute_scr_rate(
         self, events: Optional[List[Dict[str, float]]] = None, window: float = 60.0
     ) -> float:
-        """
-        Compute SCR event rate.
+        """Compute SCR event rate.
 
         Args:
             events: List of SCR events (None to use stored)
@@ -393,8 +383,7 @@ class RespirationMonitor:
     """Respiratory monitoring for interoceptive tasks."""
 
     def __init__(self, config: PhysiologicalConfig):
-        """
-        Initialize respiration monitor.
+        """Initialize respiration monitor.
 
         Args:
             config: Physiological monitoring configuration
@@ -405,8 +394,7 @@ class RespirationMonitor:
     def detect_breath_cycles(
         self, resp_signal: np.ndarray, timestamps: np.ndarray
     ) -> List[Dict[str, Any]]:
-        """
-        Detect inspiration and expiration cycles.
+        """Detect inspiration and expiration cycles.
 
         Args:
             resp_signal: Respiration signal (e.g., chest expansion)
@@ -485,8 +473,7 @@ class RespirationMonitor:
         return cycles
 
     def compute_respiration_rate(self, cycles: Optional[List[Dict[str, Any]]] = None) -> float:
-        """
-        Compute respiration rate from breath cycles.
+        """Compute respiration rate from breath cycles.
 
         Args:
             cycles: List of breath cycles (None to use stored)
@@ -521,8 +508,7 @@ class RespirationMonitor:
     def get_current_phase(
         self, resp_signal: np.ndarray, timestamps: np.ndarray, current_time: float
     ) -> RespirationPhase:
-        """
-        Determine current respiration phase.
+        """Determine current respiration phase.
 
         Args:
             resp_signal: Respiration signal
@@ -562,16 +548,14 @@ class RespirationMonitor:
 
 
 class PhysiologicalMonitoring:
-    """
-    Multi-modal physiological monitoring system.
+    """Multi-modal physiological monitoring system.
 
     Integrates heart rate, skin conductance, respiration, and other biosignals
     with synchronized data streaming for APGI experiments.
     """
 
     def __init__(self, config: PhysiologicalConfig):
-        """
-        Initialize physiological monitoring system.
+        """Initialize physiological monitoring system.
 
         Args:
             config: Physiological monitoring configuration
@@ -610,8 +594,7 @@ class PhysiologicalMonitoring:
         self.start_time: Optional[float] = None
 
     def start_streaming(self, data_sources: Optional[Dict[SignalType, Callable]] = None) -> None:
-        """
-        Start real-time multi-modal physiological data streaming.
+        """Start real-time multi-modal physiological data streaming.
 
         Args:
             data_sources: Dictionary mapping signal types to data source callbacks
@@ -776,8 +759,7 @@ class PhysiologicalMonitoring:
             self.stream_thread.join(timeout=2.0)
 
     def register_callback(self, callback: Callable) -> None:
-        """
-        Register callback for real-time data processing.
+        """Register callback for real-time data processing.
 
         Args:
             callback: Function with signature (sample: PhysiologicalSample) -> None
@@ -785,8 +767,7 @@ class PhysiologicalMonitoring:
         self.data_callbacks.append(callback)
 
     def get_buffer_data(self, n_samples: Optional[int] = None) -> List[PhysiologicalSample]:
-        """
-        Retrieve samples from buffer.
+        """Retrieve samples from buffer.
 
         Args:
             n_samples: Number of recent samples to retrieve (None for all)
@@ -805,8 +786,7 @@ class PhysiologicalMonitoring:
     def get_signal_data(
         self, signal_type: SignalType, n_samples: Optional[int] = None
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Extract specific signal type data.
+        """Extract specific signal type data.
 
         Args:
             signal_type: Type of signal to extract
@@ -843,8 +823,7 @@ class PhysiologicalMonitoring:
         return values, timestamps
 
     def compute_comprehensive_metrics(self) -> Dict[str, Any]:
-        """
-        Compute comprehensive physiological metrics from buffered data.
+        """Compute comprehensive physiological metrics from buffered data.
 
         Returns:
             Dictionary with all computed metrics
@@ -899,8 +878,7 @@ class PhysiologicalMonitoring:
     def synchronize_with_external(
         self, external_timestamp: float, tolerance: Optional[float] = None
     ) -> Optional[PhysiologicalSample]:
-        """
-        Find physiological sample synchronized with external timestamp.
+        """Find physiological sample synchronized with external timestamp.
 
         Args:
             external_timestamp: External event timestamp to synchronize with
@@ -930,8 +908,7 @@ class PhysiologicalMonitoring:
         return closest_sample
 
     def get_quality_metrics(self) -> Dict[str, Any]:
-        """
-        Assess physiological data quality.
+        """Assess physiological data quality.
 
         Returns:
             Dictionary with quality metrics
@@ -976,8 +953,7 @@ class PhysiologicalMonitoring:
             self.sample_buffer.clear()
 
     def export_data(self, filename: str, format: str = "numpy") -> None:
-        """
-        Export physiological data to file.
+        """Export physiological data to file.
 
         Args:
             filename: Output filename

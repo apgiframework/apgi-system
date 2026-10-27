@@ -1,5 +1,4 @@
-"""
-Security validation and sanitization utilities for APGI Framework.
+"""Security validation and sanitization utilities for APGI Framework.
 
 Provides centralized security functions to validate inputs, sanitize data,
 and prevent common security vulnerabilities including:
@@ -20,8 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class SecurityValidator:
-    """
-    Centralized security validation for the APGI Framework.
+    """Centralized security validation for the APGI Framework.
 
     Provides validation functions to prevent common security vulnerabilities
     and ensure safe data handling throughout the framework.
@@ -100,8 +98,7 @@ class SecurityValidator:
     }
 
     def __init__(self, strict_mode: bool = True):
-        """
-        Initialize security validator.
+        """Initialize security validator.
 
         Args:
             strict_mode: If True, rejects any suspicious content. If False, logs warnings.
@@ -110,8 +107,7 @@ class SecurityValidator:
         self.validation_cache: Dict[str, Any] = {}
 
     def validate_string_input(self, input_string: str, context: str = "unknown") -> bool:
-        """
-        Validate string input for dangerous patterns.
+        """Validate string input for dangerous patterns.
 
         Args:
             input_string: String to validate
@@ -123,7 +119,6 @@ class SecurityValidator:
         Raises:
             SecurityError: If dangerous patterns are detected
         """
-
         input_lower = input_string.lower()
 
         # Check for dangerous patterns
@@ -143,8 +138,7 @@ class SecurityValidator:
     def validate_data_structure(
         self, data: Any, max_depth: int = 10, current_depth: int = 0
     ) -> bool:
-        """
-        Recursively validate data structures for safety.
+        """Recursively validate data structures for safety.
 
         Args:
             data: Data structure to validate
@@ -204,8 +198,7 @@ class SecurityValidator:
         file_path: Union[str, Path],
         allowed_base_dirs: Optional[List[Union[str, Path]]] = None,
     ) -> bool:
-        """
-        Validate file paths to prevent directory traversal attacks.
+        """Validate file paths to prevent directory traversal attacks.
 
         Args:
             file_path: File path to validate
@@ -275,8 +268,7 @@ class SecurityValidator:
         return True
 
     def safe_literal_eval(self, expression: str) -> Any:
-        """
-        Safely evaluate literal expressions with additional validation.
+        """Safely evaluate literal expressions with additional validation.
 
         Args:
             expression: String expression to evaluate
@@ -300,8 +292,7 @@ class SecurityValidator:
             raise SecurityError(error_msg)
 
     def sanitize_for_logging(self, data: Any, max_length: int = 1000) -> str:
-        """
-        Sanitize data for safe logging (remove sensitive information).
+        """Sanitize data for safe logging (remove sensitive information).
 
         Args:
             data: Data to sanitize
@@ -392,8 +383,7 @@ _default_validator = SecurityValidator(strict_mode=True)
 
 
 def validate_input(input_data: Any, context: str = "unknown") -> bool:
-    """
-    Convenience function for input validation.
+    """Convenience function for input validation.
 
     Args:
         input_data: Data to validate
@@ -406,8 +396,7 @@ def validate_input(input_data: Any, context: str = "unknown") -> bool:
 
 
 def safe_eval_literal(expression: str) -> Any:
-    """
-    Convenience function for safe literal evaluation.
+    """Convenience function for safe literal evaluation.
 
     Args:
         expression: Expression to evaluate
@@ -421,8 +410,7 @@ def safe_eval_literal(expression: str) -> Any:
 def validate_file_path(
     file_path: Union[str, Path], allowed_dirs: Optional[List[Union[str, Path]]] = None
 ) -> bool:
-    """
-    Convenience function for file path validation.
+    """Convenience function for file path validation.
 
     Args:
         file_path: File path to validate
@@ -435,8 +423,7 @@ def validate_file_path(
 
 
 def sanitize_for_logging(data: Any, max_length: int = 1000) -> str:
-    """
-    Convenience function for log sanitization.
+    """Convenience function for log sanitization.
 
     Args:
         data: Data to sanitize

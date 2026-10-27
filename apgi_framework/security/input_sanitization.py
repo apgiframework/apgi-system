@@ -1,5 +1,4 @@
-"""
-Input Sanitization Module for APGI Framework
+"""Input Sanitization Module for APGI Framework
 Provides secure input validation and sanitization utilities.
 """
 
@@ -20,8 +19,7 @@ class InputSanitizer:
     """Sanitize and validate various types of user input."""
 
     def __init__(self, allowed_directories: Optional[List[Union[str, Path]]] = None):
-        """
-        Initialize input sanitizer.
+        """Initialize input sanitizer.
 
         Args:
             allowed_directories: List of allowed base directories for file operations
@@ -31,8 +29,7 @@ class InputSanitizer:
             self.allowed_directories = [Path(d).resolve() for d in allowed_directories]
 
     def sanitize_filename(self, filename: str, max_length: int = 255) -> str:
-        """
-        Sanitize filename to prevent path traversal and invalid characters.
+        """Sanitize filename to prevent path traversal and invalid characters.
 
         Args:
             filename: Input filename
@@ -82,8 +79,7 @@ class InputSanitizer:
         base_dir: Optional[Union[str, Path]] = None,
         allow_absolute: bool = False,
     ) -> Path:
-        """
-        Sanitize file path to prevent path traversal attacks.
+        """Sanitize file path to prevent path traversal attacks.
 
         Args:
             path: Input path
@@ -153,8 +149,7 @@ class InputSanitizer:
         allowed_extensions: List[str],
         case_sensitive: bool = False,
     ) -> bool:
-        """
-        Validate file extension against allowed list.
+        """Validate file extension against allowed list.
 
         Args:
             filename: Filename to check
@@ -195,8 +190,7 @@ class InputSanitizer:
         allow_html: bool = False,
         allow_script: bool = False,
     ) -> str:
-        """
-        Sanitize text input to prevent injection attacks.
+        """Sanitize text input to prevent injection attacks.
 
         Args:
             text: Input text
@@ -256,8 +250,7 @@ class InputSanitizer:
         max_val: Optional[float] = None,
         allow_float: bool = True,
     ) -> Union[int, float]:
-        """
-        Validate and sanitize numeric input.
+        """Validate and sanitize numeric input.
 
         Args:
             value: Input value
@@ -290,8 +283,7 @@ class InputSanitizer:
         return num_value
 
     def sanitize_url(self, url: str, allowed_schemes: Optional[List[str]] = None) -> str:
-        """
-        Sanitize URL to prevent malicious URLs.
+        """Sanitize URL to prevent malicious URLs.
 
         Args:
             url: Input URL
@@ -333,8 +325,7 @@ class InputSanitizer:
         return url
 
     def validate_json_input(self, json_str: str, max_size: int = 1024 * 1024) -> dict:
-        """
-        Validate and parse JSON input.
+        """Validate and parse JSON input.
 
         Args:
             json_str: JSON string to validate
@@ -359,8 +350,7 @@ class InputSanitizer:
         return cast(Dict[Any, Any], parsed)
 
     def create_secure_filename(self, base_name: str, extension: str) -> str:
-        """
-        Create a secure filename with timestamp and random component.
+        """Create a secure filename with timestamp and random component.
 
         Args:
             base_name: Base name for the file
@@ -387,8 +377,7 @@ class SecureFileHandler:
     """Secure file operations with input validation."""
 
     def __init__(self, allowed_directories: Optional[List[Union[str, Path]]] = None):
-        """
-        Initialize secure file handler.
+        """Initialize secure file handler.
 
         Args:
             allowed_directories: List of allowed base directories
@@ -401,8 +390,7 @@ class SecureFileHandler:
         base_dir: Optional[Union[str, Path]] = None,
         max_size: int = 10 * 1024 * 1024,
     ) -> bytes:
-        """
-        Safely read file with path validation.
+        """Safely read file with path validation.
 
         Args:
             file_path: Path to file
@@ -442,8 +430,7 @@ class SecureFileHandler:
         base_dir: Optional[Union[str, Path]] = None,
         allowed_extensions: Optional[List[str]] = None,
     ) -> Path:
-        """
-        Safely write file with path validation.
+        """Safely write file with path validation.
 
         Args:
             file_path: Path to write file
@@ -485,8 +472,7 @@ class SecureFileHandler:
         base_dir: Optional[Union[str, Path]] = None,
         max_entries: int = 1000,
     ) -> List[Path]:
-        """
-        Safely list directory contents.
+        """Safely list directory contents.
 
         Args:
             dir_path: Directory path
@@ -546,7 +532,7 @@ def sanitize_text_input(text: str, max_length: int = 1000) -> str:
 
 if __name__ == "__main__":
     # Example usage
-    sanitizer = InputSanitizer(allowed_directories=["/tmp", "./data"])
+    sanitizer = InputSanitizer(allowed_directories=["/tmp", "./data"])  # nosec B108 - demo only
 
     # Test filename sanitization
     try:

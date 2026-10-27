@@ -6,8 +6,7 @@ import numpy as np
 
 
 class MinimalSelf:
-    """
-    Minimal self-model based on interoceptive processing and embodied awareness.
+    """Minimal self-model based on interoceptive processing and embodied awareness.
 
     Implements the minimal self - the most basic form of self-awareness that
     emerges from interoceptive processing and bodily self-recognition. This
@@ -81,8 +80,7 @@ class MinimalSelf:
     def update(
         self, body_state: np.ndarray, prediction_accuracy: float, dt: float = 1.0
     ) -> Dict[str, Any]:
-        """
-        Update minimal self representation.
+        """Update minimal self representation.
 
         Integrates current body state and prediction accuracy to maintain
         the minimal self-model. Updates occur at the configured rate to

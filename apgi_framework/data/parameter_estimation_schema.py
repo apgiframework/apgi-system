@@ -1,5 +1,4 @@
-"""
-Database schema and migration scripts for parameter estimation functionality.
+"""Database schema and migration scripts for parameter estimation functionality.
 
 Extends the existing APGI Framework database with tables specific to parameter
 estimation tasks, sessions, trials, and parameter estimates.
@@ -17,8 +16,7 @@ class SchemaError(APGIFrameworkError):
 
 
 class ParameterEstimationSchema:
-    """
-    Database schema manager for parameter estimation functionality.
+    """Database schema manager for parameter estimation functionality.
 
     Handles creation, migration, and management of parameter estimation
     specific database tables and indices.
@@ -38,8 +36,7 @@ class ParameterEstimationSchema:
     }
 
     def __init__(self, db_path: Path):
-        """
-        Initialize schema manager.
+        """Initialize schema manager.
 
         Args:
             db_path: Path to SQLite database file
@@ -328,8 +325,7 @@ class ParameterEstimationSchema:
             conn.execute(index_sql)
 
     def migrate_schema(self, target_version: Optional[str] = None) -> None:
-        """
-        Migrate database schema to target version.
+        """Migrate database schema to target version.
 
         Args:
             target_version: Target schema version (latest if None)
@@ -422,7 +418,8 @@ class ParameterEstimationSchema:
                 for table in tables_to_drop:
                     if table not in self.ALLOWED_TABLES:
                         raise SchemaError(f"Illegal table name: {table}")
-                    conn.execute(f"DROP TABLE IF EXISTS {table}")
+                    _sql = f"DROP TABLE IF EXISTS {table}"  # nosemgrep: sql-injection-risk - table name validated above
+                    conn.execute(_sql)
 
                 # Remove schema version record
                 conn.execute("""
@@ -438,8 +435,7 @@ class ParameterEstimationSchema:
 
 
 def create_parameter_estimation_schema(db_path: Path) -> ParameterEstimationSchema:
-    """
-    Factory function to create and initialize parameter estimation schema.
+    """Factory function to create and initialize parameter estimation schema.
 
     Args:
         db_path: Path to SQLite database file

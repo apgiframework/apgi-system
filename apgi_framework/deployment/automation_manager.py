@@ -1,5 +1,4 @@
-"""
-Advanced Deployment Automation Manager for APGI Framework.
+"""Advanced Deployment Automation Manager for APGI Framework.
 
 Provides comprehensive automated deployment with environment management,
 health monitoring, and self-healing capabilities.
@@ -54,8 +53,7 @@ class DeploymentStatus:
 
 
 class DeploymentAutomationManager:
-    """
-    Advanced deployment automation manager.
+    """Advanced deployment automation manager.
 
     Features:
     - Automated deployment and environment setup
@@ -66,8 +64,7 @@ class DeploymentAutomationManager:
     """
 
     def __init__(self, config_path: Optional[Path] = None):
-        """
-        Initialize deployment automation manager.
+        """Initialize deployment automation manager.
 
         Args:
             config_path: Path to deployment configuration file
@@ -121,8 +118,7 @@ class DeploymentAutomationManager:
             self.logger.error(f"Failed to save config: {e}")
 
     def deploy(self, force: bool = False) -> bool:
-        """
-        Perform automated deployment.
+        """Perform automated deployment.
 
         Args:
             force: Force redeployment even if running

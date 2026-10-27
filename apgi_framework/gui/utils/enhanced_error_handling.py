@@ -1,5 +1,4 @@
-"""
-Enhanced error handling and recovery system for APGI Framework GUI applications.
+"""Enhanced error handling and recovery system for APGI Framework GUI applications.
 
 Provides comprehensive error handling, fallback mechanisms, and user-friendly
 error reporting with automatic recovery strategies.
@@ -52,8 +51,7 @@ class GUIError:
         user_message: Optional[str] = None,
         recovery_actions: Optional[List[str]] = None,
     ):
-        """
-        Initialize GUI error.
+        """Initialize GUI error.
 
         Args:
             exception: The original exception
@@ -184,8 +182,7 @@ class FallbackManager:
         }
 
     def get_fallback(self, dependency_name: str) -> Optional[Dict[str, Any]]:
-        """
-        Get fallback for a dependency.
+        """Get fallback for a dependency.
 
         Args:
             dependency_name: Name of the dependency
@@ -212,8 +209,7 @@ class EnhancedErrorHandler:
     """Enhanced error handler with recovery strategies."""
 
     def __init__(self, root_window: Optional[tk.Tk] = None):
-        """
-        Initialize enhanced error handler.
+        """Initialize enhanced error handler.
 
         Args:
             root_window: Main window for displaying error dialogs
@@ -244,8 +240,7 @@ class EnhancedErrorHandler:
         context: Optional[Dict[str, Any]] = None,
         show_dialog: bool = True,
     ) -> bool:
-        """
-        Handle an error with appropriate recovery strategy.
+        """Handle an error with appropriate recovery strategy.
 
         Args:
             exception: The exception to handle
@@ -490,8 +485,7 @@ def handle_gui_error(
     context: Optional[Dict[str, Any]] = None,
     show_dialog: bool = True,
 ) -> bool:
-    """
-    Handle GUI error using global error handler.
+    """Handle GUI error using global error handler.
 
     Args:
         exception: The exception to handle

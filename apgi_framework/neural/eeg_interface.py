@@ -1,5 +1,4 @@
-"""
-EEG/MEG interface with real-time processing capabilities.
+"""EEG/MEG interface with real-time processing capabilities.
 
 Provides data streaming, buffering, artifact detection, and channel management
 for neural data acquisition in APGI experiments.
@@ -65,8 +64,7 @@ class ArtifactDetector:
     """Real-time artifact detection for EEG data."""
 
     def __init__(self, config: EEGConfig):
-        """
-        Initialize artifact detector.
+        """Initialize artifact detector.
 
         Args:
             config: EEG configuration with artifact thresholds
@@ -76,8 +74,7 @@ class ArtifactDetector:
         self.detection_history: deque = deque(maxlen=1000)
 
     def detect_amplitude_artifacts(self, data: np.ndarray) -> np.ndarray:
-        """
-        Detect amplitude-based artifacts (e.g., muscle artifacts, electrode pops).
+        """Detect amplitude-based artifacts (e.g., muscle artifacts, electrode pops).
 
         Args:
             data: EEG data array (channels x samples)
@@ -103,8 +100,7 @@ class ArtifactDetector:
     def detect_gradient_artifacts(
         self, data: np.ndarray, gradient_threshold: float = 50.0
     ) -> np.ndarray:
-        """
-        Detect rapid voltage changes indicating artifacts.
+        """Detect rapid voltage changes indicating artifacts.
 
         Args:
             data: EEG data array (channels x samples)
@@ -131,8 +127,7 @@ class ArtifactDetector:
     def detect_flatline(
         self, data: np.ndarray, window_size: int = 100, variance_threshold: float = 0.1
     ) -> np.ndarray:
-        """
-        Detect flatline artifacts (disconnected electrodes).
+        """Detect flatline artifacts (disconnected electrodes).
 
         Args:
             data: EEG data array (channels x samples)
@@ -154,8 +149,7 @@ class ArtifactDetector:
         return flatline
 
     def detect_all(self, data: np.ndarray) -> Dict[str, np.ndarray]:
-        """
-        Run all artifact detection methods.
+        """Run all artifact detection methods.
 
         Args:
             data: EEG data array (channels x samples)
@@ -176,16 +170,14 @@ class ArtifactDetector:
 
 
 class EEGInterface:
-    """
-    Interface for EEG/MEG data acquisition with real-time processing.
+    """Interface for EEG/MEG data acquisition with real-time processing.
 
     Provides streaming, buffering, artifact detection, and channel management
     for neural data collection in APGI experiments.
     """
 
     def __init__(self, config: EEGConfig):
-        """
-        Initialize EEG interface.
+        """Initialize EEG interface.
 
         Args:
             config: EEG configuration parameters
@@ -212,8 +204,7 @@ class EEGInterface:
         self.start_time: Optional[float] = None
 
     def add_channels(self, channels: List[ChannelInfo]) -> None:
-        """
-        Add channels to the montage.
+        """Add channels to the montage.
 
         Args:
             channels: List of channel information objects
@@ -226,8 +217,7 @@ class EEGInterface:
     def set_reference(
         self, reference_type: str, reference_channels: Optional[List[str]] = None
     ) -> None:
-        """
-        Configure reference scheme.
+        """Configure reference scheme.
 
         Args:
             reference_type: Type of reference (average, mastoid, cz, custom)
@@ -242,8 +232,7 @@ class EEGInterface:
                     raise ValueError(f"Reference channel {ch} not found")
 
     def apply_reference(self, data: np.ndarray) -> np.ndarray:
-        """
-        Apply reference scheme to data.
+        """Apply reference scheme to data.
 
         Args:
             data: EEG data array (channels x samples)
@@ -265,8 +254,7 @@ class EEGInterface:
             return data
 
     def start_streaming(self, data_source: Optional[Callable] = None) -> None:
-        """
-        Start real-time data streaming.
+        """Start real-time data streaming.
 
         Args:
             data_source: Optional callback function that returns (data, timestamp)
@@ -321,8 +309,7 @@ class EEGInterface:
             self.stream_thread.join(timeout=2.0)
 
     def register_callback(self, callback: Callable) -> None:
-        """
-        Register callback for real-time data processing.
+        """Register callback for real-time data processing.
 
         Args:
             callback: Function with signature (data, timestamp, artifacts) -> None
@@ -330,8 +317,7 @@ class EEGInterface:
         self.data_callbacks.append(callback)
 
     def get_buffer_data(self, n_samples: Optional[int] = None) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Retrieve data from buffer.
+        """Retrieve data from buffer.
 
         Args:
             n_samples: Number of recent samples to retrieve (None for all)
@@ -357,8 +343,7 @@ class EEGInterface:
         return data, timestamps
 
     def get_channel_impedances(self) -> Dict[str, float]:
-        """
-        Get current channel impedances.
+        """Get current channel impedances.
 
         Returns:
             Dictionary mapping channel names to impedances (kOhms)
@@ -368,8 +353,7 @@ class EEGInterface:
         }
 
     def check_signal_quality(self) -> Dict[str, Any]:
-        """
-        Assess overall signal quality.
+        """Assess overall signal quality.
 
         Returns:
             Dictionary with quality metrics
@@ -404,8 +388,7 @@ class EEGInterface:
         self.timestamp_buffer.clear()
 
     def export_data(self, filename: str, format: str = "numpy") -> None:
-        """
-        Export buffered data to file.
+        """Export buffered data to file.
 
         Args:
             filename: Output filename

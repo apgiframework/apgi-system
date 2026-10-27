@@ -1,5 +1,4 @@
-"""
-Clinical assessment and classification tools for APGI Framework.
+"""Clinical assessment and classification tools for APGI Framework.
 
 This module provides tools for:
 - Disorder classification (GAD, panic disorder, social anxiety)
@@ -52,7 +51,6 @@ class PatientDataManager:
 
     def list_patients(self) -> List[str]:
         """List all patient IDs."""
-
         return list(self.patients.keys())
 
 

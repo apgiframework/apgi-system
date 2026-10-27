@@ -1,5 +1,4 @@
-"""
-Parameter recovery validation system for APGI framework.
+"""Parameter recovery validation system for APGI framework.
 
 This module implements synthetic data generation and parameter recovery
 validation to ensure the Bayesian modeling pipeline can accurately recover
@@ -78,13 +77,10 @@ class RecoveryResults:
 
 
 class SyntheticDataGenerator:
-    """
-    Generates synthetic behavioral and neural data with known ground-truth parameters.
-    """
+    """Generates synthetic behavioral and neural data with known ground-truth parameters."""
 
     def __init__(self, random_seed: Optional[int] = None):
-        """
-        Initialize synthetic data generator.
+        """Initialize synthetic data generator.
 
         Args:
             random_seed: Random seed for reproducibility
@@ -95,8 +91,7 @@ class SyntheticDataGenerator:
     def generate_detection_task_data(
         self, theta0: float, n_trials: int = 200, noise_level: float = 0.1
     ) -> Dict[str, np.ndarray]:
-        """
-        Generate synthetic detection task data.
+        """Generate synthetic detection task data.
 
         Args:
             theta0: Ground truth baseline ignition threshold
@@ -129,8 +124,7 @@ class SyntheticDataGenerator:
     def generate_heartbeat_task_data(
         self, pi_i: float, n_trials: int = 60, noise_level: float = 0.1
     ) -> Dict[str, np.ndarray]:
-        """
-        Generate synthetic heartbeat detection task data.
+        """Generate synthetic heartbeat detection task data.
 
         Args:
             pi_i: Ground truth interoceptive precision
@@ -178,8 +172,7 @@ class SyntheticDataGenerator:
     def generate_oddball_task_data(
         self, beta: float, n_trials: int = 120, noise_level: float = 0.1
     ) -> Dict[str, np.ndarray]:
-        """
-        Generate synthetic oddball task data.
+        """Generate synthetic oddball task data.
 
         Args:
             beta: Ground truth somatic bias
@@ -232,8 +225,7 @@ class SyntheticDataGenerator:
         n_trials_oddball: int = 120,
         noise_level: float = 0.1,
     ) -> Tuple[Dict, Dict, Dict]:
-        """
-        Generate complete synthetic dataset for one subject.
+        """Generate complete synthetic dataset for one subject.
 
         Args:
             ground_truth: Ground truth parameters
@@ -267,8 +259,7 @@ class SyntheticDataGenerator:
         beta_range: Tuple[float, float] = (0.5, 1.5),
         noise_level: float = 0.1,
     ) -> List[Tuple[GroundTruthParameters, Dict, Dict, Dict]]:
-        """
-        Generate multiple synthetic datasets with varying parameters.
+        """Generate multiple synthetic datasets with varying parameters.
 
         Args:
             n_datasets: Number of datasets to generate
@@ -307,9 +298,7 @@ class SyntheticDataGenerator:
 
 
 class RecoveryAnalyzer:
-    """
-    Analyzes parameter recovery with correlation metrics and bias assessment.
-    """
+    """Analyzes parameter recovery with correlation metrics and bias assessment."""
 
     @staticmethod
     def compute_recovery_metrics(
@@ -318,8 +307,7 @@ class RecoveryAnalyzer:
         recovered_ci_lower: np.ndarray,
         recovered_ci_upper: np.ndarray,
     ) -> RecoveryMetrics:
-        """
-        Compute recovery metrics for a single parameter.
+        """Compute recovery metrics for a single parameter.
 
         Args:
             true_values: Ground truth parameter values
@@ -361,8 +349,7 @@ class RecoveryAnalyzer:
         ground_truth_list: List[GroundTruthParameters],
         recovered_list: List[ParameterEstimates],
     ) -> Dict[str, RecoveryMetrics]:
-        """
-        Analyze parameter recovery across all datasets.
+        """Analyze parameter recovery across all datasets.
 
         Args:
             ground_truth_list: List of ground truth parameters
@@ -410,8 +397,7 @@ class RecoveryAnalyzer:
         recovered_list: List[ParameterEstimates],
         save_path: Optional[str] = None,
     ) -> None:
-        """
-        Create recovery plots for all parameters.
+        """Create recovery plots for all parameters.
 
         Args:
             ground_truth_list: List of ground truth parameters
@@ -477,17 +463,14 @@ class RecoveryAnalyzer:
 
 
 class ParameterRecoveryValidator:
-    """
-    Validates parameter recovery through simulation of synthetic datasets.
-    """
+    """Validates parameter recovery through simulation of synthetic datasets."""
 
     def __init__(
         self,
         validation_criteria: Optional[Dict[str, float]] = None,
         random_seed: Optional[int] = None,
     ):
-        """
-        Initialize parameter recovery validator.
+        """Initialize parameter recovery validator.
 
         Args:
             validation_criteria: Minimum correlation thresholds for each parameter
@@ -513,8 +496,7 @@ class ParameterRecoveryValidator:
         iter: int = 1000,
         verbose: bool = True,
     ) -> RecoveryResults:
-        """
-        Run complete parameter recovery validation.
+        """Run complete parameter recovery validation.
 
         Args:
             n_datasets: Number of synthetic datasets to generate
@@ -592,16 +574,13 @@ class ParameterRecoveryValidator:
 
 
 class ValidationReportGenerator:
-    """
-    Generates comprehensive validation reports with pass/fail criteria.
-    """
+    """Generates comprehensive validation reports with pass/fail criteria."""
 
     @staticmethod
     def generate_report(
         recovery_results: RecoveryResults, output_path: Optional[str] = None
     ) -> str:
-        """
-        Generate comprehensive validation report.
+        """Generate comprehensive validation report.
 
         Args:
             recovery_results: Results from parameter recovery validation
@@ -675,8 +654,7 @@ class ValidationReportGenerator:
 
     @staticmethod
     def generate_detailed_statistics(recovery_results: RecoveryResults) -> pd.DataFrame:
-        """
-        Generate detailed statistics table.
+        """Generate detailed statistics table.
 
         Args:
             recovery_results: Results from parameter recovery validation

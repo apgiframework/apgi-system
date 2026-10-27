@@ -1,5 +1,4 @@
-"""
-Metabolic Calibration Module for APGI Framework
+"""Metabolic Calibration Module for APGI Framework.
 
 This module provides ground-truth calibration of metabolic cost coefficients (c_1, c_2)
 using high-resolution metabolic imaging datasets:
@@ -54,8 +53,7 @@ from scipy.integrate import trapezoid
 
 @dataclass(frozen=True)
 class CalibratedCostCoefficients:
-    """
-    Ground-truth cost coefficients from high-resolution metabolic imaging.
+    """Ground-truth cost coefficients from high-resolution metabolic imaging.
 
     These coefficients partition ATP consumption into:
     - c_1 (dynamic): Activity-driven costs from ion pumping, glutamate recycling
@@ -111,8 +109,7 @@ class CalibratedCostCoefficients:
         duration_ms: float,
         num_neurons: int,
     ) -> Tuple[float, float, float]:
-        """
-        Compute expected ATP consumption from c_1 and c_2.
+        """Compute expected ATP consumption from c_1 and c_2.
 
         Returns:
             (total_atp, dynamic_component, static_component)
@@ -124,8 +121,7 @@ class CalibratedCostCoefficients:
 
 @dataclass
 class TwoPhotonTrace:
-    """
-    Single trace from Two-photon metabolic imaging (e.g., iATPSnFR2, ATeam).
+    """Single trace from Two-photon metabolic imaging (e.g., iATPSnFR2, ATeam).
 
     Attributes:
         fluorescence: Raw fluorescence signal (ΔF/F0 or absolute)
@@ -175,8 +171,7 @@ class TwoPhotonTrace:
         threshold_std: float = 3.0,
         min_duration_ms: float = 50.0,
     ) -> List[Dict[str, Any]]:
-        """
-        Detect bursts (ignition events) from fluorescence signal.
+        """Detect bursts (ignition events) from fluorescence signal.
 
         Uses threshold crossing on fluorescence signal to identify
         periods of elevated ATP consumption.
@@ -233,8 +228,7 @@ class TwoPhotonTrace:
 
 @dataclass
 class PMRSSpectrum:
-    """
-    31P-MRS spectrum with ATP/PCr/PCi peaks.
+    """31P-MRS spectrum with ATP/PCr/PCi peaks.
 
     Attributes:
         chemical_shift_ppm: Chemical shift axis in ppm
@@ -268,8 +262,7 @@ class PMRSSpectrum:
         peak_ppm: float,
         window_ppm: float = 0.5,
     ) -> Tuple[float, float, int]:
-        """
-        Find peak position, amplitude, and index.
+        """Find peak position, amplitude, and index.
 
         Args:
             peak_ppm: Expected chemical shift of the peak
@@ -320,8 +313,7 @@ class DatasetLoader(Protocol):
 
 
 class TwoPhotonDatasetLoader:
-    """
-    Load and parse Two-photon metabolic imaging datasets.
+    """Load and parse Two-photon metabolic imaging datasets.
 
     Supports datasets from:
     - Looger Lab (Janelia): iATPSnFR2, iATPSnFR1
@@ -356,8 +348,7 @@ class TwoPhotonDatasetLoader:
     }
 
     def __init__(self, cache_dir: Optional[Path] = None):
-        """
-        Initialize the loader.
+        """Initialize the loader.
 
         Args:
             cache_dir: Directory to cache downloaded datasets
@@ -368,8 +359,7 @@ class TwoPhotonDatasetLoader:
 
     @classmethod
     def from_zenodo(cls, doi: str, cache_dir: Optional[Path] = None) -> TwoPhotonDatasetLoader:
-        """
-        Create loader from Zenodo DOI.
+        """Create loader from Zenodo DOI.
 
         Args:
             doi: Zenodo DOI (e.g., "10.5281/zenodo.12345")
@@ -383,8 +373,7 @@ class TwoPhotonDatasetLoader:
         return loader
 
     def download_zenodo(self, doi: str) -> Path:
-        """
-        Download dataset from Zenodo.
+        """Download dataset from Zenodo.
 
         Args:
             doi: Zenodo DOI
@@ -403,7 +392,9 @@ class TwoPhotonDatasetLoader:
 
         if not zip_path.exists():
             try:
-                urllib.request.urlretrieve(download_url, zip_path)
+                urllib.request.urlretrieve(
+                    download_url, zip_path
+                )  # nosec B310 - fixed https://zenodo.org host
             except Exception as e:
                 warnings.warn(f"Failed to download from Zenodo: {e}")
                 # Return empty path for offline mode
@@ -423,8 +414,7 @@ class TwoPhotonDatasetLoader:
         file_pattern: str = "*.csv",
         sensor_type: Literal["iATPSnFR2", "ATeam", "Peredox", "unknown"] = "unknown",
     ) -> List[TwoPhotonTrace]:
-        """
-        Load fluorescence traces from CSV/HDF5 files.
+        """Load fluorescence traces from CSV/HDF5 files.
 
         Args:
             source: Directory path, file path, or list of file paths
@@ -548,8 +538,7 @@ class TwoPhotonDatasetLoader:
         ap_rate_hz: float = 10.0,  # Assumed AP rate during burst
         fit_method: Literal["linear", "integral", "regression"] = "integral",
     ) -> Tuple[float, float, Dict[str, Any]]:
-        """
-        Compute c_1 coefficient from Two-photon traces.
+        """Compute c_1 coefficient from Two-photon traces.
 
         Model: ΔATP(t) = c_1 × N_AP(t) + noise
 
@@ -632,8 +621,7 @@ class TwoPhotonDatasetLoader:
 
 
 class PMRSDatasetLoader:
-    """
-    Load and parse 31P-Magnetic Resonance Spectroscopy datasets.
+    """Load and parse 31P-Magnetic Resonance Spectroscopy datasets.
 
     Supports datasets from:
     - Chen et al. (2020): 3T functional MRS
@@ -664,8 +652,7 @@ class PMRSDatasetLoader:
     T1_ATP_S = 3.0  # T1 relaxation time for ATP at 7T (seconds)
 
     def __init__(self, cache_dir: Optional[Path] = None):
-        """
-        Initialize the P-MRS loader.
+        """Initialize the P-MRS loader.
 
         Args:
             cache_dir: Directory to cache loaded datasets
@@ -679,8 +666,7 @@ class PMRSDatasetLoader:
         par_path: Union[str, Path],
         rec_path: Optional[Union[str, Path]] = None,
     ) -> List[PMRSSpectrum]:
-        """
-        Load Philips PAR/REC format 31P-MRS data.
+        """Load Philips PAR/REC format 31P-MRS data.
 
         Args:
             par_path: Path to .par header file
@@ -758,8 +744,7 @@ class PMRSDatasetLoader:
         ck_flux_column: str = "CK_flux_umol_g_min",
         atp_synthase_column: str = "ATP_synthase_umol_g_min",
     ) -> Dict[str, npt.NDArray[np.float64]]:
-        """
-        Load pre-computed flux values from CSV.
+        """Load pre-computed flux values from CSV.
 
         Many studies provide LCModel-derived flux values in CSV format.
 
@@ -796,8 +781,7 @@ class PMRSDatasetLoader:
         resting_neuron_fraction: float = 0.8,
         method: Literal["flux_baseline", "spectral_ratio", "literature"] = "flux_baseline",
     ) -> Tuple[float, float, Dict[str, Any]]:
-        """
-        Compute c_2 coefficient from 31P-MRS data.
+        """Compute c_2 coefficient from 31P-MRS data.
 
         Model: ATP_baseline(t) = c_2 × t + noise
 
@@ -902,8 +886,7 @@ class PMRSDatasetLoader:
 
 
 class MetabolicCalibrator:
-    """
-    Main calibration engine for fitting c_1 and c_2 from ground-truth data.
+    """Main calibration engine for fitting c_1 and c_2 from ground-truth data.
 
     Combines Two-photon (c_1) and P-MRS (c_2) datasets to produce calibrated
     cost coefficients with uncertainty quantification.
@@ -936,8 +919,7 @@ class MetabolicCalibrator:
         source: Union[str, Path],
         sensor_type: Literal["iATPSnFR2", "ATeam", "Peredox", "unknown"] = "unknown",
     ) -> List[TwoPhotonTrace]:
-        """
-        Load Two-photon imaging dataset.
+        """Load Two-photon imaging dataset.
 
         Args:
             source: Path to dataset or Zenodo DOI (e.g., "zenodo://10.5281/zenodo.xxxxx")
@@ -963,8 +945,7 @@ class MetabolicCalibrator:
         source: Union[str, Path],
         format_type: Literal["parrec", "csv", "twix"] = "parrec",
     ) -> Union[List[PMRSSpectrum], Dict[str, npt.NDArray[np.float64]]]:
-        """
-        Load 31P-MRS dataset.
+        """Load 31P-MRS dataset.
 
         Args:
             source: Path to dataset file
@@ -986,8 +967,7 @@ class MetabolicCalibrator:
         c2_method: Literal["flux_baseline", "spectral_ratio", "literature"] = "flux_baseline",
         combine_uncertainty: bool = True,
     ) -> CalibratedCostCoefficients:
-        """
-        Fit c_1 and c_2 from loaded datasets.
+        """Fit c_1 and c_2 from loaded datasets.
 
         Args:
             c1_method: Method for c_1 estimation
@@ -1065,8 +1045,7 @@ class MetabolicCalibrator:
         coefficients: CalibratedCostCoefficients,
         verbose: bool = True,
     ) -> Dict[str, Any]:
-        """
-        Validate coefficients against biological plausibility ranges.
+        """Validate coefficients against biological plausibility ranges.
 
         Args:
             coefficients: Coefficients to validate
@@ -1126,8 +1105,7 @@ class MetabolicCalibrator:
 
 
 class CostCoefficientValidator:
-    """
-    Validate calibrated cost coefficients against established frameworks.
+    """Validate calibrated cost coefficients against established frameworks.
 
     References:
     - Attwell & Laughlin (2001): 19.1 ATP per spike
@@ -1159,8 +1137,7 @@ class CostCoefficientValidator:
         self,
         coefficients: CalibratedCostCoefficients,
     ) -> Dict[str, Any]:
-        """
-        Compare coefficients to published literature values.
+        """Compare coefficients to published literature values.
 
         Returns:
             Comparison report with deviations from each reference
@@ -1190,8 +1167,7 @@ class CostCoefficientValidator:
         self,
         coefficients: CalibratedCostCoefficients,
     ) -> float:
-        """
-        Compute overall confidence score (0-1) based on multiple factors.
+        """Compute overall confidence score (0-1) based on multiple factors.
 
         Factors:
         - Uncertainty magnitude (lower = better)
@@ -1227,8 +1203,7 @@ def calibrate_from_datasets(
     pmrs_format: Literal["parrec", "csv", "twix"] = "csv",
     validate: bool = True,
 ) -> CalibratedCostCoefficients:
-    """
-    Convenience function to calibrate from datasets.
+    """Convenience function to calibrate from datasets.
 
     Args:
         two_photon_path: Path to Two-photon dataset (or None to use literature)
@@ -1276,8 +1251,7 @@ def calibrate_from_datasets(
 
 
 def get_default_coefficients() -> CalibratedCostCoefficients:
-    """
-    Get default coefficients from literature values.
+    """Get default coefficients from literature values.
 
     These are conservative estimates based on Attwell & Laughlin (2001):
     - c_1: ~1.5×10^7 ATP per action potential

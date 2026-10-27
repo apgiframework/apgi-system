@@ -1,5 +1,4 @@
-"""
-Parameter Configuration Panel for APGI Framework GUI.
+"""Parameter Configuration Panel for APGI Framework GUI.
 
 Extracted from the monolithic GUI to provide a focused component
 for parameter configuration and validation.
@@ -54,16 +53,14 @@ logger = (
 
 
 class ParameterConfigPanel(ctk.CTkFrame):
-    """
-    Panel for configuring APGI parameters and experimental settings.
+    """Panel for configuring APGI parameters and experimental settings.
 
     Provides comprehensive parameter configuration with real-time validation,
     tooltips, and configuration management capabilities.
     """
 
     def __init__(self, parent: Any, config_manager: Optional[ConfigManager] = None) -> None:
-        """
-        Initialize the parameter configuration panel.
+        """Initialize the parameter configuration panel.
 
         Args:
             parent: Parent widget
@@ -298,8 +295,7 @@ class ParameterConfigPanel(ctk.CTkFrame):
         section: str,
         param_type: type = float,
     ) -> None:
-        """
-        Create a row for parameter configuration.
+        """Create a row for parameter configuration.
 
         Args:
             parent_frame: Parent frame widget
@@ -752,8 +748,7 @@ class ParameterConfigPanel(ctk.CTkFrame):
 def create_parameter_config_panel(
     parent: Any, config_manager: Optional[ConfigManager] = None
 ) -> ParameterConfigPanel:
-    """
-    Create a parameter configuration panel with default settings.
+    """Create a parameter configuration panel with default settings.
 
     Args:
         parent: Parent widget

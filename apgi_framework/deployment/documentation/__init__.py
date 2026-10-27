@@ -1,5 +1,4 @@
-"""
-Documentation and training system for APGI Framework.
+"""Documentation and training system for APGI Framework.
 
 Provides comprehensive documentation, troubleshooting guides, and
 in-system help for the parameter estimation system.

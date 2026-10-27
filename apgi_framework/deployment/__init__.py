@@ -1,5 +1,4 @@
-"""
-Deployment and system configuration infrastructure for APGI Framework.
+"""Deployment and system configuration infrastructure for APGI Framework.
 
 This module provides comprehensive deployment, installation, and configuration
 management for the APGI Framework parameter estimation system.

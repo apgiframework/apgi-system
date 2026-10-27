@@ -1,5 +1,4 @@
-"""
-Optional Dependency Management and Validation
+"""Optional Dependency Management and Validation.
 
 Provides robust handling of optional dependencies with proper validation,
 fallback behaviors, and consistent error handling across the APGI framework.
@@ -54,8 +53,7 @@ class DependencyCheckResult:
 
 
 class OptionalDependencyManager:
-    """
-    Manages optional dependencies with robust validation and fallback handling.
+    """Manages optional dependencies with robust validation and fallback handling.
 
     This class ensures that optional dependencies are properly validated before use
     and provides consistent fallback behaviors when dependencies are unavailable.
@@ -235,8 +233,7 @@ class OptionalDependencyManager:
         feature: Optional[str] = None,
         error_on_missing: bool = False,
     ) -> bool:
-        """
-        Require an optional dependency, optionally raising an error if missing.
+        """Require an optional dependency, optionally raising an error if missing.
 
         Args:
             name: Name of the dependency
@@ -319,8 +316,7 @@ def requires_dependency(
     feature: Optional[str] = None,
     fallback: Optional[Callable[..., T]] = None,
 ) -> Callable[[Callable[..., T]], Callable[..., T]]:
-    """
-    Decorator to mark a function as requiring an optional dependency.
+    """Decorator to mark a function as requiring an optional dependency.
 
     Args:
         name: Name of the required dependency

@@ -1,5 +1,4 @@
-"""
-Experimental Control and Validation System
+"""Experimental Control and Validation System.
 
 This module implements comprehensive experimental control mechanisms and validation
 systems for the APGI Framework testing. It ensures proper experimental
@@ -18,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 class ResponseSystemType(Enum):
-    """Types of response systems to validate"""
+    """Types of response systems to validate."""
 
     MOTOR = "motor"
     VERBAL = "verbal"
@@ -27,7 +26,7 @@ class ResponseSystemType(Enum):
 
 
 class TaskType(Enum):
-    """Types of experimental tasks"""
+    """Types of experimental tasks."""
 
     DETECTION = "detection"
     DISCRIMINATION = "discrimination"
@@ -37,7 +36,7 @@ class TaskType(Enum):
 
 @dataclass
 class ResponseSystemValidation:
-    """Results of response system validation"""
+    """Results of response system validation."""
 
     system_type: ResponseSystemType
     is_intact: bool
@@ -51,7 +50,7 @@ class ResponseSystemValidation:
 
 @dataclass
 class TaskComprehensionResult:
-    """Results of task comprehension verification"""
+    """Results of task comprehension verification."""
 
     task_type: TaskType
     comprehension_score: float
@@ -64,7 +63,7 @@ class TaskComprehensionResult:
 
 @dataclass
 class ExperimentalControlReport:
-    """Comprehensive experimental control validation report"""
+    """Comprehensive experimental control validation report."""
 
     participant_id: str
     session_id: str
@@ -77,16 +76,14 @@ class ExperimentalControlReport:
 
 
 class ExperimentalControlManager:
-    """
-    Manages experimental control validation and orchestration.
+    """Manages experimental control validation and orchestration.
 
     This class coordinates validation of motor/verbal response systems,
     task comprehension verification, and overall experimental integrity.
     """
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):
-        """
-        Initialize the experimental control manager.
+        """Initialize the experimental control manager.
 
         Args:
             config: Configuration parameters for validation thresholds
@@ -95,7 +92,7 @@ class ExperimentalControlManager:
         self.validation_history: Dict[str, List[ExperimentalControlReport]] = {}
 
     def _get_default_config(self) -> Dict[str, Any]:
-        """Get default configuration for experimental control validation"""
+        """Get default configuration for experimental control validation."""
         return {
             "response_time_thresholds": {
                 "motor_min": 0.15,  # 150ms minimum
@@ -121,8 +118,7 @@ class ExperimentalControlManager:
         response_times: List[float],
         accuracies: List[bool],
     ) -> ResponseSystemValidation:
-        """
-        Validate motor/verbal response system integrity.
+        """Validate motor/verbal response system integrity.
 
         Args:
             participant_id: Unique participant identifier
@@ -191,8 +187,7 @@ class ExperimentalControlManager:
         training_responses: List[bool],
         instruction_clarity_rating: float,
     ) -> TaskComprehensionResult:
-        """
-        Verify participant task comprehension through training performance.
+        """Verify participant task comprehension through training performance.
 
         Args:
             participant_id: Unique participant identifier
@@ -256,8 +251,7 @@ class ExperimentalControlManager:
         response_validations: List[ResponseSystemValidation],
         comprehension_results: List[TaskComprehensionResult],
     ) -> ExperimentalControlReport:
-        """
-        Generate comprehensive experimental control validation report.
+        """Generate comprehensive experimental control validation report.
 
         Args:
             participant_id: Unique participant identifier
@@ -325,11 +319,11 @@ class ExperimentalControlManager:
         return report
 
     def get_validation_history(self, participant_id: str) -> List[ExperimentalControlReport]:
-        """Get validation history for a participant"""
+        """Get validation history for a participant."""
         return self.validation_history.get(participant_id, [])
 
     def is_participant_valid(self, participant_id: str) -> bool:
-        """Check if participant has valid experimental controls"""
+        """Check if participant has valid experimental controls."""
         history = self.get_validation_history(participant_id)
         if not history:
             return False
@@ -340,7 +334,7 @@ class ExperimentalControlManager:
 
 @dataclass
 class ParticipantProfile:
-    """Individual participant characteristics and parameters"""
+    """Individual participant characteristics and parameters."""
 
     participant_id: str
     age: int
@@ -355,7 +349,7 @@ class ParticipantProfile:
 
 @dataclass
 class SimulatedResponse:
-    """A simulated participant response"""
+    """A simulated participant response."""
 
     response_time: float
     accuracy: bool
@@ -367,16 +361,14 @@ class SimulatedResponse:
 
 
 class ParticipantSimulator:
-    """
-    Simulates realistic participant behavior with individual differences.
+    """Simulates realistic participant behavior with individual differences.
 
     This class models participant responses including individual differences,
     response variability, consistency patterns, and performance changes over time.
     """
 
     def __init__(self, profile: ParticipantProfile, random_seed: Optional[int] = None):
-        """
-        Initialize participant simulator with individual profile.
+        """Initialize participant simulator with individual profile.
 
         Args:
             profile: ParticipantProfile with individual characteristics
@@ -400,8 +392,7 @@ class ParticipantSimulator:
         correct_answer: Any,
         response_options: List[Any],
     ) -> SimulatedResponse:
-        """
-        Simulate a participant response to a task.
+        """Simulate a participant response to a task.
 
         Args:
             task_difficulty: Difficulty level (0-1)
@@ -490,8 +481,7 @@ class ParticipantSimulator:
         correct_answers: List[Any],
         response_options: List[List[Any]],
     ) -> List[SimulatedResponse]:
-        """
-        Simulate a complete training session with learning effects.
+        """Simulate a complete training session with learning effects.
 
         Args:
             task_difficulty: Base difficulty level
@@ -531,8 +521,7 @@ class ParticipantSimulator:
         correct_answers: List[Any],
         response_options: List[List[Any]],
     ) -> List[SimulatedResponse]:
-        """
-        Simulate a complete experimental session.
+        """Simulate a complete experimental session.
 
         Args:
             task_difficulties: Difficulty level for each trial
@@ -569,11 +558,11 @@ class ParticipantSimulator:
         return responses
 
     def _update_fatigue(self) -> None:
-        """Update fatigue accumulation based on trial count and individual fatigue rate"""
+        """Update fatigue accumulation based on trial count and individual fatigue rate."""
         self.fatigue_accumulation = min(1.0, self.trial_count * self.profile.fatigue_rate * 0.001)
 
     def _update_learning(self) -> None:
-        """Update learning progress based on trial count and individual learning rate"""
+        """Update learning progress based on trial count and individual learning rate."""
         # Learning follows a logarithmic curve
         if self.trial_count > 0:
             self.learning_progress = min(
@@ -581,8 +570,7 @@ class ParticipantSimulator:
             )
 
     def get_performance_metrics(self, responses: List[SimulatedResponse]) -> Dict[str, float]:
-        """
-        Calculate performance metrics from simulated responses.
+        """Calculate performance metrics from simulated responses.
 
         Args:
             responses: List of simulated responses
@@ -610,7 +598,7 @@ class ParticipantSimulator:
         }
 
     def reset_session(self) -> None:
-        """Reset simulator state for a new session"""
+        """Reset simulator state for a new session."""
         self.trial_count = 0
         self.fatigue_accumulation = 0.0
         self.learning_progress = 0.0
@@ -618,16 +606,13 @@ class ParticipantSimulator:
 
 
 class ParticipantPopulationGenerator:
-    """
-    Generates populations of diverse participant profiles for simulation studies.
-    """
+    """Generates populations of diverse participant profiles for simulation studies."""
 
     @staticmethod
     def generate_population(
         n_participants: int, random_seed: Optional[int] = None
     ) -> List[ParticipantProfile]:
-        """
-        Generate a diverse population of participant profiles.
+        """Generate a diverse population of participant profiles.
 
         Args:
             n_participants: Number of participants to generate
@@ -691,8 +676,7 @@ class ParticipantPopulationGenerator:
     def generate_clinical_population(
         n_participants: int, condition: str, random_seed: Optional[int] = None
     ) -> List[ParticipantProfile]:
-        """
-        Generate participant profiles for specific clinical conditions.
+        """Generate participant profiles for specific clinical conditions.
 
         Args:
             n_participants: Number of participants to generate
@@ -772,7 +756,7 @@ class ParticipantPopulationGenerator:
 
 @dataclass
 class StimulusProperties:
-    """Properties of experimental stimuli"""
+    """Properties of experimental stimuli."""
 
     stimulus_id: str
     presentation_duration: float  # seconds
@@ -786,7 +770,7 @@ class StimulusProperties:
 
 @dataclass
 class TaskValidationResult:
-    """Results of task validation assessment"""
+    """Results of task validation assessment."""
 
     task_id: str
     is_valid: bool
@@ -801,7 +785,7 @@ class TaskValidationResult:
 
 @dataclass
 class TrainingAssessment:
-    """Assessment of participant training adequacy"""
+    """Assessment of participant training adequacy."""
 
     task_id: str
     participant_id: str
@@ -815,16 +799,14 @@ class TrainingAssessment:
 
 
 class StimulusValidator:
-    """
-    Validates experimental stimuli for proper presentation parameters.
+    """Validates experimental stimuli for proper presentation parameters.
 
     Ensures stimuli are presented supraliminally and meet detection thresholds
     for valid experimental conditions.
     """
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):
-        """
-        Initialize stimulus validator.
+        """Initialize stimulus validator.
 
         Args:
             config: Configuration parameters for stimulus validation
@@ -832,7 +814,7 @@ class StimulusValidator:
         self.config = config or self._get_default_config()
 
     def _get_default_config(self) -> Dict[str, Any]:
-        """Get default configuration for stimulus validation"""
+        """Get default configuration for stimulus validation."""
         return {
             "detection_thresholds": {
                 "visual_contrast": 0.05,  # 5% contrast minimum
@@ -848,8 +830,7 @@ class StimulusValidator:
         }
 
     def validate_stimulus(self, stimulus: StimulusProperties) -> Tuple[bool, List[str]]:
-        """
-        Validate stimulus properties for experimental adequacy.
+        """Validate stimulus properties for experimental adequacy.
 
         Args:
             stimulus: StimulusProperties to validate
@@ -882,7 +863,7 @@ class StimulusValidator:
         return is_valid, issues
 
     def _validate_visual_stimulus(self, stimulus: StimulusProperties) -> List[str]:
-        """Validate visual stimulus properties"""
+        """Validate visual stimulus properties."""
         issues = []
 
         min_contrast = self.config["detection_thresholds"]["visual_contrast"]
@@ -904,7 +885,7 @@ class StimulusValidator:
         return issues
 
     def _validate_auditory_stimulus(self, stimulus: StimulusProperties) -> List[str]:
-        """Validate auditory stimulus properties"""
+        """Validate auditory stimulus properties."""
         issues = []
 
         min_intensity = self.config["detection_thresholds"]["auditory_intensity"]
@@ -921,7 +902,7 @@ class StimulusValidator:
         return issues
 
     def _validate_tactile_stimulus(self, stimulus: StimulusProperties) -> List[str]:
-        """Validate tactile stimulus properties"""
+        """Validate tactile stimulus properties."""
         issues = []
 
         min_intensity = self.config["detection_thresholds"]["tactile_intensity"]
@@ -936,15 +917,13 @@ class StimulusValidator:
 
 
 class TaskValidator:
-    """
-    Validates experimental tasks for proper training and performance criteria.
+    """Validates experimental tasks for proper training and performance criteria.
 
     Ensures participants are well-trained and tasks meet experimental standards.
     """
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):
-        """
-        Initialize task validator.
+        """Initialize task validator.
 
         Args:
             config: Configuration parameters for task validation
@@ -952,7 +931,7 @@ class TaskValidator:
         self.config = config or self._get_default_config()
 
     def _get_default_config(self) -> Dict[str, Any]:
-        """Get default configuration for task validation"""
+        """Get default configuration for task validation."""
         return {
             "training_criteria": {
                 "minimum_trials": 50,
@@ -974,8 +953,7 @@ class TaskValidator:
         participant_id: str,
         training_responses: List[SimulatedResponse],
     ) -> TrainingAssessment:
-        """
-        Assess whether participant training is adequate for experimental participation.
+        """Assess whether participant training is adequate for experimental participation.
 
         Args:
             task_id: Unique task identifier
@@ -1074,8 +1052,7 @@ class TaskValidator:
         task_duration: float,
         response_window: float,
     ) -> TaskValidationResult:
-        """
-        Validate overall task design for experimental adequacy.
+        """Validate overall task design for experimental adequacy.
 
         Args:
             task_id: Unique task identifier
@@ -1166,16 +1143,14 @@ class TaskValidator:
 
 
 class WellTrainedTaskChecker:
-    """
-    Checks if participants are well-trained on experimental tasks.
+    """Checks if participants are well-trained on experimental tasks.
 
     Implements comprehensive assessment of task proficiency and readiness
     for experimental participation.
     """
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):
-        """
-        Initialize well-trained task checker.
+        """Initialize well-trained task checker.
 
         Args:
             config: Configuration parameters for training assessment
@@ -1184,7 +1159,7 @@ class WellTrainedTaskChecker:
         self.task_validator = TaskValidator(config)
 
     def _get_default_config(self) -> Dict[str, Any]:
-        """Get default configuration for training assessment"""
+        """Get default configuration for training assessment."""
         return {
             "proficiency_criteria": {
                 "expert_threshold": 0.9,  # 90% accuracy for expert level
@@ -1205,8 +1180,7 @@ class WellTrainedTaskChecker:
         task_id: str,
         session_responses: List[List[SimulatedResponse]],
     ) -> Dict[str, Any]:
-        """
-        Assess participant proficiency across multiple training sessions.
+        """Assess participant proficiency across multiple training sessions.
 
         Args:
             participant_id: Unique participant identifier
@@ -1376,7 +1350,7 @@ class WellTrainedTaskChecker:
 
 @dataclass
 class ConsciousnessMeasure:
-    """Individual consciousness measurement result"""
+    """Individual consciousness measurement result."""
 
     measure_type: (
         str  # 'subjective_report', 'forced_choice', 'confidence', 'wagering', 'metacognitive'
@@ -1390,7 +1364,7 @@ class ConsciousnessMeasure:
 
 @dataclass
 class MetacognitiveAssessment:
-    """Metacognitive sensitivity assessment results"""
+    """Metacognitive sensitivity assessment results."""
 
     participant_id: str
     type_1_performance: float  # Primary task accuracy
@@ -1406,7 +1380,7 @@ class MetacognitiveAssessment:
 
 @dataclass
 class ConsciousnessValidationReport:
-    """Comprehensive consciousness measurement validation report"""
+    """Comprehensive consciousness measurement validation report."""
 
     participant_id: str
     session_id: str
@@ -1420,16 +1394,14 @@ class ConsciousnessValidationReport:
 
 
 class ConsciousnessMeasurementValidator:
-    """
-    Validates consciousness measurements using multiple converging measures.
+    """Validates consciousness measurements using multiple converging measures.
 
     Implements comprehensive assessment of consciousness measurement validity,
     including metacognitive sensitivity and confidence-accuracy correspondence.
     """
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):
-        """
-        Initialize consciousness measurement validator.
+        """Initialize consciousness measurement validator.
 
         Args:
             config: Configuration parameters for consciousness measurement validation
@@ -1437,7 +1409,7 @@ class ConsciousnessMeasurementValidator:
         self.config = config or self._get_default_config()
 
     def _get_default_config(self) -> Dict[str, Any]:
-        """Get default configuration for consciousness measurement validation"""
+        """Get default configuration for consciousness measurement validation."""
         return {
             "validity_thresholds": {
                 "minimum_correlation": 0.3,  # Minimum inter-measure correlation
@@ -1459,8 +1431,7 @@ class ConsciousnessMeasurementValidator:
         confidence_ratings: List[float],
         correct_answers: List[bool],
     ) -> MetacognitiveAssessment:
-        """
-        Assess metacognitive sensitivity and confidence-accuracy correspondence.
+        """Assess metacognitive sensitivity and confidence-accuracy correspondence.
 
         Args:
             participant_id: Unique participant identifier
@@ -1602,8 +1573,7 @@ class ConsciousnessMeasurementValidator:
         values: List[float],
         reference_values: Optional[List[float]] = None,
     ) -> ConsciousnessMeasure:
-        """
-        Validate individual consciousness measurement.
+        """Validate individual consciousness measurement.
 
         Args:
             measure_type: Type of consciousness measure
@@ -1697,8 +1667,7 @@ class ConsciousnessMeasurementValidator:
         wagering_responses: List[float],
         correct_answers: List[bool],
     ) -> ConsciousnessValidationReport:
-        """
-        Generate comprehensive consciousness measurement validation report.
+        """Generate comprehensive consciousness measurement validation report.
 
         Args:
             participant_id: Unique participant identifier
@@ -1838,7 +1807,7 @@ class ConsciousnessMeasurementValidator:
 
 @dataclass
 class ExperimentalCondition:
-    """Definition of an experimental condition"""
+    """Definition of an experimental condition."""
 
     condition_id: str
     condition_name: str
@@ -1850,7 +1819,7 @@ class ExperimentalCondition:
 
 @dataclass
 class IntegrityCheckResult:
-    """Result of a single integrity check"""
+    """Result of a single integrity check."""
 
     check_name: str
     passed: bool
@@ -1863,7 +1832,7 @@ class IntegrityCheckResult:
 
 @dataclass
 class ExperimentalIntegrityReport:
-    """Comprehensive experimental integrity assessment report"""
+    """Comprehensive experimental integrity assessment report."""
 
     experiment_id: str
     participant_id: str
@@ -1879,16 +1848,14 @@ class ExperimentalIntegrityReport:
 
 
 class ExperimentalIntegrityChecker:
-    """
-    Comprehensive experimental integrity checker and validator.
+    """Comprehensive experimental integrity checker and validator.
 
     This class orchestrates all experimental control and validation mechanisms
     to ensure experimental integrity and validity of testing.
     """
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):
-        """
-        Initialize experimental integrity checker.
+        """Initialize experimental integrity checker.
 
         Args:
             config: Configuration parameters for integrity checking
@@ -1904,7 +1871,7 @@ class ExperimentalIntegrityChecker:
         logger.info("Initialized ExperimentalIntegrityChecker")
 
     def _get_default_config(self) -> Dict[str, Any]:
-        """Get default configuration for integrity checking"""
+        """Get default configuration for integrity checking."""
         return {
             "integrity_thresholds": {
                 "minimum_overall_score": 0.8,  # 80% overall integrity required
@@ -1929,8 +1896,7 @@ class ExperimentalIntegrityChecker:
     def check_response_system_integrity(
         self, participant_id: str, response_data: Dict[str, Dict[str, Any]]
     ) -> IntegrityCheckResult:
-        """
-        Check integrity of participant response systems.
+        """Check integrity of participant response systems.
 
         Args:
             participant_id: Unique participant identifier
@@ -1997,8 +1963,7 @@ class ExperimentalIntegrityChecker:
     def check_consciousness_measurement_validity(
         self, participant_id: str, session_id: str, consciousness_data: Dict[str, List]
     ) -> IntegrityCheckResult:
-        """
-        Check validity of consciousness measurements.
+        """Check validity of consciousness measurements.
 
         Args:
             participant_id: Unique participant identifier
@@ -2077,8 +2042,7 @@ class ExperimentalIntegrityChecker:
     def check_experimental_condition_compliance(
         self, condition: ExperimentalCondition, actual_parameters: Dict[str, Any]
     ) -> IntegrityCheckResult:
-        """
-        Check compliance with experimental condition requirements.
+        """Check compliance with experimental condition requirements.
 
         Args:
             condition: Expected experimental condition
@@ -2169,8 +2133,7 @@ class ExperimentalIntegrityChecker:
     def check_data_quality(
         self, participant_id: str, session_data: Dict[str, Any]
     ) -> IntegrityCheckResult:
-        """
-        Check overall data quality and completeness.
+        """Check overall data quality and completeness.
 
         Args:
             participant_id: Unique participant identifier
@@ -2281,8 +2244,7 @@ class ExperimentalIntegrityChecker:
         session_id: str,
         experimental_data: Dict[str, Any],
     ) -> ExperimentalIntegrityReport:
-        """
-        Generate comprehensive experimental integrity report.
+        """Generate comprehensive experimental integrity report.
 
         Args:
             experiment_id: Unique experiment identifier
@@ -2394,8 +2356,7 @@ class ExperimentalIntegrityChecker:
     def validate_experiment_batch(
         self, experiments: List[Dict[str, Any]]
     ) -> Dict[str, ExperimentalIntegrityReport]:
-        """
-        Validate a batch of experiments for integrity.
+        """Validate a batch of experiments for integrity.
 
         Args:
             experiments: List of experiment data dictionaries

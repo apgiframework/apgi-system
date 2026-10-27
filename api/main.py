@@ -416,7 +416,7 @@ if __name__ == "__main__":
     import uvicorn
 
     default_port = 8000
-    default_host = "0.0.0.0"
+    default_host = "0.0.0.0"  # nosec B104 - containers must listen on all interfaces
 
     # Check if default port is available
     if not is_port_available(default_host, default_port):

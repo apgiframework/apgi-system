@@ -1,5 +1,4 @@
-"""
-Stub module for free energy calculations.
+"""Stub module for free energy calculations.
 
 This module provides type stubs for free energy calculation functionality
 that is being migrated from the old apgi_simulation structure.

@@ -1,5 +1,4 @@
-"""
-System Validation and Verification for APGI Framework Testing.
+"""System Validation and Verification for APGI Framework Testing.
 
 This module provides comprehensive system validation, end-to-end scenario testing,
 and performance benchmarking to ensure the framework operates correctly and
@@ -127,8 +126,7 @@ class SystemValidationReport:
 
 
 class SystemValidator:
-    """
-    Comprehensive system validator for the APGI Framework.
+    """Comprehensive system validator for the APGI Framework.
 
     Provides validation testing across all system components including
     mathematical accuracy, neural simulation, falsification logic,
@@ -139,8 +137,7 @@ class SystemValidator:
     current_report: Optional[SystemValidationReport]
 
     def __init__(self, config_or_controller: Union[Dict[str, Any], Any]) -> None:
-        """
-        Initialize the system validator.
+        """Initialize the system validator.
 
         Args:
             config_or_controller: Either a configuration dictionary or a MainApplicationController instance.
@@ -236,8 +233,7 @@ class SystemValidator:
     def run_validation(
         self, level: ValidationLevel = ValidationLevel.STANDARD
     ) -> SystemValidationReport:
-        """
-        Run comprehensive system validation.
+        """Run comprehensive system validation.
 
         Args:
             level: Level of validation to perform.
@@ -1843,24 +1839,50 @@ class SystemValidator:
         return recovery_result
 
     def handle_timeout(self, operation: Callable[[], Any], timeout_seconds: int) -> Dict[str, Any]:
-        """Handle operation timeout."""
+        """Handle operation timeout.
+
+        Uses ``SIGALRM`` where it exists (POSIX, main thread). Elsewhere (Windows, or a worker
+        thread) the operation runs in a daemon thread and is abandoned after the timeout; Python
+        cannot interrupt a running thread, so it may keep running in the background.
+        """
         import signal
+        import sys
+        import threading
 
-        def timeout_handler(signum: int, frame: Any) -> None:
-            raise TimeoutError(f"Operation timed out after {timeout_seconds} seconds")
+        if sys.platform != "win32" and threading.current_thread() is threading.main_thread():
 
-        # Set timeout
-        signal.signal(signal.SIGALRM, timeout_handler)
-        signal.alarm(timeout_seconds)
+            def timeout_handler(signum: int, frame: Any) -> None:
+                raise TimeoutError(f"Operation timed out after {timeout_seconds} seconds")
 
-        try:
-            result = operation()
-            signal.alarm(0)  # Cancel timeout
-            return {"success": True, "result": result, "timed_out": False}
-        except TimeoutError:
+            signal.signal(signal.SIGALRM, timeout_handler)
+            signal.alarm(timeout_seconds)
+            try:
+                result = operation()
+                signal.alarm(0)  # Cancel timeout
+                return {"success": True, "result": result, "timed_out": False}
+            except TimeoutError:
+                return {"success": False, "result": None, "timed_out": True}
+            finally:
+                signal.alarm(0)  # Ensure timeout is cancelled
+
+        outcome: Dict[str, Any] = {}
+
+        def runner() -> None:
+            try:
+                outcome["result"] = operation()
+            except BaseException as exc:  # reported below, never lost
+                outcome["error"] = exc
+
+        worker = threading.Thread(target=runner, name="apgi-timeout-op", daemon=True)
+        worker.start()
+        worker.join(timeout_seconds)
+        if worker.is_alive():
             return {"success": False, "result": None, "timed_out": True}
-        finally:
-            signal.alarm(0)  # Ensure timeout is cancelled
+        if "error" in outcome:
+            if isinstance(outcome["error"], TimeoutError):
+                return {"success": False, "result": None, "timed_out": True}
+            raise outcome["error"]
+        return {"success": True, "result": outcome["result"], "timed_out": False}
 
 
 # Convenience functions

@@ -1,5 +1,4 @@
-"""
-Parallel batch processor for simulation workloads.
+"""Parallel batch processor for simulation workloads.
 
 Provides high-level interface for running batches of simulations
 with automatic parallelization and progress tracking.
@@ -22,8 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 class ParallelBatchProcessor:
-    """
-    High-level batch processor for parallel simulation execution.
+    """High-level batch processor for parallel simulation execution.
 
     Automatically handles:
     - Chunking large batches for optimal worker utilization
@@ -38,8 +36,7 @@ class ParallelBatchProcessor:
         chunk_size: int = 10,
         show_progress: bool = True,
     ):
-        """
-        Initialize the batch processor.
+        """Initialize the batch processor.
 
         Args:
             max_workers: Maximum number of worker processes
@@ -57,8 +54,7 @@ class ParallelBatchProcessor:
         process_func: Callable[[Any], T],
         description: str = "Processing",
     ) -> List[T]:
-        """
-        Process a list of items in parallel.
+        """Process a list of items in parallel.
 
         Args:
             items: List of items to process
@@ -83,8 +79,7 @@ class ParallelBatchProcessor:
         simulation_func: Callable[..., Any],
         description: str = "Running simulations",
     ) -> List[TaskResult[Any]]:
-        """
-        Run multiple simulations in parallel.
+        """Run multiple simulations in parallel.
 
         Args:
             simulations: List of simulation parameter dictionaries
@@ -133,8 +128,7 @@ class ParallelBatchProcessor:
         reduce_func: Callable[[List[T]], R],
         description: str = "Map-Reduce",
     ) -> R:
-        """
-        Perform map-reduce operation in parallel.
+        """Perform map-reduce operation in parallel.
 
         Args:
             items: Items to map over

@@ -1,5 +1,4 @@
-"""
-Temporal dynamics for neural oscillations.
+"""Temporal dynamics for neural oscillations.
 
 Implements phase evolution, Phase-Amplitude Coupling (PAC),
 and synchrony metrics for multi-band neural oscillation models.

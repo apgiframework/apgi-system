@@ -1,5 +1,4 @@
-"""
-Test Result Persistence System for APGI Framework
+"""Test Result Persistence System for APGI Framework.
 
 This module provides comprehensive test result storage, retrieval, and analysis capabilities including:
 - Database storage for test results
@@ -382,7 +381,7 @@ class TestResultPersistence:
                 query = """
                     SELECT * FROM test_executions 
                     WHERE start_time >= datetime('now', '-{} days')
-                """.format(days)
+                """.format(int(days))
 
                 params: List[Any] = []
                 if test_name:
@@ -484,7 +483,7 @@ class TestResultPersistence:
                     WHERE start_time >= datetime('now', '-{} days')
                     ORDER BY start_time DESC 
                     LIMIT ?
-                """.format(days),
+                """.format(int(days)),  # nosec B608
                     (limit,),
                 )
 
@@ -506,7 +505,7 @@ class TestResultPersistence:
         try:
             with self.get_connection() as conn:
                 # Get failed tests
-                cursor = conn.execute("""
+                cursor = conn.execute("""  # nosemgrep: sql-injection-risk - interval is int()-cast
                     SELECT test_name, test_file, COUNT(*) as failure_count,
                            AVG(duration) as avg_duration,
                            GROUP_CONCAT(SUBSTR(error_message, 1, 100), ' | ') as error_patterns
@@ -515,12 +514,12 @@ class TestResultPersistence:
                     AND start_time >= datetime('now', '-{} days')
                     GROUP BY test_name, test_file
                     ORDER BY failure_count DESC
-                """.format(days))
+                """.format(int(days)))  # nosec B608
 
                 failed_tests = [dict(row) for row in cursor.fetchall()]
 
                 # Get failure rate by time of day
-                cursor = conn.execute("""
+                cursor = conn.execute("""  # nosemgrep: sql-injection-risk - interval is int()-cast
                     SELECT strftime('%H', start_time) as hour,
                            COUNT(*) as total_executions,
                            SUM(CASE WHEN status IN ('failed', 'error') THEN 1 ELSE 0 END) as failures
@@ -528,12 +527,12 @@ class TestResultPersistence:
                     WHERE start_time >= datetime('now', '-{} days')
                     GROUP BY hour
                     ORDER BY hour
-                """.format(days))
+                """.format(int(days)))  # nosec B608
 
                 failure_by_hour = [dict(row) for row in cursor.fetchall()]
 
                 # Get most common error messages
-                cursor = conn.execute("""
+                cursor = conn.execute("""  # nosemgrep: sql-injection-risk - interval is int()-cast
                     SELECT SUBSTR(error_message, 1, 200) as error_sample, COUNT(*) as count
                     FROM test_executions 
                     WHERE status IN ('failed', 'error') 
@@ -542,7 +541,7 @@ class TestResultPersistence:
                     GROUP BY SUBSTR(error_message, 1, 100)
                     ORDER BY count DESC
                     LIMIT 10
-                """.format(days))
+                """.format(int(days)))  # nosec B608
 
                 common_errors = [dict(row) for row in cursor.fetchall()]
 
@@ -623,17 +622,17 @@ Analysis Period: Last {days} days
         try:
             with self.get_connection() as conn:
                 # Delete old batch executions
-                cursor = conn.execute("""
+                cursor = conn.execute("""  # nosemgrep: sql-injection-risk - interval is int()-cast
                     DELETE FROM batch_executions 
                     WHERE start_time < datetime('now', '-{} days')
-                """.format(days_to_keep))
+                """.format(int(days_to_keep)))  # nosec B608
                 deleted_batches = cursor.rowcount
 
                 # Delete old test executions
-                cursor = conn.execute("""
+                cursor = conn.execute("""  # nosemgrep: sql-injection-risk - interval is int()-cast
                     DELETE FROM test_executions 
                     WHERE start_time < datetime('now', '-{} days')
-                """.format(days_to_keep))
+                """.format(int(days_to_keep)))  # nosec B608
                 deleted_tests = cursor.rowcount
 
                 conn.commit()

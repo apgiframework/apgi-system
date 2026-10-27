@@ -1,5 +1,4 @@
-"""
-Framework-wide Rate Limiting and Brute-Force Protection
+"""Framework-wide Rate Limiting and Brute-Force Protection.
 
 Provides comprehensive rate limiting, brute-force detection, and DDoS protection
 across the APGI framework.
@@ -210,8 +209,7 @@ class RateLimiter:
         return f"ip:{hashlib.sha256(f'{ip}:{ua}'.encode()).hexdigest()[:16]}"
 
     def check_rate_limit(self, request_context: Dict[str, Any]) -> tuple[bool, Dict[str, Any]]:
-        """
-        Check if request is within rate limits.
+        """Check if request is within rate limits.
 
         Returns:
             (allowed, response_headers)

@@ -1,5 +1,4 @@
-"""
-Stub module for masking paradigm task.
+"""Stub module for masking paradigm task.
 
 This module provides type stubs for masking paradigm experimental task
 that is being migrated from the old apgi_simulation structure.

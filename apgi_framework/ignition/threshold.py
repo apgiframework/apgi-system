@@ -1,6 +1,4 @@
-"""
-Vectorized Ignition Threshold Computation
-"""
+"""Vectorized Ignition Threshold Computation."""
 
 from typing import Dict, List, Optional, Tuple
 
@@ -10,9 +8,7 @@ from ..types import ConfigDict, FloatArray
 
 
 class IgnitionThreshold:
-    """
-    Vectorized ignition threshold for multi-agent conscious access.
-    """
+    """Vectorized ignition threshold for multi-agent conscious access."""
 
     def __init__(self, config: ConfigDict, rng: Optional[np.random.Generator] = None) -> None:
         """Initialize vectorized ignition threshold."""

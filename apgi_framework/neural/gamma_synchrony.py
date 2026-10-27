@@ -1,5 +1,4 @@
-"""
-Gamma-band synchrony analysis for long-range coherence.
+"""Gamma-band synchrony analysis for long-range coherence.
 
 Provides cross-frequency coupling, frontal-posterior coherence,
 and phase-amplitude coupling detection for APGI framework validation.
@@ -57,16 +56,14 @@ class NetworkConnectivity:
 
 
 class GammaSynchronyAnalysis:
-    """
-    Gamma-band synchrony analysis for APGI framework.
+    """Gamma-band synchrony analysis for APGI framework.
 
     Implements cross-frequency coupling, long-range coherence,
     and phase-amplitude coupling detection for ignition validation.
     """
 
     def __init__(self, sampling_rate: float = 1000.0):
-        """
-        Initialize gamma synchrony analysis.
+        """Initialize gamma synchrony analysis.
 
         Args:
             sampling_rate: Sampling rate in Hz
@@ -84,8 +81,7 @@ class GammaSynchronyAnalysis:
         low: Optional[float] = None,
         high: Optional[float] = None,
     ) -> np.ndarray:
-        """
-        Extract gamma-band signal using bandpass filter.
+        """Extract gamma-band signal using bandpass filter.
 
         Args:
             data: EEG data (channels x time)
@@ -111,8 +107,7 @@ class GammaSynchronyAnalysis:
         return np.asarray(gamma_data)
 
     def compute_hilbert_transform(self, data: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Compute analytic signal using Hilbert transform.
+        """Compute analytic signal using Hilbert transform.
 
         Args:
             data: Signal data
@@ -136,8 +131,7 @@ class GammaSynchronyAnalysis:
         nperseg: int = 256,
         noverlap: Optional[int] = None,
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Compute magnitude-squared coherence between two signals.
+        """Compute magnitude-squared coherence between two signals.
 
         Args:
             signal1: First signal
@@ -164,8 +158,7 @@ class GammaSynchronyAnalysis:
         signal2: np.ndarray,
         channel_pair: Optional[Tuple[str, str]] = None,
     ) -> CoherenceMetrics:
-        """
-        Compute gamma-band coherence between two signals.
+        """Compute gamma-band coherence between two signals.
 
         Args:
             signal1: First signal
@@ -209,8 +202,7 @@ class GammaSynchronyAnalysis:
     def _compute_phase_lag(
         self, signal1: np.ndarray, signal2: np.ndarray, freqs: np.ndarray
     ) -> np.ndarray:
-        """
-        Compute phase lag between signals.
+        """Compute phase lag between signals.
 
         Args:
             signal1: First signal
@@ -229,8 +221,7 @@ class GammaSynchronyAnalysis:
         return np.asarray(phase_lag)
 
     def _compute_phase_locking_value(self, signal1: np.ndarray, signal2: np.ndarray) -> float:
-        """
-        Compute phase locking value (PLV) between signals.
+        """Compute phase locking value (PLV) between signals.
 
         Args:
             signal1: First signal
@@ -262,8 +253,7 @@ class GammaSynchronyAnalysis:
         phase_band: Tuple[float, float] = (4, 8),
         amp_band: Tuple[float, float] = (30, 80),
     ) -> float:
-        """
-        Compute phase-amplitude coupling (PAC).
+        """Compute phase-amplitude coupling (PAC).
 
         Measures coupling between phase of low-frequency oscillation
         and amplitude of high-frequency oscillation.
@@ -328,8 +318,7 @@ class GammaSynchronyAnalysis:
         phase_freqs: List[float] = [4, 8, 13],
         amp_freqs: List[float] = [30, 50, 70],
     ) -> np.ndarray:
-        """
-        Compute cross-frequency coupling matrix.
+        """Compute cross-frequency coupling matrix.
 
         Args:
             data: EEG signal
@@ -361,8 +350,7 @@ class GammaSynchronyAnalysis:
         frontal_channels: List[int],
         posterior_channels: List[int],
     ) -> float:
-        """
-        Compute mean gamma coherence between frontal and posterior regions.
+        """Compute mean gamma coherence between frontal and posterior regions.
 
         Args:
             data: EEG data (channels x time)
@@ -384,8 +372,7 @@ class GammaSynchronyAnalysis:
     def compute_connectivity_matrix(
         self, data: np.ndarray, channel_names: Optional[List[str]] = None
     ) -> np.ndarray:
-        """
-        Compute full connectivity matrix across all channels.
+        """Compute full connectivity matrix across all channels.
 
         Args:
             data: EEG data (channels x time)
@@ -417,8 +404,7 @@ class GammaSynchronyAnalysis:
         left_channels: Optional[List[int]] = None,
         right_channels: Optional[List[int]] = None,
     ) -> NetworkConnectivity:
-        """
-        Comprehensive network connectivity analysis.
+        """Comprehensive network connectivity analysis.
 
         Args:
             data: EEG data (channels x time)
@@ -480,8 +466,7 @@ class GammaSynchronyAnalysis:
     def _compute_clustering_coefficient(
         self, connectivity: np.ndarray, threshold: float = 0.5
     ) -> float:
-        """
-        Compute clustering coefficient of connectivity network.
+        """Compute clustering coefficient of connectivity network.
 
         Args:
             connectivity: Connectivity matrix
@@ -519,8 +504,7 @@ class GammaSynchronyAnalysis:
         return float(np.mean(clustering_coeffs)) if clustering_coeffs else 0.0
 
     def _compute_path_length(self, connectivity: np.ndarray, threshold: float = 0.5) -> float:
-        """
-        Compute characteristic path length of connectivity network.
+        """Compute characteristic path length of connectivity network.
 
         Args:
             connectivity: Connectivity matrix
@@ -553,8 +537,7 @@ class GammaSynchronyAnalysis:
     def detect_gamma_bursts(
         self, data: np.ndarray, threshold: float = 2.0, min_duration: float = 50.0
     ) -> List[Dict]:
-        """
-        Detect gamma-band burst events.
+        """Detect gamma-band burst events.
 
         Args:
             data: EEG signal

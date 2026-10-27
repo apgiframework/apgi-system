@@ -15,14 +15,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.11', '3.12', '3.13']
-        exclude:
-          # Exclude some combinations to reduce CI load
-          - os: macos-latest
-            python-version: '3.11'
-          - os: windows-latest
-            python-version: '3.11'
+        # ci.yml already covers 3.11/3.12 on all three systems; this daily pipeline adds the
+        # newest supported Python (3.13) and the full tests/ tree on Linux.
+        os: [ubuntu-latest]
+        python-version: ['3.13']
     
     steps:
     - uses: actions/checkout@v4

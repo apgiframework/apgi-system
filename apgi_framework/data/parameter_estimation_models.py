@@ -1,5 +1,4 @@
-"""
-Parameter estimation specific data models for the APGI Framework.
+"""Parameter estimation specific data models for the APGI Framework.
 
 Defines data structures for parameter estimation tasks including behavioral responses,
 trial results, parameter estimates, and quality metrics for the three core tasks:

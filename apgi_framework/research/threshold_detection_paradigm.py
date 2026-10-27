@@ -1,5 +1,4 @@
-"""
-Enhanced Threshold Detection Paradigm for APGI Framework.
+"""Enhanced Threshold Detection Paradigm for APGI Framework.
 
 Provides comprehensive threshold estimation across multiple modalities with
 advanced psychophysical methods and neural validation.
@@ -162,15 +161,13 @@ class CrossModalThreshold:
 
 
 class PsychometricFunction:
-    """
-    Psychometric function fitting and analysis.
+    """Psychometric function fitting and analysis.
 
     Implements various psychometric function forms for threshold estimation.
     """
 
     def __init__(self, function_type: str = "cumulative_gaussian"):
-        """
-        Initialize psychometric function.
+        """Initialize psychometric function.
 
         Args:
             function_type: Type of psychometric function
@@ -186,8 +183,7 @@ class PsychometricFunction:
     def cumulative_gaussian(
         self, x: np.ndarray, alpha: float, beta: float, gamma: float, lambda_: float
     ) -> np.ndarray:
-        """
-        Cumulative Gaussian psychometric function.
+        """Cumulative Gaussian psychometric function.
 
         Args:
             x: Stimulus intensities
@@ -205,8 +201,7 @@ class PsychometricFunction:
     def weibull(
         self, x: np.ndarray, alpha: float, beta: float, gamma: float, lambda_: float
     ) -> np.ndarray:
-        """
-        Weibull psychometric function.
+        """Weibull psychometric function.
 
         Args:
             x: Stimulus intensities
@@ -223,8 +218,7 @@ class PsychometricFunction:
     def logistic(
         self, x: np.ndarray, alpha: float, beta: float, gamma: float, lambda_: float
     ) -> np.ndarray:
-        """
-        Logistic psychometric function.
+        """Logistic psychometric function.
 
         Args:
             x: Stimulus intensities
@@ -244,8 +238,7 @@ class PsychometricFunction:
         responses: np.ndarray,
         initial_params: Optional[List[float]] = None,
     ) -> Dict[str, Any]:
-        """
-        Fit psychometric function to data.
+        """Fit psychometric function to data.
 
         Args:
             intensities: Stimulus intensity values
@@ -419,8 +412,8 @@ class PsychometricFunction:
     ) -> float:
         """Extract threshold at target performance level."""
 
-        # Find intensity that gives target performance
         def objective(x: float) -> float:
+            # Distance from the intensity that gives the target performance
             if function_name == "cumulative_gaussian":
                 return float(
                     self.cumulative_gaussian(
@@ -475,8 +468,7 @@ class PsychometricFunction:
 
 
 class AdaptiveStaircase:
-    """
-    Adaptive staircase procedure for threshold estimation.
+    """Adaptive staircase procedure for threshold estimation.
 
     Implements various staircase rules including 3-up/1-down, 2-up/1-down, etc.
     """
@@ -490,8 +482,7 @@ class AdaptiveStaircase:
         min_intensity: float = 0.0,
         max_intensity: float = 100.0,
     ):
-        """
-        Initialize adaptive staircase.
+        """Initialize adaptive staircase.
 
         Args:
             start_intensity: Starting stimulus intensity
@@ -554,8 +545,7 @@ class AdaptiveStaircase:
         return self.current_intensity
 
     def update_staircase(self, response: bool) -> None:
-        """
-        Update staircase based on response.
+        """Update staircase based on response.
 
         Args:
             response: Whether response was correct/detected
@@ -623,16 +613,14 @@ class AdaptiveStaircase:
 
 
 class ThresholdDetectionSystem:
-    """
-    Comprehensive threshold detection system for APGI Framework.
+    """Comprehensive threshold detection system for APGI Framework.
 
     Provides multi-modal threshold estimation with neural validation and
     cross-modal comparisons.
     """
 
     def __init__(self, significance_threshold: float = 0.05):
-        """
-        Initialize threshold detection system.
+        """Initialize threshold detection system.
 
         Args:
             significance_threshold: Statistical significance threshold
@@ -658,8 +646,7 @@ class ThresholdDetectionSystem:
         n_trials: int = 100,
         target_performance: float = 0.75,
     ) -> ThresholdEstimate:
-        """
-        Run threshold estimation for a specific modality and method.
+        """Run threshold estimation for a specific modality and method.
 
         Args:
             modality: Sensory modality
@@ -969,8 +956,7 @@ class ThresholdDetectionSystem:
     def compare_cross_modal_thresholds(
         self, modality1: ModalityType, modality2: ModalityType
     ) -> CrossModalThreshold:
-        """
-        Compare thresholds across modalities.
+        """Compare thresholds across modalities.
 
         Args:
             modality1: First modality
@@ -1083,8 +1069,7 @@ class ThresholdDetectionSystem:
         return shared_signatures, modality_specific_signatures
 
     def generate_threshold_report(self) -> str:
-        """
-        Generate comprehensive threshold detection report.
+        """Generate comprehensive threshold detection report.
 
         Returns:
             Formatted report string
@@ -1140,8 +1125,7 @@ class ThresholdDetectionSystem:
 def create_threshold_detection_system(
     significance_threshold: float = 0.05,
 ) -> ThresholdDetectionSystem:
-    """
-    Create a threshold detection system with default settings.
+    """Create a threshold detection system with default settings.
 
     Args:
         significance_threshold: Statistical significance threshold

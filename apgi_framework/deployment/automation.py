@@ -1,5 +1,4 @@
-"""
-Deployment Automation for APGI Framework
+"""Deployment Automation for APGI Framework.
 
 Provides automated deployment, environment setup, dependency management,
 and deployment validation for production and development environments.
@@ -23,6 +22,18 @@ from ..exceptions import APGIFrameworkError
 from ..logging.standardized_logging import get_logger
 
 logger = get_logger(__name__)
+
+
+def _staging_dir() -> Path:
+    """Per-user private staging directory (0700), instead of the shared, world-writable /tmp."""
+    import tempfile
+
+    path = (
+        Path(tempfile.gettempdir())
+        / f"apgi-deploy-{os.getuid() if hasattr(os, 'getuid') else 'user'}"
+    )
+    path.mkdir(mode=0o700, exist_ok=True)
+    return path
 
 
 class DeploymentError(APGIFrameworkError):
@@ -70,16 +81,14 @@ class DeploymentConfig:
 
 
 class DeploymentManager:
-    """
-    Automated deployment manager for APGI Framework.
+    """Automated deployment manager for APGI Framework.
 
     Handles environment setup, dependency management, service deployment,
     monitoring, and rollback capabilities.
     """
 
     def __init__(self, config: Optional[DeploymentConfig] = None):
-        """
-        Initialize deployment manager.
+        """Initialize deployment manager.
 
         Args:
             config: Deployment configuration
@@ -111,8 +120,7 @@ class DeploymentManager:
     def deploy(
         self, source_path: Optional[str] = None, create_backup: bool = True
     ) -> Dict[str, Any]:
-        """
-        Perform automated deployment.
+        """Perform automated deployment.
 
         Args:
             source_path: Source code path (defaults to current directory)
@@ -297,7 +305,7 @@ RestartSec=10
 WantedBy=multi-user.target
 """
 
-        service_file = Path("/tmp") / "apgi-dashboard.service"
+        service_file = _staging_dir() / "apgi-dashboard.service"
         with open(service_file, "w") as f:
             f.write(service_content)
 
@@ -342,7 +350,7 @@ server {{
 }}
 """
 
-        config_file = Path("/tmp") / "apgi-nginx.conf"
+        config_file = _staging_dir() / "apgi-nginx.conf"
         with open(config_file, "w") as f:
             f.write(nginx_config)
 
@@ -514,8 +522,8 @@ dashboard.start_dashboard()
         try:
             # Clean up temporary files
             temp_files = [
-                Path("/tmp/apgi-dashboard.service"),
-                Path("/tmp/apgi-nginx.conf"),
+                _staging_dir() / "apgi-dashboard.service",
+                _staging_dir() / "apgi-nginx.conf",
             ]
 
             for temp_file in temp_files:
@@ -631,8 +639,7 @@ dashboard.start_dashboard()
 def create_deployment_manager(
     config: Optional[DeploymentConfig] = None,
 ) -> DeploymentManager:
-    """
-    Create and configure a deployment manager.
+    """Create and configure a deployment manager.
 
     Args:
         config: Deployment configuration

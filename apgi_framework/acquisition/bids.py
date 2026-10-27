@@ -109,6 +109,15 @@ def export_recording_to_bids(
     """Write one recording into ``bids_root``.
 
     Args:
+        recording: The recording to export (see ``LocalRecorder.read``).
+        bids_root: Dataset root directory; created if missing.
+        subject: Participant label (alphanumeric).
+        session: Optional session label.
+        task: Task label (alphanumeric).
+        run: Optional run number, 1 or greater.
+        dataset_name: Name written to ``dataset_description.json``.
+        gap_fill_value: Value written for samples lost in gaps (nothing is interpolated).
+        task_description: Free-text task description for the sidecar.
         mapper: Device-to-host clock mapping. Built from the probes saved with
             the recording when omitted.
         power_line_hz: Mains frequency (50 or 60); ``n/a`` when unknown.
@@ -264,7 +273,7 @@ def _build_events(
 
 # -- BrainVision -------------------------------------------------------------
 def _bv_text(text: str) -> str:
-    """BrainVision escapes commas as ``\\1`` and has no multi-line fields."""
+    r"""Escape text for a BrainVision header (commas become ``\1``; no multi-line fields)."""
     return " ".join(text.split()).replace(",", "\\1")
 
 

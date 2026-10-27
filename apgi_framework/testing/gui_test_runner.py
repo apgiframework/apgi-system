@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-GUI Test Runner for APGI Framework
+"""GUI Test Runner for APGI Framework.
 
 This module provides a graphical user interface for running and monitoring
 comprehensive test suites for the APGI Framework.

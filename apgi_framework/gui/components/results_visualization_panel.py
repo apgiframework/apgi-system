@@ -1,5 +1,4 @@
-"""
-Results Visualization Panel for APGI Framework GUI.
+"""Results Visualization Panel for APGI Framework GUI.
 
 Extracted from the monolithic GUI to provide a focused component
 for visualizing test results and statistical analysis.
@@ -35,16 +34,14 @@ except ImportError as e:
 
 
 class ResultsVisualizationPanel(ctk.CTkFrame):
-    """
-    Panel for visualizing test results and statistical analysis.
+    """Panel for visualizing test results and statistical analysis.
 
     Provides comprehensive visualization capabilities including real-time plotting,
     statistical summaries, comparison views, and export functionality.
     """
 
     def __init__(self, parent: Any, results_callback: Optional[Callable] = None):
-        """
-        Initialize the results visualization panel.
+        """Initialize the results visualization panel.
 
         Args:
             parent: Parent widget
@@ -1284,8 +1281,7 @@ class ResultsVisualizationPanel(ctk.CTkFrame):
 def create_results_visualization_panel(
     parent: Any, results_callback: Optional[Callable] = None
 ) -> ResultsVisualizationPanel:
-    """
-    Create a results visualization panel with default settings.
+    """Create a results visualization panel with default settings.
 
     Args:
         parent: Parent widget

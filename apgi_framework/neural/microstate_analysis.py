@@ -1,5 +1,4 @@
-"""
-Microstate analysis for scalp topography clustering.
+"""Microstate analysis for scalp topography clustering.
 
 Provides classification of EEG microstates into canonical states,
 transition probability estimation, and temporal dynamics analysis
@@ -37,16 +36,14 @@ class MicrostateSequence:
 
 
 class MicrostateAnalysis:
-    """
-    Microstate analysis for EEG scalp topography clustering.
+    """Microstate analysis for EEG scalp topography clustering.
 
     Implements modified K-means clustering to identify canonical microstate
     classes and analyze their temporal dynamics at millisecond resolution.
     """
 
     def __init__(self, n_states: int = 4, sampling_rate: float = 1000.0):
-        """
-        Initialize microstate analysis.
+        """Initialize microstate analysis.
 
         Args:
             n_states: Number of microstate classes (typically 4-7)
@@ -61,8 +58,7 @@ class MicrostateAnalysis:
         self.template_labels = ["A", "B", "C", "D", "E", "F", "G"][:n_states]
 
     def compute_gfp(self, data: np.ndarray) -> np.ndarray:
-        """
-        Compute Global Field Power (GFP).
+        """Compute Global Field Power (GFP).
 
         GFP is the spatial standard deviation of the scalp potential at each time point.
 
@@ -81,8 +77,7 @@ class MicrostateAnalysis:
         return cast(np.ndarray, gfp)
 
     def normalize_topography(self, data: np.ndarray) -> np.ndarray:
-        """
-        Normalize topographies to unit variance.
+        """Normalize topographies to unit variance.
 
         Args:
             data: EEG data (channels x time)
@@ -104,8 +99,7 @@ class MicrostateAnalysis:
     def select_gfp_peaks(
         self, data: np.ndarray, gfp: np.ndarray, min_peak_distance: int = 10
     ) -> np.ndarray:
-        """
-        Select GFP peaks for microstate clustering.
+        """Select GFP peaks for microstate clustering.
 
         Microstates are most stable at GFP peaks.
 
@@ -132,8 +126,7 @@ class MicrostateAnalysis:
         max_iterations: int = 100,
         tolerance: float = 1e-6,
     ) -> np.ndarray:
-        """
-        Fit microstate templates using modified K-means clustering.
+        """Fit microstate templates using modified K-means clustering.
 
         Args:
             data: EEG data (channels x time)
@@ -214,8 +207,7 @@ class MicrostateAnalysis:
         templates: Optional[np.ndarray] = None,
         polarity_invariant: bool = True,
     ) -> np.ndarray:
-        """
-        Assign microstate labels to each time point.
+        """Assign microstate labels to each time point.
 
         Args:
             data: EEG data (channels x time)
@@ -277,8 +269,7 @@ class MicrostateAnalysis:
         return cast(np.ndarray, labels)
 
     def smooth_labels(self, labels: np.ndarray, min_duration: int = 3) -> np.ndarray:
-        """
-        Smooth microstate labels by removing brief segments.
+        """Smooth microstate labels by removing brief segments.
 
         Args:
             labels: Microstate labels
@@ -318,8 +309,7 @@ class MicrostateAnalysis:
         return np.asarray(smoothed)
 
     def compute_temporal_metrics(self, labels: np.ndarray) -> Dict[str, Any]:
-        """
-        Compute temporal metrics for microstate sequence.
+        """Compute temporal metrics for microstate sequence.
 
         Args:
             labels: Microstate labels
@@ -368,8 +358,7 @@ class MicrostateAnalysis:
         }
 
     def compute_transition_matrix(self, labels: np.ndarray) -> np.ndarray:
-        """
-        Compute microstate transition probability matrix.
+        """Compute microstate transition probability matrix.
 
         Args:
             labels: Microstate labels
@@ -402,8 +391,7 @@ class MicrostateAnalysis:
         templates: Optional[np.ndarray] = None,
         smooth: bool = True,
     ) -> MicrostateSequence:
-        """
-        Complete microstate sequence analysis.
+        """Complete microstate sequence analysis.
 
         Args:
             data: EEG data (channels x time)
@@ -459,8 +447,7 @@ class MicrostateAnalysis:
     def detect_posterior_to_anterior_transitions(
         self, sequence: MicrostateSequence, channel_positions: np.ndarray
     ) -> List[Dict]:
-        """
-        Detect posterior-to-anterior microstate transitions.
+        """Detect posterior-to-anterior microstate transitions.
 
         Relevant for APGI ignition cascade validation.
 
@@ -514,8 +501,7 @@ class MicrostateAnalysis:
     def compare_sequences(
         self, seq1: MicrostateSequence, seq2: MicrostateSequence
     ) -> Dict[str, float]:
-        """
-        Compare two microstate sequences.
+        """Compare two microstate sequences.
 
         Args:
             seq1: First microstate sequence
@@ -550,8 +536,7 @@ class MicrostateAnalysis:
         }
 
     def export_templates(self, filename: str) -> None:
-        """
-        Export microstate templates to file.
+        """Export microstate templates to file.
 
         Args:
             filename: Output filename
@@ -567,8 +552,7 @@ class MicrostateAnalysis:
         )
 
     def load_templates(self, filename: str) -> None:
-        """
-        Load microstate templates from file.
+        """Load microstate templates from file.
 
         Args:
             filename: Input filename

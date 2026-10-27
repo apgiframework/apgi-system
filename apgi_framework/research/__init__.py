@@ -1,5 +1,4 @@
-"""
-Research module for APGI Framework.
+"""Research module for APGI Framework.
 
 This module provides tools for:
 - Hypothesis design and testing

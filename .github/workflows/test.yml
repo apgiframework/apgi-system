@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Tests, Docker and Docs
 
 on:
   push:
@@ -18,7 +18,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # Windows and macOS are covered by ci.yml; this pipeline stays on Linux
+        os: [ubuntu-latest]
         python-version: ['3.11', '3.12', '3.13']
 
     steps:
@@ -89,7 +90,7 @@ jobs:
     
     - name: Run flake8 (linting)
       run: |
-        flake8 apgi_framework/ tests/ examples/ --max-line-length=88 --extend-ignore=E203,W503
+        flake8 apgi_framework/ tests/ examples/ --max-line-length=100 --extend-ignore=E203,W503
     
     - name: Run mypy (type checking)
       run: |

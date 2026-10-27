@@ -1,5 +1,4 @@
-"""
-Treatment prediction module for APGI Framework.
+"""Treatment prediction module for APGI Framework.
 
 Implements treatment response prediction based on baseline APGI parameters.
 """
@@ -44,8 +43,7 @@ class TreatmentPredictor:
         """Initialize treatment predictor."""
 
     def predict(self, params: BaselineParameters) -> TreatmentPrediction:
-        """
-        Predict treatment response based on baseline APGI parameters.
+        """Predict treatment response based on baseline APGI parameters.
 
         Uses a multi-factor analysis of theta_t, pi_e, pi_i, and beta parameters
         to recommend appropriate treatments and predict response probabilities.

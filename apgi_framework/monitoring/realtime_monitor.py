@@ -1,5 +1,4 @@
-"""
-Real-time Monitoring System for APGI Framework
+"""Real-time Monitoring System for APGI Framework.
 
 Provides live data streaming, WebSocket support, and real-time visualization
 updates for monitoring experiments and system status.
@@ -61,16 +60,14 @@ class SystemStatus:
 
 
 class RealtimeDataStreamer:
-    """
-    Real-time data streaming manager.
+    """Real-time data streaming manager.
 
     Handles WebSocket connections, data broadcasting, and client management
     for real-time monitoring capabilities.
     """
 
     def __init__(self, port: int = 8765):
-        """
-        Initialize real-time data streamer.
+        """Initialize real-time data streamer.
 
         Args:
             port: WebSocket server port
@@ -245,16 +242,14 @@ class RealtimeDataStreamer:
 
 
 class RealtimeMonitor:
-    """
-    High-level real-time monitoring interface.
+    """High-level real-time monitoring interface.
 
     Provides easy-to-use interface for real-time monitoring
     with automatic data collection and broadcasting.
     """
 
     def __init__(self, enable_websocket: bool = True, websocket_port: int = 8765) -> None:
-        """
-        Initialize real-time monitor.
+        """Initialize real-time monitor.
 
         Args:
             enable_websocket: Enable WebSocket server
@@ -323,8 +318,7 @@ class RealtimeMonitor:
         value: Any,
         metadata: Optional[Dict[str, Any]] = None,
     ) -> None:
-        """
-        Log experiment data for real-time monitoring.
+        """Log experiment data for real-time monitoring.
 
         Args:
             experiment_id: Experiment identifier
@@ -354,8 +348,7 @@ class RealtimeMonitor:
         logger.debug(f"Logged experiment data: {experiment_id} - {data_type} = {value}")
 
     def log_system_event(self, event_type: str, details: Dict[str, Any]) -> None:
-        """
-        Log system event for monitoring.
+        """Log system event for monitoring.
 
         Args:
             event_type: Type of system event
@@ -460,8 +453,7 @@ class RealtimeMonitor:
         data_type: Optional[str] = None,
         limit: int = 100,
     ) -> List[MonitoringData]:
-        """
-        Get recent monitoring data.
+        """Get recent monitoring data.
 
         Args:
             experiment_id: Filter by experiment ID
@@ -489,8 +481,7 @@ class RealtimeMonitor:
         return self.system_status
 
     def export_data(self, file_path: Path, experiment_id: Optional[str] = None) -> None:
-        """
-        Export monitoring data to file.
+        """Export monitoring data to file.
 
         Args:
             file_path: Output file path
@@ -534,8 +525,7 @@ def log_experiment_data(
     value: Any,
     metadata: Optional[Dict[str, Any]] = None,
 ) -> None:
-    """
-    Convenience function to log experiment data.
+    """Convenience function to log experiment data.
 
     Args:
         experiment_id: Experiment identifier
@@ -548,8 +538,7 @@ def log_experiment_data(
 
 
 def log_system_event(event_type: str, details: Dict[str, Any]) -> None:
-    """
-    Convenience function to log system events.
+    """Convenience function to log system events.
 
     Args:
         event_type: Type of system event
@@ -560,8 +549,7 @@ def log_system_event(event_type: str, details: Dict[str, Any]) -> None:
 
 
 async def start_monitoring(enable_websocket: bool = True, websocket_port: int = 8765) -> bool:
-    """
-    Start the global monitoring system.
+    """Start the global monitoring system.
 
     Args:
         enable_websocket: Enable WebSocket server

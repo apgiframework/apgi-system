@@ -1,5 +1,4 @@
-"""
-Configuration Validation Tools
+"""Configuration Validation Tools.
 
 Provides comprehensive validation for APGI system configuration files,
 including parameter range validation, schema validation, and helpful
@@ -23,8 +22,7 @@ class ConfigValidationWarning(UserWarning):
 
 
 class ConfigValidator:
-    """
-    Validates APGI system configuration files.
+    """Validates APGI system configuration files.
 
     This class provides comprehensive validation for all configuration
     sections, including parameter range checking, schema validation,
@@ -309,8 +307,7 @@ class ConfigValidator:
         }
 
     def validate(self, config: Dict[str, Any]) -> List[str]:
-        """
-        Validate configuration and raise exception if invalid.
+        """Validate configuration and raise exception if invalid.
         Returns a list of warnings if validation succeeds.
 
         Parameters
@@ -343,8 +340,7 @@ class ConfigValidator:
         return warnings_list
 
     def validate_with_details(self, config: Dict[str, Any]) -> List[str]:
-        """
-        Validate configuration and return list of error messages.
+        """Validate configuration and return list of error messages.
 
         Parameters
         ----------
@@ -550,8 +546,7 @@ class ConfigValidator:
         return "\n".join(formatted)
 
     def validate_parameter_ranges(self, config: Dict[str, Any]) -> List[str]:
-        """
-        Validate that all numeric parameters are within acceptable ranges.
+        """Validate that all numeric parameters are within acceptable ranges.
 
         This method performs additional validation beyond basic schema checking,
         including cross-parameter validation and consistency checks.
@@ -681,8 +676,7 @@ class ConfigValidator:
         return warnings_list
 
     def get_common_mistakes_help(self) -> str:
-        """
-        Get help text for common configuration mistakes.
+        """Get help text for common configuration mistakes.
 
         Returns
         -------
@@ -742,8 +736,7 @@ to get specific error messages for your configuration.
 """
 
     def suggest_fixes(self, config: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Suggest automatic fixes for common configuration issues.
+        """Suggest automatic fixes for common configuration issues.
 
         Parameters
         ----------
@@ -808,8 +801,7 @@ to get specific error messages for your configuration.
 
 
 def validate_config_file(config_path: str) -> None:
-    """
-    Convenience function to validate a configuration file.
+    """Convenience function to validate a configuration file.
 
     Parameters
     ----------

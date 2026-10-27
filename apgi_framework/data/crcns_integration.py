@@ -1,5 +1,4 @@
-"""
-CRCNS Dataset Integration for APGI Framework
+"""CRCNS Dataset Integration for APGI Framework.
 
 This module provides specialized loaders for CRCNS (Collaborative Research in
 Computational Neuroscience) datasets, which are critical for validating the
@@ -33,8 +32,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class CRCNSV1Dataset:
-    """
-    CRCNS V1-1: Visual Cortex Spiking and LFP dataset.
+    """CRCNS V1-1: Visual Cortex Spiking and LFP dataset.
 
     This dataset contains multi-unit activity (MUA) and Local Field Potential (LFP)
     recordings from visual cortex, essential for testing Innovation 11 (Three
@@ -60,8 +58,7 @@ class CRCNSV1Dataset:
     subject_id: str = ""
 
     def compute_lfp_autocorrelation(self, max_lag_ms: float = 100.0) -> npt.NDArray[np.float64]:
-        """
-        Compute LFP autocorrelation for Critical Slowing Down detection.
+        """Compute LFP autocorrelation for Critical Slowing Down detection.
 
         Critical Slowing Down is characterized by increased autocorrelation
         time constants near phase transitions (ignition events).
@@ -80,8 +77,7 @@ class CRCNSV1Dataset:
     def detect_critical_slowing_down(
         self, threshold_std: float = 2.0, window_ms: float = 50.0
     ) -> List[Dict[str, Any]]:
-        """
-        Detect Critical Slowing Down signatures in LFP.
+        """Detect Critical Slowing Down signatures in LFP.
 
         CSD manifests as increased autocorrelation time constants during
         state transitions (e.g., ignition events).
@@ -120,8 +116,7 @@ class CRCNSV1Dataset:
         return csd_events
 
     def compute_firing_rate(self, window_ms: float = 100.0) -> npt.NDArray[np.float64]:
-        """
-        Compute instantaneous firing rate from spike data.
+        """Compute instantaneous firing rate from spike data.
 
         Args:
             window_ms: Window size in milliseconds
@@ -146,8 +141,7 @@ class CRCNSV1Dataset:
 
 @dataclass
 class CRCNSAC1Dataset:
-    """
-    CRCNS AC-1: Auditory Cortex Metabolic Proxies dataset.
+    """CRCNS AC-1: Auditory Cortex Metabolic Proxies dataset.
 
     This dataset contains intrinsic optical imaging (IOS) and flavoprotein
     fluorescence data, serving as empirical proxies for the Metabolic Cost
@@ -173,8 +167,7 @@ class CRCNSAC1Dataset:
     def compute_metabolic_cost_proxy(
         self, baseline_window_ms: float = 500.0
     ) -> npt.NDArray[np.float64]:
-        """
-        Compute metabolic cost proxy from fluorescence signal.
+        """Compute metabolic cost proxy from fluorescence signal.
 
         The integrated fluorescence signal serves as a proxy for ATP consumption,
         enabling calibration of the c_1 coefficient in the Landauer Bridge.
@@ -208,8 +201,7 @@ class CRCNSAC1Dataset:
     def detect_metabolic_bursts(
         self, threshold_std: float = 2.0, min_duration_ms: float = 50.0
     ) -> List[Dict[str, Any]]:
-        """
-        Detect metabolic bursts (periods of elevated ATP consumption).
+        """Detect metabolic bursts (periods of elevated ATP consumption).
 
         Args:
             threshold_std: Threshold in standard deviations above baseline
@@ -247,16 +239,14 @@ class CRCNSAC1Dataset:
 
 
 class CRCNSLoader:
-    """
-    Specialized loader for CRCNS datasets.
+    """Specialized loader for CRCNS datasets.
 
     Provides convenience methods for loading specific CRCNS datasets with
     appropriate preprocessing for APGI validation protocols.
     """
 
     def __init__(self, cache_dir: Optional[Path] = None):
-        """
-        Initialize CRCNS loader.
+        """Initialize CRCNS loader.
 
         Args:
             cache_dir: Directory for caching downloaded datasets
@@ -266,8 +256,7 @@ class CRCNSLoader:
         self.unified_loader = UnifiedDataLoader(cache_dir=cache_dir)
 
     def load_v1_1(self, file_path: Union[str, Path], **kwargs: Any) -> CRCNSV1Dataset:
-        """
-        Load CRCNS V1-1 dataset (Visual Cortex Spiking and LFP).
+        """Load CRCNS V1-1 dataset (Visual Cortex Spiking and LFP).
 
         Args:
             file_path: Path to V1-1 dataset file (.mat format)
@@ -303,8 +292,7 @@ class CRCNSLoader:
         )
 
     def load_ac_1(self, file_path: Union[str, Path], **kwargs: Any) -> CRCNSAC1Dataset:
-        """
-        Load CRCNS AC-1 dataset (Auditory Cortex Metabolic Proxies).
+        """Load CRCNS AC-1 dataset (Auditory Cortex Metabolic Proxies).
 
         Args:
             file_path: Path to AC-1 dataset file (.mat format)
@@ -336,8 +324,7 @@ class CRCNSLoader:
         )
 
     def download_v1_1(self, output_dir: Optional[Path] = None) -> Path:
-        """
-        Download CRCNS V1-1 dataset from CRCNS repository.
+        """Download CRCNS V1-1 dataset from CRCNS repository.
 
         Note: This requires CRCNS account authentication.
         Users should download manually from https://crcns.org/datasets/v1/v1-1
@@ -360,8 +347,7 @@ class CRCNSLoader:
         return output_dir
 
     def download_ac_1(self, output_dir: Optional[Path] = None) -> Path:
-        """
-        Download CRCNS AC-1 dataset from CRCNS repository.
+        """Download CRCNS AC-1 dataset from CRCNS repository.
 
         Note: This requires CRCNS account authentication.
         Users should download manually from https://crcns.org/datasets/ac/ac-1

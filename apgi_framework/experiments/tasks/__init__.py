@@ -1,5 +1,4 @@
-"""
-Experimental tasks module for the APGI Framework.
+"""Experimental tasks module for the APGI Framework.
 
 This module contains various cognitive and experimental tasks
 for testing the APGI falsification framework.

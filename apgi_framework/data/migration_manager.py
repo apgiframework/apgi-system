@@ -1,5 +1,4 @@
-"""
-Database migration manager for the APGI Framework.
+"""Database migration manager for the APGI Framework.
 
 Handles schema migrations and upgrades for both core framework
 and parameter estimation functionality.
@@ -19,16 +18,14 @@ class MigrationError(APGIFrameworkError):
 
 
 class MigrationManager:
-    """
-    Manages database schema migrations for the APGI Framework.
+    """Manages database schema migrations for the APGI Framework.
 
     Coordinates migrations between core framework tables and
     parameter estimation extensions.
     """
 
     def __init__(self, db_path: Path):
-        """
-        Initialize migration manager.
+        """Initialize migration manager.
 
         Args:
             db_path: Path to SQLite database file
@@ -37,8 +34,7 @@ class MigrationManager:
         self.parameter_estimation_schema = ParameterEstimationSchema(db_path)
 
     def _validate_table_name(self, table_name: str) -> bool:
-        """
-        Validate table name to prevent SQL injection.
+        """Validate table name to prevent SQL injection.
 
         Only allows alphanumeric characters, underscores, and hyphens.
         Must start with a letter or underscore.
@@ -52,8 +48,7 @@ class MigrationManager:
         return bool(re.match(pattern, table_name)) and len(table_name) <= 128
 
     def get_migration_status(self) -> Dict[str, Optional[str]]:
-        """
-        Get current migration status for all components.
+        """Get current migration status for all components.
 
         Returns:
             Dict[str, Optional[str]]: Component -> version mapping
@@ -137,8 +132,7 @@ class MigrationManager:
             raise MigrationError(f"Failed to ensure core tables: {str(e)}")
 
     def validate_all_schemas(self) -> bool:
-        """
-        Validate that all schemas are properly installed.
+        """Validate that all schemas are properly installed.
 
         Returns:
             bool: True if all schemas are valid
@@ -176,8 +170,7 @@ class MigrationManager:
             raise MigrationError(f"Failed to reset parameter estimation schema: {str(e)}")
 
     def get_table_info(self) -> Dict[str, List[str]]:
-        """
-        Get information about all tables in the database.
+        """Get information about all tables in the database.
 
         Returns:
             Dict[str, List[str]]: Table name -> column names mapping
@@ -196,7 +189,9 @@ class MigrationManager:
                     if not self._validate_table_name(table_name):
                         raise MigrationError(f"Invalid table name detected: {table_name}")
 
-                    cursor = conn.execute(f"PRAGMA table_info({table_name})")
+                    _sql = f"PRAGMA table_info({table_name})"  # nosemgrep: sql-injection-risk - name validated above; PRAGMA cannot be parameterised
+
+                    cursor = conn.execute(_sql)
                     columns = [row[1] for row in cursor.fetchall()]  # row[1] is column name
                     table_info[table_name] = columns
 
@@ -207,8 +202,7 @@ class MigrationManager:
 
 
 def create_migration_manager(db_path: Path) -> MigrationManager:
-    """
-    Factory function to create migration manager.
+    """Factory function to create migration manager.
 
     Args:
         db_path: Path to SQLite database file

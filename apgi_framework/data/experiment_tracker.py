@@ -1,5 +1,4 @@
-"""
-Experiment tracking and logging system for APGI Framework.
+"""Experiment tracking and logging system for APGI Framework.
 
 Provides comprehensive experiment logging, parameter tracking, and timeline management
 for falsification testing experiments.
@@ -85,16 +84,14 @@ class ExperimentLog:
 
 
 class ExperimentTracker:
-    """
-    Comprehensive experiment tracking and logging system.
+    """Comprehensive experiment tracking and logging system.
 
     Tracks experiment sessions, parameters, conditions, timelines, and results
     with detailed logging and performance monitoring.
     """
 
     def __init__(self, storage_path: Union[str, Path] = "experiments"):
-        """
-        Initialize experiment tracker.
+        """Initialize experiment tracker.
 
         Args:
             storage_path: Path to store experiment logs and data
@@ -136,8 +133,7 @@ class ExperimentTracker:
         random_seed: Optional[int] = None,
         configuration: Optional[Dict[str, Any]] = None,
     ) -> str:
-        """
-        Create a new experiment session.
+        """Create a new experiment session.
 
         Args:
             experiment_name: Name of the experiment

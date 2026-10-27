@@ -1,5 +1,4 @@
-"""
-Structured Logging with Correlation IDs
+"""Structured Logging with Correlation IDs.
 
 Provides standardized structured logs with trace IDs/correlation IDs across
 API and async tasks for end-to-end observability.
@@ -44,8 +43,7 @@ class StructuredLogger:
     """Logger with structured output and correlation ID support."""
 
     def __init__(self, name: str, enable_structured: bool = True):
-        """
-        Initialize structured logger.
+        """Initialize structured logger.
 
         Args:
             name: Logger name
@@ -106,8 +104,7 @@ class RequestContextManager:
         endpoint: Optional[str] = None,
         method: Optional[str] = None,
     ) -> None:
-        """
-        Set request context.
+        """Set request context.
 
         Args:
             request_id: Unique request ID
@@ -144,8 +141,7 @@ class RequestContextManager:
         endpoint: Optional[str] = None,
         method: Optional[str] = None,
     ):
-        """
-        Context manager for request scope.
+        """Context manager for request scope.
 
         Args:
             user_id: User making request
@@ -176,8 +172,7 @@ class TaskContextManager:
         task_name: str,
         parent_request_id: Optional[str] = None,
     ) -> None:
-        """
-        Set task context.
+        """Set task context.
 
         Args:
             task_id: Unique task ID
@@ -213,8 +208,7 @@ class TaskContextManager:
         task_name: str,
         parent_request_id: Optional[str] = None,
     ):
-        """
-        Context manager for task scope.
+        """Context manager for task scope.
 
         Args:
             task_name: Name of task

@@ -1,5 +1,4 @@
-"""
-APGI protocol specification 1.1.0.
+"""APGI protocol specification 1.1.0.
 
 Reads the registered protocol files in ``apgi_framework/protocols/`` (byte-identical to the
 apgi-framework 1.1.0 release) and exposes the parts this system consumes: the

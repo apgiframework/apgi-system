@@ -1,5 +1,4 @@
-"""
-Exception classes for the APGI Framework.
+"""Exception classes for the APGI Framework.
 
 This module defines the hierarchy of exceptions used throughout the framework
 to handle various error conditions in mathematical calculations, simulations,
@@ -15,8 +14,7 @@ class APGIFrameworkError(Exception):
     def __init__(
         self, message: str = "An error occurred in the APGI Framework", **context: Any
     ) -> None:
-        """
-        Initialize the exception.
+        """Initialize the exception.
 
         Args:
             message: Error message
@@ -35,8 +33,7 @@ class MathematicalError(APGIFrameworkError, ValueError):
         operation: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the mathematical error.
+        """Initialize the mathematical error.
 
         Args:
             message: Error message
@@ -57,8 +54,7 @@ class SimulationError(APGIFrameworkError):
         simulation_type: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the simulation error.
+        """Initialize the simulation error.
 
         Args:
             message: Error message
@@ -79,8 +75,7 @@ class StatisticalError(APGIFrameworkError):
         test_type: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the statistical error.
+        """Initialize the statistical error.
 
         Args:
             message: Error message
@@ -101,8 +96,7 @@ class ValidationError(APGIFrameworkError):
         parameter: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the validation error.
+        """Initialize the validation error.
 
         Args:
             message: Error message
@@ -123,8 +117,7 @@ class ConfigurationError(APGIFrameworkError):
         config_file: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the configuration error.
+        """Initialize the configuration error.
 
         Args:
             message: Error message
@@ -145,8 +138,7 @@ class DataError(APGIFrameworkError):
         data_source: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the data error.
+        """Initialize the data error.
 
         Args:
             message: Error message
@@ -167,8 +159,7 @@ class DataManagementError(APGIFrameworkError):
         operation: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the data management error.
+        """Initialize the data management error.
 
         Args:
             message: Error message
@@ -189,8 +180,7 @@ class VisualizationError(APGIFrameworkError):
         plot_type: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the visualization error.
+        """Initialize the visualization error.
 
         Args:
             message: Error message
@@ -211,8 +201,7 @@ class DashboardError(APGIFrameworkError):
         component: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the dashboard error.
+        """Initialize the dashboard error.
 
         Args:
             message: Error message
@@ -233,8 +222,7 @@ class PersistenceError(APGIFrameworkError):
         storage_type: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the persistence error.
+        """Initialize the persistence error.
 
         Args:
             message: Error message
@@ -255,8 +243,7 @@ class ReportGenerationError(APGIFrameworkError):
         report_type: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the report generation error.
+        """Initialize the report generation error.
 
         Args:
             message: Error message
@@ -277,8 +264,7 @@ class DataExportError(APGIFrameworkError):
         export_format: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the data export error.
+        """Initialize the data export error.
 
         Args:
             message: Error message
@@ -299,8 +285,7 @@ class AnalysisError(APGIFrameworkError):
         analysis_type: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the analysis error.
+        """Initialize the analysis error.
 
         Args:
             message: Error message
@@ -321,8 +306,7 @@ class ProcessingError(APGIFrameworkError):
         processing_step: Optional[str] = None,
         **context: Any,
     ) -> None:
-        """
-        Initialize the processing error.
+        """Initialize the processing error.
 
         Args:
             message: Error message

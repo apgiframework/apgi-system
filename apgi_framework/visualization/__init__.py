@@ -1,5 +1,4 @@
-"""
-Visualization module for APGI Framework.
+"""Visualization module for APGI Framework.
 
 This module provides chart generation and data visualization capabilities.
 """

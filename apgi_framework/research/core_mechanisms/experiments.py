@@ -1,5 +1,4 @@
-"""
-Experimental paradigms for APGI core mechanisms.
+"""Experimental paradigms for APGI core mechanisms.
 
 This module provides experimental implementations and utilities
 for core APGI experimental paradigms and mechanisms.

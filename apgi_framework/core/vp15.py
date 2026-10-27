@@ -1,5 +1,4 @@
-"""
-Stub module for VP15 validation protocol.
+"""Stub module for VP15 validation protocol.
 
 This module provides type stubs for VP15 validation protocol
 that is being migrated from the old apgi_simulation structure.

@@ -1,10 +1,10 @@
-"""
-Storage manager for the APGI Framework data management system.
+"""Storage manager for the APGI Framework data management system.
 
 Provides high-level interface for data storage, retrieval, querying,
 and management operations with automatic validation and backup.
 """
 
+import tarfile
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union, cast
@@ -23,13 +23,33 @@ from .data_validator import DataValidator, ValidationError
 from .persistence_layer import PersistenceError, PersistenceLayer
 
 
+def _safe_extract(tar: "tarfile.TarFile", destination: Path) -> None:
+    """Extract ``tar`` into ``destination``, refusing anything that could escape it.
+
+    Rejects absolute paths, ``..`` components, links, devices and other special members, so a
+    crafted backup cannot write outside the temporary directory (path traversal, CWE-22).
+    """
+    root = destination.resolve()
+    members = []
+    for member in tar.getmembers():
+        target = (root / member.name).resolve()
+        if root != target and root not in target.parents:
+            raise StorageError(f"unsafe path in backup archive: {member.name!r}")
+        if not (member.isreg() or member.isdir()):
+            raise StorageError(f"unsupported member type in backup archive: {member.name!r}")
+        members.append(member)
+    try:
+        tar.extractall(root, members=members, filter="data")  # nosec B202 - members validated above
+    except TypeError:  # Python without extraction filters
+        tar.extractall(root, members=members)  # nosec B202 - members validated above
+
+
 class StorageError(APGIFrameworkError):
     """Errors in storage management operations."""
 
 
 class StorageManager:
-    """
-    High-level storage manager for experimental datasets.
+    """High-level storage manager for experimental datasets.
 
     Provides unified interface for storing, retrieving, querying, and managing
     experimental data with automatic validation, versioning, and backup.
@@ -42,8 +62,7 @@ class StorageManager:
         auto_validate: bool = True,
         auto_backup: bool = True,
     ):
-        """
-        Initialize storage manager.
+        """Initialize storage manager.
 
         Args:
             storage_path: Base path for data storage (default: ./data)
@@ -76,8 +95,7 @@ class StorageManager:
         validate: Optional[bool] = None,
         create_backup: Optional[bool] = None,
     ) -> str:
-        """
-        Store experimental dataset with validation and backup.
+        """Store experimental dataset with validation and backup.
 
         Args:
             dataset: ExperimentalDataset to store
@@ -132,8 +150,7 @@ class StorageManager:
     def load_dataset(
         self, experiment_id: str, version: Optional[str] = None, validate: bool = False
     ) -> ExperimentalDataset:
-        """
-        Load experimental dataset by ID.
+        """Load experimental dataset by ID.
 
         Args:
             experiment_id: Experiment identifier
@@ -172,8 +189,7 @@ class StorageManager:
     def query_datasets(
         self, filter_criteria: Optional[QueryFilter] = None, limit: Optional[int] = None
     ) -> List[ExperimentMetadata]:
-        """
-        Query datasets based on filter criteria.
+        """Query datasets based on filter criteria.
 
         Args:
             filter_criteria: QueryFilter with search criteria
@@ -263,8 +279,7 @@ class StorageManager:
     def update_dataset(
         self, experiment_id: str, updates: Dict[str, Any], create_version: bool = True
     ) -> str:
-        """
-        Update existing dataset with new data or metadata.
+        """Update existing dataset with new data or metadata.
 
         Args:
             experiment_id: Experiment to update
@@ -325,8 +340,7 @@ class StorageManager:
     def delete_dataset(
         self, experiment_id: str, include_backups: bool = False, confirm: bool = False
     ) -> bool:
-        """
-        Delete experimental dataset.
+        """Delete experimental dataset.
 
         Args:
             experiment_id: Experiment to delete
@@ -361,8 +375,7 @@ class StorageManager:
             raise StorageError(f"Failed to delete dataset {experiment_id}: {str(e)}")
 
     def create_backup(self, experiment_id: str, backup_type: str = "manual") -> BackupInfo:
-        """
-        Create backup of experimental dataset.
+        """Create backup of experimental dataset.
 
         Args:
             experiment_id: Experiment to backup
@@ -383,8 +396,7 @@ class StorageManager:
             raise StorageError(f"Failed to create backup for {experiment_id}: {str(e)}")
 
     def restore_from_backup(self, backup_id: str) -> str:
-        """
-        Restore dataset from backup.
+        """Restore dataset from backup.
 
         Args:
             backup_id: Backup to restore from
@@ -459,7 +471,7 @@ class StorageManager:
 
             # Extract backup
             with tarfile.open(backup_path, "r:gz") as tar:
-                tar.extractall(temp_path)
+                _safe_extract(tar, temp_path)
 
             # Find the dataset file
             dataset_files = list(temp_path.glob("*.pkl"))
@@ -482,8 +494,7 @@ class StorageManager:
         return self._restore_full_backup(backup_path)
 
     def get_storage_stats(self, refresh: bool = False) -> StorageStats:
-        """
-        Get storage statistics and usage information.
+        """Get storage statistics and usage information.
 
         Args:
             refresh: Whether to refresh cached statistics
@@ -559,8 +570,7 @@ class StorageManager:
             raise StorageError(f"Failed to calculate storage stats: {str(e)}")
 
     def cleanup_old_backups(self, retention_days: int = 30) -> int:
-        """
-        Clean up old backups based on retention policy.
+        """Clean up old backups based on retention policy.
 
         Args:
             retention_days: Number of days to retain backups
@@ -582,8 +592,7 @@ class StorageManager:
             raise StorageError(f"Failed to cleanup old backups: {str(e)}")
 
     def validate_all_datasets(self) -> Dict[str, Any]:
-        """
-        Validate all stored datasets and return summary.
+        """Validate all stored datasets and return summary.
 
         Returns:
             Dict with validation summary and results
@@ -664,8 +673,7 @@ class StorageManager:
         self._stats_cache_time = None
 
     def flush_all(self) -> bool:
-        """
-        Flush all pending data operations and ensure data persistence.
+        """Flush all pending data operations and ensure data persistence.
 
         Returns:
             bool: True if flush successful
@@ -685,8 +693,7 @@ class StorageManager:
             raise StorageError(f"Failed to flush data operations: {str(e)}")
 
     def export_metadata(self, output_path: Union[str, Path], format: str = "json") -> Path:
-        """
-        Export all experiment metadata to file.
+        """Export all experiment metadata to file.
 
         Args:
             output_path: Path for exported file
@@ -776,8 +783,7 @@ class StorageManager:
 
     # Convenience methods for simpler API
     def save(self, data: dict, filepath: Union[str, Path]) -> str:
-        """
-        Save data to file (JSON format).
+        """Save data to file (JSON format).
 
         Args:
             data: Dictionary to save
@@ -798,8 +804,7 @@ class StorageManager:
         return str(filepath)
 
     def load(self, filepath: Union[str, Path]) -> dict:
-        """
-        Load data from file (JSON format).
+        """Load data from file (JSON format).
 
         Args:
             filepath: Path to file
@@ -817,8 +822,7 @@ class StorageManager:
         return cast(Dict[Any, Any], data)
 
     def exists(self, filepath: Union[str, Path]) -> bool:
-        """
-        Check if file exists.
+        """Check if file exists.
 
         Args:
             filepath: Path to check
@@ -829,8 +833,7 @@ class StorageManager:
         return Path(filepath).exists()
 
     def delete(self, filepath: Union[str, Path]) -> bool:
-        """
-        Delete file.
+        """Delete file.
 
         Args:
             filepath: Path to delete
@@ -845,8 +848,7 @@ class StorageManager:
         return False
 
     def list_files(self, directory: Union[str, Path], pattern: str = "*") -> list:
-        """
-        List files in directory matching pattern.
+        """List files in directory matching pattern.
 
         Args:
             directory: Directory to list
@@ -862,8 +864,7 @@ class StorageManager:
         return [str(f) for f in directory.glob(pattern) if f.is_file()]
 
     def get_file_info(self, filepath: Union[str, Path]) -> dict:
-        """
-        Get file information.
+        """Get file information.
 
         Args:
             filepath: Path to file
@@ -884,8 +885,7 @@ class StorageManager:
         }
 
     def batch_save(self, datasets: dict, directory: Union[str, Path]) -> dict:
-        """
-        Save multiple datasets to directory.
+        """Save multiple datasets to directory.
 
         Args:
             datasets: Dictionary mapping filenames to data

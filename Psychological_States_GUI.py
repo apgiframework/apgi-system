@@ -11,6 +11,8 @@ with no external browser dependencies, save options, or display capabilities.
 =============================================================================
 """
 
+from __future__ import annotations
+
 # Deprecated legacy entry point (README: "Legacy Entry Points (Deprecated)").
 try:
     from apgi_framework.utils.deprecation import warn_deprecated_module

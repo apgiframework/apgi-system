@@ -1,5 +1,4 @@
-"""
-Data management and storage components for the APGI Framework.
+"""Data management and storage components for the APGI Framework.
 
 This module provides comprehensive data storage, versioning, management,
 reporting, visualization, and dashboard capabilities for experimental data,
@@ -91,7 +90,6 @@ class DataProcessor:
 
     def get_processed_data(self, data_id: str) -> Optional[Dict[str, Any]]:
         """Retrieve processed data by ID."""
-
         return self.processed_data.get(data_id)
 
 

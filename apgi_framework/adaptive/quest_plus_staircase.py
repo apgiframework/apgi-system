@@ -1,5 +1,4 @@
-"""
-QUEST+ adaptive staircase implementation for optimal stimulus selection.
+"""QUEST+ adaptive staircase implementation for optimal stimulus selection.
 
 Implements the QUEST+ algorithm for efficient threshold estimation in
 detection tasks, with state management and convergence monitoring.
@@ -177,8 +176,7 @@ class StaircaseState:
 
 
 class QuestPlusStaircase:
-    """
-    QUEST+ adaptive staircase for optimal stimulus selection.
+    """QUEST+ adaptive staircase for optimal stimulus selection.
 
     Implements the QUEST+ algorithm which uses Bayesian inference to
     select stimulus intensities that maximize information gain about
@@ -191,8 +189,7 @@ class QuestPlusStaircase:
         participant_id: str = "",
         task_id: str = "",
     ):
-        """
-        Initialize QUEST+ staircase.
+        """Initialize QUEST+ staircase.
 
         Args:
             parameters: QUEST+ algorithm parameters
@@ -265,8 +262,7 @@ class QuestPlusStaircase:
         logger.debug(f"Prior distribution initialized with shape {self.prior.shape}")
 
     def _psychometric_function(self, intensity: float, threshold: float, slope: float) -> float:
-        """
-        Compute psychometric function value.
+        """Compute psychometric function value.
 
         Uses cumulative normal distribution with lapse and guess rates.
 
@@ -291,8 +287,7 @@ class QuestPlusStaircase:
     def _likelihood(
         self, intensity: float, response: bool, threshold: float, slope: float
     ) -> float:
-        """
-        Compute likelihood of response given parameters.
+        """Compute likelihood of response given parameters.
 
         Args:
             intensity: Stimulus intensity
@@ -311,8 +306,7 @@ class QuestPlusStaircase:
             return 1 - p_detect
 
     def _expected_entropy(self, intensity: float) -> float:
-        """
-        Calculate expected entropy after presenting stimulus at given intensity.
+        """Calculate expected entropy after presenting stimulus at given intensity.
 
         Args:
             intensity: Stimulus intensity to evaluate
@@ -365,8 +359,7 @@ class QuestPlusStaircase:
         return expected_entropy
 
     def get_next_intensity(self) -> float:
-        """
-        Get the optimal stimulus intensity for the next trial.
+        """Get the optimal stimulus intensity for the next trial.
 
         Returns:
             Optimal stimulus intensity
@@ -386,8 +379,7 @@ class QuestPlusStaircase:
         return intensity
 
     def update(self, intensity: float, response: bool) -> None:
-        """
-        Update the staircase with the response to the current trial.
+        """Update the staircase with the response to the current trial.
 
         Args:
             intensity: Stimulus intensity that was presented
@@ -550,8 +542,7 @@ class QuestPlusStaircase:
             )
 
     def get_threshold_estimate(self) -> Tuple[float, float]:
-        """
-        Get current threshold estimate with uncertainty.
+        """Get current threshold estimate with uncertainty.
 
         Returns:
             Tuple of (threshold_estimate, threshold_std)
@@ -561,8 +552,7 @@ class QuestPlusStaircase:
     def get_psychometric_curve(
         self, intensities: Optional[np.ndarray] = None
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Get the estimated psychometric curve.
+        """Get the estimated psychometric curve.
 
         Args:
             intensities: Stimulus intensities to evaluate (default: parameter space)

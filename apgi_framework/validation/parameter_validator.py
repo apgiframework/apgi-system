@@ -1,5 +1,4 @@
-"""
-Parameter Validation Module
+"""Parameter Validation Module.
 
 Provides comprehensive validation for all APGI Framework parameters including
 range checking, type validation, and helpful error messages.
@@ -13,7 +12,7 @@ import numpy as np
 
 @dataclass
 class ValidationResult:
-    """Result of parameter validation"""
+    """Result of parameter validation."""
 
     is_valid: bool
     errors: List[str]
@@ -24,7 +23,7 @@ class ValidationResult:
         return self.is_valid
 
     def get_message(self) -> str:
-        """Get formatted validation message"""
+        """Get formatted validation message."""
         messages = []
 
         if self.errors:
@@ -46,8 +45,7 @@ class ValidationResult:
 
 
 class ParameterValidator:
-    """
-    Comprehensive parameter validator for APGI Framework.
+    """Comprehensive parameter validator for APGI Framework.
 
     Validates all parameter types including:
     - APGI equation parameters
@@ -152,8 +150,7 @@ class ParameterValidator:
         self.validation_history: List[ValidationResult] = []
 
     def validate_apgi_parameters(self, **params: Any) -> ValidationResult:
-        """
-        Validate APGI equation parameters.
+        """Validate APGI equation parameters.
 
         Args:
             **params: APGI parameters to validate
@@ -255,8 +252,7 @@ class ParameterValidator:
         return result
 
     def validate_experimental_config(self, **config: Any) -> ValidationResult:
-        """
-        Validate experimental configuration parameters.
+        """Validate experimental configuration parameters.
 
         Args:
             **config: Experimental configuration to validate
@@ -334,8 +330,7 @@ class ParameterValidator:
         return result
 
     def validate_neural_thresholds(self, **thresholds: Any) -> ValidationResult:
-        """
-        Validate neural signature threshold parameters.
+        """Validate neural signature threshold parameters.
 
         Args:
             **thresholds: Neural signature thresholds to validate
@@ -402,8 +397,7 @@ class ParameterValidator:
     def validate_pharmacological_condition(
         self, drug_type: str, dosage: float, administration_time: float
     ) -> ValidationResult:
-        """
-        Validate pharmacological condition parameters.
+        """Validate pharmacological condition parameters.
 
         Args:
             drug_type: Type of drug
@@ -474,8 +468,7 @@ class ParameterValidator:
         return result
 
     def validate_statistical_parameters(self, **params: Any) -> ValidationResult:
-        """
-        Validate statistical analysis parameters.
+        """Validate statistical analysis parameters.
 
         Args:
             **params: Statistical parameters to validate
@@ -537,8 +530,7 @@ class ParameterValidator:
         experimental_config: Optional[Dict] = None,
         neural_thresholds: Optional[Dict] = None,
     ) -> ValidationResult:
-        """
-        Validate all parameter types at once.
+        """Validate all parameter types at once.
 
         Args:
             apgi_params: APGI equation parameters
@@ -638,8 +630,7 @@ class ParameterValidator:
         return result
 
     def get_parameter_info(self, param_name: str) -> str:
-        """
-        Get detailed information about a parameter.
+        """Get detailed information about a parameter.
 
         Args:
             param_name: Name of parameter
@@ -664,7 +655,7 @@ class ParameterValidator:
         return f"Unknown parameter: {param_name}"
 
     def get_validation_summary(self) -> str:
-        """Get summary of all validation history"""
+        """Get summary of all validation history."""
         if not self.validation_history:
             return "No validations performed yet"
 
@@ -686,7 +677,7 @@ _validator = None
 
 
 def get_validator() -> ParameterValidator:
-    """Get global parameter validator instance"""
+    """Get global parameter validator instance."""
     global _validator
     if _validator is None:
         _validator = ParameterValidator()

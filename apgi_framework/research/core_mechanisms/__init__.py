@@ -1,5 +1,4 @@
-"""
-Core mechanisms for APGI experimental paradigms.
+"""Core mechanisms for APGI experimental paradigms.
 
 This module provides the fundamental experimental mechanisms and tasks
 that underpin the APGI framework's experimental capabilities.

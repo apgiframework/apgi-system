@@ -1,6 +1,4 @@
-"""
-Soma bias falsification test.
-"""
+"""Soma bias falsification test."""
 
 import logging
 from datetime import datetime
@@ -8,8 +6,7 @@ from typing import Any, Dict, cast
 
 
 class SomaBiasTest:
-    """
-    Tests whether somatic (interoceptive) biases systematically affect framework predictions.
+    """Tests whether somatic (interoceptive) biases systematically affect framework predictions.
 
     This falsification test examines whether the framework's predictions are
     systematically distorted by somatic/interoceptive influences, which would
@@ -23,8 +20,7 @@ class SomaBiasTest:
         self.neutral_baseline = 0.0
 
     def run_test(self, n_trials: int = 100, bias_strength: float = 0.3) -> dict:
-        """
-        Run the soma bias test.
+        """Run the soma bias test.
 
         Args:
             n_trials: Number of trials per bias level

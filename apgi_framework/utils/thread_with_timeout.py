@@ -1,5 +1,4 @@
-"""
-Thread with Timeout Support
+"""Thread with Timeout Support.
 
 Provides a drop-in replacement for threading.Thread with timeout support.
 Can be used to replace direct thread creation in GUI applications.
@@ -14,8 +13,7 @@ class ThreadTimeoutError(Exception):
 
 
 class ThreadWithTimeout(threading.Thread):
-    """
-    Thread class with timeout support.
+    """Thread class with timeout support.
 
     Provides same interface as threading.Thread but adds timeout capability
     to prevent long-running experiments from hanging indefinitely.
@@ -29,8 +27,7 @@ class ThreadWithTimeout(threading.Thread):
         *args: Any,
         **kwargs: Any,
     ) -> None:
-        """
-        Initialize thread with timeout support.
+        """Initialize thread with timeout support.
 
         Args:
             target: Target function to execute
@@ -85,8 +82,7 @@ class ThreadWithTimeout(threading.Thread):
             self._timeout_event.set()
 
     def get_result(self, timeout: Optional[float] = None) -> Any:
-        """
-        Get result from thread execution.
+        """Get result from thread execution.
 
         Args:
             timeout: Optional timeout for waiting for result
@@ -123,8 +119,7 @@ def run_with_timeout(
     *args: Any,
     **kwargs: Any,
 ) -> ThreadWithTimeout:
-    """
-    Convenience function to run a function with timeout support.
+    """Convenience function to run a function with timeout support.
 
     Args:
         target: Target function to execute
@@ -160,8 +155,7 @@ def run_experiment_with_timeout(
     *args: Any,
     **kwargs: Any,
 ) -> ThreadWithTimeout:
-    """
-    Run experiment function with timeout support.
+    """Run experiment function with timeout support.
 
     Args:
         experiment_func: Experiment function to run

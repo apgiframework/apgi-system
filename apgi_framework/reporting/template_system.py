@@ -1,5 +1,4 @@
-"""
-Custom Report Template System for APGI Framework
+"""Custom Report Template System for APGI Framework.
 
 Provides a flexible template system for generating customized reports
 with user-defined layouts, content sections, and styling options.

@@ -1,5 +1,4 @@
-"""
-Session management GUI for APGI Framework experiments.
+"""Session management GUI for APGI Framework experiments.
 
 Provides session setup, participant management, and session tracking with standardized
 UI components and error handling.
@@ -62,15 +61,13 @@ logger = logging.getLogger(__name__)
 
 
 class SessionSetupManager:
-    """
-    Manages session setup and configuration.
+    """Manages session setup and configuration.
 
     Handles creation, loading, and configuration of experimental sessions.
     """
 
     def __init__(self, dao: ParameterEstimationDAO):
-        """
-        Initialize session setup manager.
+        """Initialize session setup manager.
 
         Args:
             dao: Data access object for persistence
@@ -87,8 +84,7 @@ class SessionSetupManager:
         protocol_version: str = "1.0.0",
         notes: str = "",
     ) -> SessionData:
-        """
-        Create a new experimental session.
+        """Create a new experimental session.
 
         Args:
             participant_id: Participant identifier
@@ -117,8 +113,7 @@ class SessionSetupManager:
         return session
 
     def load_session(self, session_id: str) -> Optional[SessionData]:
-        """
-        Load an existing session.
+        """Load an existing session.
 
         Args:
             session_id: Session identifier
@@ -137,8 +132,7 @@ class SessionSetupManager:
         return session
 
     def update_session(self, session: SessionData) -> None:
-        """
-        Update session information.
+        """Update session information.
 
         Args:
             session: Updated session data
@@ -147,8 +141,7 @@ class SessionSetupManager:
         logger.info(f"Updated session {session.session_id}")
 
     def end_session(self, session: SessionData) -> None:
-        """
-        End a session and mark as completed.
+        """End a session and mark as completed.
 
         Args:
             session: Session to end
@@ -162,8 +155,7 @@ class SessionSetupManager:
         logger.info(f"Ended session {session.session_id}")
 
     def get_session_summary(self, session: SessionData) -> Dict[str, Any]:
-        """
-        Get summary information for a session.
+        """Get summary information for a session.
 
         Args:
             session: Session to summarize
@@ -186,15 +178,13 @@ class SessionSetupManager:
 
 
 class ParticipantManager:
-    """
-    Manages participant information and tracking.
+    """Manages participant information and tracking.
 
     Handles participant registration, session history, and metadata.
     """
 
     def __init__(self, dao: ParameterEstimationDAO):
-        """
-        Initialize participant manager.
+        """Initialize participant manager.
 
         Args:
             dao: Data access object for persistence
@@ -207,8 +197,7 @@ class ParticipantManager:
     def register_participant(
         self, participant_id: str, metadata: Optional[Dict[str, Any]] = None
     ) -> None:
-        """
-        Register a new participant.
+        """Register a new participant.
 
         Args:
             participant_id: Participant identifier
@@ -228,8 +217,7 @@ class ParticipantManager:
         logger.info(f"Registered participant {participant_id}")
 
     def get_participant_sessions(self, participant_id: str) -> List[str]:
-        """
-        Get all sessions for a participant.
+        """Get all sessions for a participant.
 
         Args:
             participant_id: Participant identifier
@@ -240,8 +228,7 @@ class ParticipantManager:
         return self.dao.list_sessions(participant_id=participant_id)
 
     def get_participant_info(self, participant_id: str) -> Optional[Dict[str, Any]]:
-        """
-        Get participant information.
+        """Get participant information.
 
         Args:
             participant_id: Participant identifier
@@ -252,8 +239,7 @@ class ParticipantManager:
         return self.participants.get(participant_id)
 
     def update_participant_metadata(self, participant_id: str, metadata: Dict[str, Any]) -> None:
-        """
-        Update participant metadata.
+        """Update participant metadata.
 
         Args:
             participant_id: Participant identifier
@@ -267,8 +253,7 @@ class ParticipantManager:
         logger.info(f"Updated metadata for participant {participant_id}")
 
     def get_participant_summary(self, participant_id: str) -> Dict[str, Any]:
-        """
-        Get summary information for a participant.
+        """Get summary information for a participant.
 
         Args:
             participant_id: Participant identifier

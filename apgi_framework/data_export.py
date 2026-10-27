@@ -1,5 +1,4 @@
-"""
-Advanced Data Export Module
+"""Advanced Data Export Module.
 
 Provides comprehensive data export capabilities for APGI system results,
 including scientific formats, statistical analysis, and visualization exports.
@@ -32,8 +31,7 @@ AnalysisResults = analysis_module.AnalysisResults  # type: ignore[misc]
 
 
 class DataExporter:
-    """
-    Advanced data exporter for APGI system results.
+    """Advanced data exporter for APGI system results.
 
     Supports multiple export formats including:
     - CSV/TSV for spreadsheet analysis
@@ -59,8 +57,7 @@ class DataExporter:
         include_temporal: bool = True,
         delimiter: str = ",",
     ) -> bool:
-        """
-        Export data to CSV format.
+        """Export data to CSV format.
 
         Args:
             data: Analysis results or data dictionary
@@ -135,8 +132,7 @@ class DataExporter:
         filepath: Union[str, Path],
         pretty_print: bool = True,
     ) -> bool:
-        """
-        Export data to JSON format.
+        """Export data to JSON format.
 
         Args:
             data: Analysis results or data dictionary
@@ -183,8 +179,7 @@ class DataExporter:
         filepath: Union[str, Path],
         compression: str = "gzip",
     ) -> bool:
-        """
-        Export data to HDF5 format for large datasets.
+        """Export data to HDF5 format for large datasets.
 
         Args:
             data: Analysis results or data dictionary
@@ -220,8 +215,7 @@ class DataExporter:
     def export_matlab(
         self, data: Any, filepath: Union[str, Path]  # AnalysisResults or Dict[str, Any]
     ) -> bool:
-        """
-        Export data to MATLAB .mat format.
+        """Export data to MATLAB .mat format.
 
         Args:
             data: Analysis results or data dictionary
@@ -259,8 +253,7 @@ class DataExporter:
     def export_parquet(
         self, data: Any, filepath: Union[str, Path]  # AnalysisResults or Dict[str, Any]
     ) -> bool:
-        """
-        Export temporal data to Parquet format for big data analytics.
+        """Export temporal data to Parquet format for big data analytics.
 
         Args:
             data: Analysis results or data dictionary
@@ -302,8 +295,7 @@ class DataExporter:
         filepath: Union[str, Path],
         include_plots: bool = True,
     ) -> bool:
-        """
-        Export comprehensive statistical analysis report.
+        """Export comprehensive statistical analysis report.
 
         Args:
             data: Analysis results or data dictionary
@@ -339,8 +331,7 @@ class DataExporter:
         output_dir: Union[str, Path],
         formats: List[str] = ["png", "pdf"],
     ) -> bool:
-        """
-        Export visualization plots of the analysis results.
+        """Export visualization plots of the analysis results.
 
         Args:
             data: Analysis results or data dictionary
@@ -586,9 +577,7 @@ class DataExporter:
 
 
 class AdvancedAnalytics:
-    """
-    Advanced statistical analysis and machine learning tools for APGI data.
-    """
+    """Advanced statistical analysis and machine learning tools for APGI data."""
 
     def __init__(self) -> None:
         """Initialize advanced analytics."""

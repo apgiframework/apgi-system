@@ -1,5 +1,4 @@
-"""
-Integrated Data Management System for APGI Framework
+"""Integrated Data Management System for APGI Framework.
 
 This module provides a unified interface for all data management, reporting,
 and visualization capabilities.
@@ -23,9 +22,7 @@ from .visualizer import APGIVisualizer, InteractiveVisualizer
 
 
 class IntegratedDataManager:
-    """
-    Unified data management system that coordinates all data operations.
-    """
+    """Unified data management system that coordinates all data operations."""
 
     def __init__(
         self,
@@ -33,8 +30,7 @@ class IntegratedDataManager:
         enable_dashboard: bool = True,
         dashboard_port: int = 8080,
     ):
-        """
-        Initialize the integrated data manager.
+        """Initialize the integrated data manager.
 
         Args:
             base_output_dir: Base directory for all outputs
@@ -67,7 +63,7 @@ class IntegratedDataManager:
         self.active_experiments: Dict[str, Any] = {}
 
     def start_system(self) -> None:
-        """Start the data management system"""
+        """Start the data management system."""
         try:
             if self.enable_dashboard:
                 if self.dashboard is not None:
@@ -81,7 +77,7 @@ class IntegratedDataManager:
             raise DataManagementError(f"Failed to start data management system: {str(e)}")
 
     def stop_system(self) -> None:
-        """Stop the data management system"""
+        """Stop the data management system."""
         try:
             if self.enable_dashboard:
                 if self.dashboard is not None:
@@ -97,8 +93,7 @@ class IntegratedDataManager:
     def register_experiment(
         self, experiment_id: str, metadata: Optional[Dict[str, Any]] = None
     ) -> str:
-        """
-        Register a new experiment for tracking and management.
+        """Register a new experiment for tracking and management.
 
         Args:
             experiment_id: Unique experiment identifier
@@ -147,8 +142,7 @@ class IntegratedDataManager:
         trials: Optional[List[ExperimentalTrial]] = None,
         current_trial: Optional[int] = None,
     ) -> None:
-        """
-        Update experiment data and notify monitoring systems.
+        """Update experiment data and notify monitoring systems.
 
         Args:
             experiment_id: Experiment identifier
@@ -181,8 +175,7 @@ class IntegratedDataManager:
             raise DataManagementError(f"Failed to update experiment data: {str(e)}")
 
     def update_experiment_status(self, experiment_id: str, status: str) -> None:
-        """
-        Update experiment status.
+        """Update experiment status.
 
         Args:
             experiment_id: Experiment identifier
@@ -202,8 +195,7 @@ class IntegratedDataManager:
             raise DataManagementError(f"Failed to update experiment status: {str(e)}")
 
     def update_experiment_progress(self, experiment_id: str, progress: int) -> None:
-        """
-        Update experiment progress percentage.
+        """Update experiment progress percentage.
 
         Args:
             experiment_id: Experiment identifier
@@ -225,7 +217,7 @@ class IntegratedDataManager:
     def complete_experiment(
         self, experiment_id: str, results: Optional[Dict[str, Any]] = None
     ) -> None:
-        """Mark experiment as completed"""
+        """Mark experiment as completed."""
         try:
             if experiment_id in self.active_experiments:
                 self.active_experiments[experiment_id]["status"] = "completed"
@@ -243,8 +235,7 @@ class IntegratedDataManager:
         statistical_summary: StatisticalSummary,
         formats: Optional[List[str]] = None,
     ) -> Dict[str, str]:
-        """
-        Generate comprehensive report for an experiment.
+        """Generate comprehensive report for an experiment.
 
         Args:
             experiment_id: Experiment identifier
@@ -289,8 +280,7 @@ class IntegratedDataManager:
     def export_experiment_data(
         self, experiment_id: str, formats: Optional[List[str]] = None
     ) -> Dict[str, Dict[str, str]]:
-        """
-        Export experiment data in multiple formats.
+        """Export experiment data in multiple formats.
 
         Args:
             experiment_id: Experiment identifier
@@ -342,8 +332,7 @@ class IntegratedDataManager:
         statistical_summary: StatisticalSummary,
         create_publication_set: bool = True,
     ) -> List[str]:
-        """
-        Generate visualizations for an experiment.
+        """Generate visualizations for an experiment.
 
         Args:
             experiment_id: Experiment identifier
@@ -396,7 +385,7 @@ class IntegratedDataManager:
             raise DataManagementError(f"Failed to generate visualizations: {str(e)}")
 
     def get_experiment_summary(self, experiment_id: str) -> Dict[str, Any]:
-        """Get comprehensive experiment summary"""
+        """Get comprehensive experiment summary."""
         try:
             if experiment_id not in self.active_experiments:
                 return {}
@@ -432,14 +421,13 @@ class IntegratedDataManager:
             return {}
 
     def get_all_experiments_summary(self) -> Dict[str, Dict[str, Any]]:
-        """Get summary of all experiments"""
+        """Get summary of all experiments."""
         return {
             exp_id: self.get_experiment_summary(exp_id) for exp_id in self.active_experiments.keys()
         }
 
     def cleanup_experiment(self, experiment_id: str, keep_files: bool = True) -> None:
-        """
-        Clean up experiment data and resources.
+        """Clean up experiment data and resources.
 
         Args:
             experiment_id: Experiment identifier
@@ -468,14 +456,13 @@ class IntegratedDataManager:
             self.logger.error(f"Error cleaning up experiment {experiment_id}: {str(e)}")
 
     def get_dashboard_url(self) -> Optional[str]:
-        """Get dashboard URL if enabled"""
+        """Get dashboard URL if enabled."""
         if self.enable_dashboard and self.dashboard:
             return f"http://localhost:{self.dashboard.port}"
         return None
 
     def validate_data(self, data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        """
-        Validate data integrity and structure.
+        """Validate data integrity and structure.
 
         Args:
             data: Data dictionary to validate (if None, validates all active experiments)
@@ -523,8 +510,7 @@ class IntegratedDataManager:
             return {"status": "error", "errors": [str(e)]}
 
     def clean_data(self, data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        """
-        Clean data by removing empty/null values and fixing issues.
+        """Clean data by removing empty/null values and fixing issues.
 
         Args:
             data: Data dictionary to clean (if None, cleans active experiment results)
@@ -591,8 +577,7 @@ def create_data_manager(
     enable_dashboard: bool = True,
     dashboard_port: int = 8080,
 ) -> IntegratedDataManager:
-    """
-    Create and configure an integrated data manager.
+    """Create and configure an integrated data manager.
 
     Args:
         output_dir: Base output directory

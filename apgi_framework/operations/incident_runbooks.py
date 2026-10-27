@@ -1,5 +1,4 @@
-"""
-Incident Response Runbooks
+"""Incident Response Runbooks.
 
 Provides runbooks for incident response paths tied to alerting middleware.
 Enables rapid response to common operational issues.
@@ -287,8 +286,7 @@ class IncidentRunbookRegistry:
         )
 
     def register_runbook(self, runbook: IncidentRunbook) -> None:
-        """
-        Register incident runbook.
+        """Register incident runbook.
 
         Args:
             runbook: Incident runbook
@@ -297,8 +295,7 @@ class IncidentRunbookRegistry:
         logger.info(f"Registered runbook for {runbook.incident_type.value}")
 
     def get_runbook(self, incident_type: IncidentType) -> Optional[IncidentRunbook]:
-        """
-        Get runbook for incident type.
+        """Get runbook for incident type.
 
         Args:
             incident_type: Type of incident
@@ -313,8 +310,7 @@ class IncidentRunbookRegistry:
         return self.runbooks.copy()
 
     def export_runbooks_to_markdown(self, output_file: str = "incident_runbooks.md") -> None:
-        """
-        Export runbooks to markdown.
+        """Export runbooks to markdown.
 
         Args:
             output_file: Output markdown file

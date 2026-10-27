@@ -1,5 +1,4 @@
-"""
-Monitoring module for APGI Framework.
+"""Monitoring module for APGI Framework.
 
 This module provides real-time monitoring capabilities for:
 - EEG signals

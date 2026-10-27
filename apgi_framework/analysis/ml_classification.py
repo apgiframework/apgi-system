@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Machine Learning Classification Tools for APGI Framework
+"""Machine Learning Classification Tools for APGI Framework
 =========================================================
 
 This module provides machine learning tools for classifying consciousness states,
@@ -72,16 +71,14 @@ class ClassificationResult:
 
 
 class ConsciousnessClassifier:
-    """
-    Machine learning classifier for consciousness states.
+    """Machine learning classifier for consciousness states.
 
     Supports multiple algorithms and provides comprehensive evaluation
     metrics for classifying conscious vs unconscious states from biomarkers.
     """
 
     def __init__(self, algorithm: str = "random_forest", random_state: int = 42):
-        """
-        Initialize the consciousness classifier.
+        """Initialize the consciousness classifier.
 
         Parameters
         ----------
@@ -143,8 +140,7 @@ class ConsciousnessClassifier:
         y: Union[np.ndarray, pd.Series],
         feature_names: Optional[List[str]] = None,
     ) -> "ConsciousnessClassifier":
-        """
-        Fit the classifier to training data.
+        """Fit the classifier to training data.
 
         Parameters
         ----------
@@ -187,8 +183,7 @@ class ConsciousnessClassifier:
         return self
 
     def predict(self, X: Union[np.ndarray, pd.DataFrame]) -> np.ndarray:
-        """
-        Predict consciousness states.
+        """Predict consciousness states.
 
         Parameters
         ----------
@@ -219,8 +214,7 @@ class ConsciousnessClassifier:
                 raise ValueError("Model not available for prediction")
 
     def predict_proba(self, X: Union[np.ndarray, pd.DataFrame]) -> np.ndarray:
-        """
-        Predict consciousness probabilities.
+        """Predict consciousness probabilities.
 
         Parameters
         ----------
@@ -258,8 +252,7 @@ class ConsciousnessClassifier:
         y: Union[np.ndarray, pd.Series],
         cv_folds: int = 5,
     ) -> ClassificationResult:
-        """
-        Evaluate classifier performance.
+        """Evaluate classifier performance.
 
         Parameters
         ----------
@@ -382,8 +375,7 @@ if PYTORCH_AVAILABLE:
         """Deep neural network for consciousness classification."""
 
         def __init__(self, input_size: int, hidden_sizes: List[int] = [128, 64, 32]):
-            """
-            Initialize deep network.
+            """Initialize deep network.
 
             Parameters
             ----------
@@ -420,13 +412,10 @@ else:
 
 
 class BiomarkerClassifierEnsemble:
-    """
-    Ensemble classifier combining multiple algorithms for robust consciousness detection.
-    """
+    """Ensemble classifier combining multiple algorithms for robust consciousness detection."""
 
     def __init__(self, algorithms: Optional[List[str]] = None, random_state: int = 42):
-        """
-        Initialize ensemble classifier.
+        """Initialize ensemble classifier.
 
         Parameters
         ----------
@@ -449,8 +438,7 @@ class BiomarkerClassifierEnsemble:
         y: Union[np.ndarray, pd.Series],
         feature_names: Optional[List[str]] = None,
     ) -> "BiomarkerClassifierEnsemble":
-        """
-        Fit ensemble classifiers.
+        """Fit ensemble classifiers.
 
         Parameters
         ----------
@@ -476,8 +464,7 @@ class BiomarkerClassifierEnsemble:
         return self
 
     def predict(self, X: Union[np.ndarray, pd.DataFrame]) -> np.ndarray:
-        """
-        Predict using ensemble voting.
+        """Predict using ensemble voting.
 
         Parameters
         ----------
@@ -511,8 +498,7 @@ class BiomarkerClassifierEnsemble:
         return np.array(ensemble_predictions)
 
     def predict_proba(self, X: Union[np.ndarray, pd.DataFrame]) -> np.ndarray:
-        """
-        Predict probabilities using ensemble averaging.
+        """Predict probabilities using ensemble averaging.
 
         Parameters
         ----------
@@ -540,8 +526,7 @@ class BiomarkerClassifierEnsemble:
     def evaluate_ensemble(
         self, X: Union[np.ndarray, pd.DataFrame], y: Union[np.ndarray, pd.Series]
     ) -> Dict[str, ClassificationResult]:
-        """
-        Evaluate all classifiers in the ensemble.
+        """Evaluate all classifiers in the ensemble.
 
         Parameters
         ----------
@@ -585,8 +570,7 @@ class BiomarkerClassifierEnsemble:
 def create_biomarker_features(
     eeg_data: np.ndarray, sfreq: float, channel_names: Optional[List[str]] = None
 ) -> pd.DataFrame:
-    """
-    Extract biomarker features from EEG data for classification.
+    """Extract biomarker features from EEG data for classification.
 
     Parameters
     ----------
@@ -672,8 +656,7 @@ def hyperparameter_tuning(
     cv: int = 5,
     scoring: str = "accuracy",
 ) -> Dict[str, Any]:
-    """
-    Perform hyperparameter tuning for a classifier.
+    """Perform hyperparameter tuning for a classifier.
 
     Parameters
     ----------
@@ -720,8 +703,7 @@ def feature_selection(
     k: int = 10,
     method: str = "f_classif",
 ) -> Tuple[np.ndarray, List[str]]:
-    """
-    Select most important features for classification.
+    """Select most important features for classification.
 
     Parameters
     ----------

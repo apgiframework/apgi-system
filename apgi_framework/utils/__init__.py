@@ -1,5 +1,4 @@
-"""
-Utility components for the APGI Framework test enhancement system.
+"""Utility components for the APGI Framework test enhancement system.
 
 This module provides essential utility classes for file operations, AST analysis,
 test utilities, and logging functionality.

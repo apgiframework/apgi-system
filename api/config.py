@@ -73,7 +73,7 @@ class Settings:
         self.api_description: str = "REST API for consciousness modeling"
 
         # Server Settings
-        self.host: str = "0.0.0.0"
+        self.host: str = "0.0.0.0"  # nosec B104 - containers must listen on all interfaces
         self.port: int = 8000
         self.reload: bool = os.getenv("UVICORN_RELOAD", "true").lower() == "true"
 
@@ -197,7 +197,7 @@ class Settings:
         if not self.jwt_secret_key:
             if self.environment.lower() == "development":
                 # Development mode - provide a secure default with warning
-                self.jwt_secret_key = "development-secret-key-change-in-production-32-chars-min"
+                self.jwt_secret_key = "development-secret-key-change-in-production-32-chars-min"  # nosemgrep: hardcoded-secret - dev-only default, production refuses to start without a key
                 warnings.warn(
                     "DEVELOPMENT WARNING: JWT_SECRET_KEY not set, using development default. "
                     "This is insecure and should NOT be used in production. "

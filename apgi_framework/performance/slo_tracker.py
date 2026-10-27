@@ -1,5 +1,4 @@
-"""
-Service Level Objective (SLO) Tracking and Alerting
+"""Service Level Objective (SLO) Tracking and Alerting.
 
 Tracks endpoint-level performance against SLO budgets (P50/P95/P99)
 and generates alerts when thresholds are exceeded.
@@ -66,8 +65,7 @@ class SLOTracker:
     """Tracks SLO compliance for endpoints."""
 
     def __init__(self, window_size: int = 1000, alert_callback: Optional[Callable] = None):
-        """
-        Initialize SLO tracker.
+        """Initialize SLO tracker.
 
         Args:
             window_size: Number of metrics to keep in rolling window
@@ -83,8 +81,7 @@ class SLOTracker:
         self._lock = threading.Lock()
 
     def register_slo(self, budget: SLOBudget) -> None:
-        """
-        Register SLO budget for endpoint.
+        """Register SLO budget for endpoint.
 
         Args:
             budget: SLO budget configuration
@@ -97,8 +94,7 @@ class SLOTracker:
             )
 
     def record_metric(self, metric: PerformanceMetric) -> None:
-        """
-        Record performance metric.
+        """Record performance metric.
 
         Args:
             metric: Performance measurement
@@ -196,8 +192,7 @@ class SLOTracker:
             self.alert_callback(alert)
 
     def get_slo_report(self, endpoint: Optional[str] = None) -> Dict[str, Any]:
-        """
-        Get SLO compliance report.
+        """Get SLO compliance report.
 
         Args:
             endpoint: Optional endpoint to filter by
@@ -269,8 +264,7 @@ class SLOTracker:
             return report
 
     def get_recent_alerts(self, limit: int = 100) -> List[Dict[str, Any]]:
-        """
-        Get recent alerts.
+        """Get recent alerts.
 
         Args:
             limit: Maximum number of alerts to return
@@ -313,8 +307,7 @@ def get_slo_tracker() -> SLOTracker:
 def record_endpoint_metric(
     endpoint: str, response_time_ms: float, status_code: int, error: bool = False
 ) -> None:
-    """
-    Record endpoint performance metric.
+    """Record endpoint performance metric.
 
     Args:
         endpoint: Endpoint path

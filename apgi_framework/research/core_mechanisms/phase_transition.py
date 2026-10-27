@@ -1,5 +1,4 @@
-"""
-Phase Transition Module
+"""Phase Transition Module.
 
 Implements phase transition dynamics for APGI consciousness experiments.
 Provides the SomaticAgent class for active inference with somatic markers.
@@ -14,8 +13,7 @@ from apgi_framework.core.prediction_error import PredictionErrorProcessor
 
 
 class SomaticAgent:
-    """
-    Active inference agent with somatic markers for decision making.
+    """Active inference agent with somatic markers for decision making.
 
     The agent uses expected free energy minimization and somatic markers
     to make decisions between habitual (unconscious) and conscious modes.
@@ -28,8 +26,7 @@ class SomaticAgent:
         n_contexts: int = 2,
         precision: float = 1.0,
     ):
-        """
-        Initialize SomaticAgent.
+        """Initialize SomaticAgent.
 
         Args:
             n_states: Number of hidden states
@@ -57,8 +54,7 @@ class SomaticAgent:
     def expected_free_energy(
         self, beliefs: np.ndarray, context: int
     ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Calculate expected free energy for each action.
+        """Calculate expected free energy for each action.
 
         Args:
             beliefs: Current belief state
@@ -73,8 +69,7 @@ class SomaticAgent:
         return G_modified, G_basic
 
     def update_somatic_marker(self, context: int, action: int, outcome: float) -> None:
-        """
-        Update somatic marker based on outcome.
+        """Update somatic marker based on outcome.
 
         Args:
             context: Environmental context
@@ -86,8 +81,7 @@ class SomaticAgent:
     def decide(
         self, beliefs: np.ndarray, context: int = 0, surprise: float = 0.1
     ) -> Tuple[int, bool, dict]:
-        """
-        Make a decision based on beliefs and surprise.
+        """Make a decision based on beliefs and surprise.
 
         Args:
             beliefs: Current belief state
@@ -107,16 +101,14 @@ class SomaticAgent:
 
 
 class PhaseTransitionAnalyzer:
-    """
-    Analyzes phase transitions in APGI consciousness experiments.
+    """Analyzes phase transitions in APGI consciousness experiments.
 
     Provides methods for detecting phase transitions and analyzing
     transition dynamics between conscious and unconscious states.
     """
 
     def __init__(self, data: np.ndarray):
-        """
-        Initialize PhaseTransitionAnalyzer.
+        """Initialize PhaseTransitionAnalyzer.
 
         Args:
             data: Neural or behavioral data to analyze
@@ -124,8 +116,7 @@ class PhaseTransitionAnalyzer:
         self.data = data
 
     def detect_transitions(self, threshold: float = 0.5) -> np.ndarray:
-        """
-        Detect phase transitions based on energy threshold.
+        """Detect phase transitions based on energy threshold.
 
         Args:
             threshold: Energy threshold for transition detection
@@ -137,8 +128,7 @@ class PhaseTransitionAnalyzer:
         return np.random.random(len(self.data)) > threshold
 
     def analyze_transition_dynamics(self) -> dict:
-        """
-        Analyze transition dynamics between states.
+        """Analyze transition dynamics between states.
 
         Returns:
             Dictionary with transition statistics
@@ -152,16 +142,14 @@ class PhaseTransitionAnalyzer:
 
 
 class ConsciousnessDetector:
-    """
-    Detects consciousness indicators in neural/behavioral data.
+    """Detects consciousness indicators in neural/behavioral data.
 
     Uses various metrics to identify conscious vs unconscious
     processing patterns.
     """
 
     def __init__(self, data: np.ndarray, sampling_rate: float = 1000.0):
-        """
-        Initialize ConsciousnessDetector.
+        """Initialize ConsciousnessDetector.
 
         Args:
             data: Neural data to analyze
@@ -171,8 +159,7 @@ class ConsciousnessDetector:
         self.sampling_rate = sampling_rate
 
     def detect_consciousness_level(self) -> float:
-        """
-        Detect current consciousness level (0-1 scale).
+        """Detect current consciousness level (0-1 scale).
 
         Returns:
             Consciousness level between 0 (unconscious) and 1 (conscious)
@@ -181,8 +168,7 @@ class ConsciousnessDetector:
         return np.random.random()
 
     def analyze_consciousness_metrics(self) -> dict:
-        """
-        Analyze various consciousness-related metrics.
+        """Analyze various consciousness-related metrics.
 
         Returns:
             Dictionary with consciousness metrics

@@ -1,5 +1,4 @@
-"""
-Predictive validity testing framework for APGI parameters.
+"""Predictive validity testing framework for APGI parameters.
 
 This module implements validation tasks to test whether estimated parameters
 (θ₀, Πᵢ, β) predict performance on independent behavioral measures.
@@ -68,16 +67,14 @@ class ComparativeValidityResult:
 
 
 class EmotionalInterferenceTask:
-    """
-    Emotional interference task (Stroop/flanker) for Πᵢ validation.
+    """Emotional interference task (Stroop/flanker) for Πᵢ validation.
 
     Tests whether interoceptive precision predicts performance disruption
     on emotional interference tasks.
     """
 
     def __init__(self, task_type: str = "stroop"):
-        """
-        Initialize emotional interference task.
+        """Initialize emotional interference task.
 
         Args:
             task_type: Type of task ('stroop' or 'flanker')
@@ -90,8 +87,7 @@ class EmotionalInterferenceTask:
         n_trials: int = 120,
         emotional_proportion: float = 0.5,
     ) -> TaskPerformance:
-        """
-        Run emotional interference task.
+        """Run emotional interference task.
 
         Args:
             participant_id: Participant identifier
@@ -122,8 +118,7 @@ class EmotionalInterferenceTask:
         )
 
     def compute_interference_score(self, emotional_rt: np.ndarray, neutral_rt: np.ndarray) -> float:
-        """
-        Compute interference effect.
+        """Compute interference effect.
 
         Args:
             emotional_rt: Reaction times for emotional trials
@@ -140,8 +135,7 @@ class EmotionalInterferenceTask:
         baseline_interference: float = 100.0,
         sensitivity: float = 50.0,
     ) -> float:
-        """
-        Predict interference effect from interoceptive precision.
+        """Predict interference effect from interoceptive precision.
 
         Higher Πᵢ should predict greater emotional interference.
 
@@ -157,16 +151,14 @@ class EmotionalInterferenceTask:
 
 
 class ContinuousPerformanceTask:
-    """
-    Continuous Performance Task (CPT) for θ₀ validation.
+    """Continuous Performance Task (CPT) for θ₀ validation.
 
     Tests whether baseline ignition threshold predicts attentional lapses
     and reaction time variability.
     """
 
     def __init__(self, duration_minutes: int = 10):
-        """
-        Initialize CPT.
+        """Initialize CPT.
 
         Args:
             duration_minutes: Task duration in minutes
@@ -174,8 +166,7 @@ class ContinuousPerformanceTask:
         self.duration_minutes = duration_minutes
 
     def run_task(self, participant_id: str, target_frequency: float = 0.2) -> TaskPerformance:
-        """
-        Run continuous performance task.
+        """Run continuous performance task.
 
         Args:
             participant_id: Participant identifier
@@ -202,8 +193,7 @@ class ContinuousPerformanceTask:
         )
 
     def compute_lapse_rate(self, reaction_times: np.ndarray, threshold_sd: float = 2.0) -> float:
-        """
-        Compute attentional lapse rate.
+        """Compute attentional lapse rate.
 
         Args:
             reaction_times: Array of reaction times
@@ -220,8 +210,7 @@ class ContinuousPerformanceTask:
         return float(lapses / len(reaction_times))
 
     def compute_rt_variability(self, reaction_times: np.ndarray) -> float:
-        """
-        Compute reaction time variability (coefficient of variation).
+        """Compute reaction time variability (coefficient of variation).
 
         Args:
             reaction_times: Array of reaction times
@@ -234,8 +223,7 @@ class ContinuousPerformanceTask:
     def predict_from_theta0(
         self, theta0: float, baseline_lapse_rate: float = 0.05, sensitivity: float = 0.1
     ) -> float:
-        """
-        Predict lapse rate from baseline ignition threshold.
+        """Predict lapse rate from baseline ignition threshold.
 
         Higher θ₀ (higher threshold) should predict more lapses.
 
@@ -251,8 +239,7 @@ class ContinuousPerformanceTask:
 
 
 class BodyVigilanceScaleAnalyzer:
-    """
-    Body Vigilance Scale analyzer for β validation.
+    """Body Vigilance Scale analyzer for β validation.
 
     Analyzes correlation between somatic bias (β) and validated somatic
     symptom questionnaires.
@@ -268,8 +255,7 @@ class BodyVigilanceScaleAnalyzer:
         ]
 
     def compute_bvs_score(self, responses: Dict[str, float]) -> float:
-        """
-        Compute Body Vigilance Scale total score.
+        """Compute Body Vigilance Scale total score.
 
         Args:
             responses: Dictionary of item responses (0-10 scale)
@@ -280,8 +266,7 @@ class BodyVigilanceScaleAnalyzer:
         return float(np.mean([responses[item] for item in self.scale_items]))
 
     def collect_questionnaire(self, participant_id: str) -> Dict[str, Union[str, float]]:
-        """
-        Collect Body Vigilance Scale questionnaire.
+        """Collect Body Vigilance Scale questionnaire.
 
         Args:
             participant_id: Participant identifier
@@ -303,8 +288,7 @@ class BodyVigilanceScaleAnalyzer:
     def predict_from_beta(
         self, beta: float, baseline_bvs: float = 5.0, sensitivity: float = 3.0
     ) -> float:
-        """
-        Predict BVS score from somatic bias.
+        """Predict BVS score from somatic bias.
 
         Higher β should predict higher body vigilance.
 
@@ -320,16 +304,13 @@ class BodyVigilanceScaleAnalyzer:
 
 
 class PredictivePowerComparator:
-    """
-    Compares predictive power of APGI parameters against traditional measures.
-    """
+    """Compares predictive power of APGI parameters against traditional measures."""
 
     @staticmethod
     def compute_correlation(
         predictor: np.ndarray, outcome: np.ndarray
     ) -> Tuple[float, float, float]:
-        """
-        Compute correlation and related statistics.
+        """Compute correlation and related statistics.
 
         Args:
             predictor: Predictor variable
@@ -353,8 +334,7 @@ class PredictivePowerComparator:
 
     @staticmethod
     def classify_effect_size(r: float) -> str:
-        """
-        Classify effect size based on correlation.
+        """Classify effect size based on correlation.
 
         Args:
             r: Correlation coefficient
@@ -379,8 +359,7 @@ class PredictivePowerComparator:
         parameter_name: str,
         performance_metric: str = "interference_effect",
     ) -> ValidityResult:
-        """
-        Test predictive validity of a parameter.
+        """Test predictive validity of a parameter.
 
         Args:
             parameter_estimates: List of parameter estimates
@@ -447,8 +426,7 @@ class PredictivePowerComparator:
         apgi_name: str,
         traditional_name: str,
     ) -> ComparativeValidityResult:
-        """
-        Compare APGI parameter to traditional measure.
+        """Compare APGI parameter to traditional measure.
 
         Args:
             apgi_parameter: APGI parameter values
@@ -488,8 +466,7 @@ class PredictivePowerComparator:
 
     @staticmethod
     def generate_comparison_report(comparisons: List[ComparativeValidityResult]) -> str:
-        """
-        Generate report comparing APGI to traditional measures.
+        """Generate report comparing APGI to traditional measures.
 
         Args:
             comparisons: List of comparative results
@@ -533,9 +510,7 @@ class PredictivePowerComparator:
 
 
 class PredictiveValidityFramework:
-    """
-    Complete framework for testing predictive validity of APGI parameters.
-    """
+    """Complete framework for testing predictive validity of APGI parameters."""
 
     def __init__(self) -> None:
         """Initialize predictive validity framework."""
@@ -549,8 +524,7 @@ class PredictiveValidityFramework:
         parameter_estimates: List[ParameterEstimates],
         collect_behavioral_data: bool = True,
     ) -> Dict[str, ValidityResult]:
-        """
-        Run complete predictive validity testing.
+        """Run complete predictive validity testing.
 
         Args:
             parameter_estimates: List of parameter estimates
@@ -600,8 +574,7 @@ class PredictiveValidityFramework:
         validity_results: Dict[str, ValidityResult],
         comparative_results: Optional[List[ComparativeValidityResult]] = None,
     ) -> str:
-        """
-        Generate comprehensive validity report.
+        """Generate comprehensive validity report.
 
         Args:
             validity_results: Dictionary of validity results

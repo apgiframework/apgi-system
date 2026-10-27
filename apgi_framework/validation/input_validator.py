@@ -1,5 +1,4 @@
-"""
-Comprehensive Input Validation Module for APGI Framework
+"""Comprehensive Input Validation Module for APGI Framework.
 
 Provides centralized input validation with security considerations,
 type checking, and user-friendly error messages.
@@ -24,8 +23,7 @@ class ValidationError(Exception):
 
 
 class InputValidator:
-    """
-    Comprehensive input validation utility.
+    """Comprehensive input validation utility.
 
     Provides validation for common input types with security considerations
     and detailed error reporting.
@@ -59,8 +57,7 @@ class InputValidator:
         allowed_chars: Optional[str] = None,
         pattern: Optional[str] = None,
     ) -> str:
-        """
-        Validate string input with comprehensive checks.
+        """Validate string input with comprehensive checks.
 
         Args:
             value: Input value to validate
@@ -123,8 +120,7 @@ class InputValidator:
         min_value: Optional[int] = None,
         max_value: Optional[int] = None,
     ) -> int:
-        """
-        Validate integer input.
+        """Validate integer input.
 
         Args:
             value: Input value to validate
@@ -163,8 +159,7 @@ class InputValidator:
         min_value: Optional[float] = None,
         max_value: Optional[float] = None,
     ) -> float:
-        """
-        Validate float input.
+        """Validate float input.
 
         Args:
             value: Input value to validate
@@ -205,8 +200,7 @@ class InputValidator:
         must_be_dir: bool = False,
         create_if_missing: bool = False,
     ) -> Path:
-        """
-        Validate file path input.
+        """Validate file path input.
 
         Args:
             value: Input value to validate
@@ -254,8 +248,7 @@ class InputValidator:
         return path
 
     def validate_email(self, value: Any, field_name: str = "email") -> str:
-        """
-        Validate email address.
+        """Validate email address.
 
         Args:
             value: Input value to validate
@@ -276,8 +269,7 @@ class InputValidator:
         return email.lower()
 
     def validate_url(self, value: Any, field_name: str = "url") -> str:
-        """
-        Validate URL.
+        """Validate URL.
 
         Args:
             value: Input value to validate
@@ -298,8 +290,7 @@ class InputValidator:
         return url
 
     def validate_choice(self, value: Any, choices: List[str], field_name: str = "choice") -> str:
-        """
-        Validate choice from allowed options.
+        """Validate choice from allowed options.
 
         Args:
             value: Input value to validate
@@ -332,8 +323,7 @@ class InputValidator:
         min_length: int = 0,
         max_length: int = 100,
     ) -> List[Any]:
-        """
-        Validate list input.
+        """Validate list input.
 
         Args:
             value: Input value to validate
@@ -389,8 +379,7 @@ class InputValidator:
         return list(value)
 
     def validate_json(self, value: Any, field_name: str = "json") -> Dict[str, Any]:
-        """
-        Validate JSON input.
+        """Validate JSON input.
 
         Args:
             value: Input value to validate
@@ -485,8 +474,7 @@ def safe_input(
     validator_func: Optional[Callable[..., Any]] = None,
     **validator_kwargs: Any,
 ) -> Optional[Any]:
-    """
-    Safe input function with validation.
+    """Safe input function with validation.
 
     Args:
         prompt: Input prompt to display

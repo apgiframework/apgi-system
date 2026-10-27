@@ -1,5 +1,4 @@
-"""
-Engine Registry for the APGI Framework.
+"""Engine Registry for the APGI Framework.
 
 This module provides a centralized registry for all engine implementations
 in the APGI Framework, including somatic marker processing, threshold management,
@@ -62,8 +61,7 @@ class EngineMetadata:
 
 
 class EngineRegistry:
-    """
-    Central registry for all APGI Framework engines.
+    """Central registry for all APGI Framework engines.
 
     This registry provides a unified interface for discovering,
     instantiating, and managing engines throughout the framework.

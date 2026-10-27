@@ -1,5 +1,4 @@
-"""
-Report Generation System for APGI Framework Testing
+"""Report Generation System for APGI Framework Testing.
 
 This module provides comprehensive report generation capabilities for falsification test results,
 statistical summaries, and automated interpretation and conclusion generation.
@@ -22,7 +21,7 @@ from ..exceptions import ReportGenerationError
 
 @dataclass
 class ReportSection:
-    """Represents a section in the generated report"""
+    """Represents a section in the generated report."""
 
     title: str
     content: str
@@ -33,7 +32,7 @@ class ReportSection:
 
 @dataclass
 class FalsificationReport:
-    """Complete falsification test report"""
+    """Complete falsification test report."""
 
     experiment_id: str
     timestamp: datetime
@@ -46,14 +45,12 @@ class FalsificationReport:
 
 
 class ReportGenerator:
-    """
-    Generates detailed falsification test results with statistical summaries
+    """Generates detailed falsification test results with statistical summaries
     and automated interpretation and conclusion generation.
     """
 
     def __init__(self, output_dir: str = "reports"):
-        """
-        Initialize the report generator.
+        """Initialize the report generator.
 
         Args:
             output_dir: Directory to save generated reports
@@ -69,8 +66,7 @@ class ReportGenerator:
         trials: List[ExperimentalTrial],
         statistical_summary: StatisticalSummary,
     ) -> FalsificationReport:
-        """
-        Generate comprehensive falsification test report.
+        """Generate comprehensive falsification test report.
 
         Args:
             experiment_id: Unique experiment identifier
@@ -132,8 +128,7 @@ class ReportGenerator:
     def _generate_executive_summary(
         self, results: List[FalsificationResult], stats: StatisticalSummary
     ) -> ReportSection:
-        """Generate executive summary section"""
-
+        """Generate executive summary section."""
         falsified_tests = [r for r in results if r.is_falsified]
         total_tests = len(results)
 
@@ -155,8 +150,7 @@ class ReportGenerator:
         return ReportSection(title="Executive Summary", content=content.strip())
 
     def _generate_methodology_section(self, trials: List[ExperimentalTrial]) -> ReportSection:
-        """Generate methodology section"""
-
+        """Generate methodology section."""
         if not trials:
             content = "No trial data available for methodology analysis."
         else:
@@ -189,8 +183,7 @@ class ReportGenerator:
     def _generate_results_section(
         self, results: List[FalsificationResult], trials: List[ExperimentalTrial]
     ) -> ReportSection:
-        """Generate detailed results section"""
-
+        """Generate detailed results section."""
         subsections = []
 
         # Group results by test type
@@ -218,8 +211,7 @@ class ReportGenerator:
     def _generate_test_type_results(
         self, test_type: str, results: List[FalsificationResult]
     ) -> str:
-        """Generate results for a specific test type"""
-
+        """Generate results for a specific test type."""
         falsified_count = sum(1 for r in results if r.is_falsified)
         mean_p_value = sum(r.p_value for r in results) / len(results)
         mean_effect_size = sum(r.effect_size for r in results) / len(results)
@@ -245,8 +237,7 @@ class ReportGenerator:
         return content.strip()
 
     def _generate_statistical_section(self, stats: StatisticalSummary) -> ReportSection:
-        """Generate statistical analysis section"""
-
+        """Generate statistical analysis section."""
         content = f"""
         ## Statistical Analysis
         
@@ -276,8 +267,7 @@ class ReportGenerator:
     def _generate_discussion_section(
         self, results: List[FalsificationResult], stats: StatisticalSummary
     ) -> ReportSection:
-        """Generate discussion and interpretation section"""
-
+        """Generate discussion and interpretation section."""
         falsified_tests = [r for r in results if r.is_falsified]
 
         if falsified_tests:
@@ -311,8 +301,7 @@ class ReportGenerator:
     def _interpret_falsification(
         self, falsified_tests: List[FalsificationResult], stats: StatisticalSummary
     ) -> str:
-        """Generate interpretation for falsified results"""
-
+        """Generate interpretation for falsified results."""
         test_types = set(r.test_type for r in falsified_tests)
 
         interpretation = f"""
@@ -340,8 +329,7 @@ class ReportGenerator:
     def _interpret_no_falsification(
         self, results: List[FalsificationResult], stats: StatisticalSummary
     ) -> str:
-        """Generate interpretation for non-falsified results"""
-
+        """Generate interpretation for non-falsified results."""
         interpretation = f"""
         **No Falsification Detected:**
         
@@ -363,8 +351,7 @@ class ReportGenerator:
     def _generate_conclusions(
         self, results: List[FalsificationResult], stats: StatisticalSummary
     ) -> str:
-        """Generate overall conclusions"""
-
+        """Generate overall conclusions."""
         falsified_tests = [r for r in results if r.is_falsified]
 
         if falsified_tests:
@@ -391,8 +378,7 @@ class ReportGenerator:
         return conclusion.strip()
 
     def _generate_summary(self, results: List[FalsificationResult]) -> str:
-        """Generate brief summary"""
-
+        """Generate brief summary."""
         falsified_count = sum(1 for r in results if r.is_falsified)
 
         if falsified_count > 0:
@@ -401,8 +387,7 @@ class ReportGenerator:
             return f"APGI Framework passed all {len(results)} falsification tests"
 
     def _determine_test_type(self, results: List[FalsificationResult]) -> str:
-        """Determine overall test type"""
-
+        """Determine overall test type."""
         test_types = set(r.test_type for r in results)
 
         if len(test_types) == 1:
@@ -411,8 +396,7 @@ class ReportGenerator:
             return "Comprehensive Testing"
 
     def save_report(self, report: FalsificationReport, format: str = "json") -> str:
-        """
-        Save report to file.
+        """Save report to file.
 
         Args:
             report: Report to save
@@ -446,8 +430,7 @@ class ReportGenerator:
         return str(filepath)
 
     def _format_report_as_text(self, report: FalsificationReport) -> str:
-        """Format report as plain text"""
-
+        """Format report as plain text."""
         text = f"""
 APGI FRAMEWORK FALSIFICATION REPORT
 ==================================
@@ -477,8 +460,7 @@ DETAILED SECTIONS
         return text
 
     def _format_report_as_html(self, report: FalsificationReport) -> str:
-        """Format report as HTML"""
-
+        """Format report as HTML."""
         html = f"""
 <!DOCTYPE html>
 <html>

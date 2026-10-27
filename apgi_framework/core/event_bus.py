@@ -1,5 +1,4 @@
-"""
-Centralized Event Bus
+"""Centralized Event Bus.
 
 Provides a publish/subscribe event bus for decoupled communication
 between framework components. Supports async event handling,
@@ -70,8 +69,7 @@ class EventSubscription:
 
 
 class EventBus:
-    """
-    Centralized Event Bus for decoupled component communication.
+    """Centralized Event Bus for decoupled component communication.
 
     Features:
     - Publish/subscribe pattern
@@ -108,8 +106,7 @@ class EventBus:
         filter_fn: Optional[Callable[[Event], bool]] = None,
         once: bool = False,
     ) -> EventSubscription:
-        """
-        Subscribe to an event type.
+        """Subscribe to an event type.
 
         Args:
             event_type: Type of event to subscribe to
@@ -141,8 +138,7 @@ class EventBus:
         return subscription
 
     def unsubscribe(self, subscription: EventSubscription) -> bool:
-        """
-        Unsubscribe from an event type.
+        """Unsubscribe from an event type.
 
         Args:
             subscription: Subscription to remove
@@ -162,8 +158,7 @@ class EventBus:
         return False
 
     async def publish(self, event: Event) -> List[Any]:
-        """
-        Publish an event to all subscribers.
+        """Publish an event to all subscribers.
 
         Args:
             event: Event to publish
@@ -222,8 +217,7 @@ class EventBus:
         source: str = "",
         metadata: Optional[Dict[str, Any]] = None,
     ) -> List[Any]:
-        """
-        Convenience method to create and publish an event.
+        """Convenience method to create and publish an event.
 
         Args:
             event_type: Type of event
@@ -243,8 +237,7 @@ class EventBus:
         return await self.publish(event)
 
     def get_event_history(self, event_type: Optional[str] = None, limit: int = 100) -> List[Event]:
-        """
-        Get recent event history.
+        """Get recent event history.
 
         Args:
             event_type: Filter by event type (optional)
@@ -263,8 +256,7 @@ class EventBus:
         self._event_history.clear()
 
     def get_subscribers(self, event_type: Optional[str] = None) -> Dict[str, int]:
-        """
-        Get subscriber counts.
+        """Get subscriber counts.
 
         Args:
             event_type: Filter by event type (optional)
@@ -278,8 +270,7 @@ class EventBus:
 
 
 class DomainEventBus:
-    """
-    Domain-specific event bus wrapper with predefined event types.
+    """Domain-specific event bus wrapper with predefined event types.
 
     Provides type-safe event publishing for specific domains.
     """

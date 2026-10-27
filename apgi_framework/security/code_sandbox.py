@@ -1,5 +1,4 @@
-"""
-Secure code execution sandbox for APGI Framework.
+"""Secure code execution sandbox for APGI Framework.
 
 Provides a safe environment for dynamic code execution with strict
 security controls, resource limits, and input validation.
@@ -67,8 +66,7 @@ class ResourceLimitExceededError(SandboxError):
 
 
 class CodeSandbox:
-    """
-    Secure sandbox for executing untrusted Python code.
+    """Secure sandbox for executing untrusted Python code.
 
     Provides isolation, resource limits, and strict security controls
     to prevent malicious code execution.
@@ -84,8 +82,7 @@ class CodeSandbox:
         allowed_modules: Optional[List[str]] = None,
         use_subprocess_isolation: bool = False,
     ):
-        """
-        Initialize sandbox with security constraints.
+        """Initialize sandbox with security constraints.
 
         Args:
             max_memory_mb: Maximum memory usage in MB
@@ -171,8 +168,7 @@ class CodeSandbox:
         }
 
     def validate_code(self, code: str) -> bool:
-        """
-        Validate code for security violations before execution.
+        """Validate code for security violations before execution.
 
         Args:
             code: Python code to validate
@@ -203,8 +199,7 @@ class CodeSandbox:
         context: Optional[Dict[str, Any]] = None,
         capture_output: bool = True,
     ) -> Dict[str, Any]:
-        """
-        Execute code in secure sandbox environment.
+        """Execute code in secure sandbox environment.
 
         Args:
             code: Python code to execute
@@ -363,7 +358,9 @@ print(json.dumps(result))
                     contextlib.redirect_stdout(stdout_capture),
                     contextlib.redirect_stderr(stderr_capture),
                 ):
-                    exec(compiled_code, restricted_globals)
+                    exec(
+                        compiled_code, restricted_globals
+                    )  # nosec B102 - intentional, restricted-globals sandbox
 
                 return {
                     "success": True,
@@ -372,7 +369,9 @@ print(json.dumps(result))
                     "context": restricted_globals,
                 }
             else:
-                exec(compiled_code, restricted_globals)
+                exec(
+                    compiled_code, restricted_globals
+                )  # nosec B102 - intentional, restricted-globals sandbox
                 return {"success": True, "context": restricted_globals}
 
         except Exception as e:
@@ -404,7 +403,7 @@ print(json.dumps(result))
                     contextlib.redirect_stdout(stdout_capture),
                     contextlib.redirect_stderr(stderr_capture),
                 ):
-                    exec(code, exec_context)
+                    exec(code, exec_context)  # nosec B102 - intentional, restricted-globals sandbox
 
                 return {
                     "success": True,
@@ -413,15 +412,14 @@ print(json.dumps(result))
                     "context": exec_context,
                 }
             else:
-                exec(code, exec_context)
+                exec(code, exec_context)  # nosec B102 - intentional, restricted-globals sandbox
                 return {"success": True, "context": exec_context}
 
         except Exception as e:
             return {"success": False, "error": str(e), "error_type": type(e).__name__}
 
     def validate_input(self, data: Any) -> bool:
-        """
-        Validate input data for security threats.
+        """Validate input data for security threats.
 
         Args:
             data: Input data to validate
@@ -587,8 +585,7 @@ _default_sandbox = CodeSandbox()
 def safe_execute(
     code: str, context: Optional[Dict[str, Any]] = None, **kwargs: Any
 ) -> Dict[str, Any]:
-    """
-    Safely execute code in the default sandbox.
+    """Safely execute code in the default sandbox.
 
     Args:
         code: Python code to execute
@@ -602,8 +599,7 @@ def safe_execute(
 
 
 def validate_code_safety(code: str) -> bool:
-    """
-    Validate code for security issues.
+    """Validate code for security issues.
 
     Args:
         code: Python code to validate

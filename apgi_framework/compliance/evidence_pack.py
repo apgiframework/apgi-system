@@ -1,5 +1,4 @@
-"""
-Compliance Evidence Pack Generator
+"""Compliance Evidence Pack Generator.
 
 Produces machine-readable control mapping for GDPR, HIPAA, SOC2, ISO 27001
 with control owners, test evidence links, and residual risk register.
@@ -101,8 +100,7 @@ class ComplianceEvidencePack:
     """Generates compliance evidence pack."""
 
     def __init__(self, output_dir: Optional[Path] = None):
-        """
-        Initialize evidence pack generator.
+        """Initialize evidence pack generator.
 
         Args:
             output_dir: Directory to write evidence files
@@ -113,8 +111,7 @@ class ComplianceEvidencePack:
         self.residual_risks: List[ResidualRisk] = []
 
     def add_control_mapping(self, mapping: ControlMapping) -> None:
-        """
-        Add control mapping.
+        """Add control mapping.
 
         Args:
             mapping: Control mapping
@@ -123,8 +120,7 @@ class ComplianceEvidencePack:
         logger.info(f"Added control mapping: {mapping.framework.value}/{mapping.control_id}")
 
     def add_residual_risk(self, risk: ResidualRisk) -> None:
-        """
-        Add residual risk.
+        """Add residual risk.
 
         Args:
             risk: Residual risk
@@ -331,8 +327,7 @@ class ComplianceEvidencePack:
             self.add_residual_risk(risk)
 
     def export_to_json(self, filename: str = "compliance_evidence.json") -> Path:
-        """
-        Export evidence pack to JSON.
+        """Export evidence pack to JSON.
 
         Args:
             filename: Output filename
@@ -378,8 +373,7 @@ class ComplianceEvidencePack:
         return counts
 
     def generate_full_pack(self) -> Path:
-        """
-        Generate complete compliance evidence pack.
+        """Generate complete compliance evidence pack.
 
         Returns:
             Path to exported file

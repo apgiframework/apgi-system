@@ -1,5 +1,4 @@
-"""
-Components package for APGI Framework GUI.
+"""Components package for APGI Framework GUI.
 
 This package contains modular GUI components extracted from the monolithic
 apgi_falsification_gui.py file to improve maintainability and testability.

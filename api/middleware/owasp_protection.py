@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 SSRF_BLOCKED_HOSTS: Set[str] = {
     "localhost",
     "127.0.0.1",
-    "0.0.0.0",
+    "0.0.0.0",  # nosec B104 - blocklist entry, not a bind address
     "::1",
     "[::1]",
 }
@@ -169,21 +169,13 @@ class XXEProtector:
         if has_xxe:
             raise ValueError(f"XXE attack detected: {pattern}")
 
-        # Use defusedxml if available
+        # Untrusted XML is only ever parsed with defusedxml (no entity expansion, no external
+        # entities); there is deliberately no fallback to the standard-library parser.
         try:
             from defusedxml import ElementTree as ET
-
-            return ET.fromstring(content)
-        except ImportError:
-            import os
-
-            if os.getenv("ENVIRONMENT") == "production":
-                raise RuntimeError("defusedxml is required in production for secure XML parsing")
-
-            import xml.etree.ElementTree as ET
-
-            logger.warning("defusedxml not available, using standard XML parser")
-            return ET.fromstring(content)
+        except ImportError as exc:
+            raise RuntimeError("defusedxml is required for secure XML parsing") from exc
+        return ET.fromstring(content)
 
 
 class OWASPProtectionMiddleware(BaseHTTPMiddleware):

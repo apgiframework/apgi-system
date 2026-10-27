@@ -1,5 +1,4 @@
-"""
-Visualization System for APGI Framework
+"""Visualization System for APGI Framework.
 
 This module provides publication-quality plotting and figure generation
 for falsification test results and interactive visualization capabilities.
@@ -25,13 +24,10 @@ from ..exceptions import VisualizationError
 
 
 class APGIVisualizer:
-    """
-    Generates publication-quality plots and figures for APGI Framework results.
-    """
+    """Generates publication-quality plots and figures for APGI Framework results."""
 
     def __init__(self, output_dir: str = "figures", style: str = "publication"):
-        """
-        Initialize the visualizer.
+        """Initialize the visualizer.
 
         Args:
             output_dir: Directory to save generated figures
@@ -45,8 +41,7 @@ class APGIVisualizer:
         self._setup_style(style)
 
     def _setup_style(self, style: str) -> None:
-        """Configure matplotlib and seaborn styles"""
-
+        """Configure matplotlib and seaborn styles."""
         if style == "publication":
             plt.style.use("seaborn-v0_8-whitegrid")
             sns.set_palette("husl")
@@ -91,8 +86,7 @@ class APGIVisualizer:
         results: List[FalsificationResult],
         save_path: Optional[Union[str, Path]] = None,
     ) -> str:
-        """
-        Create summary plot of falsification test results.
+        """Create summary plot of falsification test results.
 
         Args:
             results: List of falsification results
@@ -179,8 +173,7 @@ class APGIVisualizer:
         trials: List[ExperimentalTrial],
         save_path: Optional[Union[str, Path]] = None,
     ) -> str:
-        """
-        Create comprehensive neural signature visualization.
+        """Create comprehensive neural signature visualization.
 
         Args:
             trials: List of experimental trials
@@ -269,8 +262,7 @@ class APGIVisualizer:
         trials: List[ExperimentalTrial],
         save_path: Optional[Union[str, Path]] = None,
     ) -> str:
-        """
-        Create neural signature visualization (alias for plot_neural_signatures).
+        """Create neural signature visualization (alias for plot_neural_signatures).
 
         Args:
             trials: List of experimental trials
@@ -286,8 +278,7 @@ class APGIVisualizer:
         trials: List[ExperimentalTrial],
         save_path: Optional[Union[str, Path]] = None,
     ) -> str:
-        """
-        Visualize APGI parameter space and ignition patterns.
+        """Visualize APGI parameter space and ignition patterns.
 
         Args:
             trials: List of experimental trials
@@ -384,8 +375,7 @@ class APGIVisualizer:
         statistical_summary: StatisticalSummary,
         save_path: Optional[Union[str, Path]] = None,
     ) -> str:
-        """
-        Create statistical summary visualization.
+        """Create statistical summary visualization.
 
         Args:
             statistical_summary: Statistical analysis summary
@@ -496,8 +486,7 @@ class APGIVisualizer:
         statistical_summary: StatisticalSummary,
         experiment_id: str,
     ) -> List[str]:
-        """
-        Create complete set of publication-ready figures.
+        """Create complete set of publication-ready figures.
 
         Args:
             results: Falsification results
@@ -551,12 +540,10 @@ class APGIVisualizer:
 
 
 class InteractiveVisualizer:
-    """
-    Provides interactive visualization capabilities for real-time analysis.
-    """
+    """Provides interactive visualization capabilities for real-time analysis."""
 
     def __init__(self, output_dir: str = "figures") -> None:
-        """Initialize interactive visualizer"""
+        """Initialize interactive visualizer."""
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(exist_ok=True)
         self.logger = logging.getLogger(__name__)
@@ -564,8 +551,7 @@ class InteractiveVisualizer:
     def create_interactive_dashboard_data(
         self, results: List[FalsificationResult], trials: List[ExperimentalTrial]
     ) -> Dict[str, Any]:
-        """
-        Prepare data for interactive dashboard visualization.
+        """Prepare data for interactive dashboard visualization.
 
         Args:
             results: Falsification results

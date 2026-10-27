@@ -1,5 +1,4 @@
-"""
-BIDS (Brain Imaging Data Structure) Export Module for APGI Framework
+"""BIDS (Brain Imaging Data Structure) Export Module for APGI Framework
 Provides standardized export functionality for neuroimaging data.
 """
 
@@ -21,8 +20,7 @@ class BIDSExporter:
     """Export APGI data to BIDS-compliant format."""
 
     def __init__(self, bids_root: Union[str, Path] = "data/bids_dataset"):
-        """
-        Initialize BIDS exporter.
+        """Initialize BIDS exporter.
 
         Args:
             bids_root: Root directory for BIDS dataset (default: "data/bids_dataset")
@@ -98,8 +96,7 @@ class BIDSExporter:
         return sanitized
 
     def _create_bids_filename(self, entities: Dict[str, str], suffix: str, extension: str) -> str:
-        """
-        Create BIDS-compliant filename.
+        """Create BIDS-compliant filename.
 
         Args:
             entities: Dictionary of BIDS entities (sub, ses, task, etc.)
@@ -133,8 +130,7 @@ class BIDSExporter:
         sampling_rate: float = 1000.0,
         metadata: Optional[Dict] = None,
     ) -> Path:
-        """
-        Export EEG data to BIDS format.
+        """Export EEG data to BIDS format.
 
         Args:
             data: EEG data array (channels x timepoints)
@@ -287,8 +283,7 @@ class BIDSExporter:
         task_name: str = "experiment",
         metadata: Optional[Dict] = None,
     ) -> Path:
-        """
-        Export behavioral data to BIDS format.
+        """Export behavioral data to BIDS format.
 
         Args:
             data: Behavioral data DataFrame
@@ -380,8 +375,7 @@ class BIDSExporter:
         sampling_rates: Optional[Dict[str, float]] = None,
         metadata: Optional[Dict] = None,
     ) -> Dict[str, Path]:
-        """
-        Export physiological data (pupillometry, cardiac, etc.) to BIDS format.
+        """Export physiological data (pupillometry, cardiac, etc.) to BIDS format.
 
         Args:
             data: Dictionary of physiological data arrays
@@ -505,8 +499,7 @@ class BIDSExporter:
         doi: Optional[str] = None,
         license_type: str = "CC0",
     ) -> Path:
-        """
-        Create dataset_description.json file.
+        """Create dataset_description.json file.
 
         Args:
             name: Dataset name
@@ -540,8 +533,7 @@ class BIDSExporter:
         return output_path
 
     def create_participants_tsv(self, participants: List[Dict[str, Any]]) -> Path:
-        """
-        Create participants.tsv file.
+        """Create participants.tsv file.
 
         Args:
             participants: List of participant dictionaries
@@ -581,8 +573,7 @@ class BIDSExporter:
         return readme_path
 
     def validate_bids_structure(self) -> Dict[str, List[str]]:
-        """
-        Validate BIDS structure and return validation results.
+        """Validate BIDS structure and return validation results.
 
         Returns:
             Dictionary with validation results
@@ -627,8 +618,7 @@ def export_apgi_to_bids(
     authors: Optional[List[str]] = None,
     description: str = "APGI Framework experiment data",
 ) -> Dict[str, Path]:
-    """
-    Convenience function to export complete APGI dataset to BIDS format.
+    """Convenience function to export complete APGI dataset to BIDS format.
 
     Args:
         data: Dictionary containing all APGI data

@@ -1,5 +1,4 @@
-"""
-Fusion module for APGI Framework.
+"""Fusion module for APGI Framework.
 
 This module provides data fusion capabilities.
 """

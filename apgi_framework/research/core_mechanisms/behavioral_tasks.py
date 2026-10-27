@@ -1,5 +1,4 @@
-"""
-Behavioral task implementations for APGI experimental paradigms.
+"""Behavioral task implementations for APGI experimental paradigms.
 
 This module provides concrete task implementations for behavioral experiments
 including detection tasks, heartbeat detection, and dual-modality oddball tasks.
@@ -15,8 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class DetectionTask:
-    """
-    Detection task for consciousness threshold estimation.
+    """Detection task for consciousness threshold estimation.
 
     Participants detect near-threshold visual or auditory stimuli.
     Used to establish the relationship between objective stimulus intensity
@@ -32,8 +30,7 @@ class DetectionTask:
         duration_ms: float = 50.0,
         callback: Optional[Callable] = None,
     ):
-        """
-        Initialize detection task.
+        """Initialize detection task.
 
         Args:
             task_id: Unique identifier for this task instance
@@ -57,8 +54,7 @@ class DetectionTask:
         logger.info(f"Initialized DetectionTask {task_id} with {n_trials} trials")
 
     def run(self) -> Dict[str, Any]:
-        """
-        Run the detection task.
+        """Run the detection task.
 
         Returns:
             Dictionary containing task results
@@ -140,8 +136,7 @@ class DetectionTask:
 
 
 class HeartbeatDetectionTask:
-    """
-    Heartbeat detection task for interoceptive awareness assessment.
+    """Heartbeat detection task for interoceptive awareness assessment.
 
     Participants count their own heartbeats during specified intervals
     without checking their pulse. Tests interoceptive sensitivity.
@@ -155,8 +150,7 @@ class HeartbeatDetectionTask:
         feedback: bool = True,
         callback: Optional[Callable] = None,
     ):
-        """
-        Initialize heartbeat detection task.
+        """Initialize heartbeat detection task.
 
         Args:
             task_id: Unique identifier for this task instance
@@ -181,8 +175,7 @@ class HeartbeatDetectionTask:
         logger.info(f"Initialized HeartbeatDetectionTask {task_id} with {n_trials} trials")
 
     def run(self) -> Dict[str, Any]:
-        """
-        Run the heartbeat detection task.
+        """Run the heartbeat detection task.
 
         Returns:
             Dictionary containing task results
@@ -258,8 +251,7 @@ class HeartbeatDetectionTask:
 
 
 class DualModalityOddballTask:
-    """
-    Dual-modality oddball task for exteroceptive-interoceptive integration.
+    """Dual-modality oddball task for exteroceptive-interoceptive integration.
 
     Combines standard auditory/visual oddball with cardiac-gated stimulus
     presentation to test integration of exteroceptive and interoceptive signals.
@@ -274,8 +266,7 @@ class DualModalityOddballTask:
         modality: str = "auditory",
         callback: Optional[Callable] = None,
     ):
-        """
-        Initialize dual-modality oddball task.
+        """Initialize dual-modality oddball task.
 
         Args:
             task_id: Unique identifier for this task instance
@@ -302,8 +293,7 @@ class DualModalityOddballTask:
         logger.info(f"Initialized DualModalityOddballTask {task_id} with {n_trials} trials")
 
     def run(self) -> Dict[str, Any]:
-        """
-        Run the dual-modality oddball task.
+        """Run the dual-modality oddball task.
 
         Returns:
             Dictionary containing task results

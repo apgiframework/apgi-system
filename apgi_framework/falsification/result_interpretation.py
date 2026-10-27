@@ -1,5 +1,4 @@
-"""
-Result Interpretation System
+"""Result Interpretation System.
 
 This module implements comprehensive result interpretation for APGI Framework
 falsification testing. Provides classification of signature patterns, falsification
@@ -23,7 +22,7 @@ import numpy as np
 
 
 class SignaturePattern(Enum):
-    """Types of neural signature patterns"""
+    """Types of neural signature patterns."""
 
     COMPLETE_IGNITION = "complete_ignition"
     PARTIAL_IGNITION = "partial_ignition"
@@ -32,7 +31,7 @@ class SignaturePattern(Enum):
 
 
 class FalsificationOutcome(Enum):
-    """Possible falsification outcomes"""
+    """Possible falsification outcomes."""
 
     FALSIFIED = "falsified"
     NOT_FALSIFIED = "not_falsified"
@@ -41,7 +40,7 @@ class FalsificationOutcome(Enum):
 
 
 class ConsciousnessState(Enum):
-    """Consciousness assessment states"""
+    """Consciousness assessment states."""
 
     CONSCIOUS = "conscious"
     UNCONSCIOUS = "unconscious"
@@ -51,8 +50,7 @@ class ConsciousnessState(Enum):
 
 @dataclass
 class SignatureThresholds:
-    """
-    Thresholds for neural signature classification.
+    """Thresholds for neural signature classification.
 
     Defines the criteria for determining complete vs partial ignition signatures.
     """
@@ -76,8 +74,7 @@ class SignatureThresholds:
 
 @dataclass
 class SignatureClassification:
-    """
-    Classification result for neural signature patterns.
+    """Classification result for neural signature patterns.
 
     Contains detailed analysis of signature completeness and strength.
     """
@@ -110,8 +107,7 @@ class SignatureClassification:
 
 @dataclass
 class FalsificationAssessment:
-    """
-    Assessment of falsification criteria and outcomes.
+    """Assessment of falsification criteria and outcomes.
 
     Contains detailed analysis of whether falsification criteria are met.
     """
@@ -145,8 +141,7 @@ class FalsificationAssessment:
 
 @dataclass
 class TrialInterpretation:
-    """
-    Complete interpretation result for a single trial.
+    """Complete interpretation result for a single trial.
 
     Contains all analysis and interpretation for one falsification test trial.
     """
@@ -178,16 +173,14 @@ class TrialInterpretation:
 
 
 class SignaturePatternClassifier:
-    """
-    Classifier for neural signature patterns.
+    """Classifier for neural signature patterns.
 
     Determines whether signatures represent complete ignition, partial ignition,
     subthreshold activity, or absent signatures.
     """
 
     def __init__(self, thresholds: Optional[SignatureThresholds] = None):
-        """
-        Initialize the signature pattern classifier.
+        """Initialize the signature pattern classifier.
 
         Args:
             thresholds: Custom thresholds for signature classification
@@ -197,8 +190,7 @@ class SignaturePatternClassifier:
     def classify_p3b_signature(
         self, amplitude: float, latency: Optional[float] = None
     ) -> Tuple[bool, float]:
-        """
-        Classify P3b ERP signature.
+        """Classify P3b ERP signature.
 
         Args:
             amplitude: P3b amplitude in μV
@@ -223,8 +215,7 @@ class SignaturePatternClassifier:
     def classify_gamma_signature(
         self, plv: float, duration: Optional[float] = None
     ) -> Tuple[bool, float]:
-        """
-        Classify gamma synchrony signature.
+        """Classify gamma synchrony signature.
 
         Args:
             plv: Phase-locking value
@@ -247,8 +238,7 @@ class SignaturePatternClassifier:
             return False, max(strength, 0.0)
 
     def classify_bold_signature(self, activations: Dict[str, float]) -> Tuple[bool, float, int]:
-        """
-        Classify BOLD activation signature.
+        """Classify BOLD activation signature.
 
         Args:
             activations: Dictionary of region -> z-score activations
@@ -284,8 +274,7 @@ class SignaturePatternClassifier:
         return is_present, overall_strength, active_regions
 
     def classify_pci_signature(self, pci_value: float) -> Tuple[bool, float]:
-        """
-        Classify Perturbational Complexity Index signature.
+        """Classify Perturbational Complexity Index signature.
 
         Args:
             pci_value: PCI value
@@ -313,8 +302,7 @@ class SignaturePatternClassifier:
         bold_activations: Dict[str, float],
         pci_value: float,
     ) -> SignatureClassification:
-        """
-        Classify complete neural signature pattern.
+        """Classify complete neural signature pattern.
 
         Args:
             p3b_amplitude: P3b amplitude in μV
@@ -385,7 +373,7 @@ class SignaturePatternClassifier:
     def _calculate_pattern_confidence(
         self, signatures_present: int, strength_scores: List[float]
     ) -> float:
-        """Calculate confidence in pattern classification"""
+        """Calculate confidence in pattern classification."""
         base_confidence = 0.5
 
         # Boost confidence based on number of signatures
@@ -399,15 +387,14 @@ class SignaturePatternClassifier:
 
 
 class FalsificationInterpreter:
-    """
-    Interpreter for falsification test results.
+    """Interpreter for falsification test results.
 
     Determines whether falsification criteria are met and provides detailed
     interpretation of experimental outcomes.
     """
 
     def __init__(self) -> None:
-        """Initialize the falsification interpreter"""
+        """Initialize the falsification interpreter."""
         self.signature_classifier = SignaturePatternClassifier()
 
     def assess_consciousness_state(
@@ -416,8 +403,7 @@ class FalsificationInterpreter:
         forced_choice_accuracy: float,
         confidence_rating: Optional[float] = None,
     ) -> Tuple[ConsciousnessState, float]:
-        """
-        Assess consciousness state from behavioral measures.
+        """Assess consciousness state from behavioral measures.
 
         Args:
             subjective_report: Whether participant reported awareness
@@ -450,8 +436,7 @@ class FalsificationInterpreter:
         ai_acc_absent: bool,
         controls_valid: bool,
     ) -> FalsificationAssessment:
-        """
-        Assess primary falsification criterion.
+        """Assess primary falsification criterion.
 
         Primary falsification occurs when:
         1. Complete ignition signatures are present
@@ -531,8 +516,7 @@ class FalsificationInterpreter:
         ai_acc_validation: Dict[str, Any],
         experimental_controls: Dict[str, Any],
     ) -> TrialInterpretation:
-        """
-        Provide complete interpretation for a trial.
+        """Provide complete interpretation for a trial.
 
         Args:
             trial_id: Trial identifier
@@ -637,7 +621,7 @@ class FalsificationInterpreter:
         ai_acc_absent: bool,
         controls_valid: bool,
     ) -> str:
-        """Generate interpretation summary text"""
+        """Generate interpretation summary text."""
         if outcome == FalsificationOutcome.FALSIFIED:
             return (
                 "Primary falsification criterion met: Complete ignition signatures present "
@@ -664,7 +648,7 @@ class FalsificationInterpreter:
         ai_acc_absent: bool,
         controls_valid: bool,
     ) -> List[str]:
-        """Generate detailed findings list"""
+        """Generate detailed findings list."""
         findings = []
 
         # Signature findings
@@ -717,7 +701,7 @@ class FalsificationInterpreter:
         signature_classification: SignatureClassification,
         controls_valid: bool,
     ) -> List[str]:
-        """Generate recommendations list"""
+        """Generate recommendations list."""
         recommendations = []
 
         if outcome == FalsificationOutcome.FALSIFIED:
@@ -742,7 +726,7 @@ class FalsificationInterpreter:
         return recommendations
 
     def _calculate_overall_confidence(self, *confidence_scores: float) -> float:
-        """Calculate overall confidence from multiple confidence scores"""
+        """Calculate overall confidence from multiple confidence scores."""
         return float(np.mean(confidence_scores))
 
     def _calculate_result_quality(
@@ -751,7 +735,7 @@ class FalsificationInterpreter:
         controls_valid: bool,
         warning_count: int,
     ) -> float:
-        """Calculate result quality score"""
+        """Calculate result quality score."""
         base_quality = 0.5
 
         # Boost for signature completeness
@@ -771,20 +755,18 @@ class FalsificationInterpreter:
     def _calculate_interpretation_reliability(
         self, completeness_score: float, confidence_level: float, result_quality: float
     ) -> float:
-        """Calculate interpretation reliability score"""
+        """Calculate interpretation reliability score."""
         return float(np.mean([completeness_score, confidence_level, result_quality]))
 
 
 class ResultLogger:
-    """
-    Logger for detailed result tracking and export.
+    """Logger for detailed result tracking and export.
 
     Provides structured logging and export capabilities for falsification test results.
     """
 
     def __init__(self, log_file: Optional[str] = None):
-        """
-        Initialize the result logger.
+        """Initialize the result logger.
 
         Args:
             log_file: Optional file path for persistent logging
@@ -793,8 +775,7 @@ class ResultLogger:
         self.results_log: List[Dict[str, Any]] = []
 
     def log_trial_result(self, trial_interpretation: TrialInterpretation) -> None:
-        """
-        Log a complete trial interpretation result.
+        """Log a complete trial interpretation result.
 
         Args:
             trial_interpretation: Complete trial interpretation to log
@@ -819,8 +800,7 @@ class ResultLogger:
             self._write_to_file(log_entry)
 
     def export_results(self, format_type: str = "json") -> Union[str, Dict]:
-        """
-        Export logged results in specified format.
+        """Export logged results in specified format.
 
         Args:
             format_type: Export format ('json', 'csv', 'summary')
@@ -836,13 +816,13 @@ class ResultLogger:
             raise ValueError(f"Unsupported export format: {format_type}")
 
     def _write_to_file(self, log_entry: Dict[str, Any]) -> None:
-        """Write log entry to file"""
+        """Write log entry to file."""
         if self.log_file:
             with open(self.log_file, "a") as f:
                 f.write(json.dumps(log_entry) + "\n")
 
     def _generate_summary_report(self) -> Dict[str, Any]:
-        """Generate summary report of all logged results"""
+        """Generate summary report of all logged results."""
         if not self.results_log:
             return {"message": "No results logged"}
 

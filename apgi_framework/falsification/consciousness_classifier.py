@@ -1,5 +1,4 @@
-"""
-Consciousness Classifier for APGI Framework.
+"""Consciousness Classifier for APGI Framework.
 
 Detects whether an AI/ACC activation pattern represents genuine conscious engagement
 or automated falsification patterns, helping validate falsification testing results.
@@ -73,8 +72,7 @@ class ConsciousnessResult:
 
 
 class ConsciousnessClassifier:
-    """
-    Classifies AI/ACC activation patterns to determine likelihood of genuine consciousness
+    """Classifies AI/ACC activation patterns to determine likelihood of genuine consciousness
     versus automated falsification patterns.
 
     Uses multi-criteria analysis based on:
@@ -170,8 +168,7 @@ class ConsciousnessClassifier:
     def classify_activation_pattern(
         self, activation: AIACCActivation, regions_data: Dict[str, Any]
     ) -> ConsciousnessResult:
-        """
-        Classify a single AI/ACC activation pattern.
+        """Classify a single AI/ACC activation pattern.
 
         Args:
             activation: AI/ACC activation data
@@ -242,8 +239,7 @@ class ConsciousnessClassifier:
     def _analyze_region_activation(
         self, region_name: str, region_data: Any
     ) -> ConsciousnessPattern:
-        """
-        Analyze activation in a specific AI/ACC region.
+        """Analyze activation in a specific AI/ACC region.
 
         Args:
             region_name: Name of the AI/ACC region
@@ -413,8 +409,7 @@ class ConsciousnessClassifier:
     def _detect_falsification_indicators(
         self, matched_patterns: List[ConsciousnessPattern]
     ) -> bool:
-        """
-        Detect whether matched patterns indicate falsification.
+        """Detect whether matched patterns indicate falsification.
 
         Args:
             matched_patterns: List of matched consciousness patterns
@@ -470,7 +465,6 @@ class ConsciousnessClassifier:
         regions_data: Dict[str, Any],
     ) -> str:
         """Generate explanation for consciousness classification result."""
-
         if level == ConsciousnessLevel.CONSCIOUS:
             explanation = "Strong evidence of genuine consciousness: "
             for pattern in matched_patterns:

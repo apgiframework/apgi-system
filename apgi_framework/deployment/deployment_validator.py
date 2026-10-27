@@ -1,5 +1,4 @@
-"""
-Deployment Validator with automated testing pipeline for new installations.
+"""Deployment Validator with automated testing pipeline for new installations.
 
 Validates complete deployment of APGI Framework parameter estimation system
 including dependencies, hardware configuration, and end-to-end functionality.
@@ -89,8 +88,7 @@ class DeploymentValidationReport:
 
 
 class DeploymentValidator:
-    """
-    Validates deployment of APGI Framework parameter estimation system.
+    """Validates deployment of APGI Framework parameter estimation system.
 
     Performs comprehensive validation including:
     - System requirements checking
@@ -102,8 +100,7 @@ class DeploymentValidator:
     """
 
     def __init__(self, install_dir: Optional[Path] = None):
-        """
-        Initialize deployment validator.
+        """Initialize deployment validator.
 
         Args:
             install_dir: Installation directory.
@@ -121,8 +118,7 @@ class DeploymentValidator:
     def validate_deployment(
         self, skip_optional: bool = False, run_performance_tests: bool = False
     ) -> DeploymentValidationReport:
-        """
-        Run complete deployment validation.
+        """Run complete deployment validation.
 
         Args:
             skip_optional: Skip optional dependencies and tests.
@@ -490,8 +486,7 @@ class DeploymentValidator:
             self.current_report.add_result(result)
 
     def save_report(self, output_path: Path) -> None:
-        """
-        Save deployment validation report to file.
+        """Save deployment validation report to file.
 
         Args:
             output_path: Path to save report.
@@ -529,8 +524,7 @@ class DeploymentValidator:
         self.logger.info(f"Report saved to {output_path}")
 
     def generate_summary(self) -> str:
-        """
-        Generate human-readable summary of validation.
+        """Generate human-readable summary of validation.
 
         Returns:
             Summary text.

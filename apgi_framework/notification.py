@@ -1,5 +1,4 @@
-"""
-Notification module for APGI Framework.
+"""Notification module for APGI Framework.
 
 This module provides notification and alert capabilities.
 """

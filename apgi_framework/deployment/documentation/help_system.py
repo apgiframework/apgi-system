@@ -1,5 +1,4 @@
-"""
-In-System Help System with context-sensitive guidance and tooltips.
+"""In-System Help System with context-sensitive guidance and tooltips.
 
 Provides real-time help and guidance within the APGI Framework GUI.
 """
@@ -54,8 +53,7 @@ class Tooltip:
 
 
 class InSystemHelpSystem:
-    """
-    Provides context-sensitive help within the APGI Framework GUI.
+    """Provides context-sensitive help within the APGI Framework GUI.
 
     Features:
     - Context-aware help content
@@ -400,8 +398,7 @@ class InSystemHelpSystem:
         return tooltips
 
     def get_help_content(self, context: HelpContext) -> Optional[HelpContent]:
-        """
-        Get help content for specific context.
+        """Get help content for specific context.
 
         Args:
             context: Help context.
@@ -412,8 +409,7 @@ class InSystemHelpSystem:
         return self.help_content.get(context)
 
     def get_tooltip(self, element_id: str) -> Optional[Tooltip]:
-        """
-        Get tooltip for UI element.
+        """Get tooltip for UI element.
 
         Args:
             element_id: UI element identifier.
@@ -424,8 +420,7 @@ class InSystemHelpSystem:
         return self.tooltips.get(element_id)
 
     def show_help(self, context: HelpContext) -> None:
-        """
-        Show help for specific context.
+        """Show help for specific context.
 
         Args:
             context: Help context to display.
@@ -477,8 +472,7 @@ class InSystemHelpSystem:
         logger.info(f"{'=' * 60}\n")
 
     def search_help(self, query: str) -> List[HelpContent]:
-        """
-        Search help content.
+        """Search help content.
 
         Args:
             query: Search query.
@@ -510,8 +504,7 @@ class InSystemHelpSystem:
         return results
 
     def register_help_callback(self, callback: Callable) -> None:
-        """
-        Register callback for showing help.
+        """Register callback for showing help.
 
         Args:
             callback: Function to call when showing help.
@@ -520,8 +513,7 @@ class InSystemHelpSystem:
         self.logger.info("Help callback registered")
 
     def generate_help_index(self) -> str:
-        """
-        Generate help index for all contexts.
+        """Generate help index for all contexts.
 
         Returns:
             Help index as formatted string.

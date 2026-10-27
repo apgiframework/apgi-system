@@ -90,11 +90,11 @@ class RequestDeduplicationCache:
 
         # Include body hash if available
         if body:
-            body_hash = hashlib.md5(body).hexdigest()
+            body_hash = hashlib.sha256(body).hexdigest()
             components.append(body_hash)
 
         fingerprint_data = "|".join(components)
-        return hashlib.md5(fingerprint_data.encode()).hexdigest()
+        return hashlib.sha256(fingerprint_data.encode()).hexdigest()
 
     async def get(self, fingerprint: str) -> Optional[CachedResponse]:
         """

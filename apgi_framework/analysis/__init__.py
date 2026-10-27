@@ -1,5 +1,4 @@
-"""
-Analysis components for the APGI Framework.
+"""Analysis components for the APGI Framework.
 
 This module contains statistical analysis tools, validation frameworks,
 and reporting capabilities for comprehensive APGI falsification testing.

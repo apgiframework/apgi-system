@@ -1,5 +1,4 @@
-"""
-Input Validation Infrastructure
+"""Input Validation Infrastructure.
 
 Provides centralized input validation for the APGI system to ensure
 data integrity and catch errors early.
@@ -11,8 +10,7 @@ import numpy as np
 
 
 class InputValidator:
-    """
-    Centralized input validation for APGI system components.
+    """Centralized input validation for APGI system components.
 
     This class provides static methods for validating arrays and scalars,
     including shape checking, range validation, and NaN/Inf detection.
@@ -32,8 +30,7 @@ class InputValidator:
         expected_shape: Optional[Tuple[int, ...]] = None,
         value_range: Optional[Tuple[float, float]] = None,
     ) -> None:
-        """
-        Validate numpy array inputs.
+        """Validate numpy array inputs.
 
         Checks that the input is a numpy array, optionally validates its shape
         and value range, and ensures no NaN or Inf values are present.
@@ -88,8 +85,7 @@ class InputValidator:
         value_range: Optional[Tuple[float, float]] = None,
         positive: bool = False,
     ) -> None:
-        """
-        Validate scalar inputs.
+        """Validate scalar inputs.
 
         Checks that the input is numeric, optionally validates its range
         and positivity, and ensures it's not NaN or Inf.
