@@ -1,0 +1,12 @@
+# gitleaks configuration (secret scanning, R-013). Default rules plus a narrow allowlist.
+title = "apgi-system gitleaks config"
+
+[extend]
+useDefault = true
+
+# OpenAPI/doc examples (api/routes/auth.py, docs/REST-API.md) show the constant JWT header
+# {"alg":"HS256","typ":"JWT"} followed by "..." as a sample token. That exact string is public
+# and has no payload or signature; any other token value is still reported.
+[allowlist]
+description = "truncated sample JWT in API examples"
+regexes = ['''^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.\.\.$''']

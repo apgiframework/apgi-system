@@ -1,0 +1,60 @@
+name: Repo policy
+
+# Checks that keep documentation and metadata honest. Each step is a script in scripts/
+# with its own unit tests in tests/unit/scripts/.
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+  schedule:
+    - cron: '41 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  identifiers:
+    name: Identifier divergence (DOI / ORCID / repo / version)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - name: README and CITATION.cff match identifiers.json; no divergent identifier anywhere
+        run: python scripts/sync_identifiers.py --check
+
+  readme-status:
+    name: README features marked verified or planned
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/check_readme_status.py
+
+  forbidden-language:
+    name: Forbidden-language linter (R-012)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - run: python scripts/check_forbidden_language.py
+
+  policy-script-tests:
+    name: Tests for the policy scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pytest pyyaml
+      - run: python -m pytest tests/unit/scripts -q -p no:cacheprovider --no-cov -o addopts=""

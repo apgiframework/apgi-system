@@ -1,0 +1,46 @@
+# Forbidden-language rules (R-012): wording that over-states what this software or the
+# APGI theory has shown. Checked by scripts/check_forbidden_language.py (CI: forbidden-language.yml).
+#
+# A match is ignored when
+#   * it is negated nearby ("does not prove", "cannot guarantee"), or
+#   * its line or the line above carries:  forbidden-language: allow <rule-id>
+#     (as an HTML comment in Markdown, a # comment in YAML/TOML/CFF).
+
+include:
+  - README.md
+  - CHANGELOG.md
+  - CITATION.cff
+  - docs/**/*.md
+  - apgi_framework/protocols/**/*.md
+exclude:
+  - docs/user/**/*.md.bak
+
+negation_window_chars: 30
+negations: ["not", "no", "never", "cannot", "can't", "can not", "without", "n't"]
+
+rules:
+  - id: proof-claim
+    pattern: '\b(proves?|proven|proving)\b'
+    message: >-
+      Empirical work supports or fails to support a theory; it does not prove it.
+      Say "supports", "is consistent with" or "fails to reject".
+  - id: clinical-claim
+    pattern: '\bclinically\s+(validated|proven|approved)\b|\bFDA[- ](approved|cleared)\b'
+    message: >-
+      This software is research code with no clinical validation or regulatory clearance.
+  - id: diagnostic-claim
+    pattern: '\bdiagnos(e|es|ed|ing)\s+(patients?|participants?|disorders?|depression|anxiety|GAD|MDD|psychosis)\b|\bdiagnostic\s+(tool|test|accuracy)\b'
+    message: >-
+      Parameter extraction and state classification are research outputs, not diagnoses.
+  - id: certainty-claim
+    pattern: '\b100\s?%\s+(accurate|accuracy|reliable|certain)\b|\bguarantee[sd]?\b|\bconclusive(ly)?\b|\bbulletproof\b'
+    message: >-
+      Do not state certainty. Report the measured quantity with its uncertainty or test result.
+  - id: hype
+    pattern: '\b(revolutionary|breakthrough|game[- ]chang\w*|groundbreaking|paradigm[- ]shift\w*)\b'
+    message: >-
+      Promotional wording. Describe what the software does.
+  - id: measures-consciousness
+    pattern: '\b(detects?|measures?|quantif(y|ies)|reads?)\s+(human\s+|animal\s+)?consciousness\b'
+    message: >-
+      Name the measured signal (for example a P3b amplitude or PCI value), not consciousness itself.

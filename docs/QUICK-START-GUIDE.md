@@ -15,8 +15,8 @@ Welcome to the APGI Framework Test Enhancement system! This guide will help you 
 
 ```bash
 # Clone the repository
-git clone https://github.com/apgi-research/apgi-framework.git
-cd apgi-framework
+git clone https://github.com/apgiframework/apgi-system.git
+cd apgi-system
 
 # Install the framework
 pip install -e .

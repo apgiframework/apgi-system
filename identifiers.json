@@ -1,0 +1,17 @@
+{
+  "_comment": "Single source of truth for the project's public identifiers. Edit here, then run: python scripts/sync_identifiers.py --write",
+  "title": "APGI System: Allostatic Precision-Gated Ignition — testing and simulation platform",
+  "doi": "10.5281/zenodo.21632264",
+  "author": {
+    "family_names": "Pesochin",
+    "given_names": "Dimitry",
+    "orcid": "0009-0005-0328-2896"
+  },
+  "repository": "https://github.com/apgiframework/apgi-system",
+  "related_repositories": [
+    "https://github.com/apgiframework/apgi-framework"
+  ],
+  "placeholder_orgs": ["your-org"],
+  "example_dois": ["10.5281/zenodo.12345"],
+  "scan_exclude": ["htmlcov/", "data/", ".git/", "identifiers.json"]
+}

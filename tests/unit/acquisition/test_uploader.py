@@ -107,6 +107,7 @@ class TestAgent:
         assert report.already_present == 1 and transport.uploaded == []
         assert env.state() == "synced"
 
+    @pytest.mark.offline_upload
     def test_offline_keeps_the_queue_and_the_session(self, env: Env) -> None:
         env.add("a.bin")
         transport = ScriptedTransport()
@@ -115,6 +116,7 @@ class TestAgent:
         assert env.state() == "finalized"
         assert env.store.upload_counts("sid")["pending"] == 1
 
+    @pytest.mark.offline_upload
     def test_comes_back_online_and_finishes(self, env: Env) -> None:
         env.add("a.bin")
         online = [False]
@@ -124,6 +126,7 @@ class TestAgent:
         online[0] = True
         assert agent.run_once().synced_sessions == ["sid"]
 
+    @pytest.mark.offline_upload
     def test_network_loss_mid_upload_costs_no_attempt_and_parks_the_session(self, env: Env) -> None:
         env.add("a.bin")
         env.add("b.bin")

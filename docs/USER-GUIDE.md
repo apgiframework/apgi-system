@@ -43,8 +43,8 @@ The APGI Framework Test Enhancement system provides comprehensive testing capabi
 
 ```bash
 # Clone repository
-git clone https://github.com/apgi-research/apgi-framework.git
-cd apgi-framework
+git clone https://github.com/apgiframework/apgi-system.git
+cd apgi-system
 
 # Install framework
 pip install -e .

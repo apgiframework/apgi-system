@@ -1,0 +1,73 @@
+name: Acquisition gates
+
+# Two required gates for the acquisition subsystem. They run against the simulated
+# device only, so no hardware is needed.
+#   device-mock    every driver/device contract check, marked @device_mock
+#   offline-upload the network is cut mid-upload and the session must resume, marked @offline_upload
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'apgi_framework/acquisition/**'
+      - 'tests/acquisition/**'
+      - 'tests/unit/acquisition/**'
+      - 'tests/integration/test_acquisition_offline.py'
+      - '.github/workflows/acquisition-gates.yml'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  device-mock:
+    name: Device-mock gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3-tk xvfb
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,testing,gui,api,acquisition]"
+      - name: Run device-mock tests (must select at least one)
+        run: xvfb-run -a python -m pytest -m device_mock tests/acquisition tests/unit/acquisition -q --no-cov -o addopts="" --strict-markers
+
+  offline-upload:
+    name: Offline-upload gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3-tk xvfb
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,testing,gui,api,acquisition]"
+      - name: Run offline-upload tests
+        run: xvfb-run -a python -m pytest -m offline_upload tests/integration/test_acquisition_offline.py tests/unit/acquisition/test_uploader.py -q --no-cov -o addopts="" --strict-markers
+
+  full-acquisition-suite:
+    name: All acquisition tests
+    runs-on: ubuntu-latest
+    needs: [device-mock, offline-upload]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3-tk xvfb
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,testing,gui,api,acquisition]"
+      - run: xvfb-run -a python -m pytest tests/acquisition tests/unit/acquisition tests/integration/test_acquisition_offline.py -q --no-cov -o addopts=""

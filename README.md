@@ -8,11 +8,16 @@ The APGI Framework provides tools for consciousness research, experimental parad
 
 ## Features
 
-- Advanced consciousness modeling and simulation
-- Falsification testing protocols
-- Real-time monitoring and visualization
-- Cross-species validation paradigms
-- Comprehensive test suite with high coverage
+Every feature below is marked **✅ verified** (code exists in this repository and is exercised by tests or an
+entry point) or **🧭 planned** (described, but not implemented or not measurable today). See the
+[status legend](#how-to-use-apgi).
+
+- Advanced consciousness modeling and simulation — ✅ verified (`apgi_framework/system.py`, `apgi_framework/ignition/`)
+- Falsification testing protocols — ✅ verified (`apgi_framework/falsification/`, `apgi_framework/protocols/`)
+- Real-time monitoring and visualization — ✅ verified (`apgi_framework/gui/monitoring_dashboard.py`, `apgi_framework/monitoring/`)
+- Cross-species validation paradigms — ✅ verified (`apgi_framework/research/cross_species_validation.py`)
+- Device acquisition with offline-first upload — ✅ verified (`apgi_framework/acquisition/`, `tests/acquisition/`)
+- Comprehensive test suite with high coverage — 🧭 planned (CI enforces `--cov-fail-under=90` on `tests/unit/`; no measured coverage figure is published here)
 
 ## How to Use APGI
 
@@ -961,77 +966,80 @@ apgi_gui/
 
 ## Utils Scripts
 
-### 1. CI/CD Pipeline (`utils/cicd_pipeline.py`)
+Each script is marked **✅ verified** (the file exists in `utils/`) or **🧭 planned** (listed in earlier docs but absent).
+`python scripts/check_readme_status.py` enforces this.
+
+### 1. CI/CD Pipeline (`utils/cicd_pipeline.py`) — 🧭 planned (file does not exist)
 
 **Type**: Automation script
 **Purpose**: Comprehensive CI/CD pipeline for testing, building, and deployment
 
-### 2. Dependency Checker (`utils/check_dependencies.py`)
+### 2. Dependency Checker (`utils/check_dependencies.py`) — ✅ verified
 
 **Type**: Validation script
 **Purpose**: Check and validate all required dependencies
 
-### 3. Performance Profiler (`utils/performance_profiler.py`)
+### 3. Performance Profiler (`utils/performance_profiler.py`) — ✅ verified
 
 **Type**: Analysis tool
 **Purpose**: Profile and analyze application performance
 
-### 4. Data Validation (`utils/data_validation.py`)
+### 4. Data Validation (`utils/data_validation.py`) — ✅ verified
 
 **Type**: Data quality tool
 **Purpose**: Validate and assess data quality and integrity
 
-### 5. Backup Manager (`utils/backup_manager.py`)
+### 5. Backup Manager (`utils/backup_manager.py`) — ✅ verified
 
 **Type**: Utility script
 **Purpose**: Automated backup and recovery system
 
-### 6. Batch Processor (`utils/batch_processor.py`)
+### 6. Batch Processor (`utils/batch_processor.py`) — ✅ verified
 
 **Type**: Processing tool
 **Purpose**: Batch processing of experiments and data
 
-### 7. Error Handler (`utils/error_handler.py`)
+### 7. Error Handler (`utils/error_handler.py`) — ✅ verified
 
 **Type**: Error management
 **Purpose**: Centralized error handling and reporting
 
-### 8. Cache Manager (`utils/cache_manager.py`)
+### 8. Cache Manager (`utils/cache_manager.py`) — ✅ verified
 
 **Type**: Performance utility
 **Purpose**: Manage application cache and temporary data
 
-### 9. Report Generator (`utils/report_generator.py`)
+### 9. Report Generator (`utils/report_generator.py`) — ✅ verified
 
 **Type**: Documentation tool
 **Purpose**: Generate comprehensive reports from test results
 
-### 10. Sample Data Generator (`utils/sample_data_generator.py`)
+### 10. Sample Data Generator (`utils/sample_data_generator.py`) — ✅ verified
 
 **Type**: Data utility
 **Purpose**: Generate sample data for testing and development
 
-### 11. GUI Testing Framework (`utils/gui_testing_framework.py`)
+### 11. GUI Testing Framework (`utils/gui_testing_framework.py`) — ✅ verified
 
 **Type**: Testing tool
 **Purpose**: Framework for testing GUI components and interactions
 
-### 12. Parameter Validator (`utils/parameter_validator.py`)
+### 12. Parameter Validator (`utils/parameter_validator.py`) — ✅ verified
 
 **Type**: Validation tool
 **Purpose**: Validate framework parameters and configurations
 
-### 13. Release Manager (`utils/release.py`)
+### 13. Release Manager (`utils/release.py`) — ✅ verified
 
 **Type**: Deployment tool
 **Purpose**: Automated release management and versioning
 
-### 14. Performance Dashboard (`utils/performance_dashboard.py`)
+### 14. Performance Dashboard (`utils/performance_dashboard.py`) — 🧭 planned (file does not exist)
 
 **Type**: Monitoring tool
 **Purpose**: Real-time performance monitoring dashboard
 
-### 15. Data Quality Assessment (`utils/data_quality_assessment.py`)
+### 15. Data Quality Assessment (`utils/data_quality_assessment.py`) — ✅ verified
 
 **Type**: Analysis tool
 **Purpose**: Comprehensive data quality assessment and reporting
@@ -1042,35 +1050,35 @@ apgi_gui/
 
 The APGI Framework is a comprehensive research platform for consciousness studies, neural signal processing, and adaptive intelligence systems. It provides tools for:
 
-- **Neural Signal Processing**: EEG, ECG, pupillometry data analysis
-- **Consciousness Research**: Threshold detection paradigms, phase transitions
-- **Adaptive Testing**: Bayesian parameter estimation, falsification testing
-- **Machine Learning**: Classification tools, biomarker discovery
-- **Data Visualization**: Interactive dashboards, real-time monitoring
+- **Neural Signal Processing**: EEG, ECG, pupillometry data analysis — ✅ verified (`apgi_framework/neural/eeg_processor.py`, `apgi_framework/neural/cardiac_processor.py`, `apgi_framework/neural/pupillometry_processor.py`)
+- **Consciousness Research**: Threshold detection paradigms, phase transitions — ✅ verified (`apgi_framework/ignition/`, `apgi_framework/thermodynamic/`)
+- **Adaptive Testing**: Bayesian parameter estimation, falsification testing — ✅ verified (`apgi_framework/adaptive/quest_plus_staircase.py`, `apgi_framework/falsification/`)
+- **Machine Learning**: Classification tools, biomarker discovery — 🧭 planned (`apgi_framework/ml/` holds one integration module and no package `__init__.py`; classification lives in `apgi_framework/clinical/disorder_classification.py`)
+- **Data Visualization**: Interactive dashboards, real-time monitoring — ✅ verified (`apgi_framework/gui/interactive_dashboard.py`, `apgi_framework/visualization/`)
 
 ### Framework Features
 
 #### Core Capabilities
 
-- Multi-modal physiological data processing
-- Real-time signal analysis and monitoring
-- Adaptive experimental paradigms
-- Comprehensive test coverage and validation
-- Modern GUI interfaces for experiment control
+- Multi-modal physiological data processing — ✅ verified (`apgi_framework/neural/`)
+- Real-time signal analysis and monitoring — ✅ verified (`apgi_framework/monitoring/`, `apgi_framework/gui/monitoring_dashboard.py`)
+- Adaptive experimental paradigms — ✅ verified (`apgi_framework/adaptive/`)
+- Comprehensive test coverage and validation — 🧭 planned (see the coverage note under Features)
+- Modern GUI interfaces for experiment control — ✅ verified (`apgi_gui/main.py`)
 
 ### Research Applications
 
-- Consciousness threshold detection
-- Cross-species validation studies
-- Clinical biomarker identification
-- Neural dynamics analysis
-- Active inference modeling
+- Consciousness threshold detection — ✅ verified (`apgi_framework/ignition/`)
+- Cross-species validation studies — ✅ verified (`apgi_framework/research/cross_species_validation.py`)
+- Clinical biomarker identification — 🧭 planned (research notes in `docs/research/clinical_biomarkers.md`; the code only extracts model parameters and classifies states, and is not validated for clinical use)
+- Neural dynamics analysis — ✅ verified (`apgi_framework/neural/oscillations.py`, `apgi_framework/neural/microstate_analysis.py`)
+- Active inference modeling — ✅ verified (`tests/unit/test_active_inference.py`)
 
 ### CLI Usage
 
 ```bash
-# Run tests
-python -m apgi_framework.cli test --all
+# Run tests (✅ verified subcommand: run-tests; the earlier `test --all` form does not exist)
+python -m apgi_framework.cli run-tests
 
 # Run with coverage
 pytest --cov=apgi_framework
@@ -1084,32 +1092,32 @@ pytest -m gui
 ### GUI Usage
 
 ```bash
-python GUI-Launcher.py          # Recommended entry point
-python GUI.py                   # Direct main GUI
-python GUI-Experiment-Registry.py
+python GUI-Launcher.py          # ✅ verified (deprecated legacy launcher; prefer python -m apgi_gui.main)
+python GUI.py                   # 🧭 planned: no such file
+python GUI-Experiment-Registry.py   # 🧭 planned: no such file
 ```
 
 ### Framework Development Installation
 
 ```bash
-git clone https://github.com/apgi-research/apgi-framework.git
-cd apgi-framework
+git clone https://github.com/apgiframework/apgi-system.git   # ✅ verified URL (the old apgi-research/apgi-framework URL is not this repository)
+cd apgi-system
 pip install -e ".[dev]"
 ```
 
 ### Optional Dependencies
 
 ```bash
-# GUI components
+# GUI components (✅ verified extra)
 pip install -e ".[gui]"
 
-# Machine learning tools
+# Machine learning tools (✅ verified extra)
 pip install -e ".[ml]"
 
-# Neural signal processing
+# Neural signal processing (✅ verified extra)
 pip install -e ".[neural]"
 
-# All optional dependencies
+# All optional dependencies (✅ verified extra)
 pip install -e ".[all]"
 ```
 
@@ -1122,9 +1130,10 @@ pip install -e ".[all]"
 pytest
 
 # Run specific test categories
-pytest tests/unit/
-pytest tests/integration/
-pytest tests/performance/
+pytest tests/unit/          # ✅ verified
+pytest tests/integration/   # ✅ verified
+pytest tests/acquisition/   # ✅ verified
+pytest tests/performance/   # 🧭 planned: directory does not exist (see benchmarks/)
 
 # Run with coverage
 pytest --cov=apgi_framework --cov-report=html
@@ -1133,13 +1142,12 @@ pytest --cov=apgi_framework --cov-report=html
 ### Using the Framework
 
 ```python
+# 🧭 planned: `APGIAgent` and `DataProcessor.analyze_eeg` do not exist in the current code and this will not run.
+# For a working example see "Option 3: Programmatic Usage" above (`apgi_framework.system.APGISystem`, ✅ verified).
 from apgi_framework import APGIAgent
 from apgi_framework.data import DataProcessor
 
-# Initialize the framework
 agent = APGIAgent(config_file="config.yaml")
-
-# Process neural data
 processor = DataProcessor()
 results = processor.analyze_eeg(data_file="eeg_data.csv")
 ```
@@ -1150,7 +1158,7 @@ results = processor.analyze_eeg(data_file="eeg_data.csv")
 # Launch the main GUI
 python GUI-Launcher.py
 
-# Interactive dashboard
+# Interactive dashboard (✅ verified: module has a __main__ block; the `apgi-dashboard` console script is 🧭 planned, its target `main` is missing)
 python -m apgi_framework.gui.interactive_dashboard
 ```
 
@@ -1166,29 +1174,29 @@ apgi-experiments/
 │   ├── gui/                 # GUI components
 │   ├── neural/              # Neural signal processing
 │   └── testing/            # Test framework
-├── tests/                   # Test suite
-├── examples/                # Usage examples
-├── docs/                    # Documentation
-├── research/                # Research modules
-└── utils/                   # Utility scripts
+├── tests/                   # Test suite (✅ verified)
+├── examples/                # Usage examples (✅ verified)
+├── docs/                    # Documentation (✅ verified)
+├── research/                # Research modules (🧭 planned: no such top-level directory; see apgi_framework/research/)
+└── utils/                   # Utility scripts (✅ verified)
 ```
 
 ## Documentation
 
-- [API Documentation](docs/REST-API.md)
-- [Examples](docs/examples/)
-- [Developer Guide](docs/developer/)
-- [Research Applications](docs/research/)
+- [API Documentation](docs/REST-API.md) — ✅ verified
+- [Examples](docs/examples/) — ✅ verified
+- [Developer Guide](docs/developer/) — ✅ verified
+- [Research Applications](docs/research/) — ✅ verified
 
 ## Testing
 
 The framework includes comprehensive testing:
 
-- **Unit Tests**: Fast isolated tests for individual components
-- **Integration Tests**: Tests for component interactions
-- **Performance Tests**: Benchmarks and profiling
-- **GUI Tests**: User interface validation
-- **Research Tests**: Domain-specific validation
+- **Unit Tests**: Fast isolated tests for individual components — ✅ verified (`tests/unit/`)
+- **Integration Tests**: Tests for component interactions — ✅ verified (`tests/integration/`)
+- **Performance Tests**: Benchmarks and profiling — 🧭 planned (benchmarks live in `benchmarks/`; no `tests/performance/`)
+- **GUI Tests**: User interface validation — ✅ verified (`-m gui`)
+- **Research Tests**: Domain-specific validation — ✅ verified (`tests/test_cross_species_validation.py`)
 
 Run tests with:
 
@@ -1202,7 +1210,7 @@ pytest --cov=apgi_framework --cov-report=html
 # Specific categories
 pytest -m unit
 pytest -m integration
-pytest -m performance
+pytest -m performance   # 🧭 planned: marker is not registered, so --strict-markers rejects it
 ```
 
 ## Contributing
@@ -1221,9 +1229,17 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 If you use this framework in your research, please cite:
 
+<!-- identifiers:begin (generated by scripts/sync_identifiers.py; do not edit by hand) -->
+| Identifier | Value |
+|------------|-------|
+| DOI | [10.5281/zenodo.21632264](https://doi.org/10.5281/zenodo.21632264) |
+| Author ORCID | [0009-0005-0328-2896](https://orcid.org/0009-0005-0328-2896) |
+| Repository | <https://github.com/apgiframework/apgi-system> |
+| Version | 1.1.0 (released 2026-10-17) |
+
 ```bibtex
 @software{pesochin_apgi_system_2026,
-  title={APGI System: Allostatic Precision-Gated Ignition — Testing and Simulation Platform},
+  title={APGI System: Allostatic Precision-Gated Ignition — testing and simulation platform},
   author={Pesochin, Dimitry},
   year={2026},
   version={1.1.0},
@@ -1232,6 +1248,7 @@ If you use this framework in your research, please cite:
   orcid={https://orcid.org/0009-0005-0328-2896}
 }
 ```
+<!-- identifiers:end -->
 
 The experimental protocols in [`apgi_framework/protocols/`](apgi_framework/protocols/) follow APGI protocol specification
 1.1.0, byte-identical to [apgi-framework](https://github.com/apgiframework/apgi-framework)

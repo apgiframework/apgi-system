@@ -108,8 +108,8 @@ pip install apgi-framework
 python -c "import sys; print('\n'.join(sys.path))"
 
 # Install in development mode
-git clone https://github.com/apgi-research/apgi-framework.git
-cd apgi-framework
+git clone https://github.com/apgiframework/apgi-system.git
+cd apgi-system
 pip install -e .
 ```
 
