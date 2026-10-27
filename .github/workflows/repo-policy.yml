@@ -104,5 +104,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install pytest pyyaml
-      - run: python -m pytest tests/unit/scripts -q -p no:cacheprovider --no-cov -o addopts=""
+      # tests/conftest.py imports the framework (and tkinter), so use the full test install
+      - name: Install
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3-tk xvfb
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,testing,gui,api,acquisition]" -c requirements.lock
+      - run: xvfb-run -a python -m pytest tests/unit/scripts tests/unit/test_model_registry.py -q -p no:cacheprovider --no-cov -o addopts=""

@@ -1,0 +1,7 @@
+# Test placeholder ("test-s..." value) in standalone-api/tests/property/test_config_properties.py, removed from the tree.
+7224a20ff5eaf9dc4fb9e926e8ca691a89ca9749:standalone-api/tests/property/test_config_properties.py:generic-api-key:195
+# JWT_SECRET_KEY shown as an "Example" in standalone-api/docs/CONFIGURATION.md (deleted from the tree).
+# Its provenance is unknown, so it is treated as exposed and must be rotated wherever it was used;
+# history cannot be rewritten here, so the historical finding is acknowledged rather than fixed.
+2b325de2e3eb4f952c726e86facda1417a6e3d25:standalone-api/docs/CONFIGURATION.md:generic-api-key:317
+2b325de2e3eb4f952c726e86facda1417a6e3d25:standalone-api/docs/CONFIGURATION.md:generic-api-key:687
