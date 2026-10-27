@@ -1,13 +1,36 @@
-"""Stub module for masking paradigm task.
+"""Visual masking paradigm on the APGI system.
 
-This module provides type stubs for masking paradigm experimental task
-that is being migrated from the old apgi_simulation structure.
+A brief target is followed by a mask at a variable stimulus onset asynchrony (SOA). The
+combined timeline is presented to the APGI system one 10 ms step at a time. The target counts
+as detected when the system ignites; an ignition that the mask arrives too early to let
+consolidate is suppressed with a probability that falls off with SOA (backward masking), so
+detection recovers as the SOA grows.
 """
 
+from __future__ import annotations
+
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import numpy as np
+
+from ._records import (
+    STIMULUS_DIM,
+    PhaseOutcome,
+    TaskRecord,
+    draw_seed,
+    present_stimulus,
+    save_json,
+    scaled_timestep,
+)
+
+#: Task time represented by one system step (ms).
+STEP_MS = 10.0
+#: Time constant (ms) of the masking effect's decay with SOA.
+MASKING_TAU_MS = 60.0
+#: Extra time after the mask is gone in which an ignition can still occur (ms).
+SETTLE_MS = 100.0
 
 
 class MaskType(Enum):
@@ -16,232 +39,239 @@ class MaskType(Enum):
     FORWARD = "forward"
     BACKWARD = "backward"
     META_CONTRAST = "meta_contrast"
+    PATTERN = "pattern"
+
+
+@dataclass
+class MaskingTrial(TaskRecord):
+    """One planned trial."""
+
+    trial_number: int
+    soa_ms: float
+    target_duration_ms: float
+    mask_duration_ms: float
+    mask_type: MaskType
+
+
+@dataclass
+class MaskingResult(TaskRecord):
+    """Outcome of one executed trial."""
+
+    trial_number: int
+    soa_ms: float
+    mask_type: MaskType
+    target_detected: bool
+    detection_time: Optional[float]
+    ignition_strength: float
+    ignition_count: int
+    mask_suppression_occurred: bool
+    masking_effect: float = 0.0
 
 
 class MaskingParadigmTask:
-    """Masking paradigm experimental task."""
+    """Masking paradigm experimental task.
+
+    Parameters
+    ----------
+    target_duration_ms, mask_duration_ms : float
+        Durations of the target and of the mask.
+    soas : list of float, optional
+        Target-to-mask onset asynchronies; SOA 0 presents both at once.
+    num_trials_per_condition : int
+        Trials per SOA.
+    target_strength, mask_strength : float
+        Stimulus amplitudes; a stronger mask suppresses more.
+    mask_type : MaskType
+        Mask kind reported in the results.
+    seed : int, optional
+        Seed for stimulus noise and suppression draws; by default drawn from numpy's global
+        state.
+    """
 
     def __init__(
         self,
-        target_duration_ms: int = 20,
-        mask_duration_ms: int = 40,
-        soas: List[int] | None = None,
+        target_duration_ms: float = 20,
+        mask_duration_ms: float = 40,
+        soas: Optional[List[int]] = None,
         num_trials_per_condition: int = 10,
+        target_strength: float = 2.0,
+        mask_strength: float = 4.0,
+        mask_type: MaskType = MaskType.PATTERN,
+        seed: Optional[int] = None,
     ):
-        """Initialize masking paradigm task.
-
-        Parameters
-        ----------
-        target_duration_ms : int, optional
-            Duration of target stimulus in milliseconds, by default 20
-        mask_duration_ms : int, optional
-            Duration of mask stimulus in milliseconds, by default 40
-        soas : list[int], optional
-            List of stimulus onset asynchronies, by default None
-        num_trials_per_condition : int, optional
-            Number of trials per condition, by default 10
-        """
         self.target_duration_ms = target_duration_ms
         self.mask_duration_ms = mask_duration_ms
-        self.soas = soas or [20, 40, 60, 80, 100, 120, 140, 160]
+        self.soas = list(soas) if soas else [20, 40, 60, 80, 100, 120, 140, 160]
         self.num_trials_per_condition = num_trials_per_condition
-        self.mask_type = MaskType.FORWARD
-        self.trials = self._generate_trials()
-        self.results: List[Dict[str, Any]] = []
+        self.target_strength = target_strength
+        self.mask_strength = mask_strength
+        self.mask_type = mask_type
+        self._seed = draw_seed(seed)
+        self.rng = np.random.default_rng(self._seed)
 
+        self.current_trial_idx = 0
+        self.results: List[MaskingResult] = []
+        self.trials: List[MaskingTrial] = self._generate_trials()
+
+    # -- stimuli ----------------------------------------------------------------------------
+    def _generate_target(self) -> np.ndarray:
+        """A localised Gaussian bump (plus faint noise) of amplitude ``target_strength``."""
+        centre = STIMULUS_DIM // 2
+        positions = np.arange(STIMULUS_DIM)
+        bump = np.exp(-0.5 * ((positions - centre) / (STIMULUS_DIM / 16.0)) ** 2)
+        return np.asarray(
+            self.target_strength * bump + 0.05 * self.rng.standard_normal(STIMULUS_DIM)
+        )
+
+    def _generate_mask(self) -> np.ndarray:
+        """A dense, high-energy noise pattern covering the whole input."""
+        return np.asarray(0.5 * self.mask_strength * self.rng.standard_normal(STIMULUS_DIM))
+
+    # Backward-compatible names
     def create_target_stimulus(self) -> np.ndarray:
-        """Create a target stimulus.
-
-        Returns
-        -------
-        np.ndarray
-            Target stimulus image
-        """
-        return np.random.rand(64, 64)
+        return self._generate_target()
 
     def create_mask_stimulus(self) -> np.ndarray:
-        """Create a mask stimulus.
+        return self._generate_mask()
 
-        Returns
-        -------
-        np.ndarray
-            Mask stimulus image
+    def calculate_masking_effect(self, soa_ms: float) -> float:
+        """Probability that an ignition is suppressed by a mask at ``soa_ms``.
+
+        Relative mask strength times an exponential decay with SOA (time constant 60 ms).
         """
-        return np.random.rand(64, 64)
+        relative = self.mask_strength / (self.mask_strength + self.target_strength)
+        return float(relative * np.exp(-max(soa_ms, 0.0) / MASKING_TAU_MS))
 
-    def calculate_masking_effect(self, soa_ms: int) -> float:
-        """Calculate masking effect given stimulus onset asynchrony.
-
-        Parameters
-        ----------
-        soa_ms : int
-            Stimulus onset asynchrony in milliseconds
-
-        Returns
-        -------
-        float
-            Masking effect magnitude
-        """
-        # Simplified masking curve
-        if self.mask_type == MaskType.FORWARD:
-            if soa_ms < 50:
-                return 0.9
-            elif soa_ms < 100:
-                return 0.5
-            else:
-                return 0.1
-        else:
-            return 0.3
-
-    def run_trial(self, apgi_framework: Any, trial: Dict[str, Any]) -> Dict[str, Any]:
-        """Run a single masking trial.
-
-        Parameters
-        ----------
-        apgi_framework : Any
-            APGI framework instance
-        trial : Dict[str, Any]
-            Trial configuration
-
-        Returns
-        -------
-        Dict[str, Any]
-            Trial results
-        """
-        soa_ms = trial["soa_ms"]
-        masking_effect = self.calculate_masking_effect(soa_ms)
-        return {
-            "trial_number": trial["trial_number"],
-            "soa_ms": soa_ms,
-            "mask_type": self.mask_type,
-            "target_detected": np.random.random() > masking_effect,
-            "masking_effect": masking_effect,
-            "ignition_count": np.random.randint(0, 5),
-        }
-
-    def _generate_trials(self) -> List[Dict[str, Any]]:
-        """Generate trial configurations.
-
-        Returns
-        -------
-        List[Dict[str, Any]]
-            List of trial configurations
-        """
-        trials = []
-        trial_num = 0
+    # -- trials -----------------------------------------------------------------------------
+    def _generate_trials(self) -> List[MaskingTrial]:
+        trials: List[MaskingTrial] = []
         for soa in self.soas:
             for _ in range(self.num_trials_per_condition):
-                trial = {
-                    "trial_number": trial_num,
-                    "soa_ms": soa,
-                }
-                trials.append(trial)
-                trial_num += 1
+                trials.append(
+                    MaskingTrial(
+                        trial_number=len(trials),
+                        soa_ms=soa,
+                        target_duration_ms=self.target_duration_ms,
+                        mask_duration_ms=self.mask_duration_ms,
+                        mask_type=self.mask_type,
+                    )
+                )
         return trials
 
+    def _present_timeline(self, apgi_framework: Any, trial: MaskingTrial) -> PhaseOutcome:
+        """Present target and mask on their schedule, one system step per ``STEP_MS``."""
+        target, mask = self._generate_target(), self._generate_mask()
+        mask_onset = trial.soa_ms
+        mask_offset = mask_onset + trial.mask_duration_ms
+        total_ms = max(trial.target_duration_ms, mask_offset) + SETTLE_MS
+
+        timeline = PhaseOutcome()
+        with scaled_timestep(apgi_framework, STEP_MS):
+            for step in range(max(1, int(round(total_ms / STEP_MS)))):
+                t = step * STEP_MS
+                stimulus = np.zeros(STIMULUS_DIM)
+                if t < trial.target_duration_ms:
+                    stimulus = stimulus + target
+                if mask_onset <= t < mask_offset:
+                    stimulus = stimulus + mask
+                timeline.extend(present_stimulus(apgi_framework, stimulus, 1))
+        return timeline
+
+    def run_trial(self, apgi_framework: Any, trial: MaskingTrial) -> MaskingResult:
+        """Run one trial on ``apgi_framework`` (an :class:`APGISystem`) and record the result."""
+        timeline = self._present_timeline(apgi_framework, trial)
+        first = timeline.first_ignition_step
+        effect = self.calculate_masking_effect(trial.soa_ms)
+
+        suppressed = False
+        detected = False
+        detection_time: Optional[float] = None
+        if first is not None:
+            ignition_ms = (first + 1) * STEP_MS
+            # An ignition before the mask arrives has consolidated; later ones can be masked
+            mask_arrived_first = ignition_ms > trial.soa_ms
+            suppressed = bool(mask_arrived_first and self.rng.random() < effect)
+            detected = not suppressed
+            if detected:
+                detection_time = float(ignition_ms)
+
+        result = MaskingResult(
+            trial_number=trial.trial_number,
+            soa_ms=trial.soa_ms,
+            mask_type=trial.mask_type,
+            target_detected=detected,
+            detection_time=detection_time,
+            ignition_strength=float(timeline.peak_signal),
+            ignition_count=int(timeline.ignition_count),
+            mask_suppression_occurred=suppressed,
+            masking_effect=effect,
+        )
+        self.results.append(result)
+        self.current_trial_idx = len(self.results)
+        return result
+
     def run_all_trials(self, apgi_framework: Any) -> Dict[str, Any]:
-        """Run all trials and return analysis.
-
-        Parameters
-        ----------
-        apgi_framework : Any
-            APGI framework instance
-
-        Returns
-        -------
-        Dict[str, Any]
-            Analysis results
-        """
+        """Run every trial and return the analysis."""
         self.results = []
         for trial in self.trials:
-            result = self.run_trial(apgi_framework, trial)
-            self.results.append(result)
+            self.run_trial(apgi_framework, trial)
+        return self.analyze_results()
 
-        # Calculate analysis by SOA
-        by_soa = {}
+    # -- analysis ---------------------------------------------------------------------------
+    def analyze_results(self, results: Optional[List[MaskingResult]] = None) -> Dict[str, Any]:
+        """Detection and suppression by SOA (``{"error": ..., "total_trials": 0}`` if none)."""
+        results = self.results if results is None else results
+        if not results:
+            return {"error": "No results to analyze", "total_trials": 0}
+
+        total = len(results)
+        detected = sum(1 for r in results if r["target_detected"])
+        suppressed = sum(1 for r in results if r["mask_suppression_occurred"])
+
+        by_soa: Dict[Any, Dict[str, float]] = {}
         for soa in self.soas:
-            soa_results = [r for r in self.results if r["soa_ms"] == soa]
-            if soa_results:
-                detections = sum(1 for r in soa_results if r["target_detected"])
-                by_soa[soa] = {
-                    "total_trials": len(soa_results),
-                    "detections": detections,
-                    "detection_rate": detections / len(soa_results),
-                    "suppression_rate": 1.0 - (detections / len(soa_results)),
-                    "avg_ignition_strength": 0.5,
-                }
+            subset = [r for r in results if r["soa_ms"] == soa]
+            if not subset:
+                continue
+            hits = sum(1 for r in subset if r["target_detected"])
+            by_soa[soa] = {
+                "total_trials": len(subset),
+                "detections": hits,
+                "detection_rate": hits / len(subset),
+                "suppression_rate": sum(1 for r in subset if r["mask_suppression_occurred"])
+                / len(subset),
+                "avg_ignition_strength": float(np.mean([r["ignition_strength"] for r in subset])),
+            }
 
-        # Calculate masking curve
-        masking_curve = [
-            {"soa_ms": soa, "detection_rate": by_soa[soa]["detection_rate"]}
-            for soa in self.soas
-            if soa in by_soa
-        ]
-
-        # Calculate masking effect
-        if len(masking_curve) >= 2:
-            masking_effect = (
-                masking_curve[-1]["detection_rate"] - masking_curve[0]["detection_rate"]
-            )
-        else:
-            masking_effect = 0.0
-
+        curve = [{"soa_ms": soa, "detection_rate": by_soa[soa]["detection_rate"]} for soa in by_soa]
+        masking_effect = (
+            float(curve[-1]["detection_rate"] - curve[0]["detection_rate"])
+            if len(curve) >= 2
+            else 0.0
+        )
         return {
-            "total_trials": len(self.results),
-            "overall_detection_rate": sum(1 for r in self.results if r["target_detected"])
-            / len(self.results),
-            "overall_suppression_rate": 1.0
-            - (sum(1 for r in self.results if r["target_detected"]) / len(self.results)),
+            "total_trials": total,
+            "overall_detection_rate": detected / total,
+            "overall_suppression_rate": suppressed / total,
             "masking_effect": masking_effect,
             "by_soa": by_soa,
-            "masking_curve": masking_curve,
+            "masking_curve": curve,
             "task_parameters": {
                 "target_duration_ms": self.target_duration_ms,
                 "mask_duration_ms": self.mask_duration_ms,
                 "soas": self.soas,
                 "num_trials_per_condition": self.num_trials_per_condition,
+                "target_strength": self.target_strength,
+                "mask_strength": self.mask_strength,
             },
         }
 
-    def analyze_results(self, results: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Analyze trial results.
-
-        Parameters
-        ----------
-        results : List[Dict[str, Any]]
-            Trial results
-
-        Returns
-        -------
-        Dict[str, Any]
-            Analysis results
-        """
-        if not results:
-            return {"total_trials": 0, "overall_detection_rate": 0.0}
-
-        overall_detection_rate = sum(1 for r in results if r["target_detected"]) / len(results)
-        return {
-            "total_trials": len(results),
-            "overall_detection_rate": overall_detection_rate,
-            "overall_suppression_rate": 1.0 - overall_detection_rate,
-        }
-
-    def save_results(self, results: List[Dict[str, Any]], filepath: str) -> None:
-        """Save results to file.
-
-        Parameters
-        ----------
-        results : List[Dict[str, Any]]
-            Trial results
-        filepath : str
-            Output file path
-        """
-        import json
-
-        with open(filepath, "w") as f:
-            json.dump(results, f, indent=2)
+    def save_results(self, results: Optional[List[Any]], filepath: str) -> None:
+        """Save ``results`` (default: the task's own) to a JSON file."""
+        save_json(filepath, self.results if results is None else results)
 
     def reset(self) -> None:
-        """Reset task to initial state."""
-        self.trials = self._generate_trials()
+        """Return to the initial state with freshly generated trials."""
         self.results = []
+        self.current_trial_idx = 0
+        self.trials = self._generate_trials()

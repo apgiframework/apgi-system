@@ -79,6 +79,11 @@ class HierarchicalGaussianFilter:
         tuple[List[np.ndarray], float]
             Tuple of (belief states per level, free energy)
         """
+        # Accept a single observation (D,) or a batch (B, D); a batch is averaged to one belief
+        observation = np.asarray(observation, dtype=np.float64)
+        if observation.ndim > 1:
+            observation = observation.reshape(-1, self.belief_states[0].shape[-1]).mean(axis=0)
+
         # Simplified update
         prediction_error = observation - self.belief_states[0]
         self.belief_states[0] += prediction_error * 0.1
@@ -327,10 +332,6 @@ class ActiveInferenceEngine:
             # Extract first modality for simplicity
             observation = next(iter(observation.values()))
 
-        # Ensure 2D shape
-        if observation.ndim == 1:
-            observation = observation.reshape(1, -1)
-
         # Run the synchronous step in an executor to make it async
         loop = asyncio.get_event_loop()
         return await loop.run_in_executor(None, self.step, observation)
@@ -380,6 +381,9 @@ class ActiveInferenceAgent:
         int
             Selected action index
         """
+        # Free energy of the observation under the current (flat) belief is logged per step
+        self.record_step(self.get_free_energy(observation))
+
         # Simplified action selection
         return int(np.argmax(observation[:5]) if len(observation) >= 5 else 0)
 

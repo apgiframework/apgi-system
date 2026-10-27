@@ -212,10 +212,11 @@ class TestHierarchicalPredictor:
         predictor = HierarchicalPredictor(config=3)
         errors = predictor.get_prediction_errors()
 
-        assert len(errors) == 3
-        # All zeros since no predictions made
-        for error in errors:
+        # One exteroceptive entry per level; zeros since no predictions were made
+        assert len(errors["exteroceptive"]) == 3
+        for error in errors["exteroceptive"]:
             assert error == 0.0
+        assert errors["exteroceptive_stats"]["mean_error"] == 0.0
 
     def test_prediction_with_interoceptive_input(self) -> None:
         """Test prediction with interoceptive input."""
@@ -232,10 +233,11 @@ class TestHierarchicalPredictor:
         predictor.predict(np.random.randn(8))
         errors = predictor.get_prediction_errors()
 
-        assert len(errors) == 3
+        assert len(errors["exteroceptive"]) == 3
         # Should have some error values now
-        for error in errors:
-            assert isinstance(error, (int, float))
+        for error in errors["exteroceptive"]:
+            assert isinstance(float(error), float)
+        assert "interoceptive" in errors
 
     def test_temporal_dynamics(self) -> None:
         """Test temporal dynamics of predictions."""

@@ -196,62 +196,51 @@ class NeuralMassModel:
         p = self.params
         y = state
 
-        # Compute firing rates from PSPs
-        # Pyramidal output drives interneurons
-        v_pyramid = y[0] - y[2]  # Net PSP at pyramidal cells
-        sp = self.sigmoid(v_pyramid)
+        # Firing rates (Hz) from PSPs; the PSP equations run in ms, so rates enter as spikes/ms
+        v_pyramid = y[0] - y[2]  # Net PSP at pyramidal cells (excitatory - inhibitory)
+        s_pyr = self.sigmoid(v_pyramid) / 1000.0  # pyramidal output
+        s_ein = self.sigmoid(y[4]) / 1000.0  # excitatory interneuron output
+        s_iin = self.sigmoid(y[6]) / 1000.0  # inhibitory interneuron output
 
-        # Inhibitory interneuron output
-        vi_inh = self.sigmoid(y[6])
+        # Jansen-Rit second-order synaptic kernels: y'' = G*a*(input) - 2*a*y' - a^2*y,
+        # with a = 1/tau (excitatory tau 10 ms, inhibitory tau 20 ms by default).
+        a_e = 1.0 / p.excitatory_time_constant_ms
+        a_i = 1.0 / p.inhibitory_time_constant_ms
 
-        # Derivatives (Jansen-Rit equations)
         dydt = np.zeros(8)
 
-        # y[0]: PSP from excitatory inputs to pyramidal cells (via C3 from interneurons)
-        # Actually C3 is inhibitory, so let's correct the structure
-
-        # Correct Jansen-Rit structure:
-        # y[0], y[1]: excitatory PSP at pyramidal (from other pyramidal via C1 + input via C4)
-        # y[2], y[3]: inhibitory PSP at pyramidal (from interneurons via C3)
-        # y[4], y[5]: excitatory PSP at excitatory interneurons (from pyramidal via C2)
-        # y[6], y[7]: inhibitory PSP at inhibitory interneurons (from interneurons)
-
-        # d(PSP_exc_pyramid)/dt
+        # y[0], y[1]: excitatory PSP at pyramidal cells (external pulse density + EIN feedback)
         dydt[0] = y[1]
-        # d²(PSP_exc_pyramid)/dt²
         dydt[1] = (
-            p.synaptic_gain_excitatory * p.connectivity_pyramid_to_pyramid * sp
-            + p.synaptic_gain_excitatory * p.connectivity_input_to_pyramid * input_current
-            - 2.0 * y[1]
-            - y[0] / p.excitatory_time_constant_ms**2
+            p.synaptic_gain_excitatory
+            * a_e
+            * (input_current + p.connectivity_pyramid_to_interneuron * s_ein)
+            - 2.0 * a_e * y[1]
+            - a_e**2 * y[0]
         )
 
-        # d(PSP_inh_pyramid)/dt
+        # y[2], y[3]: inhibitory PSP at pyramidal cells (from inhibitory interneurons)
         dydt[2] = y[3]
-        # d²(PSP_inh_pyramid)/dt²
         dydt[3] = (
-            p.synaptic_gain_inhibitory * p.connectivity_interneuron_to_pyramid * vi_inh
-            - 2.0 * y[3]
-            - y[2] / p.inhibitory_time_constant_ms**2
+            p.synaptic_gain_inhibitory * a_i * p.connectivity_interneuron_to_pyramid * s_iin
+            - 2.0 * a_i * y[3]
+            - a_i**2 * y[2]
         )
 
-        # d(PSP_exc_interneuron)/dt
+        # y[4], y[5]: PSP at excitatory interneurons (driven by pyramidal output)
         dydt[4] = y[5]
-        # d²(PSP_exc_interneuron)/dt²
         dydt[5] = (
-            p.synaptic_gain_excitatory * p.connectivity_pyramid_to_interneuron * sp
-            + p.synaptic_gain_excitatory * p.connectivity_input_to_interneuron * input_current
-            - 2.0 * y[5]
-            - y[4] / p.excitatory_time_constant_ms**2
+            p.synaptic_gain_excitatory * a_e * p.connectivity_pyramid_to_pyramid * s_pyr
+            - 2.0 * a_e * y[5]
+            - a_e**2 * y[4]
         )
 
-        # d(PSP_inh_interneuron)/dt (self-inhibition among interneurons)
+        # y[6], y[7]: PSP at inhibitory interneurons (driven by pyramidal output)
         dydt[6] = y[7]
-        # d²(PSP_inh_interneuron)/dt²
         dydt[7] = (
-            p.synaptic_gain_inhibitory * 0.1 * vi_inh  # Weak self-inhibition
-            - 2.0 * y[7]
-            - y[6] / p.inhibitory_time_constant_ms**2
+            p.synaptic_gain_excitatory * a_e * p.connectivity_interneuron_to_pyramid * s_pyr
+            - 2.0 * a_e * y[7]
+            - a_e**2 * y[6]
         )
 
         return dydt

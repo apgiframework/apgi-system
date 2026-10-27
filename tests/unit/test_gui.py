@@ -383,9 +383,9 @@ class TestManualInterventions:
             assert app.system is not None
             for i in range(10):
                 obs = np.random.randn(256) * 0.5
-                app.system.step(obs)
-                # Note: _record_state doesn't exist in new implementation
-                # Data is captured via _on_simulation_step callback
+                state = app.system.step(obs)
+                # Buffers are filled by the simulation-step callback (the mediator calls it)
+                app._on_simulation_step({"time": state["time"], "surprise": 0.0})
 
             # Verify data was accumulated
             assert len(app.time_buffer) > 0

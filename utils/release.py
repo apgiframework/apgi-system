@@ -20,6 +20,9 @@ class ReleaseError(Exception):
     """Custom exception for release errors."""
 
 
+_VERSION_RE = re.compile(r'(__version__\s*=\s*["\'])([^"\']+)(["\'])')
+
+
 class ReleaseManager:
     """Enhanced release manager with automated testing and deployment."""
 
@@ -32,7 +35,7 @@ class ReleaseManager:
             Project root directory, by default None
         """
         self.project_root = Path(project_root) if project_root else Path.cwd()
-        self.version_file = self.project_root / "VERSION"
+        self.version_file = self.project_root / "apgi_framework" / "__init__.py"
         self.changelog_file = self.project_root / "CHANGELOG.md"
         self.test_results_file = self.project_root / "test_results.json"
         self.coverage_file = self.project_root / "coverage.json"
@@ -500,7 +503,13 @@ Thank you to all contributors who made this release possible!
             Current version
         """
         if self.version_file.exists():
-            return self.version_file.read_text().strip()
+            match = _VERSION_RE.search(self.version_file.read_text())
+            if match:
+                return match.group(2)
+
+        legacy = self.project_root / "VERSION"
+        if legacy.exists():
+            return legacy.read_text().strip()
 
         # Try to get from pyproject.toml
         pyproject_file = self.project_root / "pyproject.toml"
@@ -524,7 +533,22 @@ Thank you to all contributors who made this release possible!
         version : str
             New version
         """
-        self.version_file.write_text(version + "\n")
+        self._write_version(version)
+
+    def _write_version(self, version: str) -> None:
+        """Write ``version`` to ``__init__.py`` (``__version__``) and a legacy VERSION file."""
+        if self.version_file.exists():
+            text = self.version_file.read_text()
+            if _VERSION_RE.search(text):
+                text = _VERSION_RE.sub(
+                    lambda m: f"{m.group(1)}{version}{m.group(3)}", text, count=1
+                )
+            else:
+                text = f'__version__ = "{version}"\n' + text
+            self.version_file.write_text(text)
+        legacy = self.project_root / "VERSION"
+        if legacy.exists():
+            legacy.write_text(version + "\n")
 
     def increment_version(self, bump_type: str = "patch") -> str:
         """Increment version.
@@ -640,10 +664,16 @@ Thank you to all contributors who made this release possible!
         date = datetime.now().strftime("%Y-%m-%d")
         entry = f"## [{version}] - {date}\n\n"
 
-        for change in changes:
-            entry += f"- {change}\n"
+        if not changes:
+            return entry + "- Initial release\n\n"
 
-        entry += "\n"
+        for category, commits in self.categorize_commits(changes).items():
+            if not commits:
+                continue
+            entry += f"### {category}\n\n"
+            for change in commits:
+                entry += f"- {change}\n"
+            entry += "\n"
         return entry
 
     def update_changelog(self, version: str, changes: List[str]) -> None:
@@ -765,13 +795,14 @@ Thank you to all contributors who made this release possible!
         if self.dry_run:
             return
 
-        # Update VERSION file
-        self.version_file.write_text(version + "\n")
+        self._write_version(version)
 
-        # Update pyproject.toml if it exists
+        # Update pyproject.toml if it exists (only the project version line)
         if self.pyproject_file.exists():
             content = self.pyproject_file.read_text()
-            content = re.sub(r'version = "[^"]+"', f'version = "{version}"', content)
+            content = re.sub(
+                r'^version = "[^"]+"', f'version = "{version}"', content, count=1, flags=re.M
+            )
             self.pyproject_file.write_text(content)
 
     def categorize_commits(self, commits: List[str]) -> Dict[str, List[str]]:
@@ -884,8 +915,7 @@ Thank you to all contributors who made this release possible!
         version : str
             Version string
         """
-        if self.dry_run:
-            return
+        self.dist_dir.mkdir(parents=True, exist_ok=True)
 
         # Save JSON
         json_file = self.dist_dir / f"checksums-{version}.json"

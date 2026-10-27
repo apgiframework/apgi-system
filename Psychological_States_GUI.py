@@ -20,7 +20,9 @@ try:
     warn_deprecated_module(
         "Psychological_States_GUI", "apgi_gui.main", since="1.1.0", removal="2.0.0"
     )
-except ImportError:  # framework not importable: the README and docstring still state the deprecation
+except (
+    ImportError
+):  # framework not importable: the README and docstring still state the deprecation
     pass
 
 import hashlib
@@ -392,6 +394,17 @@ class EmbeddedVisualizationRenderer:
                 self._temp_dir_initialized = False
             except (OSError, PermissionError):
                 pass
+
+    def render(self, fig: go.Figure, filename: str = "current.html") -> str:
+        """Render ``fig`` to a standalone HTML file; alias of :meth:`render_figure_to_html`."""
+        return self.render_figure_to_html(fig, filename)
+
+    def handle_resize(self) -> None:
+        """Canvas resize hook.
+
+        The generated HTML sizes itself to its container (responsive layout), so no
+        re-render is needed; the method exists so callers can notify the renderer.
+        """
 
     def render_figure_to_html(self, fig: go.Figure, filename: str = "current.html") -> str:
         """
@@ -8637,6 +8650,12 @@ class APGIVisualizerGUI:
         else:
             with open(filename, "w") as f:
                 f.write("No visualization to export")
+
+    def _update_visualization(self) -> None:
+        """Rebuild the default (3D state network) figure and render it."""
+        fig = self.visualizer.plot_state_network_3d()
+        self.current_visualization = fig
+        self.renderer.render(fig)
 
     def _render_state_visualization(self, state_data: Dict[str, float]) -> None:
         self.generate_visualization()

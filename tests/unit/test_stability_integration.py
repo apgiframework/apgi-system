@@ -5,6 +5,7 @@ Note: Full stability monitoring is being migrated from the old apgi_simulation s
 """
 
 import numpy as np
+import pytest
 
 from apgi_framework.core.free_energy import FreeEnergyCalculator
 from apgi_framework.core.predictive_processing import HierarchicalPredictor
@@ -91,12 +92,13 @@ class TestFreeEnergyCalculator:
         posterior_cov = np.eye(3)
         prior_mean = np.array([0.0, 0.0, 0.0])
         prior_cov = np.eye(3) * 2
-        fe = calc.compute_variational_free_energy(
+        fe, components = calc.compute_variational_free_energy(
             observation, prediction, precision, posterior_mean, posterior_cov, prior_mean, prior_cov
         )
 
         assert isinstance(fe, float)
         assert fe >= 0
+        assert fe == pytest.approx(components["accuracy"] + components["complexity"])
 
     def test_stability_monitor_property(self) -> None:
         """Test stability_monitor property returns expected structure."""
@@ -156,8 +158,8 @@ class TestHierarchicalPredictorStability:
         predictor.predict(input_data)
 
         errors = predictor.get_prediction_errors()
-        assert isinstance(errors, list)
-        assert len(errors) == 3
+        assert isinstance(errors, dict)
+        assert len(errors["exteroceptive"]) == 3
 
     def test_stability_monitor_tracks_predictions(self) -> None:
         """Test that stability monitor tracks predictions."""

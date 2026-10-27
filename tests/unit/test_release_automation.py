@@ -116,6 +116,7 @@ class TestVersionBumping:
     def test_bump_version_actual(self, temp_project: Path) -> None:
         """Test actual version bumping."""
         manager = ReleaseManager(str(temp_project))
+        manager.dry_run = False
 
         manager.bump_version("1.0.0")
 

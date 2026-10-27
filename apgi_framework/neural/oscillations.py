@@ -65,7 +65,28 @@ class OscillationEngine:
             self.amplitudes *= gamma_mod
 
         activity = self.update(time_ms)
-        return {"activity": activity, "spectrum": self.get_spectrum()}
+        return {
+            "activity": activity,
+            "spectrum": self.get_spectrum(),
+            "band_powers": self.get_band_powers(),
+        }
+
+    #: Canonical EEG band edges in Hz (lower inclusive, upper exclusive).
+    BANDS: Dict[str, tuple] = {
+        "delta": (0.5, 4.0),
+        "theta": (4.0, 8.0),
+        "alpha": (8.0, 13.0),
+        "beta": (13.0, 30.0),
+        "gamma": (30.0, 150.0),
+    }
+
+    def get_band_powers(self) -> Dict[str, float]:
+        """Return summed squared amplitude of the components inside each EEG band."""
+        powers: Dict[str, float] = {}
+        for name, (low, high) in self.BANDS.items():
+            mask = (self.frequencies >= low) & (self.frequencies < high)
+            powers[name] = float(np.sum(self.amplitudes[mask] ** 2))
+        return powers
 
     def set_amplitude(self, frequency_idx: int, amplitude: float) -> None:
         """Set amplitude for a frequency band.

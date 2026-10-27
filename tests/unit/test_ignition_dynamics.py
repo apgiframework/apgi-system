@@ -85,7 +85,9 @@ class TestIgnitionThreshold:
         expected_total = expected_total_drive
 
         assert abs(components["total_signal"][0] - expected_total) < 0.2
-        assert components["threshold"][0] == 2.0  # Baseline threshold
+        # The threshold adapts allostatically (signal history lowers it slightly per step),
+        # so after two updates it stays close to, not exactly at, the 2.0 baseline.
+        assert components["threshold"][0] == pytest.approx(2.0, abs=0.1)
         assert 0 <= components["probability"][0] <= 1
         assert isinstance(ignited, np.ndarray)
         assert ignited.dtype == bool
