@@ -548,7 +548,7 @@ class GammaSynchronyAnalysis:
         # Mean path length (excluding infinite distances)
         finite_dists = dist[np.isfinite(dist) & (dist > 0)]
 
-        return np.mean(finite_dists) if len(finite_dists) > 0 else 0.0
+        return float(np.mean(finite_dists)) if len(finite_dists) > 0 else 0.0
 
     def detect_gamma_bursts(
         self, data: np.ndarray, threshold: float = 2.0, min_duration: float = 50.0
