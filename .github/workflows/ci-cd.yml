@@ -377,6 +377,7 @@ jobs:
             fi
             echo "Health check attempt $i failed, retrying..."
             sleep 10
+          done
           echo "Health check failed after 10 attempts"
           exit 1
           
