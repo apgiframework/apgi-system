@@ -115,9 +115,11 @@ FROM python:3.11-slim AS api
 WORKDIR /app
 
 # Install runtime dependencies
+# libtk8.6: apgi_framework imports tkinter at package import, even for the API
 RUN apt-get update && apt-get install -y \
     postgresql-client \
     curl \
+    libtk8.6 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy Python dependencies from builder
