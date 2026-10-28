@@ -148,8 +148,9 @@ class VP15ValidationProtocol:
         active_inference = state.get("active_inference", {})
         timeline = state.get("timeline", {})
 
-        reserves = metabolism.get("reserves", 1.0)
-        allostatic_load = allostasis.get("allostatic_load", 0.0)
+        # Subsystems may report these as one-element arrays; the bounds below are scalar
+        reserves = float(np.ravel(metabolism.get("reserves", 1.0))[0])
+        allostatic_load = float(np.ravel(allostasis.get("allostatic_load", 0.0))[0])
         free_energy = active_inference.get("free_energy", 0.0)
         synchrony = timeline.get("synchrony", 1.0)
         precisions = active_inference.get("precisions", [])

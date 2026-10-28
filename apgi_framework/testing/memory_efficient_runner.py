@@ -523,18 +523,22 @@ class MemoryEfficientTestRunner(BatchTestRunner):
             if collected > 0:
                 logger.debug(f"GC generation {generation}: freed {collected} objects")
 
-        # Clear any module-level caches if possible
+        # Clear module-level caches, but only in this package: clearing every module's
+        # "*cache*" attributes also empties interpreter internals such as ``typing._caches``
+        # and breaks the whole process.
         try:
             import sys
 
             for module_name, module in list(sys.modules.items()):
+                if not module_name.startswith("apgi_framework"):
+                    continue
                 if hasattr(module, "__dict__"):
                     # Clear any obvious cache attributes
                     for attr_name in list(module.__dict__.keys()):
                         if "cache" in attr_name.lower():
                             try:
                                 cache_obj = getattr(module, attr_name)
-                                if hasattr(cache_obj, "clear"):
+                                if isinstance(cache_obj, (dict, list, set)):
                                     cache_obj.clear()
                                     logger.debug(f"Cleared cache: {module_name}.{attr_name}")
                             except Exception:

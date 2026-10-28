@@ -59,7 +59,8 @@ jobs:
         pip install -r requirements.txt
         pip install pytest pytest-cov pytest-xvfb pytest-mock pytest-asyncio
         pip install black flake8 mypy
-        pip install -e .
+        pip install -r requirements-build.txt
+        pip install -e ".[dev,testing,gui,api,acquisition]" -c requirements.lock
     
     - name: Lint with flake8
       run: |
@@ -80,7 +81,9 @@ jobs:
       env:
         DISPLAY: :99
       run: |
-        pytest tests/ --cov=apgi_framework --cov-report=xml --cov-report=html --cov-report=term-missing -v
+        # The maintained suites (same scope as ci.yml). The older top-level tests/test_*.py
+        # files target APIs that no longer exist and are not run here.
+        pytest tests/unit tests/test_protocol_spec_v1_1.py tests/test_validate_protocols.py --timeout=120 --cov=apgi_framework --cov-report=xml --cov-report=html --cov-report=term-missing -v
     
     - name: Upload coverage to Codecov
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'

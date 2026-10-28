@@ -400,9 +400,9 @@ class TestIgnitionDynamicsProperties:
         )
 
         assert (
-            abs(float(intero_signal_low) - expected_low) < 1e-6
-        ), f"Low gain signal calculation incorrect: expected={expected_low:.6f}, actual={float(intero_signal_low):.6f}"
+            abs(float(np.ravel(intero_signal_low)[0]) - expected_low) < 1e-6
+        ), f"Low gain signal calculation incorrect: expected={expected_low:.6f}, actual={float(np.ravel(intero_signal_low)[0]):.6f}"
 
         assert (
-            abs(float(intero_signal_high) - expected_high) < 1e-6
-        ), f"High gain signal calculation incorrect: expected={expected_high:.6f}, actual={float(intero_signal_high):.6f}"
+            abs(float(np.ravel(intero_signal_high)[0]) - expected_high) < 1e-6
+        ), f"High gain signal calculation incorrect: expected={expected_high:.6f}, actual={float(np.ravel(intero_signal_high)[0]):.6f}"

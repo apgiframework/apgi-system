@@ -413,11 +413,15 @@ class TestSessionEndToEnd:
         )
         session.prepare()
         session.start(background=True, poll_interval_s=0.001)
+        started = time.monotonic()
         time.sleep(0.4)
         began = time.monotonic()
         summary = session.stop()
-        assert time.monotonic() - began < 1.5  # drain budget 0.3 s; the old join stalled 5 s
-        assert 50 <= summary.n_samples <= 250  # about 0.4 s at 250 Hz, none dropped
+        finished = time.monotonic()
+        assert finished - began < 1.5  # drain budget 0.3 s; the old join stalled 5 s
+        # The device samples on the wall clock, so a loaded runner that delays the sleep or the
+        # drain produces proportionally more samples: bound by the elapsed time, not a constant
+        assert 50 <= summary.n_samples <= 250.0 * (finished - started) + 5
         recording = LocalRecorder.read(tmp_path / "bg")
         assert recording.gaps == [] and recording.n_samples == summary.n_samples
         store.close()
