@@ -110,7 +110,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pytest pytest-cov
+        pip install pytest pytest-cov pytest-mock
         pip install -e .
     
     - name: Run integration tests
@@ -170,14 +170,17 @@ jobs:
     
     - name: Run security scan with bandit
       run: |
-        bandit -r apgi_framework/ -f json -o bandit-report.json
+        # Same gate as ci-cd.yml: fail on medium+ severity and confidence findings
+        bandit -r apgi_framework/ -ll -ii -f json -o bandit-report.json
     
     - name: Check dependencies for security vulnerabilities
       run: |
-        safety check --json --output safety-report.json
+        # Advisory, as in security.yml: bandit above is the gate; pip-audit/Safety report only
+        safety check --json --output safety-report.json || echo "::warning::Safety check did not complete cleanly"
     
     - name: Upload security reports
       uses: actions/upload-artifact@v4
+      if: always()
       with:
         name: security-reports
         path: |

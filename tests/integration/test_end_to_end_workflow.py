@@ -197,10 +197,12 @@ python_functions = test_*
 
         # Step 1: Change Impact Analysis
         # Create a git repository for change analysis
+        # Commit with an explicit identity: CI runners have no global git user configured
+        identity = ["-c", "user.name=CI Test", "-c", "user.email=ci@example.com"]
         subprocess.run(["git", "init"], cwd=self.project_root, capture_output=True)
         subprocess.run(["git", "add", "."], cwd=self.project_root, capture_output=True)
         subprocess.run(
-            ["git", "commit", "-m", "Initial commit"],
+            ["git", *identity, "commit", "-m", "Initial commit"],
             cwd=self.project_root,
             capture_output=True,
         )
@@ -211,7 +213,7 @@ python_functions = test_*
 
         subprocess.run(["git", "add", "."], cwd=self.project_root, capture_output=True)
         subprocess.run(
-            ["git", "commit", "-m", "Modified calculator"],
+            ["git", *identity, "commit", "-m", "Modified calculator"],
             cwd=self.project_root,
             capture_output=True,
         )
