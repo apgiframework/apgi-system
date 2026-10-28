@@ -174,3 +174,4 @@ config/presets/
 /test.meta.json
 /test_config.json
 /test_execution_profiles.json
+/coverage.json
