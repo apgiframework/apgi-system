@@ -247,6 +247,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      security-events: write  # upload-sarif (Trivy results) needs it
     needs: test
     if: github.event_name == 'push'
     
