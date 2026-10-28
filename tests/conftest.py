@@ -37,6 +37,8 @@ matplotlib.use("Agg", force=True)
 
 # Set environment variables for testing
 os.environ["ENVIRONMENT"] = "testing"
+# The default algorithm is RS256, which needs a PEM key pair; the tests sign with the shared secret
+os.environ.setdefault("JWT_ALGORITHM", "HS256")
 os.environ["JWT_SECRET_KEY"] = (
     "testing-secret-key-at-least-64-characters-long-for-production-compliance-verification"
 )
