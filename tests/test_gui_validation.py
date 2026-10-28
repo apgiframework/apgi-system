@@ -8,7 +8,6 @@ Consolidated from:
 """
 
 import logging
-import os
 import sys
 import tkinter as tk
 from unittest.mock import MagicMock, patch
