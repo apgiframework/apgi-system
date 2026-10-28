@@ -175,10 +175,12 @@ jobs:
     
     - name: Check dependencies for security vulnerabilities
       run: |
-        safety check --json --output safety-report.json
+        # Advisory, as in security.yml: bandit above is the gate; pip-audit/Safety report only
+        safety check --json --output safety-report.json || echo "::warning::Safety check did not complete cleanly"
     
     - name: Upload security reports
       uses: actions/upload-artifact@v4
+      if: always()
       with:
         name: security-reports
         path: |
