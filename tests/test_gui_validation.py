@@ -17,8 +17,8 @@ from unittest.mock import MagicMock, patch
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
-# Mock Tkinter display for headless testing
-os.environ["DISPLAY"] = ""
+# Do not touch DISPLAY here: this runs at collection time and would break every GUI test
+# that runs later in the same process.
 
 
 def test_gui_imports():
