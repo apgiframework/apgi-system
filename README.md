@@ -17,7 +17,7 @@ entry point) or **🧭 planned** (described, but not implemented or not measurab
 - Real-time monitoring and visualization — ✅ verified (`apgi_framework/gui/monitoring_dashboard.py`, `apgi_framework/monitoring/`)
 - Cross-species validation paradigms — ✅ verified (`apgi_framework/research/cross_species_validation.py`)
 - Device acquisition with offline-first upload — ✅ verified (`apgi_framework/acquisition/`, `tests/acquisition/`)
-- Comprehensive test suite with high coverage — 🧭 planned (CI enforces `--cov-fail-under=90` on `tests/unit/`; no measured coverage figure is published here)
+- Comprehensive test suite with high coverage — 🧭 planned (`ci-cd.yml` currently sets `COVERAGE_FLOOR=0`, so no coverage floor is enforced; no measured baseline is published yet)
 
 ## How to Use APGI
 
